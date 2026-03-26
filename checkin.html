@@ -393,7 +393,7 @@
     // TODO: Replace with your Apps Script Web App URL
     // You get this after deploying the Apps Script as a Web App
     // ============================================================
-    var WEBHOOK_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AWDtjMWyk66EA3xcV77M571skB-p-s-I72rFF5XYzAehIRwG2SfQ5Me7op92jfFkPnxtYVon91Ek1sdysPXvCYaF7BRkjeUKthNyPQldwZto79zT6AjAvRzUnAilFXseC2rOlnANj-5InjlgWksfq9NsDKUOK6ZNdwtbMytMfFgSqa_wCEmmiJq5iQIwgQ4Oi9jmufisr1JAJ9FYTiB-eHdtITkHcuuT9rUyokQ_92g2fwMxz0j3KcQs1O4QNDCUEqFVPUIcwJ_Kkdf0_WhCVnlJ3TAiSV9Vyw&lib=M05NtccnMjkIFCDPdRBxm70RpYLZXgKY6";
+    var WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyXCZ0Q4Smx59ndsxwcMWLFzh_0vYJffWqewrOoPhZY1ydif_Ky67VaDDaK13YIX_tE/exec";
 
     // Pre-fill last signal with current time
     var now = new Date();
@@ -443,13 +443,13 @@
       try {
         var response = await fetch(WEBHOOK_URL, {
   method: "POST",
-  headers: { "Content-Type": "text/plain" },
+  headers: { "Content-Type": "text/plain;charset=utf-8" },
   body: JSON.stringify(payload),
   redirect: "follow",
   mode: "no-cors"
 });
 
-        // no-cors mode returns opaque response, assume success if no exception thrown
+// no-cors returns opaque response — assume success
 var data = { status: "success" };
 
         if (data.status === "success") {
