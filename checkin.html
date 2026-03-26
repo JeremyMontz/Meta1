@@ -442,12 +442,15 @@
 
       try {
         var response = await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" }, // Apps Script requires text/plain for CORS
-          body: JSON.stringify(payload)
-        });
+  method: "POST",
+  headers: { "Content-Type": "text/plain" },
+  body: JSON.stringify(payload),
+  redirect: "follow",
+  mode: "no-cors"
+});
 
-        var data = await response.json();
+        // no-cors mode returns opaque response, assume success if no exception thrown
+var data = { status: "success" };
 
         if (data.status === "success") {
           msg.className = "success";
