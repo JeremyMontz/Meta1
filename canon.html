@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canon — Claudemonzter</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #0a0a0f;
+      --surface:    #111118;
+      --surface2:   #16161f;
+      --border:     #1e1e2e;
+      --accent:     #00ff9d;
+      --accent2:    #7b61ff;
+      --warn:       #ff8c00;
+      --error:      #ff4f4f;
+      --info:       #4fc3f7;
+      --text:       #e0e0f0;
+      --muted:      #5a5a7a;
+      --mono:       'JetBrains Mono', monospace;
+      --sans:       'Syne', sans-serif;
+
+      /* Canon integrity colors */
+      --ci-clean:        #00ff9d;
+      --ci-incomplete:   #ff8c00;
+      --ci-phantom:      #ff4f4f;
+      --ci-stale:        #ffb700;
+      --ci-unresponsive: #5a5a7a;
+
+      /* File flag colors */
+      --flag-clean:      #00ff9d;
+      --flag-crossload:  #4fc3f7;
+      --flag-onloan:     #7b61ff;
+      --flag-orphaned:   #ff8c00;
+      --flag-phantom:    #ff4f4f;
+      --flag-stale:      #ffb700;
+      --flag-native:     #c084fc;
+      --flag-notloaded:  #2a2a3a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,157,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,157,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .header-meta { text-align: right; }
+
+    .last-refresh {
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .refresh-btn {
+      margin-top: 0.4rem;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.75rem;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      display: block;
+      margin-left: auto;
+    }
+
+    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Agent integrity bar */
+    .integrity-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .integrity-bar-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 0.25rem;
+    }
+
+    .agent-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.65rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+    }
+
+    .agent-chip .ci-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .legend-flag {
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    /* Section header */
+    .section-header {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      padding: 0.6rem 0.75rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      margin-top: 1.5rem;
+    }
+
+    .section-header:first-of-type { margin-top: 0; }
+
+    /* Subfolder header */
+    .folder-header {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.4rem 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Table */
+    .canon-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border);
+      border-top: none;
+      margin-bottom: 0;
+    }
+
+    .canon-table thead tr {
+      background: var(--surface2);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .canon-table th {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      white-space: nowrap;
+      border-right: 1px solid var(--border);
+    }
+
+    .canon-table th.col-file {
+      text-align: left;
+      min-width: 200px;
+    }
+
+    .canon-table th.col-unknown {
+      color: var(--warn);
+    }
+
+    .canon-table td {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.68rem;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .canon-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .canon-table td.col-file {
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .canon-table td.col-file .location-tag {
+      font-size: 0.55rem;
+      color: var(--muted);
+      margin-left: 0.4rem;
+      letter-spacing: 0.08em;
+    }
+
+    .canon-table td.col-agent {
+      text-align: center;
+    }
+
+    /* Flag cell */
+    .flag-cell {
+      display: inline-block;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.4rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .flag-clean      { color: var(--flag-clean);    background: rgba(0,255,157,0.08); }
+    .flag-crossload  { color: var(--flag-crossload); background: rgba(79,195,247,0.1); }
+    .flag-onloan     { color: var(--flag-onloan);   background: rgba(123,97,255,0.1); }
+    .flag-orphaned   { color: var(--flag-orphaned); background: rgba(255,140,0,0.1); }
+    .flag-phantom    { color: var(--flag-phantom);  background: rgba(255,79,79,0.1); }
+    .flag-stale      { color: var(--flag-stale);    background: rgba(255,183,0,0.1); }
+    .flag-native     { color: var(--flag-native);   background: rgba(192,132,252,0.1); }
+    .flag-notloaded  { color: var(--muted);         background: transparent; font-weight: 400; }
+    .flag-unknown    { color: var(--warn);          background: rgba(255,140,0,0.1); }
+    .flag-empty      { color: var(--border);        font-size: 0.5rem; }
+
+    /* State messages */
+    .state-msg {
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .state-msg .big {
+      font-family: var(--sans);
+      font-size: 1.5rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 1.5rem;
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="header">
+      <div class="header-left">
+        <div class="header-tag">// canon integrity</div>
+        <h1>Canon <span>Matrix</span></h1>
+      </div>
+      <div class="header-meta">
+        <div class="last-refresh" id="lastRefresh">—</div>
+        <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <div class="integrity-bar" id="integrityBar">
+      <span class="integrity-bar-label">Agent Canon Status —</span>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="legend-flag" style="color:var(--flag-clean)">●</span> Clean</div>
+      <div class="legend-item"><span class="legend-flag" style="color:var(--flag-crossload)">◆</span> Cross-loaded</div>
+      <div class="legend-item"><span class="legend-flag" style="color:var(--flag-onloan)">⟳</span> On loan</div>
+      <div class="legend-item"><span class="legend-flag" style="color:var(--flag-orphaned)">!</span> Orphaned</div>
+      <div class="legend-item"><span class="legend-flag" style="color:var(--flag-phantom)">✕</span> Phantom</div>
+      <div class="legend-item"><span class="legend-flag" style="color:var(--flag-stale)">⚠</span> Stale</div>
+      <div class="legend-item"><span class="legend-flag" style="color:var(--flag-native)">⬡</span> Claude.ai-native</div>
+      <div class="legend-item"><span class="legend-flag" style="color:var(--muted)">·</span> Not loaded</div>
+    </div>
+
+    <div id="canonOutput">
+      <div class="state-msg">
+        <div class="big">Loading...</div>
+        <div>Fetching canon data</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>canon v0.1</span>
+      <span id="fileCount">—</span>
+    </div>
+
+  </div>
+
+  <!-- Embedded JSON data block for Claude/QA readability -->
+  <script type="application/json" id="canon-data">
+  {
+    "generated": null,
+    "agents": [],
+    "files": []
+  }
+  </script>
+
+  <script>
+    var SHEET_ID  = "12JrRfdHx2u2wsU_KQPHkYDRNk3_jUIEV9zSq4lFe8KE";
+    var TAB_STATUS = "AgentStatus";
+    var TAB_FILES  = "FilesReported";
+
+    var AGENT_ORDER = ["Meta1","House","Freedom","Evolve","Assessor","Phil"];
+
+    function sheetUrl(tab) {
+      return "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+             "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(tab);
+    }
+
+    function parseCSV(text) {
+      var lines = text.trim().split("\n");
+      if (lines.length < 2) return [];
+      var headers = lines[0].split(",").map(function(h) {
+        return h.replace(/^"|"$/g, "").trim();
+      });
+      return lines.slice(1).map(function(line) {
+        var cols = [], inQuote = false, current = "";
+        for (var i = 0; i < line.length; i++) {
+          var ch = line[i];
+          if (ch === '"') { inQuote = !inQuote; }
+          else if (ch === ',' && !inQuote) { cols.push(current); current = ""; }
+          else { current += ch; }
+        }
+        cols.push(current);
+        var obj = {};
+        headers.forEach(function(h, i) {
+          obj[h] = (cols[i] || "").replace(/^"|"$/g, "").trim();
+        });
+        return obj;
+      });
+    }
+
+    /* Latest row per agent from AgentStatus */
+    function latestAgentStatus(rows) {
+      var map = {};
+      rows.forEach(function(r) {
+        var k = (r["Agent Nickname"] || "").toLowerCase();
+        if (k) map[k] = r;
+      });
+      return map;
+    }
+
+    /* CI color */
+    function ciColor(ci) {
+      var m = {
+        "clean":        "var(--ci-clean)",
+        "incomplete":   "var(--ci-incomplete)",
+        "phantom":      "var(--ci-phantom)",
+        "stale":        "var(--ci-stale)",
+        "unresponsive": "var(--ci-unresponsive)"
+      };
+      return m[(ci||"").toLowerCase()] || "var(--muted)";
+    }
+
+    /* Flag symbol + class */
+    function flagInfo(flag) {
+      var f = (flag || "").toLowerCase().replace(/[^a-z\-]/g,"").replace("-loaded","load").replace("claude.ai-native","native").replace("not load","notloaded").replace("cross-load","crossload").replace("on loan","onloan");
+      if (!flag) return { sym: "·", cls: "flag-empty" };
+      var map = {
+        "clean":       { sym: "●", cls: "flag-clean" },
+        "crossload":   { sym: "◆", cls: "flag-crossload" },
+        "cross-loaded":{ sym: "◆", cls: "flag-crossload" },
+        "on loan":     { sym: "⟳", cls: "flag-onloan" },
+        "onloan":      { sym: "⟳", cls: "flag-onloan" },
+        "orphaned":    { sym: "!", cls: "flag-orphaned" },
+        "phantom":     { sym: "✕", cls: "flag-phantom" },
+        "stale":       { sym: "⚠", cls: "flag-stale" },
+        "claude.ai-native": { sym: "⬡", cls: "flag-native" },
+        "native":      { sym: "⬡", cls: "flag-native" },
+        "not loaded":  { sym: "·", cls: "flag-notloaded" },
+        "notloaded":   { sym: "·", cls: "flag-notloaded" }
+      };
+      var flagLower = (flag || "").toLowerCase().trim();
+      return map[flagLower] || { sym: flag.charAt(0).toUpperCase(), cls: "flag-unknown" };
+    }
+
+    /* Build matrix structure from FilesReported rows */
+    function buildMatrix(fileRows) {
+      /* Structure: { drive: { folderName: [ fileEntry ] }, claudeai: { projectName: [ fileEntry ] } } */
+      /* fileEntry: { fileName, location, agentFlags: { AgentName: flagValue }, hasOrphan: bool } */
+
+      var driveFiles  = {};   /* folder -> { fileName -> agentFlags } */
+      var claudeFiles = {};   /* project -> { fileName -> agentFlags } */
+
+      fileRows.forEach(function(row) {
+        var agent    = row["Agent Nickname"] || "Unknown";
+        var fileName = row["File Name"] || "";
+        var location = (row["Location"] || "Drive");
+        var flag     = row["Flag"] || "";
+
+        if (!fileName) return;
+
+        if (location === "Claude.ai") {
+          /* Group by agent as "project folder" */
+          var proj = agent + " Project";
+          if (!claudeFiles[proj]) claudeFiles[proj] = {};
+          if (!claudeFiles[proj][fileName]) claudeFiles[proj][fileName] = { agentFlags: {}, location: "Claude.ai" };
+          claudeFiles[proj][fileName].agentFlags[agent] = flag;
+        } else {
+          /* Infer Drive folder from file name prefix */
+          var folder = inferFolder(fileName);
+          if (!driveFiles[folder]) driveFiles[folder] = {};
+          if (!driveFiles[folder][fileName]) driveFiles[folder][fileName] = { agentFlags: {}, location: "Drive" };
+          driveFiles[folder][fileName].agentFlags[agent] = flag;
+        }
+      });
+
+      return { drive: driveFiles, claudeai: claudeFiles };
+    }
+
+    /* Infer Drive folder from filename prefix */
+    function inferFolder(fileName) {
+      var prefixes = ["Meta1","House","Freedom","Evolve","Assessor","Phil","Jeremy"];
+      for (var i = 0; i < prefixes.length; i++) {
+        if (fileName.toLowerCase().startsWith(prefixes[i].toLowerCase())) {
+          return prefixes[i];
+        }
+      }
+      return "Other";
+    }
+
+    /* Render the agent integrity chips */
+    function renderIntegrityBar(agentStatusMap) {
+      var bar = document.getElementById("integrityBar");
+      var html = '<span class="integrity-bar-label">Agent Canon Status —</span>';
+      AGENT_ORDER.forEach(function(name) {
+        var row = agentStatusMap[name.toLowerCase()];
+        var ci  = row ? (row["Canon Integrity"] || "Unresponsive") : "Unresponsive";
+        html += '<div class="agent-chip">' +
+          '<div class="ci-dot" style="background:' + ciColor(ci) + '"></div>' +
+          '<span>' + name + '</span>' +
+          '<span style="color:' + ciColor(ci) + ';font-size:0.58rem;letter-spacing:0.06em">' + ci + '</span>' +
+          '</div>';
+      });
+      bar.innerHTML = html;
+    }
+
+    /* Render one table section (Drive or Claude.ai) */
+    function renderSection(title, folderMap, agents) {
+      var html = '<div class="section-header">' + title + '</div>';
+
+      /* Sort folders A-Z */
+      var folders = Object.keys(folderMap).sort();
+      if (folders.length === 0) {
+        html += '<div style="background:var(--surface);border:1px solid var(--border);border-top:none;padding:1rem;font-size:0.68rem;color:var(--muted)">No files in this section.</div>';
+        return html;
+      }
+
+      folders.forEach(function(folder) {
+        html += '<div class="folder-header">/' + folder + '</div>';
+        html += '<table class="canon-table"><thead><tr>';
+        html += '<th class="col-file">File</th>';
+        agents.forEach(function(a) {
+          html += '<th>' + a + '</th>';
+        });
+        html += '<th class="col-unknown">Unknown</th>';
+        html += '</tr></thead><tbody>';
+
+        /* Sort files A-Z within folder */
+        var files = Object.keys(folderMap[folder]).sort();
+        files.forEach(function(fileName) {
+          var entry = folderMap[folder][fileName];
+          var hasOrphan = Object.keys(entry.agentFlags).length === 0;
+
+          html += '<tr>';
+          html += '<td class="col-file">' + escHtml(fileName) +
+            '<span class="location-tag">[' + entry.location + ']</span></td>';
+
+          /* Agent columns */
+          var anyAgentDeclared = false;
+          agents.forEach(function(agent) {
+            var flag = entry.agentFlags[agent] || "";
+            html += '<td class="col-agent">';
+            if (flag) {
+              anyAgentDeclared = true;
+              var fi = flagInfo(flag);
+              html += '<span class="flag-cell ' + fi.cls + '">' + fi.sym + ' ' + escHtml(flag) + '</span>';
+            } else {
+              html += '<span class="flag-cell flag-empty">·</span>';
+            }
+            html += '</td>';
+          });
+
+          /* Unknown column — fires when no agent declares the file */
+          html += '<td class="col-agent">';
+          if (!anyAgentDeclared) {
+            html += '<span class="flag-cell flag-orphaned">! Orphaned</span>';
+          } else {
+            html += '<span class="flag-cell flag-empty">·</span>';
+          }
+          html += '</td>';
+          html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+      });
+
+      return html;
+    }
+
+    function escHtml(str) {
+      return (str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+
+    /* Update embedded JSON block for Claude/QA readability */
+    function updateEmbeddedData(agentStatusMap, fileRows, generated) {
+      var agentArr = AGENT_ORDER.map(function(name) {
+        var row = agentStatusMap[name.toLowerCase()] || {};
+        return {
+          nickname:       name,
+          agentId:        row["Agent ID"] || "",
+          status:         row["Agent Status"] || "",
+          canonIntegrity: row["Canon Integrity"] || "Unresponsive",
+          lastSignal:     row["Last Signal"] || ""
+        };
+      });
+      var payload = {
+        generated:  generated,
+        agents:     agentArr,
+        files:      fileRows
+      };
+      document.getElementById("canon-data").textContent = JSON.stringify(payload, null, 2);
+    }
+
+    async function loadData() {
+      document.getElementById("lastRefresh").textContent = "Refreshing...";
+      try {
+        var bust = "&cachebust=" + Date.now();
+        var [statusRes, filesRes] = await Promise.all([
+          fetch(sheetUrl(TAB_STATUS)  + bust),
+          fetch(sheetUrl(TAB_FILES)   + bust)
+        ]);
+
+        var statusText = await statusRes.text();
+        var filesText  = await filesRes.text();
+
+        var statusRows = parseCSV(statusText);
+        var fileRows   = parseCSV(filesText);
+
+        var agentStatusMap = latestAgentStatus(statusRows);
+        var matrix = buildMatrix(fileRows);
+
+        renderIntegrityBar(agentStatusMap);
+
+        var output = "";
+        output += renderSection("Drive", matrix.drive, AGENT_ORDER);
+        output += renderSection("Claude.ai", matrix.claudeai, AGENT_ORDER);
+        document.getElementById("canonOutput").innerHTML = output;
+
+        var totalFiles = fileRows.length;
+        document.getElementById("fileCount").textContent = totalFiles + " file declaration" + (totalFiles !== 1 ? "s" : "") + " in set";
+
+        var now = new Date().toISOString();
+        document.getElementById("lastRefresh").textContent = "Last refresh: " + new Date().toLocaleTimeString();
+
+        updateEmbeddedData(agentStatusMap, fileRows, now);
+
+      } catch (err) {
+        document.getElementById("canonOutput").innerHTML =
+          '<div class="state-msg">' +
+          '<div class="big">Error</div>' +
+          '<div>Could not load canon data. Check SHEET_ID and sheet visibility.</div>' +
+          '</div>';
+        document.getElementById("lastRefresh").textContent = "Error loading data";
+        console.error(err);
+      }
+    }
+
+    loadData();
+    setInterval(loadData, 60000);
+  </script>
+</body>
+</html>
