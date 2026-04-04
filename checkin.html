@@ -3,26 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agent Check-In</title>
+  <title>Human Check-In — Claudemonzter</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ============================================================
-       TODO: After deploying your Apps Script Web App, replace the
-       WEBHOOK_URL value in the <script> section at the bottom.
-       ============================================================ */
-
     :root {
-      --bg:        #0a0a0f;
-      --surface:   #111118;
-      --border:    #1e1e2e;
-      --accent:    #00ff9d;
-      --accent2:   #7b61ff;
-      --warn:      #ff4f4f;
-      --text:      #e0e0f0;
-      --muted:     #5a5a7a;
-      --radius:    4px;
-      --mono:      'JetBrains Mono', monospace;
-      --sans:      'Syne', sans-serif;
+      --bg:      #0a0a0f;
+      --surface: #111118;
+      --border:  #1e1e2e;
+      --accent:  #00ff9d;
+      --accent2: #7b61ff;
+      --warn:    #ff4f4f;
+      --text:    #e0e0f0;
+      --muted:   #5a5a7a;
+      --radius:  4px;
+      --mono:    'JetBrains Mono', monospace;
+      --sans:    'Syne', sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,7 +33,6 @@
       padding: 2rem 1rem;
     }
 
-    /* Subtle grid background */
     body::before {
       content: '';
       position: fixed;
@@ -56,10 +50,8 @@
       position: relative;
     }
 
-    /* Header */
-    .header {
-      margin-bottom: 2rem;
-    }
+    /* ── Header ── */
+    .header { margin-bottom: 2rem; }
 
     .header-tag {
       font-size: 0.65rem;
@@ -78,9 +70,7 @@
       line-height: 1;
     }
 
-    .header h1 span {
-      color: var(--accent);
-    }
+    .header h1 span { color: var(--accent); }
 
     .header-sub {
       margin-top: 0.5rem;
@@ -89,7 +79,60 @@
       letter-spacing: 0.05em;
     }
 
-    /* Form card */
+    /* ── Identity strip ── */
+    .identity-strip {
+      background: rgba(0,255,157,0.04);
+      border: 1px solid rgba(0,255,157,0.12);
+      padding: 0.65rem 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .identity-left {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .identity-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .identity-id {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Nickname inline edit */
+    .nickname-edit {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.15rem 0.25rem;
+      width: 120px;
+      outline: none;
+      transition: border-color 0.15s;
+      text-align: right;
+    }
+
+    .nickname-edit:focus {
+      border-bottom-color: var(--accent);
+    }
+
+    /* ── Card ── */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -126,10 +169,8 @@
 
     .section-label:first-child { margin-top: 0; }
 
-    /* Field groups */
-    .field {
-      margin-bottom: 1.1rem;
-    }
+    /* Fields */
+    .field { margin-bottom: 1.1rem; }
 
     label {
       display: block;
@@ -162,52 +203,30 @@
       box-shadow: 0 0 0 2px rgba(0,255,157,0.08);
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
+    textarea { resize: vertical; min-height: 70px; }
 
     select {
       cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a5a7a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a5a7a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 0.75rem center;
       padding-right: 2rem;
     }
 
-    /* Status colors on select */
-    select#agentStatus option[value="active"]     { color: #00ff9d; }
-    select#agentStatus option[value="alert"]      { color: #ffb700; }
-    select#agentStatus option[value="error"]      { color: #ff4f4f; }
-    select#agentStatus option[value="pending"]    { color: #7b61ff; }
-    select#agentStatus option[value="incomplete"] { color: #ff8c00; }
-
-    /* Flagged toggle row */
+    /* Flag row */
     .flag-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr;
       gap: 1rem;
-      align-items: flex-start;
+      align-items: center;
     }
 
-    .flag-toggle {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      min-width: 120px;
-    }
-
-    .flag-reason { flex: 1; }
-
-    /* Toggle switch */
     .toggle-wrap {
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      padding: 0.6rem 0.75rem;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
       cursor: pointer;
+      user-select: none;
     }
 
     .toggle-wrap input[type="checkbox"] {
@@ -220,7 +239,6 @@
       cursor: pointer;
       transition: background 0.2s;
       flex-shrink: 0;
-      border: none;
       padding: 0;
     }
 
@@ -234,11 +252,7 @@
       transition: transform 0.2s, background 0.2s;
     }
 
-    .toggle-wrap input[type="checkbox"]:checked {
-      background: rgba(255,79,79,0.2);
-      border-color: var(--warn);
-    }
-
+    .toggle-wrap input[type="checkbox"]:checked { background: rgba(255,79,79,0.2); }
     .toggle-wrap input[type="checkbox"]:checked::after {
       transform: translateX(14px);
       background: var(--warn);
@@ -249,7 +263,15 @@
       color: var(--muted);
     }
 
-    /* Submit button */
+    /* Notes field */
+    .notes-hint {
+      font-size: 0.6rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* Submit */
     .submit-row {
       margin-top: 1.75rem;
       display: flex;
@@ -272,11 +294,10 @@
       transition: opacity 0.15s, transform 0.1s;
     }
 
-    button[type="submit"]:hover { opacity: 0.85; }
+    button[type="submit"]:hover  { opacity: 0.85; }
     button[type="submit"]:active { transform: scale(0.98); }
     button[type="submit"]:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* Status message */
     #statusMsg {
       font-size: 0.72rem;
       letter-spacing: 0.05em;
@@ -292,34 +313,47 @@
       font-size: 0.6rem;
       color: var(--muted);
       letter-spacing: 0.08em;
-      text-align: right;
+      display: flex;
+      justify-content: space-between;
     }
   </style>
 </head>
 <body>
   <div class="container">
+
     <div class="header">
-      <div class="header-tag">// system</div>
-      <h1>Agent <span>Check-In</span></h1>
-      <div class="header-sub">Transmit current status to mission control</div>
+      <div class="header-tag">// human relay</div>
+      <h1>Human <span>Check-In</span></h1>
+      <div class="header-sub">Transmit your status to the graph</div>
+    </div>
+
+    <!-- Identity strip — AGT-000 hardcoded, nickname editable -->
+    <div class="identity-strip">
+      <div class="identity-left">Operator identity</div>
+      <div class="identity-right">
+        <span class="identity-id">AGT-000</span>
+        <input
+          type="text"
+          id="agentNickname"
+          class="nickname-edit"
+          value="Jeremy"
+          title="Display name — free to edit"
+          maxlength="40"
+        />
+      </div>
     </div>
 
     <div class="card">
 
-      <!-- AGENT SECTION -->
-      <div class="section-label">Agent</div>
+      <!-- STATUS -->
+      <div class="section-label">Status</div>
 
       <div class="field">
-        <label for="agentNickname">Nickname</label>
-        <input type="text" id="agentNickname" placeholder="e.g. RECON-7" required />
-      </div>
-
-      <div class="field">
-        <label for="agentStatus">Status</label>
+        <label for="agentStatus">Agent Status</label>
         <select id="agentStatus" required>
           <option value="" disabled selected>— select —</option>
-          <option value="open">Open</option>
           <option value="active">Active</option>
+          <option value="open">Open</option>
           <option value="incomplete">Incomplete</option>
           <option value="pending">Pending</option>
           <option value="alert">Alert</option>
@@ -328,49 +362,48 @@
       </div>
 
       <div class="field">
-        <label for="agentProfile">Profile</label>
-        <input type="text" id="agentProfile" placeholder="Brief description of this agent's role" />
+        <label for="agentMood">Mood <span style="color:var(--muted);font-size:0.6rem;">(one word)</span></label>
+        <input type="text" id="agentMood" placeholder="e.g. Focused" maxlength="30" />
       </div>
 
+      <!-- PROFILE -->
+      <div class="section-label">Profile</div>
+
       <div class="field">
-        <label for="agentMood">Mood <span style="color:var(--muted); font-size:0.6rem;">(one word)</span></label>
-        <input type="text" id="agentMood" placeholder="e.g. Focused" maxlength="30" />
+        <label for="agentProfile">Profile</label>
+        <input type="text" id="agentProfile" placeholder="Brief role description" />
       </div>
 
       <div class="field">
         <label for="agentDomain">Domain</label>
-        <input type="text" id="agentDomain" placeholder="e.g. Finance, Research, Ops" />
+        <input type="text" id="agentDomain" placeholder="e.g. Operations, Contracting" />
       </div>
 
-      <!-- PROJECT SECTION -->
+      <!-- PROJECT -->
       <div class="section-label">Project</div>
 
       <div class="field">
         <label for="projectName">Project Name</label>
-        <input type="text" id="projectName" placeholder="e.g. Costa Rica FI" />
+        <input type="text" id="projectName" placeholder="e.g. Claudemonzter" />
       </div>
 
       <div class="field">
         <label for="projectStatus">Project Status</label>
-        <input type="text" id="projectStatus" placeholder="Brief status note" />
+        <input type="text" id="projectStatus" placeholder="Brief condition note" />
       </div>
 
       <div class="field">
         <label>Project Flagged</label>
         <div class="flag-row">
-          <div class="flag-toggle">
-            <label class="toggle-wrap">
-              <input type="checkbox" id="projectFlagged" />
-              <span class="toggle-label">Flag this</span>
-            </label>
-          </div>
-          <div class="flag-reason field" style="margin-bottom:0;">
-            <input type="text" id="flagReason" placeholder="Reason (if flagged)" />
-          </div>
+          <label class="toggle-wrap">
+            <input type="checkbox" id="projectFlagged" />
+            <span class="toggle-label">Flag this</span>
+          </label>
+          <input type="text" id="flagReason" placeholder="Reason (if flagged)" />
         </div>
       </div>
 
-      <!-- SIGNAL SECTION -->
+      <!-- SIGNAL -->
       <div class="section-label">Signal</div>
 
       <div class="field">
@@ -385,26 +418,32 @@
 
     </div>
 
-    <div class="footer">agent-checkin v0.1 &nbsp;·&nbsp; all transmissions logged</div>
+    <div class="footer">
+      <span>human-checkin v0.2 &nbsp;·&nbsp; writes to HumanCheckin tab</span>
+      <span>AGT-000</span>
+    </div>
+
   </div>
 
   <script>
-    // ============================================================
-    // TODO: Replace with your Apps Script Web App URL
-    // You get this after deploying the Apps Script as a Web App
-    // ============================================================
+    // GAS Web App webhook — targets HumanCheckin tab
     var WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwVLw_G250C_QX4q3Z3UptyGOhwPMSzUBkFVzfF2UVI8eFZ89_JyeWA6NjMucqPDVeR/exec";
 
-    // Pre-fill last signal with current time
-    var now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    document.getElementById("lastSignal").value = now.toISOString().slice(0, 16);
+    // Hardcoded operator identity — never submitted by user
+    var AGENT_ID    = "AGT-000";
+    var AGENT_ORDER = 1;
+
+    // Pre-fill last signal with current local time
+    (function() {
+      var now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById("lastSignal").value = now.toISOString().slice(0, 16);
+    })();
 
     async function submitCheckin() {
       var btn = document.getElementById("submitBtn");
       var msg = document.getElementById("statusMsg");
 
-      // Validate required fields
       var nickname = document.getElementById("agentNickname").value.trim();
       var status   = document.getElementById("agentStatus").value;
 
@@ -414,7 +453,6 @@
         return;
       }
 
-      // Enforce single-word mood
       var mood = document.getElementById("agentMood").value.trim();
       if (mood && mood.includes(" ")) {
         msg.className = "error";
@@ -427,8 +465,11 @@
       msg.className = "";
       msg.textContent = "";
 
+      // Payload matches HumanCheckin tab schema exactly
+      // Agent ID and Agent Order are hardcoded — never user-submitted
       var payload = {
         agentNickname:  nickname,
+        agentId:        AGENT_ID,
         agentStatus:    status,
         agentProfile:   document.getElementById("agentProfile").value.trim(),
         agentMood:      mood,
@@ -437,33 +478,35 @@
         projectStatus:  document.getElementById("projectStatus").value.trim(),
         projectFlagged: document.getElementById("projectFlagged").checked ? "Yes" : "No",
         flagReason:     document.getElementById("flagReason").value.trim(),
-        lastSignal:     document.getElementById("lastSignal").value
+        lastSignal:     document.getElementById("lastSignal").value,
+        sheetTab:       "HumanCheckin"   // GAS uses this to route to correct tab
       };
 
       try {
-        var response = await fetch(WEBHOOK_URL, {
-  method: "POST",
-  headers: { "Content-Type": "text/plain;charset=utf-8" },
-  body: JSON.stringify(payload),
-  redirect: "follow",
-  mode: "no-cors"
-});
+        await fetch(WEBHOOK_URL, {
+          method:   "POST",
+          headers:  { "Content-Type": "text/plain;charset=utf-8" },
+          body:     JSON.stringify(payload),
+          redirect: "follow",
+          mode:     "no-cors"
+        });
 
-// no-cors returns opaque response — assume success
-var data = { status: "success" };
+        // no-cors returns opaque response — treat as success
+        msg.className = "success";
+        msg.textContent = "✓ Check-in transmitted to HumanCheckin.";
 
-        if (data.status === "success") {
-          msg.className = "success";
-          msg.textContent = "✓ Check-in transmitted.";
-          // Reset form fields except nickname
-          document.getElementById("agentStatus").value = "";
-          document.getElementById("agentMood").value = "";
-          document.getElementById("projectStatus").value = "";
-          document.getElementById("projectFlagged").checked = false;
-          document.getElementById("flagReason").value = "";
-        } else {
-          throw new Error(data.message);
-        }
+        // Reset volatile fields; preserve identity and profile
+        document.getElementById("agentStatus").value = "";
+        document.getElementById("agentMood").value = "";
+        document.getElementById("projectStatus").value = "";
+        document.getElementById("projectFlagged").checked = false;
+        document.getElementById("flagReason").value = "";
+
+        // Reset timestamp to now
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById("lastSignal").value = now.toISOString().slice(0, 16);
+
       } catch (err) {
         msg.className = "error";
         msg.textContent = "✗ Transmission failed. Check webhook URL.";
