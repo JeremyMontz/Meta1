@@ -20,21 +20,8 @@
       --muted:    #5a5a7a;
       --mono:     'JetBrains Mono', monospace;
       --sans:     'Syne', sans-serif;
-
-      --c-contractor: #3266ad;
-      --c-contractor-t: #4fc3f7;
-      --c-diy:    #1D9E75;
-      --c-diy-t:  #00ff9d;
-      --c-wait:   #3a3a4a;
-      --c-wait-t: #5a5a7a;
-      --c-unk-border: #ff8c00;
-      --c-unk-t:  #ff8c00;
-      --c-mil:    #ff4f4f;
-      --c-stretch:#ff8c00;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -42,7 +29,6 @@
       min-height: 100vh;
       padding: 2rem 1.5rem;
     }
-
     body::before {
       content: '';
       position: fixed;
@@ -54,7 +40,6 @@
       pointer-events: none;
       z-index: 0;
     }
-
     .page { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
 
     .header {
@@ -65,7 +50,6 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
-
     .header-tag {
       font-size: 0.62rem;
       letter-spacing: 0.22em;
@@ -73,26 +57,10 @@
       text-transform: uppercase;
       margin-bottom: 0.35rem;
     }
-
-    h1 {
-      font-family: var(--sans);
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-
+    h1 { font-family: var(--sans); font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
     h1 span { color: var(--accent); }
+    .header-meta { text-align: right; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.08em; line-height: 1.8; }
 
-    .header-meta {
-      text-align: right;
-      font-size: 0.62rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      line-height: 1.8;
-    }
-
-    /* Legend */
     .legend {
       display: flex;
       gap: 1.25rem;
@@ -100,105 +68,94 @@
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 0.65rem 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
       align-items: center;
     }
+    .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); }
+    .leg-swatch { width: 18px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .leg-dashed { width: 18px; height: 8px; border-radius: 2px; border: 1.5px dashed #ff8c00; background: transparent; flex-shrink: 0; }
+    .leg-mil { width: 2px; height: 14px; flex-shrink: 0; }
 
-    .legend-item {
+    /* Outer scroll container */
+    .chart-outer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      overflow-x: auto;
+      padding: 0 1rem 1rem;
+    }
+
+    /* Inner fixed-width container — all sections share this width */
+    .chart-inner { min-width: 900px; width: 100%; }
+
+    /* Week header — one instance at top, shared across all sections */
+    .week-header-row {
       display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.6rem;
-      letter-spacing: 0.08em;
+      align-items: flex-end;
+      padding-top: 22px;
+      margin-bottom: 6px;
+    }
+    .week-spacer { width: 152px; flex-shrink: 0; }
+    .week-cells { display: flex; flex: 1; min-width: 0; }
+    .week-cell {
+      flex: 1;
+      font-size: 0.55rem;
       color: var(--muted);
+      letter-spacing: 0.05em;
+      text-align: center;
+      border-left: 1px solid var(--border);
+      padding: 2px 0;
+      min-width: 0;
     }
 
-    .leg-swatch {
-      width: 18px; height: 8px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-
-    .leg-dashed {
-      width: 18px; height: 8px;
-      border-radius: 2px;
-      border: 1.5px dashed var(--c-unk-border);
-      background: transparent;
-      flex-shrink: 0;
-    }
-
-    .leg-mil {
-      width: 2px; height: 14px;
-      flex-shrink: 0;
-    }
-
-    /* Section header */
-    .section-header {
+    /* Section label */
+    .section-hdr {
       font-family: var(--sans);
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--accent2);
-      padding: 0.5rem 0.75rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      margin-top: 1.25rem;
-      margin-bottom: 0;
+      padding: 0.45rem 0 0.3rem;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
     }
 
-    /* Chart container */
-    .chart-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: none;
-      padding: 0.75rem 1rem 1rem;
-      overflow-x: auto;
-    }
-
-    .chart-inner {
-      min-width: 800px;
-    }
-
-    /* Week header row */
-    .week-header-row {
-      display: grid;
-      margin-bottom: 6px;
-    }
-
-    .week-label {
-      font-size: 0.55rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      text-align: center;
-      border-left: 1px solid var(--border);
-      padding: 2px 0;
-    }
-
-    /* Bar rows */
+    /* Bar row: label + track-wrap side by side */
     .bar-row {
-      display: grid;
+      display: flex;
       align-items: center;
-      margin-bottom: 5px;
-      gap: 0;
+      margin-bottom: 4px;
     }
-
     .row-label {
+      width: 152px;
+      flex-shrink: 0;
       font-size: 0.6rem;
       color: var(--muted);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       text-align: right;
-      padding-right: 8px;
+      padding-right: 10px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .bar-track {
+    /* track-wrap: overflow VISIBLE so milestone labels float above */
+    .track-wrap {
+      flex: 1;
+      min-width: 0;
       position: relative;
       height: 22px;
+      margin-top: 18px; /* space for milestone labels above */
+    }
+
+    /* track: overflow HIDDEN to clip bar text at edges */
+    .track {
+      position: absolute;
+      inset: 0;
       background: var(--surface2);
       border: 1px solid var(--border);
+      overflow: hidden;
     }
 
     .bar {
@@ -211,22 +168,22 @@
       letter-spacing: 0.04em;
       white-space: nowrap;
       overflow: hidden;
-      font-family: var(--mono);
     }
+    .bar-contractor { background: rgba(50,102,173,0.5); color: #4fc3f7; border-left: 2px solid #3266ad; }
+    .bar-diy        { background: rgba(29,158,117,0.35); color: #00ff9d; border-left: 2px solid #1D9E75; }
+    .bar-wait       { background: #3a3a4a; color: #5a5a7a; border-left: 2px solid #3a3a5a; }
+    .bar-unknown    { background: transparent; border: 1.5px dashed #ff8c00; color: #ff8c00; }
 
-    .bar-contractor { background: rgba(50,102,173,0.5); color: var(--c-contractor-t); border-left: 2px solid var(--c-contractor); }
-    .bar-diy        { background: rgba(29,158,117,0.35); color: var(--c-diy-t); border-left: 2px solid var(--c-diy); }
-    .bar-wait       { background: var(--c-wait); color: var(--c-wait-t); border-left: 2px solid #3a3a5a; }
-    .bar-unknown    { background: transparent; border: 1.5px dashed var(--c-unk-border); color: var(--c-unk-t); }
-
+    /* Milestone lines + labels sit inside track-wrap (not track),
+       so they're not clipped and float into the margin-top space above */
     .mil-line {
       position: absolute;
       top: -18px;
       bottom: 0;
       width: 1px;
       z-index: 10;
+      pointer-events: none;
     }
-
     .mil-label {
       position: absolute;
       top: -17px;
@@ -235,10 +192,10 @@
       font-weight: 600;
       white-space: nowrap;
       transform: translateX(-50%);
-      font-family: var(--mono);
+      pointer-events: none;
+      line-height: 1;
     }
 
-    /* Notes */
     .notes {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -249,10 +206,8 @@
       letter-spacing: 0.06em;
       line-height: 1.8;
     }
-
     .notes strong { color: var(--accent); font-weight: 600; }
 
-    /* Footer */
     .footer {
       margin-top: 1.5rem;
       font-size: 0.58rem;
@@ -287,7 +242,9 @@
     <div class="legend-item"><div class="leg-mil" style="background:#ff8c00"></div>Stretch target</div>
   </div>
 
-  <div id="timeline"></div>
+  <div class="chart-outer">
+    <div class="chart-inner" id="chart"></div>
+  </div>
 
   <div class="notes">
     <strong>Key assumptions:</strong>
@@ -301,12 +258,11 @@
   </div>
 
   <div class="footer">
-    <span>house-timeline v1.0 · 2026-04-06</span>
+    <span>house-timeline v1.1 · 2026-04-06</span>
     <span>House (AGT-002)</span>
   </div>
 
 </div>
-
 <script>
 const WEEKS = [
   'Apr 6','Apr 13','Apr 20','Apr 27',
@@ -316,134 +272,143 @@ const WEEKS = [
   'Aug 3'
 ];
 const N = WEEKS.length;
-const LABEL_W = 148;
 
-function pct(s,e){ return { left:(s/N*100)+'%', width:((e-s)/N*100)+'%' }; }
+function pct(s, e) {
+  return { left: (s / N * 100) + '%', width: ((e - s) / N * 100) + '%' };
+}
 
 const sections = [
   { title: 'CONTRACTORS', rows: [
     { label: 'Shift Electric', bars:[
-        {s:0,e:1.5,cls:'bar-contractor',text:'rough-in work'},
-        {s:1.5,e:2,cls:'bar-wait',text:'rough-in inspection ~Apr 17'},
+        {s:0,   e:1.5, cls:'bar-contractor', text:'rough-in work'},
+        {s:1.5, e:2,   cls:'bar-wait',       text:'inspection window'},
       ], mils:[
-        {s:2,color:'#ff4f4f',label:'rough-in insp.'},
-        {s:9,color:'#ff4f4f',label:'final insp. (post-drywall)'},
+        {s:2,  color:'#ff4f4f', label:'rough-in insp. ~Apr 17'},
+        {s:9,  color:'#ff4f4f', label:'final insp. (post-drywall)'},
       ]},
     { label: 'Cliff Alex — upstairs', bars:[
-        {s:0,e:0.5,cls:'bar-wait',text:'floor access'},
-        {s:0.5,e:2.5,cls:'bar-contractor',text:'re-pipe + shower rough-in'},
-      ], unknown:[{s:2.5,e:3.5,text:'ceiling open TBD'}]},
-    { label: 'Framing (basement)', bars:[{s:2,e:3,cls:'bar-contractor',text:'final wall — post electric'}]},
-    { label: 'Insulation blow-in', bars:[{s:2.5,e:3.5,cls:'bar-contractor',text:'attic — follows Shift'}]},
-    { label: 'Drywall — all scopes', bars:[{s:3,e:7,cls:'bar-contractor',text:'basement + upstairs repairs + dining/kitchen patches'}]},
+        {s:0,   e:0.5, cls:'bar-wait',       text:'floor access'},
+        {s:0.5, e:2.5, cls:'bar-contractor', text:'re-pipe + shower rough-in'},
+      ], unknown:[{s:2.5, e:3.5, text:'ceiling open TBD'}]},
+    { label: 'Framing (basement)',   bars:[{s:2,   e:3,   cls:'bar-contractor', text:'final wall — post electric'}]},
+    { label: 'Insulation blow-in',   bars:[{s:2.5, e:3.5, cls:'bar-contractor', text:'attic — follows Shift'}]},
+    { label: 'Drywall — all scopes', bars:[{s:3,   e:7,   cls:'bar-contractor', text:'basement + upstairs repairs + dining/kitchen patches'}]},
   ]},
   { title: 'DIY — BASEMENT', rows: [
-    { label: 'Floor prep', bars:[{s:2,e:6,cls:'bar-diy',text:'leveling + subfloor prep — allow extra time'}]},
-    { label: 'Flooring install', unknown:[{s:6,e:9,text:'DIY or hire out — TBD'}]},
-    { label: 'Rock wool insulation', bars:[{s:3,e:5,cls:'bar-diy',text:'walls — post electric'}]},
-    { label: 'Bathroom', bars:[{s:7,e:13,cls:'bar-diy',text:'rough finish → tile → fixtures'}]},
-    { label: 'Kitchenette', bars:[{s:7,e:13,cls:'bar-diy',text:'cabinets, tile, appliances'}]},
-    { label: 'Bedrooms + closets', bars:[{s:11,e:13.5,cls:'bar-diy',text:'paint, trim, closet build'}]},
+    { label: 'Floor prep',           bars:[{s:2,  e:6,    cls:'bar-diy', text:'leveling + subfloor prep — allow extra time'}]},
+    { label: 'Flooring install',     bars:[], unknown:[{s:6, e:9, text:'DIY or hire out — TBD'}]},
+    { label: 'Rock wool insulation', bars:[{s:3,  e:5,    cls:'bar-diy', text:'walls — post electric'}]},
+    { label: 'Bathroom',             bars:[{s:7,  e:13,   cls:'bar-diy', text:'rough finish → tile → fixtures'}]},
+    { label: 'Kitchenette',          bars:[{s:7,  e:13,   cls:'bar-diy', text:'cabinets, tile, appliances'}]},
+    { label: 'Bedrooms + closets',   bars:[{s:11, e:13.5, cls:'bar-diy', text:'paint, trim, closet build'}]},
   ]},
   { title: 'DIY — UPSTAIRS / WHOLE HOUSE', rows: [
-    { label: 'Stairs assessment', bars:[{s:0,e:1,cls:'bar-diy',text:'pull carpet — assess substrate'}]},
-    { label: 'Upstairs drywall repair', unknown:[{s:2.5,e:3.5,text:'follows Cliff — ceiling scope TBD'}]},
-    { label: 'Upstairs bath finish', bars:[{s:7,e:13,cls:'bar-diy',text:'tile, surround, fixtures'}]},
-    { label: 'Stair refinish/recarpet', unknown:[{s:5,e:9,text:'depends substrate'}]},
-    { label: 'Remaining paint', bars:[{s:12,e:13,cls:'bar-diy',text:''}]},
+    { label: 'Stairs assessment',       bars:[{s:0, e:1, cls:'bar-diy', text:'pull carpet — assess substrate'}]},
+    { label: 'Upstairs drywall repair', bars:[], unknown:[{s:2.5, e:3.5, text:'follows Cliff — ceiling scope TBD'}]},
+    { label: 'Upstairs bath finish',    bars:[{s:7, e:13, cls:'bar-diy', text:'tile, surround, fixtures'}]},
+    { label: 'Stair refinish/recarpet', bars:[], unknown:[{s:5, e:9, text:'depends substrate'}]},
+    { label: 'Remaining paint',         bars:[{s:12, e:13, cls:'bar-diy', text:''}]},
   ]},
   { title: 'MOVE + PREP', rows: [
-    { label: 'Jeremy moves in', bars:[{s:12,e:13,cls:'bar-wait',text:'~Jul 1 target'}], mils:[{s:12,color:'#ff4f4f',label:'move-in'}]},
-    { label: 'Deep clean + punch list', bars:[{s:13,e:14,cls:'bar-wait',text:''}]},
-    { label: 'List main house', bars:[{s:13,e:14.5,cls:'bar-wait',text:'photography, listing'}]},
+    { label: 'Jeremy moves in',
+      bars:[{s:12, e:13, cls:'bar-wait', text:'~Jul 1 target'}],
+      mils:[{s:12, color:'#ff4f4f', label:'move-in'}]},
+    { label: 'Deep clean + punch list', bars:[{s:13, e:14,  cls:'bar-wait', text:''}]},
+    { label: 'List main house',         bars:[{s:13, e:14.5,cls:'bar-wait', text:'photography, listing'}]},
     { label: 'Renter move-in', bars:[], mils:[
-        {s:14,color:'#ff8c00',label:'Jul — stretch'},
-        {s:17,color:'#ff4f4f',label:'Aug — target'},
-    ]},
+        {s:14, color:'#ff8c00', label:'Jul — stretch'},
+        {s:17, color:'#ff4f4f', label:'Aug — target'},
+      ]},
   ]},
 ];
 
-const tl = document.getElementById('timeline');
+const chart = document.getElementById('chart');
 
-sections.forEach(sec => {
+// Single week header row — shared across all sections
+const whr = document.createElement('div');
+whr.className = 'week-header-row';
+const wsp = document.createElement('div');
+wsp.className = 'week-spacer';
+const wcells = document.createElement('div');
+wcells.className = 'week-cells';
+WEEKS.forEach(w => {
+  const c = document.createElement('div');
+  c.className = 'week-cell';
+  c.textContent = w;
+  wcells.appendChild(c);
+});
+whr.appendChild(wsp);
+whr.appendChild(wcells);
+chart.appendChild(whr);
+
+// Sections
+sections.forEach((sec, si) => {
   const sh = document.createElement('div');
-  sh.className = 'section-header';
+  sh.className = 'section-hdr';
+  if (si === 0) sh.style.borderTop = 'none';
   sh.textContent = sec.title;
-  tl.appendChild(sh);
-
-  const wrap = document.createElement('div');
-  wrap.className = 'chart-wrap';
-  const inner = document.createElement('div');
-  inner.className = 'chart-inner';
-  inner.style.cssText = `display:grid;grid-template-columns:${LABEL_W}px 1fr;gap:0`;
-
-  // Week headers
-  const whBlank = document.createElement('div');
-  whBlank.style.cssText = 'padding-right:8px';
-  const whRow = document.createElement('div');
-  whRow.style.cssText = 'display:flex;margin-bottom:6px;padding-top:18px';
-  WEEKS.forEach(w => {
-    const d = document.createElement('div');
-    d.className = 'week-label';
-    d.style.cssText = 'flex:1';
-    d.textContent = w;
-    whRow.appendChild(d);
-  });
-
-  const headerGrid = document.createElement('div');
-  headerGrid.style.cssText = `display:grid;grid-template-columns:${LABEL_W}px 1fr;`;
-  headerGrid.appendChild(whBlank);
-  headerGrid.appendChild(whRow);
-  inner.appendChild(headerGrid);
+  chart.appendChild(sh);
 
   sec.rows.forEach(row => {
-    const rowGrid = document.createElement('div');
-    rowGrid.style.cssText = `display:grid;grid-template-columns:${LABEL_W}px 1fr;align-items:center;margin-bottom:5px`;
+    const rowEl = document.createElement('div');
+    rowEl.className = 'bar-row';
 
     const lbl = document.createElement('div');
     lbl.className = 'row-label';
     lbl.textContent = row.label;
+    rowEl.appendChild(lbl);
 
+    // track-wrap: overflow visible — milestone labels float up into margin-top space
+    const tw = document.createElement('div');
+    tw.className = 'track-wrap';
+
+    // track: overflow hidden — clips bar text only
     const track = document.createElement('div');
-    track.className = 'bar-track';
+    track.className = 'track';
 
-    (row.bars||[]).forEach(b => {
+    (row.bars || []).forEach(b => {
       const bar = document.createElement('div');
       const p = pct(b.s, b.e);
       bar.className = 'bar ' + b.cls;
-      bar.style.cssText = `left:${p.left};width:${p.width}`;
+      bar.style.left = p.left;
+      bar.style.width = p.width;
       bar.textContent = b.text || '';
       track.appendChild(bar);
     });
 
-    (row.unknown||[]).forEach(u => {
+    (row.unknown || []).forEach(u => {
       const bar = document.createElement('div');
       const p = pct(u.s, u.e);
       bar.className = 'bar bar-unknown';
-      bar.style.cssText = `left:${p.left};width:${p.width}`;
+      bar.style.left = p.left;
+      bar.style.width = p.width;
       bar.textContent = u.text || '';
       track.appendChild(bar);
     });
 
-    (row.mils||[]).forEach(m => {
+    tw.appendChild(track);
+
+    // Milestones go into tw (not track) so they aren't clipped
+    (row.mils || []).forEach(m => {
+      const leftPct = (m.s / N * 100) + '%';
+
       const line = document.createElement('div');
       line.className = 'mil-line';
-      line.style.cssText = `left:${(m.s/N*100)+'%'};background:${m.color}`;
-      track.appendChild(line);
-      const lbl2 = document.createElement('div');
-      lbl2.className = 'mil-label';
-      lbl2.style.cssText = `left:${(m.s/N*100)+'%'};color:${m.color}`;
-      lbl2.textContent = m.label;
-      track.appendChild(lbl2);
+      line.style.left = leftPct;
+      line.style.background = m.color;
+      tw.appendChild(line);
+
+      const mlbl = document.createElement('div');
+      mlbl.className = 'mil-label';
+      mlbl.style.left = leftPct;
+      mlbl.style.color = m.color;
+      mlbl.textContent = m.label;
+      tw.appendChild(mlbl);
     });
 
-    rowGrid.appendChild(lbl);
-    rowGrid.appendChild(track);
-    inner.appendChild(rowGrid);
+    rowEl.appendChild(tw);
+    chart.appendChild(rowEl);
   });
-
-  wrap.appendChild(inner);
-  tl.appendChild(wrap);
 });
 </script>
 </body>
