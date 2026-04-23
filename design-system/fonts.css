@@ -1,0 +1,14 @@
+/* Claudemonzter fonts
+ *
+ * These are Google Font substitutions. If you want crisper originals,
+ * swap these for self-hosted files and drop them into /fonts.
+ *
+ * Stack rationale:
+ *   - Display (business):  Fraunces     — optical sizes, serious-serif with a sly grin
+ *   - Display (party):     Pirata One   — gothic blackletter, used SPARINGLY for Hyde moments
+ *   - Body / UI:           Inter Tight  — neutral workhorse
+ *   - Mono:                JetBrains Mono — lab-notebook, keeps the Meta1 DNA
+ *   - Handwriting:         Caveat       — margin scribbles, diagrams
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Rozha+One&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Pirata+One&family=Caveat:wght@400;700&display=swap');

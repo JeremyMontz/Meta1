@@ -4,22 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Renovation Timeline — Davis St</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system/fonts.css">
+  <link rel="stylesheet" href="design-system/colors_and_type.css">
   <style>
     :root {
-      --bg:       #0a0a0f;
-      --surface:  #111118;
-      --surface2: #16161f;
-      --border:   #1e1e2e;
-      --accent:   #00ff9d;
+      --bg:       #08070d;
+      --surface:  #161420;
+      --surface2: #201e29;
+      --border:   #32303f;
+      --accent:   #b57bff;
       --accent2:  #7b61ff;
-      --warn:     #ff8c00;
-      --error:    #ff4f4f;
-      --info:     #4fc3f7;
-      --text:     #e0e0f0;
-      --muted:    #5a5a7a;
-      --mono:     'JetBrains Mono', monospace;
-      --sans:     'Syne', sans-serif;
+      --warn:     #f5c56a;
+      --error:    #ff4757;
+      --info:     #8dd9ff;
+      --text:     #f4f3f7;
+      --muted:    #7a758c;
+      --mono:     'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --sans:     'Inter Tight', 'Inter', system-ui, sans-serif;
+      --display:  'Fraunces', 'Iowan Old Style', Georgia, serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -33,10 +35,12 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(0,255,157,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,157,0.025) 1px, transparent 1px);
-      background-size: 40px 40px;
+      background:
+        radial-gradient(ellipse 900px 700px at 20% 10%, color-mix(in oklch, #7b61ff 14%, transparent), transparent 60%),
+        radial-gradient(ellipse 700px 600px at 80% 80%, color-mix(in oklch, #b57bff 10%, transparent), transparent 60%),
+        linear-gradient(color-mix(in oklch, #b57bff 6%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in oklch, #b57bff 6%, transparent) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
       pointer-events: none;
       z-index: 0;
     }
@@ -51,14 +55,14 @@
       gap: 1rem;
     }
     .header-tag {
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
+      font-size: 10px;
+      letter-spacing: 0.28em;
       color: var(--accent);
       text-transform: uppercase;
       margin-bottom: 0.35rem;
     }
-    h1 { font-family: var(--sans); font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
-    h1 span { color: var(--accent); }
+    h1 { font-family: var(--display); font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variation-settings: "opsz" 96; }
+    h1 span { color: var(--accent); font-style: italic; font-variation-settings: "opsz" 96, "SOFT" 100; }
     .header-meta { text-align: right; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.08em; line-height: 1.8; }
 
     .legend {
@@ -73,7 +77,7 @@
     }
     .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); }
     .leg-swatch { width: 18px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-    .leg-dashed { width: 18px; height: 8px; border-radius: 2px; border: 1.5px dashed #ff8c00; background: transparent; flex-shrink: 0; }
+    .leg-dashed { width: 18px; height: 8px; border-radius: 2px; border: 1.5px dashed #f5c56a; background: transparent; flex-shrink: 0; }
     .leg-mil { width: 2px; height: 14px; flex-shrink: 0; }
 
     /* Outer scroll container */
@@ -110,15 +114,16 @@
 
     /* Section label */
     .section-hdr {
-      font-family: var(--sans);
+      font-family: var(--display);
       font-size: 0.7rem;
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--accent2);
       padding: 0.45rem 0 0.3rem;
       margin-top: 1rem;
       border-top: 1px solid var(--border);
+      font-variation-settings: "opsz" 48;
     }
 
     /* Bar row: label + track-wrap side by side */
@@ -170,9 +175,9 @@
       overflow: hidden;
     }
     .bar-contractor { background: rgba(50,102,173,0.5); color: #4fc3f7; border-left: 2px solid #3266ad; }
-    .bar-diy        { background: rgba(29,158,117,0.35); color: #00ff9d; border-left: 2px solid #1D9E75; }
+    .bar-diy        { background: rgba(167,255,125,0.15); color: #a7ff7d; border-left: 2px solid rgba(167,255,125,0.5); }
     .bar-wait       { background: #3a3a4a; color: #5a5a7a; border-left: 2px solid #3a3a5a; }
-    .bar-unknown    { background: transparent; border: 1.5px dashed #ff8c00; color: #ff8c00; }
+    .bar-unknown    { background: transparent; border: 1.5px dashed #f5c56a; color: #f5c56a; }
 
     /* Milestone lines + labels sit inside track-wrap (not track),
        so they're not clipped and float into the margin-top space above */
@@ -235,11 +240,11 @@
 
   <div class="legend">
     <div class="legend-item"><div class="leg-swatch" style="background:rgba(50,102,173,0.5);border-left:2px solid #3266ad"></div>Contractor</div>
-    <div class="legend-item"><div class="leg-swatch" style="background:rgba(29,158,117,0.35);border-left:2px solid #1D9E75"></div>DIY</div>
+    <div class="legend-item"><div class="leg-swatch" style="background:rgba(167,255,125,0.15);border-left:2px solid rgba(167,255,125,0.5)"></div>DIY</div>
     <div class="legend-item"><div class="leg-swatch" style="background:#3a3a4a;border-left:2px solid #3a3a5a"></div>Waiting / inspection</div>
     <div class="legend-item"><div class="leg-dashed"></div>Unknown / TBD</div>
-    <div class="legend-item"><div class="leg-mil" style="background:#ff4f4f"></div>Milestone</div>
-    <div class="legend-item"><div class="leg-mil" style="background:#ff8c00"></div>Stretch target</div>
+    <div class="legend-item"><div class="leg-mil" style="background:#ff4757"></div>Milestone</div>
+    <div class="legend-item"><div class="leg-mil" style="background:#f5c56a"></div>Stretch target</div>
   </div>
 
   <div class="chart-outer">
@@ -258,7 +263,7 @@
   </div>
 
   <div class="footer">
-    <span>house-timeline v1.1 · 2026-04-06</span>
+    <span>house-timeline v1.2 · 2026-04-06</span>
     <span>House (AGT-002)</span>
   </div>
 
@@ -283,8 +288,8 @@ const sections = [
         {s:0,   e:1.5, cls:'bar-contractor', text:'rough-in work'},
         {s:1.5, e:2,   cls:'bar-wait',       text:'inspection window'},
       ], mils:[
-        {s:2,  color:'#ff4f4f', label:'rough-in insp. ~Apr 17'},
-        {s:9,  color:'#ff4f4f', label:'final insp. (post-drywall)'},
+        {s:2,  color:'#ff4757', label:'rough-in insp. ~Apr 17'},
+        {s:9,  color:'#ff4757', label:'final insp. (post-drywall)'},
       ]},
     { label: 'Cliff Alex — upstairs', bars:[
         {s:0,   e:0.5, cls:'bar-wait',       text:'floor access'},
@@ -312,12 +317,12 @@ const sections = [
   { title: 'MOVE + PREP', rows: [
     { label: 'Jeremy moves in',
       bars:[{s:12, e:13, cls:'bar-wait', text:'~Jul 1 target'}],
-      mils:[{s:12, color:'#ff4f4f', label:'move-in'}]},
+      mils:[{s:12, color:'#ff4757', label:'move-in'}]},
     { label: 'Deep clean + punch list', bars:[{s:13, e:14,  cls:'bar-wait', text:''}]},
     { label: 'List main house',         bars:[{s:13, e:14.5,cls:'bar-wait', text:'photography, listing'}]},
     { label: 'Renter move-in', bars:[], mils:[
-        {s:14, color:'#ff8c00', label:'Jul — stretch'},
-        {s:17, color:'#ff4f4f', label:'Aug — target'},
+        {s:14, color:'#f5c56a', label:'Jul — stretch'},
+        {s:17, color:'#ff4757', label:'Aug — target'},
       ]},
   ]},
 ];

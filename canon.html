@@ -4,39 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Canon — Claudemonzter</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system/fonts.css">
+  <link rel="stylesheet" href="design-system/colors_and_type.css">
   <style>
     :root {
-      --bg:         #0a0a0f;
-      --surface:    #111118;
-      --surface2:   #16161f;
-      --border:     #1e1e2e;
-      --accent:     #00ff9d;
-      --accent2:    #7b61ff;
-      --warn:       #ff8c00;
-      --error:      #ff4f4f;
-      --info:       #4fc3f7;
-      --text:       #e0e0f0;
-      --muted:      #5a5a7a;
-      --mono:       'JetBrains Mono', monospace;
-      --sans:       'Syne', sans-serif;
+      --bg:         var(--ink-900);
+      --surface:    var(--ink-700);
+      --surface2:   var(--ink-600);
+      --border:     var(--ink-500);
+      --accent:     var(--violet-300);
+      --accent2:    var(--violet-500);
+      --warn:       var(--candle);
+      --error:      var(--blood);
+      --info:       var(--ether);
+      --text:       var(--ink-50);
+      --muted:      var(--ink-300);
+      --mono:       'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --sans:       'Inter Tight', 'Inter', system-ui, sans-serif;
+      --display:    'Fraunces', 'Iowan Old Style', Georgia, serif;
 
       /* Canon integrity colors — three values only: Clean / Alert / Error / N/A */
-      --ci-clean:   #00ff9d;
-      --ci-alert:   #ffb700;
-      --ci-error:   #ff4f4f;
-      --ci-na:      #5a5a7a;
+      --ci-clean:   #a7ff7d;
+      --ci-alert:   #f5c56a;
+      --ci-error:   #ff4757;
+      --ci-na:      var(--ink-300);
 
       /* File flag colors */
-      --flag-req-declared: #00ff9d;
-      --flag-req-mia:      #ff4f4f;
-      --flag-clean:        #00ff9d;
-      --flag-onloan:       #7b61ff;
-      --flag-orphaned:     #ff8c00;
-      --flag-phantom:      #ff4f4f;
-      --flag-stale:        #ffb700;
-      --flag-alert:        #ffb700;
-      --flag-error:        #ff4f4f;
+      --flag-req-declared: #a7ff7d;
+      --flag-req-mia:      #ff4757;
+      --flag-clean:        #a7ff7d;
+      --flag-onloan:       #b57bff;
+      --flag-orphaned:     #f5c56a;
+      --flag-phantom:      #ff4757;
+      --flag-stale:        #f5c56a;
+      --flag-alert:        #f5c56a;
+      --flag-error:        #ff4757;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,11 +55,23 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(0,255,157,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,157,0.025) 1px, transparent 1px);
-      background-size: 40px 40px;
+      background:
+        radial-gradient(ellipse 900px 700px at 20% 10%, color-mix(in oklch, #7b61ff 14%, transparent), transparent 60%),
+        radial-gradient(ellipse 700px 600px at 80% 80%, color-mix(in oklch, #b57bff 10%, transparent), transparent 60%);
       pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(color-mix(in oklch, #b57bff 6%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in oklch, #b57bff 6%, transparent) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      opacity: 0.35;
       z-index: 0;
     }
 
@@ -74,22 +88,28 @@
     }
 
     .header-tag {
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.28em;
       color: var(--accent);
       text-transform: uppercase;
       margin-bottom: 0.35rem;
     }
 
     h1 {
-      font-family: var(--sans);
+      font-family: var(--display);
       font-size: 2rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1;
+      font-variation-settings: "opsz" 96;
     }
 
-    h1 span { color: var(--accent); }
+    h1 span {
+      color: var(--accent);
+      font-style: italic;
+      font-variation-settings: "opsz" 96, "SOFT" 100;
+    }
 
     .header-meta { text-align: right; }
 
@@ -153,9 +173,9 @@
 
     /* ── Section header ── */
     .section-header {
-      font-family: var(--sans);
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 0.85rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--accent2);
@@ -164,6 +184,7 @@
       border: 1px solid var(--border);
       border-bottom: none;
       margin-top: 1.5rem;
+      font-variation-settings: "opsz" 48;
     }
 
     /* ── Table ── */
@@ -239,7 +260,7 @@
     /* Jeremy column cells */
     .canon-table td.col-jeremy {
       text-align: center;
-      border-left: 2px solid rgba(79,195,247,0.2);
+      border-left: 2px solid rgba(141,217,255,0.2);
     }
 
     /* Folder separator row */
@@ -268,27 +289,27 @@
     /* Required-Declared: bold border to distinguish from plain Clean */
     .flag-req-declared {
       color: var(--flag-req-declared);
-      background: rgba(0,255,157,0.08);
-      border: 1px solid rgba(0,255,157,0.4);
+      background: rgba(167,255,125,0.08);
+      border: 1px solid rgba(167,255,125,0.4);
       font-weight: 700;
     }
 
     /* Required-MIA: bold border to distinguish from plain Error */
     .flag-req-mia {
       color: var(--flag-req-mia);
-      background: rgba(255,79,79,0.12);
-      border: 1px solid rgba(255,79,79,0.5);
+      background: rgba(255,71,87,0.12);
+      border: 1px solid rgba(255,71,87,0.5);
       font-weight: 700;
     }
 
-    .flag-clean    { color: var(--flag-clean);    background: rgba(0,255,157,0.08); }
-    .flag-onloan   { color: var(--flag-onloan);   background: rgba(123,97,255,0.1); }
-    .flag-orphaned { color: var(--flag-orphaned); background: rgba(255,140,0,0.1); }
-    .flag-phantom  { color: var(--flag-phantom);  background: rgba(255,79,79,0.1); }
-    .flag-stale    { color: var(--flag-stale);    background: rgba(255,183,0,0.1); }
-    .flag-alert    { color: var(--flag-alert);    background: rgba(255,183,0,0.1); }
-    .flag-error    { color: var(--flag-error);    background: rgba(255,79,79,0.1); }
-    .flag-unknown  { color: var(--warn);          background: rgba(255,140,0,0.1); }
+    .flag-clean    { color: var(--flag-clean);    background: rgba(167,255,125,0.08); }
+    .flag-onloan   { color: var(--flag-onloan);   background: rgba(181,123,255,0.1); }
+    .flag-orphaned { color: var(--flag-orphaned); background: rgba(245,197,106,0.1); }
+    .flag-phantom  { color: var(--flag-phantom);  background: rgba(255,71,87,0.1); }
+    .flag-stale    { color: var(--flag-stale);    background: rgba(245,197,106,0.1); }
+    .flag-alert    { color: var(--flag-alert);    background: rgba(245,197,106,0.1); }
+    .flag-error    { color: var(--flag-error);    background: rgba(255,71,87,0.1); }
+    .flag-unknown  { color: var(--warn);          background: rgba(245,197,106,0.1); }
     .flag-empty    { color: var(--border);        font-size: 0.5rem; }
 
     /* ── Legend ── */
@@ -320,7 +341,7 @@
     }
 
     .state-msg .big {
-      font-family: var(--sans);
+      font-family: var(--display);
       font-size: 1.5rem;
       color: var(--text);
       margin-bottom: 0.5rem;
@@ -383,7 +404,7 @@
     </div>
 
     <div class="footer">
-      <span>canon v0.6</span>
+      <span>canon v0.7</span>
       <span id="fileCount">—</span>
     </div>
 

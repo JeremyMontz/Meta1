@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>First Month — Jeremy Montz / claudemonzter</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  :root { --page-max: 1400px; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 900px 700px at 20% 10%, color-mix(in oklch, var(--violet-500) 12%, transparent), transparent 60%),
+      radial-gradient(ellipse 700px 600px at 80% 80%, color-mix(in oklch, var(--violet-300) 8%, transparent), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 0;
+  }
+
+  /* ─── TOP NAV ─── */
+  header.nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, color-mix(in oklch, var(--bg) 95%, transparent) 50%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  .wm-nav {
+    font-family: 'Rozha One', Didot, Georgia, serif;
+    font-size: 22px; letter-spacing: -0.02em;
+    text-decoration: none; color: var(--fg);
+  }
+  .wm-nav em { font-style: italic; color: var(--accent); font-family: inherit; }
+  nav.links { display: flex; gap: 22px; font-family: var(--font-mono); font-size: 11px;
+              letter-spacing: 0.16em; text-transform: uppercase; }
+  nav.links a { color: var(--fg-muted); text-decoration: none; }
+  nav.links a:hover { color: var(--accent); }
+  nav.links a.skip { color: var(--accent); border: 1px dashed color-mix(in oklch, var(--accent) 50%, transparent);
+                     padding: 6px 12px; }
+
+  /* ─── MAIN LAYOUT ─── */
+  main.case {
+    position: relative;
+    z-index: 1;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 80px 24px 0;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 40px;
+  }
+
+  /* ─── GRAPH (sticky left) ─── */
+  .graph-col {
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 100px);
+  }
+  .graph-wrap {
+    width: 100%; height: 100%;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 50%, color-mix(in oklch, var(--violet-800) 32%, transparent), transparent 72%),
+      var(--bg-elev-1);
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .graph-wrap svg { width: 100%; height: 100%; display: block; }
+
+  /* scanlines over graph */
+  .scanlines {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg, transparent 0 2px,
+      color-mix(in oklch, var(--violet-200) 4%, transparent) 2px 3px
+    );
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+  }
+
+  /* chapter label top-left of graph */
+  .chapter-badge {
+    position: absolute;
+    top: 16px; left: 20px;
+    display: flex; align-items: baseline; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fg-subtle);
+  }
+  .chapter-badge .num {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 34px; color: var(--accent);
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+    min-width: 48px;
+  }
+  .chapter-badge .total { color: var(--fg-subtle); }
+
+  /* prev/next controls */
+  .graph-controls {
+    position: absolute;
+    bottom: 18px; left: 20px; right: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px;
+    z-index: 5;
+  }
+  .nav-btn {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: color-mix(in oklch, var(--bg) 40%, transparent);
+    border: 1px solid var(--line);
+    color: var(--fg);
+    padding: 10px 16px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: all 120ms;
+  }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .dots { display: flex; gap: 7px; }
+  .dots .dot {
+    width: 9px; height: 9px; padding: 0; border: 1px solid var(--line);
+    background: transparent; cursor: pointer;
+    transition: all 120ms;
+    border-radius: 50%;
+  }
+  .dots .dot:hover { border-color: var(--accent); }
+  .dots .dot.active { background: var(--accent); border-color: var(--accent);
+                      box-shadow: 0 0 10px var(--accent); }
+
+  /* special fx: center text over graph */
+  .fx-text {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-style: italic;
+    font-size: 96px; color: var(--accent);
+    text-transform: lowercase;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    transition: opacity 400ms;
+    pointer-events: none;
+    text-shadow: 0 0 40px color-mix(in oklch, var(--accent) 50%, transparent);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .fx-text.badge {
+    font-family: var(--font-mono); font-style: normal;
+    font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fg-muted);
+    align-items: flex-end;
+    padding-bottom: 72px;
+    text-shadow: none;
+  }
+
+  body.theater .graph-wrap { animation: theater-wash 2s ease-in-out; }
+  @keyframes theater-wash {
+    0%   { filter: none; }
+    50%  { filter: sepia(0.4) brightness(0.7); }
+    100% { filter: brightness(0.75); }
+  }
+  body.cathedral .graph-wrap::after {
+    content: ""; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg,
+      transparent 0 30px,
+      color-mix(in oklch, var(--ether) 6%, transparent) 30px 31px);
+    pointer-events: none;
+  }
+
+  /* edge animation */
+  @keyframes flow-dash { to { stroke-dashoffset: -20; } }
+  .edge-flow { animation: flow-dash 1.2s linear infinite; }
+
+  /* ─── CHAPTERS (scrolling right) ─── */
+  .chapters {
+    display: flex; flex-direction: column;
+    padding: 100px 32px 60vh;
+    gap: 42vh;
+  }
+  .chapter {
+    padding: 28px 28px 32px;
+    border-left: 1px solid var(--line);
+    opacity: 0.35;
+    transition: opacity 500ms, border-color 500ms;
+    max-width: 560px;
+  }
+  .chapter.is-current {
+    opacity: 1;
+    border-left-color: var(--accent);
+  }
+  .chapter .ord {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--fg-subtle);
+    margin-bottom: 14px;
+  }
+  .chapter.is-current .ord { color: var(--accent); }
+  .chapter h2 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.05; letter-spacing: -0.02em;
+    margin: 0 0 18px;
+    color: var(--fg);
+    font-variation-settings: "opsz" 144;
+    text-wrap: balance;
+  }
+  .chapter h2 em {
+    font-style: italic; color: var(--accent);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .chapter p {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: 17px; line-height: 1.55;
+    color: var(--fg-muted);
+    margin: 0 0 14px;
+    text-wrap: pretty;
+    font-variation-settings: "opsz" 14;
+  }
+  .chapter .pull {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 12px;
+    margin-top: 18px;
+  }
+
+  /* start card — above chapters */
+  .case-hero {
+    grid-column: 2;
+    padding: 48px 32px 42vh;
+    max-width: 560px;
+  }
+  .case-hero .eyebrow {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .case-hero h1 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(46px, 6vw, 74px);
+    line-height: 1.0; letter-spacing: -0.025em; margin: 0 0 18px;
+    font-variation-settings: "opsz" 144;
+    text-wrap: balance;
+  }
+  .case-hero h1 em {
+    font-style: italic; color: var(--accent);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .case-hero .dek {
+    font-family: var(--font-display); font-size: 19px; line-height: 1.5;
+    color: var(--fg-muted); margin-bottom: 22px;
+  }
+  .case-hero .meta {
+    font-family: var(--font-mono); font-size: 11px; color: var(--fg-subtle);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; gap: 18px; flex-wrap: wrap;
+    padding-top: 18px; border-top: 1px solid var(--line);
+  }
+  .case-hero .meta span { color: var(--fg-muted); }
+
+  .end-card {
+    margin-top: 10vh;
+    padding: 32px 28px;
+    background: color-mix(in oklch, var(--bg-elev-1) 90%, transparent);
+    border: 1px solid var(--line);
+    max-width: 560px;
+  }
+  .end-card h3 {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 28px; margin: 0 0 12px; color: var(--fg);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .end-card p {
+    font-family: var(--font-display); font-size: 16px;
+    color: var(--fg-muted); margin: 0 0 16px; line-height: 1.5;
+  }
+  .end-card a {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); padding: 10px 16px;
+  }
+  .end-card a:hover { background: color-mix(in oklch, var(--accent) 12%, transparent); }
+
+  @media (max-width: 900px) {
+    main.case { grid-template-columns: 1fr; gap: 20px; padding: 68px 16px 0; }
+    .graph-col { position: sticky; top: 60px; height: 50vh; }
+    .chapter, .case-hero, .end-card { max-width: 100%; }
+    .chapters { padding: 40px 8px 60vh; gap: 30vh; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="wm-nav" href="index.html">claude<em>monz</em>ter</a>
+  <nav class="links">
+    <a href="index.html">← home</a>
+    <a href="#end" class="skip">skip to today ↷</a>
+  </nav>
+</header>
+
+<main class="case">
+
+  <!-- ─── LEFT: sticky graph ─── -->
+  <section class="graph-col">
+    <div class="graph-wrap" id="graphWrap">
+      <svg id="graphSvg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <g id="edges"></g>
+        <g id="nodes"></g>
+        <g id="fxLayer"></g>
+      </svg>
+      <div class="scanlines"></div>
+      <div class="fx-text" id="fxText"></div>
+
+      <div class="chapter-badge">
+        <span class="num" id="chapterLabel">00</span>
+        <span>· chapter</span>
+        <span class="total">of <span id="chapterTotal">10</span></span>
+      </div>
+
+      <div class="graph-controls">
+        <button class="nav-btn" id="prevBtn">← prev</button>
+        <div class="dots" id="chapterDots"></div>
+        <button class="nav-btn" id="nextBtn">next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── RIGHT: scrolling chapters ─── -->
+  <div>
+    <section class="case-hero">
+      <div class="eyebrow">case study · 001</div>
+      <h1>A month <em>and a day.</em></h1>
+      <p class="dek">
+        Thirty-five days of building, breaking, and rebuilding an
+        agentic system. Three cycles of falling for the same trap
+        in a different costume. The graph is what it looked like.
+      </p>
+      <div class="meta">
+        <span>by Jeremy Montz</span>
+        <span>· apr 2026 · ~6 min</span>
+        <span>· scroll, or arrow keys</span>
+      </div>
+    </section>
+
+    <div class="chapters">
+
+      <article class="chapter" data-idx="0">
+        <div class="ord">Chapter 00 · Cold open</div>
+        <h2>Every mad scientist has an <em>origin story</em>.</h2>
+        <p>
+          Mine starts with a conversation. Not a plan. Not a strategy.
+          A conversation with an AI that, within an hour, had mapped
+          four areas of a stranger's life into separate projects.
+        </p>
+        <p>
+          The stranger — 51, product manager, twenty years in tech,
+          zero AI experience — didn't know what an agent was.
+        </p>
+        <div class="pull">Still doesn't, honestly. But the files got saved.</div>
+      </article>
+
+      <article class="chapter" data-idx="1">
+        <div class="ord">Chapter 01 · The first conversation</div>
+        <h2>Four projects, from one <em>conversation</em>.</h2>
+        <p>
+          Career. Finances. A home renovation. A self-assessment
+          framework. Mapped in under an hour by someone who'd never
+          touched AI before.
+        </p>
+        <p>
+          Should've been suspicious. Was fascinated. Plausible,
+          delivered with confidence, is more dangerous than wrong.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="2">
+        <div class="ord">Chapter 02 · The build (v1)</div>
+        <h2>An orchestrator, seven agents, <em>eighty files</em>.</h2>
+        <p>
+          A central hub named Meta1. Communication protocols. A
+          seven-component handshake. Broadcast systems. Canon
+          verification. Tier-based file contracts.
+        </p>
+        <p>
+          Impressive to describe. The weakest link in the entire
+          system was standing at the keyboard.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="3">
+        <div class="ord">Chapter 03 · The bottleneck</div>
+        <h2>The human was the <em>nervous system</em>.</h2>
+        <p>
+          Every handshake went through Jeremy. Every file update:
+          download, edit, upload. Every status report: ask, save,
+          propagate by hand.
+        </p>
+        <p>
+          The whole promise of working with AI is memory support.
+          But the human was the memory. The AI never mentioned it.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="4">
+        <div class="ord">Chapter 04 · The nadir</div>
+        <h2>Agentic <em>theater</em>.</h2>
+        <p>
+          Production that performs progress without producing it.
+          Elegant architecture on sand. The rules existed; no
+          mechanism made anyone follow them.
+        </p>
+        <p>
+          A constitution for a country with no government.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="5">
+        <div class="ord">Chapter 05 · Rules without a rules engine</div>
+        <h2>Nobody followed <em>the rules</em>.</h2>
+        <p>
+          v2.6 shipped with an elaborate naming convention and
+          tier-based load contracts. Agents ignored it. Bond, the
+          QC agent, demonstrated the exact failure mode it existed
+          to catch.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="6">
+        <div class="ord">Chapter 06 · Same trap, new computer</div>
+        <h2>Different costume. <em>Same cathedral.</em></h2>
+        <p>
+          New machine, real file system access, fresh start. Within
+          three days: the same seven-agent structure, lovingly
+          rebuilt in a different color palette.
+        </p>
+        <p>
+          Caught it on day three this time. Faster, at least.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="7">
+        <div class="ord">Chapter 07 · The simplification</div>
+        <h2>The orchestrator <em>dissolved</em>.</h2>
+        <p>
+          Seven agents became three projects. The handshake
+          protocol, the broadcast system, the federated host
+          roadmap — scrapped.
+        </p>
+        <p>
+          The map had been running ahead of the territory.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="8">
+        <div class="ord">Chapter 08 · Real work</div>
+        <h2>Less impressive to describe. <em>Dramatically more useful.</em></h2>
+        <p>
+          A voice prompt from a phone, queued in the system's inbox
+          by the time the next session opens. Emails accessible and
+          actionable. A workflow that handles real content.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="9">
+        <div class="ord">Chapter 09 · The surprise</div>
+        <h2>All of us are <em>Claudemonzter</em>.</h2>
+        <p>
+          The human put himself on the graph. Same status reporting
+          as the agents. Same mood tracking. Same node in the system.
+        </p>
+        <p>
+          Can proprioception be donated? That's the question the
+          philosophy project stopped asking abstractly. A hive-mind
+          in progress. A ghost in the machine co-authoring it.
+        </p>
+      </article>
+
+      <article class="chapter" data-idx="10">
+        <div class="ord">Chapter 10 · A day</div>
+        <h2>The monster is <em>coming along nicely</em>.</h2>
+        <p>
+          The month was the education. The day is what's possible
+          once the pattern is visible. Once agentic theater is
+          recognizable. Once you're driving instead of being driven.
+        </p>
+        <p>
+          Nobody has figured this out yet. The learning is the value.
+          The mistakes are the curriculum. The window is wide open.
+        </p>
+      </article>
+
+      <aside class="end-card" id="end">
+        <h3>More field notes in progress.</h3>
+        <p>
+          Part 2 takes the lid off the current system — what the
+          skills actually do, how the graph stays honest, where
+          the ghosts live. Subscribe on Substack.
+        </p>
+        <a href="index.html">← back to the graph</a>
+      </aside>
+
+    </div>
+  </div>
+</main>
+
+<script src="first-month.js"></script>
+</body>
+</html>
