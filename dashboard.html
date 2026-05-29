@@ -166,12 +166,7 @@ h1 span { color: var(--accent); font-style: italic; font-variation-settings: "op
 
 <!-- ── Site chrome (React) ─────────────────────────────────── -->
 <div id="topnav-mount"></div>
-<div class="graph-subnav">
-  <span class="graph-subnav-label">GRAPH ›</span>
-  <a href="dashboard.html" class="active">Dashboard</a>
-  <a href="graph/heart.html">Heart</a>
-  <a href="graph/memory.html">Memory</a>
-</div>
+<div id="graph-subnav-mount"></div>
 
 <div class="page-content">
 
@@ -609,8 +604,10 @@ loadData();
 <script type="text/babel" src="components/Wordmark.jsx"></script>
 <script type="text/babel" src="components/Primitives.jsx"></script>
 <script type="text/babel" src="components/HomeShell.jsx"></script>
+<script type="text/babel" src="components/GraphSubnav.jsx"></script>
 <script type="text/babel">
   ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('graph-subnav-mount')).render(<GraphSubnav active="DASHBOARD" />);
   ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
 </script>
 
