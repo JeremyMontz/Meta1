@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="cabinet">
+<head>
+<meta charset="utf-8"/>
+<title>The Journal · Spirit · Claudemonzter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="The Journal — every entry of Phil's daily lectio, plus an ink-spatter cloud of the words he reaches for." />
+
+<link rel="stylesheet" href="../../design-system/colors_and_type.css"/>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body { font-family: var(--font-sans); }
+  a { color: inherit; text-decoration: none; }
+
+  /* Candle flicker — also used by the eyebrow dot */
+  @keyframes candle-breathe {
+    0%, 100% { opacity: 1; }
+    37%      { opacity: 0.62; }
+    55%      { opacity: 0.84; }
+    72%      { opacity: 0.55; }
+  }
+  .candle-dot  { animation: candle-breathe 3.4s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .candle-dot { animation: none !important; }
+  }
+
+  ::selection { background: var(--candle); color: var(--bg); }
+
+  .page { width: 100%; max-width: 1280px; margin: 0 auto; }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- ─── SITE TOPNAV ─────────────────────────────────────────── -->
+  <!-- Journal is Spirit's archive; lives under Phil but conceptually
+       lives under Graph. TopNav active="GRAPH" per design v0.3 §7.4. -->
+  <div id="topnav-mount"></div>
+
+  <!-- No graph-subnav — journal lives under Phil, navigation back to
+       Spirit is via ledger rows (each row → spirit.html?date=...) and
+       via the standard TopNav. -->
+
+  <!-- ─── PAGE CONTENT (React app) ──────────────────────────── -->
+  <div id="root"></div>
+
+  <!-- ─── SITE FOOTER ─────────────────────────────────────────── -->
+  <div id="footer-mount"></div>
+
+</div>
+
+<!-- Shared site chrome -->
+<script src="../../data.js"></script>
+<script type="text/babel" src="../../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../../components/Primitives.jsx"></script>
+<script type="text/babel" src="../../components/HomeShell.jsx"></script>
+
+<!-- Shared data layer (lives in graph/ for now — see review notes
+     for potential move to site/phil-journal-data.js) -->
+<script src="../../graph/spirit-data.js"></script>
+
+<!-- Journal-specific components + app -->
+<script type="text/babel" src="journal-cloud.jsx"></script>
+<script type="text/babel" src="journal-app.jsx"></script>
+
+<!-- Mount site chrome -->
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>
