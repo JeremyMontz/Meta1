@@ -289,7 +289,6 @@ const LedgerRow = ({ entry, activeWord, isHit }) => {
             marginLeft: 6,
           }}>
             {entry.work || ''}
-            {entry.pageRef ? ' · p. ' + entry.pageRef : ''}
           </span>
         </div>
       </div>
