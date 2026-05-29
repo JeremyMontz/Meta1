@@ -255,7 +255,10 @@ window.AGENT_ARTIFACTS = {
   freedom:  [],
   evolve:   [],
   assessor: [],
-  phil:     [],
+  phil:     [
+      { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/soul.html' },
+      { title: 'Phils Journal',             sub: 'WOTD · WORDCLOUD · MY VOICE',   href: '../../agents/phil/journal.html' },
+  ],
   jeremy:   [
     { title: 'Heart',             sub: 'PERSONA MAP · 9 DIALS · THE LAB',   href: '../../graph/heart.html' },
   ],
