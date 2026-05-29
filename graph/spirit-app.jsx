@@ -45,7 +45,7 @@ const SpiritEyebrow = () => (
   }}>
     <div style={{
       fontFamily: 'var(--font-mono)',
-      fontSize: 10,
+      fontSize: 12,
       letterSpacing: '0.34em',
       textTransform: 'uppercase',
       color: 'var(--candle)',
@@ -56,7 +56,7 @@ const SpiritEyebrow = () => (
       flexWrap: 'wrap',
       justifyContent: 'center',
     }}>
-      <span>Spirit · Wisdom of the Day</span>
+      <span>Wisdom of the Day · Lectio Ratio Artificiosa</span>
       <span style={{ color: 'var(--line-loud)' }}>·</span>
       <a href={window.SPIRIT_DATA.PHIL_PAGE_URL} style={{
         color: 'var(--fg-subtle)', textDecoration: 'none',
@@ -75,7 +75,7 @@ const SpiritEyebrow = () => (
       }}
          onMouseEnter={e => { e.currentTarget.style.color = 'var(--candle)'; e.currentTarget.style.borderBottomColor = 'var(--candle)'; }}
          onMouseLeave={e => { e.currentTarget.style.color = 'var(--fg-subtle)'; e.currentTarget.style.borderBottomColor = 'transparent'; }}>
-        The Journal ↗
+        in its Journal ↗
       </a>
     </div>
   </div>
