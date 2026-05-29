@@ -56,10 +56,6 @@ const SpiritEyebrow = () => (
       flexWrap: 'wrap',
       justifyContent: 'center',
     }}>
-      <span className="candle-dot" style={{
-        display: 'inline-block', width: 6, height: 6, borderRadius: '50%',
-        background: 'var(--candle)', boxShadow: '0 0 10px var(--candle)',
-      }} />
       <span>Spirit · Wisdom of the Day</span>
       <span style={{ color: 'var(--line-loud)' }}>·</span>
       <a href={window.SPIRIT_DATA.PHIL_PAGE_URL} style={{
