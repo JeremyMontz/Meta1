@@ -55,7 +55,7 @@ const ArchiveEyebrow = () => (
     alignItems: 'center',
     gap: 12,
   }}>
-    Spirit · The Journal
+    //Philosophy · Phil · The Journal
   </div>
 );
 
