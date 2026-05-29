@@ -256,7 +256,7 @@ window.AGENT_ARTIFACTS = {
   evolve:   [],
   assessor: [],
   phil:     [
-      { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/soul.html' },
+      { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/spirit.html' },
       { title: 'Phils Journal',             sub: 'WOTD · WORDCLOUD · MY VOICE',   href: '../../agents/phil/journal.html' },
   ],
   jeremy:   [
