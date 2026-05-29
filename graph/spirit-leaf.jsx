@@ -173,7 +173,6 @@ const Clipping = ({ entry }) => {
         }}>
           <span style={{ color: '#9a7b3c', fontSize: 12 }}>{glyph}</span>
           {entry.work || '—'}
-          {entry.pageRef ? ' · p. ' + entry.pageRef : ''}
         </span>
       </figcaption>
     </figure>
