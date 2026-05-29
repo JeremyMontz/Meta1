@@ -54,7 +54,7 @@ const MemoryHeader = () => (
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.28em',
           color: 'var(--accent)', textTransform: 'uppercase',
-        }}>// CLAUDEMONZTER · BODY · ORGAN 02</div>
+        }}>// CLAUDEMONZTER · AMALGAMATION</div>
         <h1 style={{
           fontFamily: 'var(--font-display)', fontSize: 60, fontWeight: 700,
           letterSpacing: '-0.03em', margin: '6px 0 0',
@@ -68,8 +68,9 @@ const MemoryHeader = () => (
             color: 'var(--fg-muted)', maxWidth: 720, lineHeight: 1.4,
             fontVariationSettings: '"opsz" 36', margin: 0,
           }}>
-            Five layers of configuration and memory across three platforms.
-            What persists, what loads automatically, what dies with the tab.
+            Memory is not one thing. It's a stack of five — identity, context, project,
+            role or domain, and session — that three different platforms each implement differently.
+            Knowing where you are in the stack is half the work.
             Click any layer to crack it open.
           </p>
         </div>
@@ -96,7 +97,7 @@ const MemoryHeader = () => (
         <div style={{
           fontFamily: 'var(--font-hand)', fontSize: 14, color: 'var(--fg-subtle)',
           transform: 'rotate(-1.5deg)', marginTop: 4, maxWidth: 200,
-        }}>(reference map. the matrix is what i want to live with.)</div>
+        }}>(reference map. under development and subject to change.)</div>
       </div>
     </div>
   </header>
@@ -245,18 +246,6 @@ const App = () => {
             fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 16,
             color: 'var(--fg-muted)', maxWidth: 720, lineHeight: 1.5,
             fontVariationSettings: '"opsz" 36',
-          }}>
-            Memory is not one thing. It's a stack of five — identity, context, project,
-            role, session — that three different platforms each implement differently.
-            Knowing where you are in the stack is half the work.
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.14em',
-            color: 'var(--fg-faint)', textTransform: 'uppercase', textAlign: 'right',
-          }}>
-            memory-layers.map<br/>
-            5 layers · 3 platforms · 1 fork<br/>
-            organ 02 / memory / v0.1
           </div>
         </footer>
       </div>
