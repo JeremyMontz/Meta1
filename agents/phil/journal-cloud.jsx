@@ -241,11 +241,21 @@ const JournalCloud = ({ entries, activeWord, onWord }) => {
             zIndex: 2,
           };
           if (onWord) {
+            // all: 'unset' MUST be first in the style object — React applies
+            // inline styles in iteration order, and `all` would otherwise
+            // wipe the position/sizing we just set. (Object spread keeps
+            // existing keys in their original positions when re-assigned.)
             return (
               <button
                 key={box.word}
                 onClick={() => onWord(box.word)}
-                style={{ ...common, all: 'unset', ...common }}
+                style={{
+                  all: 'unset',
+                  ...common,
+                  background: 'transparent',
+                  border: 'none',
+                  padding: 0,
+                }}
                 onMouseEnter={e => { e.currentTarget.style.color = 'var(--candle)'; e.currentTarget.style.transform = 'scale(1.06)'; }}
                 onMouseLeave={e => {
                   if (!isActive) {
