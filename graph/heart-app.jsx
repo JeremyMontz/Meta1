@@ -642,17 +642,6 @@ const App = () => {
             fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 16,
             color: 'var(--fg-muted)', maxWidth: 680, lineHeight: 1.5,
             fontVariationSettings: '"opsz" 36',
-          }}>
-            The persona matrix is the heart, not the brain. It says <em>how</em>{' '}
-            each agent speaks, not <em>what</em> it knows.
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.14em',
-            color: 'var(--fg-faint)', textTransform: 'uppercase', textAlign: 'right',
-          }}>
-            persona-matrix · google sheet<br/>
-            cascade · cowork ▸ skill ▸ agents<br/>
-            organ 01 / heart / v1.0
           </div>
         </footer>
       </div>
