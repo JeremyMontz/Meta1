@@ -37,7 +37,7 @@ window.SITE = {
 window.ME = {
   name:     'Jeremy Montz',
   title:    'senior product manager · operator · learning AI in public',
-  blurb:    'I run product. Lately I run experiments. Claudemonzter is my first lab — an operator-plus-agents practice where I plug a small graph of projects into a much larger graph of models, and document what happens.',
+  blurb:    'I create products. Lately I run experiments. Claudemonzter is my first lab — an operator-plus-agents practice where I plug a small graph of projects into a much larger graph of models, and document what happens.',
   location: 'Portland, OR, USA',
   github:   'github.com/JeremyMontz',           // also the username for the live activity feed
   ghUser:   'JeremyMontz',                       // ← GitHub username, used by the live activity feed
@@ -246,7 +246,7 @@ window.LEVELS = [
 window.AGENT_ARTIFACTS = {
   meta1: [
     { title: 'Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
-    { title: 'Agent Dashboard',    sub: 'LIVE STATUS · ALL AGENTS',             href: '../../dashboard.html' },
+    { title: 'Dashboard',    sub: 'LIVE STATUS · 7 AGENTS · 1 HUMAN ',             href: '../../dashboard.html' },
   ],
   house: [
     { title: 'Renovation Tracker', sub: 'TIMELINE · BUDGET · ENTRY',            href: 'house-timeline.html' },
@@ -256,5 +256,7 @@ window.AGENT_ARTIFACTS = {
   evolve:   [],
   assessor: [],
   phil:     [],
-  jeremy:   [],
+  jeremy:   [
+    { title: 'Heart',             sub: 'PERSONA MAP · 9 DIALS · THE LAB',   href: '../../graph/heart.html' },
+  ],
 };
