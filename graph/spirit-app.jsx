@@ -45,7 +45,7 @@ const SpiritEyebrow = () => (
   }}>
     <div style={{
       fontFamily: 'var(--font-mono)',
-      fontSize: 12,
+      fontSize: 11,
       letterSpacing: '0.34em',
       textTransform: 'uppercase',
       color: 'var(--candle)',
