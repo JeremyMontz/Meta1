@@ -132,12 +132,7 @@
 
 <!-- ─── SITE CHROME (React) ─────────────────────────────────── -->
 <div id="topnav-mount"></div>
-<div class="graph-subnav">
-  <span class="graph-subnav-label">GRAPH ›</span>
-  <a href="../dashboard.html">Dashboard</a>
-  <a href="heart.html" class="active">Heart</a>
-  <a href="memory.html">Memory</a>
-</div>
+<div id="graph-subnav-mount"></div>
 
 <!-- ─── PAGE CONTENT (React app) ──────────────────────────────── -->
 <div id="root"></div>
@@ -150,6 +145,7 @@
 <script type="text/babel" src="../components/Wordmark.jsx"></script>
 <script type="text/babel" src="../components/Primitives.jsx"></script>
 <script type="text/babel" src="../components/HomeShell.jsx"></script>
+<script type="text/babel" src="../components/GraphSubnav.jsx"></script>
 
 <!-- Page-specific app -->
 <script src="heart-data.js"></script>
@@ -160,6 +156,7 @@
 <!-- Mount site chrome -->
 <script type="text/babel">
   ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('graph-subnav-mount')).render(<GraphSubnav active="HEART" />);
   ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
 </script>
 </body>
