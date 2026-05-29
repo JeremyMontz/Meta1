@@ -33,6 +33,28 @@ window.SITE = {
   version: 'v3.3',
   status:  'LIVE',
 };
+// ─── ORGANS · the body-part graph pages ───────────────────────────────────
+// Single source of truth for the graph-section subnav. The shared
+// <GraphSubnav active="..." /> component (in components/GraphSubnav.jsx)
+// reads this list to render the strip across dashboard.html, graph/heart.html,
+// graph/memory.html, graph/spirit.html — and any future organ page.
+//
+// Adding a new organ: append one entry here + create the new HTML page that
+// mounts <GraphSubnav active="ITSLABELID" />. The four existing organ pages
+// don't need to be edited.
+//
+// fields:
+//   id        — uppercase token, matches what each page passes as `active`
+//   label     — display text in the strip
+//   href      — root-relative URL; component prefixes with _SITE_BASE
+//   isParent  — optional; true for Dashboard (the section landing page)
+window.ORGANS = [
+  { id: 'DASHBOARD', label: 'Dashboard', href: 'dashboard.html',     isParent: true },
+  { id: 'HEART',     label: 'Heart',     href: 'graph/heart.html' },
+  { id: 'MEMORY',    label: 'Memory',    href: 'graph/memory.html' },
+  { id: 'SPIRIT',    label: 'Spirit',    href: 'graph/spirit.html' },
+];
+
 
 window.ME = {
   name:     'Jeremy Montz',
