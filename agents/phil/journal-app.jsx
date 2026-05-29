@@ -55,10 +55,6 @@ const ArchiveEyebrow = () => (
     alignItems: 'center',
     gap: 12,
   }}>
-    <span className="candle-dot" style={{
-      display: 'inline-block', width: 6, height: 6, borderRadius: '50%',
-      background: 'var(--candle)', boxShadow: '0 0 10px var(--candle)',
-    }} />
     Spirit · The Journal
   </div>
 );
