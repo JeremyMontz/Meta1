@@ -638,11 +638,6 @@ const App = () => {
           marginTop: 40, paddingTop: 18, borderTop: '1px dashed var(--line-loud)',
           display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'flex-end',
         }}>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 16,
-            color: 'var(--fg-muted)', maxWidth: 680, lineHeight: 1.5,
-            fontVariationSettings: '"opsz" 36',
-          </div>
         </footer>
       </div>
 
