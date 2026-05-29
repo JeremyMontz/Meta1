@@ -63,15 +63,15 @@ const HeartHeader = ({ hyde, crazy, dirtyCount, onCommit, onDiscard, committing,
             color: 'var(--fg-muted)', maxWidth: 680, lineHeight: 1.4,
             fontVariationSettings: '"opsz" 36', margin: 0,
           }}>
-            The persona matrix. Rows are the nine dials; columns are the eight agents.
-            Click any cell to retune — commit cascades through Apps Script to each agent.
+            The persona matrix. Each row is a tuning dial, some more reliable than others. Each column is an agent with authorities and hard boundaries.
+            Click any cell to tinker — agents automatically adopt persona changes at session start. 
           </p>
           {hyde && crazy >= 6 && (
             <span className="hyde-stamp" style={{
               fontFamily: 'var(--font-hyde)', fontSize: 28, color: 'var(--party)',
               letterSpacing: '0.04em', lineHeight: 1, whiteSpace: 'nowrap',
               textShadow: '0 0 12px color-mix(in oklch, var(--party) 50%, transparent)',
-            }}>It's alive.</span>
+            }}>The experiment is alive.</span>
           )}
         </div>
 
@@ -129,7 +129,7 @@ const HeartHeader = ({ hyde, crazy, dirtyCount, onCommit, onDiscard, committing,
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.18em',
             color: 'var(--ok)', textTransform: 'uppercase', textAlign: 'right',
-          }}>✓ in canon</div>
+          }}>✓ canon</div>
         )}
       </div>
     </div>
