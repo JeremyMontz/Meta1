@@ -49,10 +49,10 @@ window.SITE = {
 //   href      — root-relative URL; component prefixes with _SITE_BASE
 //   isParent  — optional; true for Dashboard (the section landing page)
 window.ORGANS = [
-  { id: 'DASHBOARD', label: 'Dashboard', href: 'dashboard.html',     isParent: true },
-  { id: 'HEART',     label: 'Heart',     href: 'graph/heart.html' },
+  { id: 'DASHBOARD', label: 'Faces', href: 'dashboard.html',     isParent: true },
   { id: 'MEMORY',    label: 'Memory',    href: 'graph/memory.html' },
-  { id: 'SPIRIT',    label: 'Spirit',    href: 'graph/spirit.html' },
+  { id: 'HEART',     label: 'Heart',     href: 'graph/heart.html' },
+    { id: 'SPIRIT',    label: 'Spirit',    href: 'graph/spirit.html' },
 ];
 
 
@@ -65,21 +65,21 @@ window.ME = {
   ghUser:   'JeremyMontz',                       // ← GitHub username, used by the live activity feed
   linkedin: 'linkedin.com/in/jeremydmontz',
   est:      'EST. 03/2026',
-  tagline:  'OPEN TO PRINCIPAL / STAFF PM',
+  tagline:  'REMOTE',
 };
 
 // ─── SPEC · the recruiter-facing summary card on portfolio.html ───────────
 // Key/value rows for the spec block in the portfolio hero. Update freely —
 // these are placeholders I wrote on your behalf.
 window.SPEC = {
-  badge: 'SHIPPING',
+  badge: 'BUILDING WITH AI',
   rows: [
     ['ROLE',      'SENIOR PRODUCT MANAGER'],
     ['STAGE',     'EXPERIMENTATION'],
     ['DEPTH',     '20+ YEARS'],
     ['STACK',     'COWORK → GOOGLE → GITHUB → PAGES'],
     ['FOCUS',     'AI-NATIVE PRODUCT MANAGER'],
-    ['AVAILABLE', 'Q3 2026 →'],
+    ['AVAILABLE', 'FOR THE RIGHT OP →'],
   ],
 };
 
@@ -87,8 +87,9 @@ window.SPEC = {
 // Update weekly. 1-4 bullets max — this is a status message, not a story.
 window.NOW = [
   'Relaunching claudemonzter online',
-  'Wrapping up "First Month and a Day" (half lab notebook, half confession)',
-  'Operationalizing the house renovation tracker',
+  'Finishin "First Month and a Day" (half lab notebook, half confession)',
+  'Fine-tuning the house renovation tracker',
+  'Launching Phils Journal',
 ];
 
 // ─── PORTFOLIO · selected work ────────────────────────────────────────────
