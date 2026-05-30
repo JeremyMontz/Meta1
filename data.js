@@ -146,8 +146,26 @@ window.PORTFOLIO = [
     excerpt: null,
   },
   {
-    id: 'month-two',
+    id: 'Phils-Journal',
     no: '03',
+    title: 'Phils Journal and the AI Wisdom of the Day',
+    blurb: 'A random quote from the Treasury of Wisdom with an AI commentary.',
+    status: 'IN TESTING',
+    tone: 'na',
+    tag: 'PHILOSOPHICAL',
+    href: '#',
+    date: 'Q2 2026 →',
+    details: [
+      ['ROLE',    '—'],
+      ['STACK',   '—'],
+      ['STARTED', 'Q3 2026 (PLANNED)'],
+      ['STATUS',  'COMING SOON'],
+    ],
+    excerpt: null,
+  },
+  {
+    id: 'month-two',
+    no: '04',
     title: 'Month Two: (re)Building and Extending',
     blurb: 'The second chapter. What happens when the scaffolding is up and the real building begins.',
     status: 'COMING SOON',
@@ -181,10 +199,10 @@ window.ARTICLES = [
 // (below) reference these by id. Add a project here BEFORE adding agents
 // that point at it.
 window.PROJECTS = [
-  { id: 'meta1',     label: 'META1',     blurb: 'the operator stack itself · canon, agents, runs',          tone: 'accent' },
-  { id: 'pura-vida', label: 'PURA-VIDA', blurb: 'life-engineering · house, money, learning, valuation',     tone: 'info'   },
-  { id: 'phil',      label: 'PHIL',      blurb: 'consciousness inquiry · open threads',                     tone: 'ok'     },
-  { id: 'self',      label: 'SELF',      blurb: 'the operator on the record',                               tone: 'warn'   },
+  { id: 'meta1',     label: 'META1',     blurb: 'the development stack · architect · coder · quality control', tone: 'accent' },
+  { id: 'pura-vida', label: 'PURA VIDA', blurb: 'the project stack · retirement planning · house renovation · AI-career pivot and education',   tone: 'info'   },
+  { id: 'phil',      label: 'PHIL',      blurb: 'philosophical inquiry · consciousness · intelligence · AI wisdom', tone: 'ok'     },
+  { id: 'self',      label: 'SELF',      blurb: 'human wetware · sneakernet  · not the beauty or the brains but doing his best', tone: 'warn'   },
 ];
 
 // ─── AGENTS · the eight agents (canonical) ────────────────────────────────
