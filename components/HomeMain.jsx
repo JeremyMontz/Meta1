@@ -301,7 +301,7 @@ const PortfolioTeaser = () => (
       <a href="portfolio.html" style={{
         fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em',
         textTransform: 'uppercase', color: 'var(--accent)',
-      }}>SEE ALL PROJECTS →</a>
+      }}>SEE ALL PORTFOLIO PROJECTS →</a>
     </div>
   </div>
 );
