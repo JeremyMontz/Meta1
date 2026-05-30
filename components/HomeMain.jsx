@@ -27,12 +27,12 @@ const HomeMain = () => {
       <section id="graph" style={{ padding: '32px 40px 56px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 18 }}>
           <div>
-            <Eyebrow color="var(--candle)">// 01 · THE LAB GRAPH</Eyebrow>
+            <Eyebrow color="var(--candle)">// 01 · THE CURRENT GRAPH</Eyebrow>
             <h2 style={{ marginTop: 8 }}>
-              Eight agents. Four projects. <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>One operator.</span>
+              Three projects. Seven domains. Countless agents. <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>One human.</span>
             </h2>
             <p style={{ marginTop: 8, maxWidth: 660 }}>
-              Hover any node to inspect — agents surface their live session card. Click to enter that project's page.
+              Hover any node to inspect — agents surface their latest session card. Click to enter their page.
             </p>
           </div>
           <GraphLegend agents={liveAgents} fetchStatus={fetchStatus} />
@@ -51,7 +51,7 @@ const HomeMain = () => {
       {/* <Divider label="// 02 · LIVE FROM THE LAB" tone="candle" /> */}
       {/* <LiveActivity /> */}
 
-      <Divider label="// 02 · UNDER THE LAMP" tone="candle" />
+      <Divider label="// 02 · UNDER THE MICROSCOPE" tone="candle" />
 
       {/* ─── NOW + PORTFOLIO TEASER ───────────────────────────────── */}
       <section style={{
@@ -91,7 +91,7 @@ const Hero = () => (
   <div style={{ position: 'relative', padding: '64px 40px 40px' }}>
     <div>
       <div>
-        <Eyebrow color="var(--candle)">// 00 · ENTRY POINT · DRAFT 04</Eyebrow>
+        <Eyebrow color="var(--candle)">// 00 · ENTRY POINT · HOME PAGE</Eyebrow>
 
         {/* Pirata sub-flourish — earned but contained */}
         <div className="hero-flicker" style={{
@@ -101,7 +101,7 @@ const Hero = () => (
           color: 'var(--candle)',
           textShadow: '0 0 18px color-mix(in oklch, var(--candle) 30%, transparent)',
         }}>
-          Hark — It's Alive.
+          It's live! The experiment continues...
         </div>
 
         <h1 style={{
@@ -119,31 +119,31 @@ const Hero = () => (
           fontVariationSettings: '"opsz" 72, "SOFT" 100',
           color: 'var(--fg-muted)',
         }}>
-          operating <span style={{ color: 'var(--accent)', fontStyle: 'normal', fontWeight: 600 }}>Claudemonzter</span>.
+          operating <span style={{ color: 'var(--accent)', fontStyle: 'normal', fontWeight: 600 }}> Claudemonzter</span>.
         </div>
 
         <p style={{
           marginTop: 26, maxWidth: 580,
           fontSize: 17, lineHeight: 1.5,
         }}>
-          Senior PM by day, lab operator by night. Claudemonzter is my
-          first graph — an operator-plus-agents practice I'm running in
-          public to find out what these systems can actually do.
+          Senior PO by day, mad scientist by night. Claudemonzter is my
+          first home-built multi agentic laboratory — an operator-plus-agents experiment I'm running in
+          public to find out what these tools and LLMs can actually do.
         </p>
 
         <p style={{
           marginTop: 8, maxWidth: 580,
           fontSize: 14, color: 'var(--fg-subtle)',
         }}>
-          90% lab coat. 10% monster. Currently relaunching this site so the experiments live where you can actually read them.
+          90% lab coat. 10% monster. Business up front, party in the back.
         </p>
 
         <div style={{ marginTop: 28, display: 'flex', gap: 12 }}>
           <a href="#graph" style={{ textDecoration: 'none' }}>
-            <Button variant="primary">▸ ENTER THE GRAPH</Button>
+            <Button variant="primary">▸ LEARN ABOUT THE GRAPH</Button>
           </a>
           <a href="portfolio.html" style={{ textDecoration: 'none' }}>
-            <Button variant="secondary">PORTFOLIO →</Button>
+            <Button variant="secondary">VIEW MY PORTFOLIO →</Button>
           </a>
         </div>
       </div>
@@ -268,10 +268,10 @@ const PortfolioTeaser = () => (
   <div>
     <Eyebrow color="var(--candle)">// SHOWCASE</Eyebrow>
     <h3 style={{ marginTop: 10, marginBottom: 12 }}>
-      Portfolio projects.
+      Portfolio projects
     </h3>
     <p style={{ fontSize: 14, marginBottom: 18 }}>
-      Selected experiments published for show-and-tell. The first piece is up; the next two slots are reserved on purpose.
+      Selected experiments published for visibility
     </p>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
       {PORTFOLIO.map((p, i) => (
