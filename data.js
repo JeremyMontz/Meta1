@@ -188,10 +188,11 @@ window.PORTFOLIO = [
 //   1. Drop a new HTML file in writing/<slug>.html (copy an existing one).
 //   2. Add an entry below with its date, title, tag, read time, and href.
 window.ARTICLES = [
-  { id: 'a1', date: '05·12', title: 'Agents argue with their own memory.',     tag: 'ESSAY',   read: '4 min', href: 'writing/agents-argue-with-memory.html' },
-  { id: 'a2', date: '05·05', title: 'On the mullet as a design principle.',    tag: 'NOTE',    read: '2 min', href: '#' },
-  { id: 'a3', date: '04·28', title: 'The canon-integrity test as a way of life.', tag: 'ESSAY', read: '7 min', href: '#' },
-  { id: 'a4', date: '04·19', title: 'I built a pantry. The pantry built me back.', tag: 'LAB LOG', read: '3 min', href: '#' },
+  { id: 'a1', date: '04.19', title: 'A Month and a Day',     tag: 'INTERACTIVE',   read: '7 min', href: 'writing/first-month.html' },
+  { id: 'a2', date: '05·12', title: 'Agents argue with their own memory.',     tag: 'ESSAY',   read: '4 min', href: 'writing/agents-argue-with-memory.html' },
+  { id: 'a3', date: '05·05', title: 'On the mullet as a design principle.',    tag: 'NOTE',    read: '2 min', href: '#' },
+  { id: 'a4', date: '04·28', title: 'The canon-integrity test as a way of life.', tag: 'ESSAY', read: '7 min', href: '#' },
+  { id: 'a5', date: '04·19', title: 'I built a pantry. The pantry built me back.', tag: 'LAB LOG', read: '3 min', href: '#' },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
