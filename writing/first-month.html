@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>First Month — Claudemonzter</title>
-<link rel="stylesheet" href="design-system/fonts.css">
-<link rel="stylesheet" href="design-system/colors_and_type.css">
+<link rel="stylesheet" href="../design-system/fonts.css">
+<link rel="stylesheet" href="../design-system/colors_and_type.css">
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
@@ -298,6 +298,19 @@
     .chapter, .case-hero, .end-card { max-width: 100%; }
     .chapters { padding: 40px 8px 60vh; gap: 30vh; }
   }
+
+  /* hero state: hide chapter badge on title view */
+  .chapter-badge.is-hidden { opacity: 0; transition: opacity 300ms; pointer-events: none; }
+  .chapter-badge { transition: opacity 300ms; }
+
+  /* pulse-red — for nodes flagged with pulse: true in chapter spec */
+  @keyframes node-pulse-red {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+  }
+  .node.pulse-red .core, .node.pulse-red .halo {
+    animation: node-pulse-red 1.4s ease-in-out infinite;
+  }
 </style>
 </head>
 <body>
@@ -316,6 +329,7 @@
             <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
+        <g id="substrateLayer"></g>
         <g id="edges"></g>
         <g id="nodes"></g>
         <g id="fxLayer"></g>
@@ -513,11 +527,11 @@
 
 <div id="footer-mount"></div>
 
-<script src="data.js"></script>
-<script type="text/babel" src="components/Wordmark.jsx"></script>
-<script type="text/babel" src="components/Primitives.jsx"></script>
-<script type="text/babel" src="components/HomeShell.jsx"></script>
-<script src="portfolio.js"></script>
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+<script src="first-month.js"></script>
 <script type="text/babel">
   ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="WRITING" />);
   ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
