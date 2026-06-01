@@ -86,8 +86,8 @@ window.SPEC = {
 // ─── NOW · what I'm working on right now ──────────────────────────────────
 // Update weekly. 1-4 bullets max — this is a status message, not a story.
 window.NOW = [
-  'Relaunching claudemonzter online',
-  'Finishin "First Month and a Day" (half lab notebook, half confession)',
+  'Relaunched Claudemonzter online',
+  'Published "First Month and a Day" (half lab notebook, half confession)',
   'Fine-tuning the house renovation tracker',
   'Launching Phils Journal',
 ];
@@ -143,13 +143,13 @@ window.PORTFOLIO = [
       ['STARTED', '03 / 2026'],
       ['STATUS',  'LIVE'],
     ],
-    excerpt: null,
+    excerpt: '"What I work on in the real world."',
   },
   {
     id: 'Phils-Journal',
     no: '03',
     title: 'Phils Journal and the AI Wisdom of the Day',
-    blurb: 'A random quote from the Treasury of Wisdom with an AI commentary.',
+    blurb: 'A random quote from the Treasury of Traditional Wisdom with an AI commentary.',
     status: 'IN TESTING',
     tone: 'warn',
     tag: 'PHILOSOPHICAL',
@@ -231,7 +231,7 @@ window.AGENTS = [
     lastSeen: 'May 13, 6:00 PM' },
   { id: 'bond',     name: 'Bond',     project: 'meta1',     role: 'gatekeeper',
     blurb:    'The gatekeeper. Tests what Meta1 builds. Ships what passes.',
-    mood:     'Sharp', state: 'active',
+    mood:     'Sharp', state: 'on hiatus',
     session:  'Ran test suite against skill-catalog wiki article. Two QC items flagged for Meta1.',
     lastSeen: 'May 13, 6:00 PM' },
   { id: 'house',    name: 'House',    project: 'pura-vida', role: 'project manager',
@@ -260,8 +260,8 @@ window.AGENTS = [
     session:  'Explored the what-is-it-like thread through PKD and Ramana. Updated open-threads.md.',
     lastSeen: 'May 13, 6:00 PM' },
   { id: 'jeremy',   name: 'Jeremy',   project: 'self',      role: 'self',
-    blurb:    'The operator. The one who flags himself.',
-    mood:     'curious', state: 'flagged', flag: 'Yes — pirate',
+    blurb:    'The human. Still part of the graph.',
+    mood:     'curious', state: 'flagged', flag: 'Yes — freak',
     session:  '', lastSeen: 'May 13, 9:06 PM' },
 ];
 
@@ -295,7 +295,9 @@ window.AGENT_ARTIFACTS = {
   ],
   bond:     [],
   freedom:  [],
-  evolve:   [],
+  evolve:   [
+    { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: 'writings/first-month.html' },
+  ],
   assessor: [],
   phil:     [
       { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/spirit.html' },
