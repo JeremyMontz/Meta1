@@ -118,7 +118,7 @@ const AgentGraph = ({ hovered, setHovered, agents: agentsProp, fetchStatus }) =>
         letterSpacing: '0.22em', textTransform: 'uppercase',
         color: 'var(--fg-faint)', pointerEvents: 'none', zIndex: 1,
       }}>
-        4 PROJECTS · 8 AGENTS · 1 OPERATOR
+        {PROJECTS.length + ' PROJECTS · ' + AGENTS.length + ' AGENTS (1 HUMAN)'}
       </div>
 
       <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" style={{ display: 'block' }}>
@@ -177,8 +177,7 @@ const HubNode = ({ hovered, setHovered, faded }) => {
     <g
       onMouseEnter={() => setHovered({ id: 'me', kind: 'hub' })}
       onMouseLeave={() => setHovered(null)}
-      onClick={() => window.location.href = 'dashboard.html'}
-      style={{ cursor: 'pointer', opacity: faded ? 0.4 : 1, transition: 'opacity 200ms var(--ease-out)' }}>
+      style={{ cursor: 'default', opacity: faded ? 0.4 : 1, transition: 'opacity 200ms var(--ease-out)' }}>
       <circle cx={CX} cy={CY} r="58" fill="var(--accent-low)" stroke="var(--accent)" strokeWidth={active ? 2.5 : 1.5} />
       <circle cx={CX} cy={CY} r="58" fill="none" stroke="var(--accent-glow)" strokeWidth="8" opacity="0.45" />
       {/* Bolt glyph inside */}
@@ -206,13 +205,7 @@ const ProjectNode = ({ project, hovered, setHovered, faded }) => {
     <g
       onMouseEnter={() => setHovered({ id: project.id, kind: 'project' })}
       onMouseLeave={() => setHovered(null)}
-      onClick={() => {
-        const dest = project.id === 'meta1' ? 'agents/meta1/meta1.html' :
-                     project.id === 'pura-vida' ? 'agents/house/house.html' :
-                     project.id === 'phil' ? '#' : '#';
-        if (dest !== '#') window.location.href = dest;
-      }}
-      style={{ cursor: 'pointer', opacity: faded ? 0.35 : 1, transition: 'opacity 200ms var(--ease-out)' }}>
+      style={{ cursor: 'default', opacity: faded ? 0.35 : 1, transition: 'opacity 200ms var(--ease-out)' }}>
       <circle cx={pos.x} cy={pos.y} r="34"
               fill="var(--bg-elev-2)"
               stroke={toneColor}
@@ -269,7 +262,7 @@ const AgentNode = ({ agent, hovered, setHovered, faded }) => {
 };
 
 // ── INSPECTOR PANE ─────────────────────────────────────────────────────────
-const Inspector = ({ hovered, agent, agents: agentsProp, fetchStatus }) => {
+const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
   const agents = agentsProp || AGENTS;
   // STATE A: empty / instructions
   if (!hovered) {
@@ -312,7 +305,7 @@ const Inspector = ({ hovered, agent, agents: agentsProp, fetchStatus }) => {
         <div className="scribble" style={{
           marginTop: 'auto', color: 'var(--candle)', fontSize: 22, display: 'block',
         }}>
-          click any node → <br/>enter its page.
+          ← click any node <br/>enter its page.
         </div>
       </div>
     );
@@ -348,11 +341,6 @@ const Inspector = ({ hovered, agent, agents: agentsProp, fetchStatus }) => {
               <span style={{ color: 'var(--fg)' }}>{v}</span>
             </div>
           ))}
-        </div>
-        <div style={{ marginTop: 18 }}>
-          <a href="dashboard.html" style={{ textDecoration: 'none' }}>
-            <Button variant="primary">▸ OPEN AGENT STATUS</Button>
-          </a>
         </div>
       </div>
     );
@@ -402,24 +390,39 @@ const Inspector = ({ hovered, agent, agents: agentsProp, fetchStatus }) => {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 18 }}>
-          <a href={project.id === 'meta1' ? 'agents/meta1/meta1.html' :
-                   project.id === 'pura-vida' ? 'agents/house/house.html' :
-                   project.id === 'phil' ? '#' :
-                   '#'} style={{ textDecoration: 'none' }}>
-            <Button variant="secondary">OPEN {project.label} →</Button>
-          </a>
-        </div>
       </div>
     );
   }
 
-  // STATE D: hovered agent — full AgentCard
-  if (!agent) return null; // safety: if the prop didn't resolve, render nothing
+  // STATE D: hovered agent — the SHARED agent card (components/agent-card.js),
+  // the exact same renderer dashboard.html and the agent pages use. One card,
+  // three pages. No live rows → honest NO DATA state, never placeholder data.
+  if (!agentData) return null; // safety: if the prop didn't resolve, render nothing
+  const { entry, comp } = agentData;
+  const hasData = comp && comp.upperRow;
+
+  if (!hasData) {
+    return (
+      <div style={{
+        border: '1px solid var(--line)', background: 'var(--bg-elev-1)',
+        padding: 24, height: '100%', boxSizing: 'border-box', overflow: 'auto',
+      }}>
+        <Eyebrow color="var(--candle)">{'// INSPECTOR · ' + entry.domain.toUpperCase()}</Eyebrow>
+        <h3 style={{
+          marginTop: 14, fontFamily: 'var(--font-mono)',
+          letterSpacing: '0.18em', color: 'var(--err)',
+        }}>NO DATA</h3>
+        <p style={{ marginTop: 10, fontSize: 13, color: 'var(--err)' }}>
+          No live checkin data for this agent. The Sheet may be unreachable
+          or this domain has no checkins yet.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
-      <AgentCard agent={agent} />
-    </div>
+    <div style={{ height: '100%', boxSizing: 'border-box', overflow: 'auto' }}
+         dangerouslySetInnerHTML={{ __html: renderCard(entry, comp) }} />
   );
 };
 
