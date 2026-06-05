@@ -81,7 +81,7 @@ const LiveActivity = () => {
           padding: '14px 20px', borderBottom: '1px solid var(--line)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Eyebrow color="var(--candle)">// RECENT GITHUB COMMITS</Eyebrow>
+            <Eyebrow color="var(--candle)">// RECENT GITHUB ACTIVITY</Eyebrow>
           </div>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -129,7 +129,7 @@ const LiveActivity = () => {
                 alignItems: 'baseline',
                 fontFamily: 'var(--font-mono)', fontSize: 12,
               }}>
-                <span style={{ color: 'var(--fg-faint)', letterSpacing: '0.12em' }}>{e.t}</span>
+                <span style={{ color: 'var(--candle)', letterSpacing: '0.12em' }}>{e.t}</span>
                 <span style={{
                   letterSpacing: '0.14em',
                   color: e.tone === 'accent' ? 'var(--accent)' :
