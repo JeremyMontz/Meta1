@@ -296,9 +296,11 @@ window.AGENT_ARTIFACTS = {
   bond:     [],
   freedom:  [],
   evolve:   [
-    { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: 'writings/first-month.html' },
+    { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: 'writing/first-month.html' },
   ],
-  assessor: [],
+  assessor: [
+   { title: 'Adversarial validation and structured perspective expansion', sub: 'ESSAY · 2 min · Week 2',            href: 'writing/adversarial-validation.html' },
+  ],
   phil:     [
       { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/spirit.html' },
       { title: 'Phils Journal',             sub: 'WOTD · WORDCLOUD · MY VOICE',   href: '../../agents/phil/journal.html' },
