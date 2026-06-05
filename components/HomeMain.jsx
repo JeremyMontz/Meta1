@@ -127,7 +127,7 @@ const HomeMain = () => {
       </section>
 
       {/* ─── LIVE FROM THE LAB (#162) ─────────────────────────────── */}
-      <Divider label="// 04 · LIVE FROM THE LAB" tone="candle" />
+      <Divider label="// 04 · LIVE FROM THE REPO" tone="candle" />
       <div style={{ height: 24 }} />
       <LiveActivity />
 
@@ -141,7 +141,7 @@ const Hero = () => (
   <div style={{ position: 'relative', padding: '64px 40px 40px' }}>
     <div>
       <div>
-        <Eyebrow color="var(--candle)">// 00 · ENTRY POINT · HOME PAGE</Eyebrow>
+        <Eyebrow color="var(--candle)">// 00 · THE ENTRY POINT · LAB HOME PAGE</Eyebrow>
 
         {/* Pirata sub-flourish — earned but contained */}
         <div className="hero-flicker" style={{
