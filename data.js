@@ -188,11 +188,11 @@ window.PORTFOLIO = [
 //   1. Drop a new HTML file in writing/<slug>.html (copy an existing one).
 //   2. Add an entry below with its date, title, tag, read time, and href.
 window.ARTICLES = [
-  { id: 'a1', date: '04.19', title: 'A Month and a Day',     tag: 'INTERACTIVE',   read: '7 min', href: 'writing/first-month.html' },
-  { id: 'a2', date: '06·04', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html' },
-  { id: 'a3', date: '06·04', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html' },
-  { id: 'a4', date: '06·03', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html' },
-  { id: 'a5', date: '06·03', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html' },
+  { id: 'a1', date: '04.19.26', title: 'A Month and a Day',     tag: 'INTERACTIVE',   read: '7 min', href: 'writing/first-month.html' },
+  { id: 'a2', date: '04.29.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html' },
+  { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html' },
+  { id: 'a4', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html' },
+  { id: 'a5', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html' },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -203,7 +203,7 @@ window.PROJECTS = [
   { id: 'meta1',     label: 'META1',     blurb: 'the development stack · architect · coder · quality control', tone: 'accent' },
   { id: 'pura-vida', label: 'PURA VIDA', blurb: 'the project stack · retirement planning · house renovation · AI-career pivot and education',   tone: 'info'   },
   { id: 'phil',      label: 'PHIL',      blurb: 'philosophical inquiry · consciousness · intelligence · AI wisdom', tone: 'ok'     },
-  { id: 'self',      label: 'SELF',      blurb: 'human wetware · sneakernet  · not the beauty or the brains but doing his best', tone: 'warn'   },
+  { id: 'self',      label: 'SELF',      blurb: 'human wetware · sneakernet  · one with heart', tone: 'warn'   },
 ];
 
 // ─── AGENTS · the eight agents (identity only) ────────────────────────────
