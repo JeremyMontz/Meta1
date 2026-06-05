@@ -118,7 +118,7 @@ window.PORTFOLIO = [
     tone: 'warn',
     tag: 'INTERACTIVE',
     href: 'writing/first-month.html',
-    date: '03/18 → 4/19/2026',
+    date: '4/19/2026',
     details: [
       ['ROLE',    'OPERATOR · WRITER · BUILDER'],
       ['STACK',   'HTML · JS · AI · MY MIND'],
