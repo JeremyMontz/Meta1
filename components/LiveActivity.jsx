@@ -1,45 +1,39 @@
-// LiveActivity.jsx — pulls real GitHub events at page load and renders them
+// LiveActivity.jsx — pulls recent commits at page load and renders them
 // as a horizontal "lab pulse" strip.
 //
-// Data source: https://api.github.com/repos/<repo>/events (CORS-safe,
+// Data source: https://api.github.com/repos/<repo>/commits (CORS-safe,
 // no auth required, rate-limited to 60 req/hr per IP). Configure the repo
-// in data.js (ME.ghRepo). The REPO event stream, not the user's — the strip
-// is the lab's pulse. (#162 root cause: 'JeremyMontz' is a GitHub Org, so
-// the old users/<x>/events endpoint always returned an empty list.)
+// in data.js (ME.ghRepo). The commits API always carries full messages —
+// unlike the events API, whose PushEvent payloads come back with an empty
+// commits array on this repo (#162 root cause, part two; part one was
+// 'JeremyMontz' being an Org, so user-events were always empty).
 //
 // No placeholder fallbacks by design: an unreachable API shows OFFLINE,
 // a quiet stream shows an honest empty state.
 //
-// Each event becomes one row: timestamp, kind, message.
+// Each commit becomes one row: date+time, kind, message (first line).
+// Consecutive identical messages collapse into one row with a (+N) count.
 
-// Map a GitHub event payload → our row shape.
-function formatEvent(ev) {
-  const t = new Date(ev.created_at);
-  const time = `${String(t.getUTCMonth() + 1).padStart(2, '0')}·${String(t.getUTCDate()).padStart(2, '0')}`;
-  const repo = ev.repo?.name?.split('/').pop() || 'repo';
+// Map a commit (from /repos/:repo/commits) → our row shape.
+function formatCommit(c) {
+  const d = new Date(c.commit.author.date);
+  const pad = (n) => String(n).padStart(2, '0');
+  const time = `${pad(d.getMonth() + 1)}·${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  return { t: time, kind: 'COMMIT', tone: 'accent', msg: c.commit.message.split('\n')[0] };
+}
 
-  switch (ev.type) {
-    case 'PushEvent': {
-      const commits = ev.payload?.commits || [];
-      const first = commits[0]?.message?.split('\n')[0] || `pushed to ${repo}`;
-      const more = commits.length > 1 ? ` (+${commits.length - 1} more)` : '';
-      return { t: time, kind: 'COMMIT', tone: 'accent', msg: `${repo} — ${first}${more}` };
+// Collapse consecutive rows with identical messages → "msg (+N)".
+function collapseRepeats(rows) {
+  const out = [];
+  rows.forEach(r => {
+    const last = out[out.length - 1];
+    if (last && last.baseMsg === r.msg) {
+      last.count += 1;
+    } else {
+      out.push({ ...r, baseMsg: r.msg, count: 1 });
     }
-    case 'CreateEvent':
-      return { t: time, kind: 'CREATE', tone: 'ok', msg: `${repo} — created ${ev.payload?.ref_type || 'thing'}${ev.payload?.ref ? ' · ' + ev.payload.ref : ''}` };
-    case 'PullRequestEvent':
-      return { t: time, kind: 'PR', tone: 'info', msg: `${repo} — ${ev.payload?.action || ''} PR · ${ev.payload?.pull_request?.title || ''}` };
-    case 'IssuesEvent':
-      return { t: time, kind: 'ISSUE', tone: 'warn', msg: `${repo} — ${ev.payload?.action || ''} · ${ev.payload?.issue?.title || ''}` };
-    case 'WatchEvent':
-      return { t: time, kind: 'STAR', tone: 'info', msg: `${repo} — starred` };
-    case 'ForkEvent':
-      return { t: time, kind: 'FORK', tone: 'info', msg: `${repo} — forked` };
-    case 'ReleaseEvent':
-      return { t: time, kind: 'RELEASE', tone: 'ok', msg: `${repo} — released ${ev.payload?.release?.tag_name || ''}` };
-    default:
-      return { t: time, kind: ev.type.replace('Event', '').toUpperCase(), tone: 'info', msg: `${repo}` };
-  }
+  });
+  return out.map(r => r.count > 1 ? { ...r, msg: `${r.baseMsg} (+${r.count - 1})` } : r);
 }
 
 const LiveActivity = () => {
@@ -47,7 +41,7 @@ const LiveActivity = () => {
 
   React.useEffect(() => {
     const repo = (window.ME && window.ME.ghRepo) || 'JeremyMontz/Meta1';
-    const url = `https://api.github.com/repos/${repo}/events?per_page=10`;
+    const url = `https://api.github.com/repos/${repo}/commits?per_page=10`;
     let cancelled = false;
 
     fetch(url)
@@ -55,13 +49,13 @@ const LiveActivity = () => {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
       })
-      .then(events => {
+      .then(commits => {
         if (cancelled) return;
-        const formatted = (events || []).slice(0, 6).map(formatEvent);
-        if (formatted.length > 0) {
-          setState({ status: 'live', events: formatted });
+        const rows = collapseRepeats((commits || []).map(formatCommit)).slice(0, 6);
+        if (rows.length > 0) {
+          setState({ status: 'live', events: rows });
         } else {
-          // No public events in the API's 90-day window — honest empty state.
+          // Empty repo / no commits — honest empty state.
           setState({ status: 'empty', events: [] });
         }
       })
@@ -87,11 +81,7 @@ const LiveActivity = () => {
           padding: '14px 20px', borderBottom: '1px solid var(--line)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Eyebrow color="var(--candle)">// LIVE FROM THE LAB</Eyebrow>
-            <span style={{
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 18,
-              color: 'var(--fg-muted)',
-            }}>recent commits, pulled fresh from GitHub.</span>
+            <Eyebrow color="var(--candle)">// RECENT GITHUB COMMITS</Eyebrow>
           </div>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -128,12 +118,12 @@ const LiveActivity = () => {
             padding: '24px 20px', textAlign: 'center',
             fontFamily: 'var(--font-mono)', fontSize: 11,
             letterSpacing: '0.18em', color: 'var(--fg-faint)',
-          }}>// QUIET CYCLE · NO PUBLIC EVENTS</div>
+          }}>// QUIET CYCLE · NO RECENT COMMITS</div>
         ) : (
           <div>
             {events.map((e, i) => (
               <div key={i} style={{
-                display: 'grid', gridTemplateColumns: '70px 90px 1fr',
+                display: 'grid', gridTemplateColumns: '105px 90px 1fr',
                 gap: 14, padding: '12px 20px',
                 borderBottom: i < events.length - 1 ? '1px solid var(--line-soft)' : 'none',
                 alignItems: 'baseline',
