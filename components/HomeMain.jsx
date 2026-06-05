@@ -96,11 +96,11 @@ const HomeMain = () => {
         </div>
       </section>
 
-      {/* ─── LIVE FROM THE LAB — hidden until #162 ships ──────── */}
-      {/* <Divider label="// 02 · LIVE FROM THE LAB" tone="candle" /> */}
-      {/* <LiveActivity /> */}
+      {/* ─── LIVE FROM THE LAB (#162) ─────────────────────────────── */}
+      <Divider label="// 02 · LIVE FROM THE LAB" tone="candle" />
+      <LiveActivity />
 
-      <Divider label="// 02 · UNDER THE MICROSCOPE" tone="candle" />
+      <Divider label="// 03 · UNDER THE MICROSCOPE" tone="candle" />
 
       {/* ─── NOW + PORTFOLIO TEASER ───────────────────────────────── */}
       <section style={{
@@ -112,7 +112,7 @@ const HomeMain = () => {
         <PortfolioTeaser />
       </section>
 
-      <Divider label="// 03 · FIELD NOTES" tone="candle" />
+      <Divider label="// 04 · FIELD NOTES" tone="candle" />
 
       {/* ─── WRITING ──────────────────────────────────────────────── */}
       <section id="articles" style={{ padding: '48px 40px' }}>

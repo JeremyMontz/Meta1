@@ -1,24 +1,16 @@
 // LiveActivity.jsx — pulls real GitHub events at page load and renders them
-// as a horizontal "lab pulse" strip. Falls back to the hardcoded ACTIVITY
-// list if the GitHub API is unreachable or rate-limited.
+// as a horizontal "lab pulse" strip.
 //
-// Data source: https://api.github.com/users/<user>/events/public (CORS-safe,
-// no auth required, rate-limited to 60 req/hr per IP). Configure the user
-// in data.js (ME.ghUser).
+// Data source: https://api.github.com/repos/<repo>/events (CORS-safe,
+// no auth required, rate-limited to 60 req/hr per IP). Configure the repo
+// in data.js (ME.ghRepo). The REPO event stream, not the user's — the strip
+// is the lab's pulse. (#162 root cause: 'JeremyMontz' is a GitHub Org, so
+// the old users/<x>/events endpoint always returned an empty list.)
+//
+// No placeholder fallbacks by design: an unreachable API shows OFFLINE,
+// a quiet stream shows an honest empty state.
 //
 // Each event becomes one row: timestamp, kind, message.
-
-// TODO(#162): placeholder fallback rows, moved here from HomeShell.jsx.
-// Jeremy has flagged dummy-data-as-failure-state as bad UX — replace with
-// an honest offline/empty state when #162 (live GitHub feed fix) is done.
-const ACTIVITY = [
-  { t: '00:02', kind: 'COMMIT',   tone: 'accent', msg: 'index.html — homepage relaunch, draft 4' },
-  { t: '00:41', kind: 'CHECK-IN', tone: 'info',   msg: 'mood: focused · slept 7h · zero anxiety' },
-  { t: '03:11', kind: 'AGENT',    tone: 'ok',     msg: 'canon reconciliation · 0 orphans' },
-  { t: '11:08', kind: 'COMMIT',   tone: 'accent', msg: 'first-month.html — added July note' },
-  { t: '14:22', kind: 'AGENT',    tone: 'warn',   msg: 'pantry ledger · cardamom missing (R!)' },
-  { t: '18:00', kind: 'CHECK-IN', tone: 'info',   msg: 'evening recap · 3 wins, 1 bite' },
-];
 
 // Map a GitHub event payload → our row shape.
 function formatEvent(ev) {
@@ -54,8 +46,8 @@ const LiveActivity = () => {
   const [state, setState] = React.useState({ status: 'loading', events: [] });
 
   React.useEffect(() => {
-    const user = (window.ME && window.ME.ghUser) || 'JeremyMontz';
-    const url = `https://api.github.com/users/${encodeURIComponent(user)}/events/public?per_page=10`;
+    const repo = (window.ME && window.ME.ghRepo) || 'JeremyMontz/Meta1';
+    const url = `https://api.github.com/repos/${repo}/events?per_page=10`;
     let cancelled = false;
 
     fetch(url)
@@ -69,15 +61,14 @@ const LiveActivity = () => {
         if (formatted.length > 0) {
           setState({ status: 'live', events: formatted });
         } else {
-          // No public events recently — show the sample log so the strip
-          // isn't dead, but label it as such.
-          setState({ status: 'quiet', events: ACTIVITY });
+          // No public events in the API's 90-day window — honest empty state.
+          setState({ status: 'empty', events: [] });
         }
       })
       .catch(() => {
         if (cancelled) return;
-        // Graceful fallback: render the hardcoded sample so the strip isn't empty.
-        setState({ status: 'fallback', events: ACTIVITY });
+        // API unreachable or rate-limited — say so, show nothing fake.
+        setState({ status: 'offline', events: [] });
       });
 
     return () => { cancelled = true; };
@@ -112,16 +103,12 @@ const LiveActivity = () => {
               <StatusDot tone="na" />
             </>)}
             {status === 'live' && (<>
-              <span style={{ color: 'var(--ok)' }}>STREAMING · @{(window.ME && window.ME.ghUser) || 'JeremyMontz'}</span>
+              <span style={{ color: 'var(--ok)' }}>STREAMING · {(window.ME && window.ME.ghRepo) || 'JeremyMontz/Meta1'}</span>
               <span className="pulse-dot" style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--ok)', color: 'var(--ok)' }} />
             </>)}
-            {status === 'fallback' && (<>
-              <span style={{ color: 'var(--warn)' }}>OFFLINE · CACHED</span>
+            {status === 'offline' && (<>
+              <span style={{ color: 'var(--warn)' }}>OFFLINE · GITHUB UNREACHABLE</span>
               <StatusDot tone="warn" />
-            </>)}
-            {status === 'quiet' && (<>
-              <span style={{ color: 'var(--fg-muted)' }}>QUIET STREAM · SHOWING SAMPLE</span>
-              <StatusDot tone="na" />
             </>)}
             {status === 'empty' && (<>
               <span style={{ color: 'var(--fg-faint)' }}>NO RECENT EVENTS</span>
@@ -135,7 +122,7 @@ const LiveActivity = () => {
             padding: '24px 20px', textAlign: 'center',
             fontFamily: 'var(--font-mono)', fontSize: 11,
             letterSpacing: '0.22em', color: 'var(--fg-faint)',
-          }}>// FETCHING /events/public …</div>
+          }}>// FETCHING EVENTS …</div>
         ) : events.length === 0 ? (
           <div style={{
             padding: '24px 20px', textAlign: 'center',
