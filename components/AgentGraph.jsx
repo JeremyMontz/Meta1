@@ -277,9 +277,8 @@ const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
           Hover a node.
         </h3>
         <p style={{ color: 'var(--fg-subtle)' }}>
-          The center is Claudemonzter itself. The four inner orbs are projects.
-          The eight outer dots are agents — each one a live entity with its own
-          mood, level set, and session log.
+          The center is Claudemonzter and system controls. The eight outer nodes are agents, each with its own domain, webpage, and persona.
+          They are grouped by nature in projects, the four inner nodes.
         </p>
 
         <div style={{ marginTop: 10, borderTop: '1px dashed var(--line-loud)', paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
