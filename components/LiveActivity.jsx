@@ -81,7 +81,7 @@ const LiveActivity = () => {
           padding: '14px 20px', borderBottom: '1px solid var(--line)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Eyebrow color="var(--candle)">// RECENT GITHUB ACTIVITY</Eyebrow>
+            <Eyebrow color="var(--candle)">// RECENT ACTIVITY</Eyebrow>
           </div>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
