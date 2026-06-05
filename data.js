@@ -61,8 +61,9 @@ window.ME = {
   title:    'senior product manager · operator · learning AI in public',
   blurb:    'I create products. Lately I run experiments. Claudemonzter is my first lab — an operator-plus-agents practice where I plug a small graph of projects into a much larger graph of models, and document what happens.',
   location: 'Portland, OR, USA',
-  github:   'github.com/JeremyMontz',           // also the username for the live activity feed
-  ghUser:   'JeremyMontz',                       // ← GitHub username, used by the live activity feed
+  github:   'github.com/JeremyMontz',
+  ghUser:   'JeremyMontz',                       // ← GitHub org (repo owner)
+  ghRepo:   'JeremyMontz/Meta1',                 // ← repo whose event stream feeds LIVE FROM THE LAB
   linkedin: 'linkedin.com/in/jeremydmontz',
   est:      'EST. 03/2026',
   tagline:  'REMOTE',
