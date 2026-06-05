@@ -189,10 +189,10 @@ window.PORTFOLIO = [
 //   2. Add an entry below with its date, title, tag, read time, and href.
 window.ARTICLES = [
   { id: 'a1', date: '04.19', title: 'A Month and a Day',     tag: 'INTERACTIVE',   read: '7 min', href: 'writing/first-month.html' },
-  { id: 'a2', date: '05·12', title: 'Agents argue with their own memory.',     tag: 'ESSAY',   read: '4 min', href: 'writing/agents-argue-with-memory.html' },
-  { id: 'a3', date: '05·05', title: 'On the mullet as a design principle.',    tag: 'NOTE',    read: '2 min', href: '#' },
-  { id: 'a4', date: '04·28', title: 'The canon-integrity test as a way of life.', tag: 'ESSAY', read: '7 min', href: '#' },
-  { id: 'a5', date: '04·19', title: 'I built a pantry. The pantry built me back.', tag: 'LAB LOG', read: '3 min', href: '#' },
+  { id: 'a2', date: '06·04', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html' },
+  { id: 'a3', date: '06·04', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html' },
+  { id: 'a4', date: '06·03', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html' },
+  { id: 'a5', date: '06·03', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html' },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
