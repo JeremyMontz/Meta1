@@ -115,7 +115,7 @@ const HomeMain = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
           <div>
             <Eyebrow color="var(--candle)">// WRITING</Eyebrow>
-            <h2 style={{ marginTop: 8 }}>Field notes & essays.</h2>
+            <h2 style={{ marginTop: 8 }}>Field notes & essays</h2>
           </div>
           <a href="writing.html" style={{
             fontFamily: 'var(--font-mono)', fontSize: 11,
@@ -127,7 +127,7 @@ const HomeMain = () => {
       </section>
 
       {/* ─── LIVE FROM THE LAB (#162) ─────────────────────────────── */}
-      <Divider label="// 04 · LIVE FROM THE REPO" tone="candle" />
+      <Divider label="// 04 · LIVE FROM GITHUB" tone="candle" />
       <div style={{ height: 24 }} />
       <LiveActivity />
 
