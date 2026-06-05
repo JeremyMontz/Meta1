@@ -8,6 +8,18 @@
 //
 // Each event becomes one row: timestamp, kind, message.
 
+// TODO(#162): placeholder fallback rows, moved here from HomeShell.jsx.
+// Jeremy has flagged dummy-data-as-failure-state as bad UX — replace with
+// an honest offline/empty state when #162 (live GitHub feed fix) is done.
+const ACTIVITY = [
+  { t: '00:02', kind: 'COMMIT',   tone: 'accent', msg: 'index.html — homepage relaunch, draft 4' },
+  { t: '00:41', kind: 'CHECK-IN', tone: 'info',   msg: 'mood: focused · slept 7h · zero anxiety' },
+  { t: '03:11', kind: 'AGENT',    tone: 'ok',     msg: 'canon reconciliation · 0 orphans' },
+  { t: '11:08', kind: 'COMMIT',   tone: 'accent', msg: 'first-month.html — added July note' },
+  { t: '14:22', kind: 'AGENT',    tone: 'warn',   msg: 'pantry ledger · cardamom missing (R!)' },
+  { t: '18:00', kind: 'CHECK-IN', tone: 'info',   msg: 'evening recap · 3 wins, 1 bite' },
+];
+
 // Map a GitHub event payload → our row shape.
 function formatEvent(ev) {
   const t = new Date(ev.created_at);

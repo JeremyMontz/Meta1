@@ -4,18 +4,62 @@
 // dividers, and a single Pirata flourish in the hero — Mr Hyde shows up, but
 // doesn't take over.
 
+// ── Live agent data — ONE pipeline, shared with dashboard.html ────────────
+// Fetches each domain's checkin tab using the helpers loaded from
+// components/agent-card.js (csvUrl, parseCSV, compositeRows). The same
+// renderCard() renderer used by dashboard.html and the agent pages draws
+// the inspector card, so all three surfaces show the identical card.
+const AGENT_ENTRIES = AGENTS.map(a => ({
+  agentId: a.id,
+  tab: a.id === 'jeremy' ? 'HumanCheckin' : a.name + 'Checkin',
+  domain: a.name,
+  isHuman: a.id === 'jeremy',
+  url: a.id === 'jeremy' ? null : 'agents/' + a.id + '/' + a.id + '.html',
+}));
+
+const useAgentData = () => {
+  const [data, setData] = React.useState({ comps: null, fetchStatus: 'loading' });
+  const load = React.useCallback(() => {
+    setData(d => ({ ...d, fetchStatus: 'loading' }));
+    Promise.all(AGENT_ENTRIES.map(entry =>
+      fetch(csvUrl(entry.tab) + '&cachebust=' + Date.now())
+        .then(r => r.text())
+        .then(text => ({ entry, comp: compositeRows(parseCSV(text)) }))
+        .catch(() => ({ entry, comp: null }))
+    )).then(results => {
+      const comps = {};
+      let anyLive = false;
+      results.forEach(({ entry, comp }) => {
+        comps[entry.agentId] = { entry, comp };
+        if (comp && comp.upperRow) anyLive = true;
+      });
+      setData({ comps, fetchStatus: anyLive ? 'live' : 'offline' });
+    });
+  }, []);
+  React.useEffect(() => { load(); }, [load]);
+  return { ...data, refetch: load };
+};
+
 const HomeMain = () => {
   const [hovered, setHovered] = React.useState(null);
 
-  // Live Sheet data — starts with static AGENTS, upgrades to live on fetch.
-  // fetchStatus: 'loading' | 'live' | 'offline'
-  const { agents: liveAgents, fetchStatus, refetch } = useSheetData();
+  // Live Sheet data. fetchStatus: 'loading' | 'live' | 'offline'
+  const { comps, fetchStatus, refetch } = useAgentData();
 
-  // Resolve hovered node → an AgentCard data shape (so the inspector pane
-  // re-renders consistently). Agent node ids are prefixed with 'a-' in the
-  // graph to disambiguate from same-named projects, so strip that here.
-  const inspectorAgent = hovered?.kind === 'agent'
-    ? liveAgents.find(a => 'a-' + a.id === hovered.id)
+  // Graph nodes need a state per agent — derived from the Sheet, never
+  // from static placeholders. 'nodata' renders as a normal (unflagged) node.
+  const liveAgents = React.useMemo(() => AGENTS.map(a => ({
+    ...a,
+    state: comps && comps[a.id] && comps[a.id].comp
+      ? comps[a.id].comp.displayStatus
+      : 'nodata',
+  })), [comps]);
+
+  // Resolve hovered node → { entry, comp } for the shared card renderer.
+  // Agent node ids are prefixed with 'a-' in the graph to disambiguate
+  // from same-named projects, so strip that here.
+  const inspectorData = hovered?.kind === 'agent'
+    ? (comps ? comps[hovered.id.replace(/^a-/, '')] : null)
     : null;
 
   return (
@@ -29,10 +73,10 @@ const HomeMain = () => {
           <div>
             <Eyebrow color="var(--candle)">// 01 · THE CURRENT GRAPH</Eyebrow>
             <h2 style={{ marginTop: 8 }}>
-              Three projects. Seven domains. Countless agents. <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>One human.</span>
+              {PAGE_HOME.graph.heading} <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>{PAGE_HOME.graph.headingAccent}</span>
             </h2>
             <p style={{ marginTop: 8, maxWidth: 660 }}>
-              Hover any node to inspect — agents surface their latest session card. Click to enter their page.
+              {PAGE_HOME.graph.hoverLine}
             </p>
           </div>
           <GraphLegend agents={liveAgents} fetchStatus={fetchStatus} />
@@ -43,7 +87,12 @@ const HomeMain = () => {
           gap: 20, alignItems: 'stretch',
         }}>
           <AgentGraph hovered={hovered} setHovered={setHovered} agents={liveAgents} fetchStatus={fetchStatus} />
-          <Inspector hovered={hovered} agent={inspectorAgent} agents={liveAgents} fetchStatus={fetchStatus} />
+          {/* height:0 + minHeight:100% — the inspector adopts the graph's row
+              height without contributing its own, so the graph never resizes
+              when inspector content changes (the old hover-jitter bug). */}
+          <div style={{ height: 0, minHeight: '100%' }}>
+            <Inspector hovered={hovered} agentData={inspectorData} agents={liveAgents} fetchStatus={fetchStatus} />
+          </div>
         </div>
       </section>
 
@@ -63,7 +112,7 @@ const HomeMain = () => {
         <PortfolioTeaser />
       </section>
 
-      <Divider label="// 03 · FIELD NOTES" tone="muted" />
+      <Divider label="// 03 · FIELD NOTES" tone="candle" />
 
       {/* ─── WRITING ──────────────────────────────────────────────── */}
       <section id="articles" style={{ padding: '48px 40px' }}>
@@ -101,7 +150,7 @@ const Hero = () => (
           color: 'var(--candle)',
           textShadow: '0 0 18px color-mix(in oklch, var(--candle) 30%, transparent)',
         }}>
-          It's live! The experiment continues...
+          {PAGE_HOME.hero.flourish}
         </div>
 
         <h1 style={{
@@ -110,7 +159,7 @@ const Hero = () => (
           fontVariationSettings: '"opsz" 144',
           margin: 0,
         }}>
-          Jeremy Montz.
+          {PAGE_HOME.hero.headline}
         </h1>
         <div style={{
           marginTop: 6,
@@ -119,23 +168,21 @@ const Hero = () => (
           fontVariationSettings: '"opsz" 72, "SOFT" 100',
           color: 'var(--fg-muted)',
         }}>
-          operating <span style={{ color: 'var(--accent)', fontStyle: 'normal', fontWeight: 600 }}> Claudemonzter</span>.
+          {PAGE_HOME.hero.subhead} <span style={{ color: 'var(--accent)', fontStyle: 'normal', fontWeight: 600 }}>{PAGE_HOME.hero.subheadAccent}</span>
         </div>
 
         <p style={{
           marginTop: 26, maxWidth: 580,
           fontSize: 17, lineHeight: 1.5,
         }}>
-          Senior PO by day, mad scientist by night. Claudemonzter is my
-          first home-built multi agentic laboratory — an operator-plus-agents experiment I'm running in
-          public to find out what these tools and LLMs can actually do.
+          {PAGE_HOME.hero.lead}
         </p>
 
         <p style={{
           marginTop: 8, maxWidth: 580,
           fontSize: 14, color: 'var(--fg-subtle)',
         }}>
-          90% lab coat. 10% monster. Business up front, party in the back.
+          {PAGE_HOME.hero.subline}
         </p>
 
         <div style={{ marginTop: 28, display: 'flex', gap: 12 }}>
@@ -162,7 +209,7 @@ const GraphLegend = ({ agents, fetchStatus }) => {
   const statusColor = fetchStatus === 'live' ? 'var(--ok)' :
                       fetchStatus === 'loading' ? 'var(--info)' : 'var(--warn)';
   const statusLabel = fetchStatus === 'live' ? 'LIVE' :
-                      fetchStatus === 'loading' ? 'FETCHING...' : 'STATIC';
+                      fetchStatus === 'loading' ? 'FETCHING...' : 'OFFLINE';
 
   return (
     <div style={{ display: 'flex', gap: 10 }}>
@@ -230,7 +277,7 @@ const Divider = ({ label, tone }) => {
 // ── NOW BLOCK ──────────────────────────────────────────────────────────────
 const NowBlock = () => (
   <div>
-    <Eyebrow color="var(--candle)">// NOW · WK 19, 2026</Eyebrow>
+    <Eyebrow color="var(--candle)">// ACTIVE</Eyebrow>
     <h2 style={{ marginTop: 10, marginBottom: 18 }}>
       What's <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>hot</span> under the lamp.
     </h2>
@@ -256,9 +303,9 @@ const NowBlock = () => (
     </ul>
     <div className="scribble" style={{
       display: 'inline-block', marginTop: 18,
-      color: 'var(--fg-muted)', fontSize: 22,
+      color: 'var(--candle)', fontSize: 22,
     }}>
-      (tested it at 3am · still bites)
+      {PAGE_HOME.now.scribble}
     </div>
   </div>
 );
@@ -271,7 +318,7 @@ const PortfolioTeaser = () => (
       Portfolio projects
     </h3>
     <p style={{ fontSize: 14, marginBottom: 18 }}>
-      Selected experiments published for visibility
+      {PAGE_HOME.showcase.sub}
     </p>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
       {PORTFOLIO.map((p, i) => (
