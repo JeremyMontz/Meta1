@@ -99,7 +99,11 @@ const AgentGraph = ({ hovered, setHovered, agents: agentsProp, fetchStatus }) =>
       position: 'relative',
       border: '1px solid var(--line)',
       background: 'var(--bg-elev-1)',
-      aspectRatio: '1000 / 640',
+      // 1000/640 matches the SVG viewBox exactly; the taller box adds
+      // breathing room so the inspector (which adopts this row's height)
+      // fits its content without an internal scrollbar. The SVG centers
+      // vertically in the extra space.
+      aspectRatio: '1000 / 690',
       overflow: 'hidden',
       boxSizing: 'border-box',
     }}>

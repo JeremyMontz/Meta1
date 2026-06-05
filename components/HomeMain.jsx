@@ -203,56 +203,43 @@ const Hero = () => (
 const GraphLegend = ({ agents, fetchStatus }) => {
   const ag = agents || AGENTS;
   const activeCt = ag.filter(a => a.state === 'active').length;
+  const openCt = ag.filter(a => a.state === 'open').length;
   const flaggedCt = ag.filter(a => a.state === 'flagged').length;
 
-  // Fetch status indicator
-  const statusColor = fetchStatus === 'live' ? 'var(--ok)' :
-                      fetchStatus === 'loading' ? 'var(--info)' : 'var(--warn)';
-  const statusLabel = fetchStatus === 'live' ? 'LIVE' :
-                      fetchStatus === 'loading' ? 'FETCHING...' : 'OFFLINE';
+  // One chip per state that matters: active (green), open (teal), flagged
+  // (gold, only when > 0). Idle isn't counted. While fetching, a pulsing
+  // FETCHING chip; if the Sheet is unreachable, an OFFLINE chip — never
+  // fake counts.
+  const chip = (color, content, pulse) => (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 8,
+      padding: '6px 12px',
+      border: `1px solid color-mix(in oklch, ${color} 40%, transparent)`,
+      borderRadius: 2,
+      fontFamily: 'var(--font-mono)', fontSize: 11,
+      letterSpacing: '0.14em', textTransform: 'uppercase',
+      color: color,
+    }}>
+      <span style={{
+        width: 7, height: 7, borderRadius: '50%', background: color,
+        ...(pulse ? { animation: 'pulse-dot 1.2s var(--ease-out) infinite', color: color } : {}),
+      }} />
+      {content}
+    </span>
+  );
+
+  if (fetchStatus === 'loading') {
+    return <div style={{ display: 'flex', gap: 10 }}>{chip('var(--info)', 'FETCHING...', true)}</div>;
+  }
+  if (fetchStatus === 'offline') {
+    return <div style={{ display: 'flex', gap: 10 }}>{chip('var(--warn)', 'OFFLINE')}</div>;
+  }
 
   return (
     <div style={{ display: 'flex', gap: 10 }}>
-      <span style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8,
-        padding: '6px 12px',
-        border: '1px solid color-mix(in oklch, var(--ok) 40%, transparent)',
-        borderRadius: 2,
-        fontFamily: 'var(--font-mono)', fontSize: 11,
-        letterSpacing: '0.14em', textTransform: 'uppercase',
-        color: 'var(--ok)',
-      }}>
-        <StatusDot tone="ok" glow /> {activeCt} ACTIVE
-      </span>
-      {flaggedCt > 0 && (
-        <span style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          padding: '6px 12px',
-          border: '1px solid color-mix(in oklch, var(--warn) 40%, transparent)',
-          borderRadius: 2,
-          fontFamily: 'var(--font-mono)', fontSize: 11,
-          letterSpacing: '0.14em', textTransform: 'uppercase',
-          color: 'var(--warn)',
-        }}>
-          <StatusDot tone="warn" /> {flaggedCt} FLAGGED
-        </span>
-      )}
-      <span style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8,
-        padding: '6px 12px',
-        border: `1px solid color-mix(in oklch, ${statusColor} 40%, transparent)`,
-        borderRadius: 2,
-        fontFamily: 'var(--font-mono)', fontSize: 11,
-        letterSpacing: '0.14em', textTransform: 'uppercase',
-        color: statusColor,
-      }}>
-        <span style={{
-          width: 7, height: 7, borderRadius: '50%',
-          background: statusColor,
-          ...(fetchStatus === 'loading' ? { animation: 'pulse-dot 1.2s var(--ease-out) infinite', color: statusColor } : {}),
-        }} />
-        {statusLabel}
-      </span>
+      {chip('var(--ok)', activeCt + ' ACTIVE')}
+      {chip('var(--info)', openCt + ' OPEN')}
+      {flaggedCt > 0 && chip('var(--warn)', flaggedCt + ' FLAGGED')}
     </div>
   );
 };
