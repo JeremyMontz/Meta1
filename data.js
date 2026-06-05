@@ -206,63 +206,38 @@ window.PROJECTS = [
   { id: 'self',      label: 'SELF',      blurb: 'human wetware · sneakernet  · not the beauty or the brains but doing his best', tone: 'warn'   },
 ];
 
-// ─── AGENTS · the eight agents (canonical) ────────────────────────────────
-// These power the graph's outer ring and the inspector cards. The shape
-// matches the live Agent Status dashboard exactly. In production this will
-// come from the Google Sheet via GAS; for now these are placeholders to
-// give the homepage and inspector something to render.
+// ─── AGENTS · the eight agents (identity only) ────────────────────────────
+// These power the graph's outer ring. IDENTITY lives here; everything
+// VOLATILE (status, mood, flags, session, last-seen) comes live from the
+// checkin Sheet — never from this file. The inspector card, dashboard.html,
+// and the agent pages all render from the same Sheet pipeline
+// (components/agent-card.js). If the Sheet has no data, the card says
+// NO DATA — there is no placeholder content by design.
 //
 // fields:
-//   id        — slug, unique
+//   id        — slug, unique; also the agent page folder (agents/{id}/)
+//               and the checkin tab mapping ({Name}Checkin / HumanCheckin)
 //   name      — display name (e.g. 'House')
 //   project   — id of one of the PROJECTS above
 //   role      — short role, e.g. 'architect'
-//   blurb     — italic one-liner shown on the card
-//   mood      — single-word mood
-//   state     — 'active' or 'flagged'
-//   flag      — optional alert string (only renders when set)
-//   session   — last session summary
-//   lastSeen  — display timestamp
+//   blurb     — italic one-liner (identity tagline, not status)
 window.AGENTS = [
   { id: 'meta1',    name: 'Meta1',    project: 'meta1',     role: 'architect',
-    blurb:    'The architect. Proposes structures. Defers direction to Jeremy.',
-    mood:     'Constructive', state: 'active',
-    session:  'Designed checkin schema for agent self-reporting. Reviewed v2 canon integrity rules. Drafted design doc v0.2.',
-    lastSeen: 'May 13, 6:00 PM' },
+    blurb: 'The architect. Proposes structures. Defers direction to Jeremy.' },
   { id: 'bond',     name: 'Bond',     project: 'meta1',     role: 'gatekeeper',
-    blurb:    'The gatekeeper. Tests what Meta1 builds. Ships what passes.',
-    mood:     'Sharp', state: 'on hiatus',
-    session:  'Ran test suite against skill-catalog wiki article. Two QC items flagged for Meta1.',
-    lastSeen: 'May 13, 6:00 PM' },
+    blurb: 'The gatekeeper. Tests what Meta1 builds. Ships what passes.' },
   { id: 'house',    name: 'House',    project: 'pura-vida', role: 'project manager',
-    blurb:    'The project manager. Tracks renovation scope, budget, timeline.',
-    mood:     'Steady', state: 'active', flag: 'Permit approval delayed — City backlog, 3 week estimate',
-    session:  'Reviewed contractor bids for bathroom tile. Updated budget tracker. Permit timeline slipping.',
-    lastSeen: 'May 13, 6:00 PM' },
+    blurb: 'The project manager. Tracks renovation scope, budget, timeline.' },
   { id: 'freedom',  name: 'Freedom',  project: 'pura-vida', role: 'advocate',
-    blurb:    'The advocate. Financial independence, debt strategy, milestone tracking.',
-    mood:     'Determined', state: 'active',
-    session:  'Reviewed Q2 debt paydown schedule. Updated milestone tracker with April actuals.',
-    lastSeen: 'May 13, 6:00 PM' },
+    blurb: 'The advocate. Financial independence, debt strategy, milestone tracking.' },
   { id: 'evolve',   name: 'Evolve',   project: 'pura-vida', role: 'coach',
-    blurb:    'The coach. AI career development, learning log, skill assessment.',
-    mood:     'Grounded', state: 'active',
-    session:  'Updated active learning log with Claude Code patterns. Reviewed coaching register alignment.',
-    lastSeen: 'May 11, 6:00 PM' },
+    blurb: 'The coach. AI career development, learning log, skill assessment.' },
   { id: 'assessor', name: 'Assessor', project: 'pura-vida', role: 'analyst',
-    blurb:    'The analyst. Property assessment, comparable research, valuation.',
-    mood:     'Methodical', state: 'active',
-    session:  'Pulled comparable sales for Q1. Updated valuation model with new assessment data.',
-    lastSeen: 'May 13, 6:00 PM' },
+    blurb: 'The analyst. Property assessment, comparable research, valuation.' },
   { id: 'phil',     name: 'Phil',     project: 'phil',      role: 'philosopher',
-    blurb:    'The philosopher. Consciousness inquiry, lived experience, open threads.',
-    mood:     'Present', state: 'active',
-    session:  'Explored the what-is-it-like thread through PKD and Ramana. Updated open-threads.md.',
-    lastSeen: 'May 13, 6:00 PM' },
+    blurb: 'The philosopher. Consciousness inquiry, lived experience, open threads.' },
   { id: 'jeremy',   name: 'Jeremy',   project: 'self',      role: 'self',
-    blurb:    'The human. Still part of the graph.',
-    mood:     'curious', state: 'flagged', flag: 'Yes — freak',
-    session:  '', lastSeen: 'May 13, 9:06 PM' },
+    blurb: 'The human. Still part of the graph.' },
 ];
 
 // ─── LEVELS · the L1-L5 chip set on agent cards ───────────────────────────

@@ -36,6 +36,17 @@
     transform: rotate(-3deg);
     display: inline-block;
   }
+
+  /* Config-layer + status tokens used by the shared agent card
+     (components/agent-card.js) — same values as dashboard.html */
+  :root {
+    --L1: #7b61ff;
+    --L2: #5b8def;
+    --L3: #4ade80;
+    --L4: #f5c56a;
+    --L5: #ff6b6b;
+    --open: var(--info);
+  }
 </style>
 
 <!-- React + Babel -->
@@ -47,11 +58,52 @@
 
 <div id="root"></div>
 
-<!-- Content data (edit me!) — loaded plain so it's the simplest possible surface. -->
-<script src="data.js?v=3.3"></script>
+<!-- Content data (edit me!) — loaded plain so it's the simplest possible surface.
+     Shared facts (name, links) and lists (articles, portfolio, agents) live there. -->
+<script src="data.js?v=3.4"></script>
 
-<!-- Live Sheet overlay — fetches volatile agent state at runtime -->
-<script src="sheet-fetch.js?v=3.3"></script>
+<!-- ════════════════════════════════════════════════════════════════════
+     PAGE CONTENT · the words on this page — edit freely.
+     Rule of thumb: page-specific words live HERE in the page file;
+     shared facts and lists live in data.js; layout lives in components.
+     ════════════════════════════════════════════════════════════════════ -->
+<script>
+window.PAGE_HOME = {
+
+  // ── Hero (top of page) ──
+  hero: {
+    flourish: "It's live! The experiment continues...",          // gold flickering line
+    headline: "Jeremy Montz.",                                    // big display headline
+    subhead: "operating",                                         // muted italic part
+    subheadAccent: "Claudemonzter.",                              // purple bold part
+    lead: "Senior PO by day, mad scientist by night. Claudemonzter is my first home-built multi agentic laboratory — an operator-plus-agents experiment I'm running in public to find out what these tools and LLMs can actually do.",
+    subline: "90% lab coat. 10% monster. Business up front, party in the back.",
+  },
+
+  // ── Section 01 · the graph ──
+  graph: {
+    heading: "Three projects. Seven domains. Countless agents.",  // plain part
+    headingAccent: "One human.",                                  // italic purple part
+    hoverLine: "Hover any node to inspect — agents surface their latest session card. Click to enter their page.",
+  },
+
+  // ── Section 02 · now + showcase ──
+  now: {
+    scribble: "(under construction · labor of love)",             // handwritten gold note
+  },
+  showcase: {
+    sub: "Selected experiments",                                  // line under "Portfolio projects"
+  },
+
+};
+</script>
+
+<!-- Live agent data — same Sheet pipeline + card renderer as dashboard.html -->
+<script>
+  window.SHEET_ID   = "16OAh0lBMAZJLhJqsu1574PBsD7tkP_sqHIZa58t_-VI";
+  window.STALE_DAYS = 7;
+</script>
+<script src="components/agent-card.js"></script>
 
 <!-- Shared atoms + data -->
 <script type="text/babel" src="components/Wordmark.jsx"></script>
