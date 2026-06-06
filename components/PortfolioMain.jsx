@@ -3,7 +3,7 @@
 // Page prose lives in window.PAGE_PORTFOLIO (in portfolio.html). Facts and lists
 // live in data.js (ME, SPEC, PORTFOLIO). Volatile agent state never lives here.
 //
-// Sections: Hero → 01 The Work → 02 What It Proves (stub) → 03 Reach.
+// Sections: Hero → 01 What It Proves (stub) → 02 Live from the Lab → 03 The Work → Reach.
 
 const PG = (typeof window !== 'undefined' && window.PAGE_PORTFOLIO) || {};
 
@@ -12,8 +12,9 @@ const PortfolioMain = () => {
     <div className="home-shell home-page bg-grid">
       <TopNav active="PORTFOLIO" />
       <PortfolioHero />
-      <PortfolioMatrix />
       <WhatItProves />
+      <LiveFromLab />
+      <PortfolioMatrix />
       <PortfolioReach />
       <Footer />
     </div>
@@ -98,7 +99,76 @@ const PortfolioHero = () => {
   );
 };
 
-// ── 01 · THE WORK ──────────────────────────────────────────────────────────
+// ── 01 · WHAT IT PROVES ─────────────────────────────────────────────────────
+// STUB / carve-out. These six competencies become an interactive node graph
+// (index-style inspector, but nodes = skills). Static grid for now; the dashed
+// frame + IN DESIGN marker flag it as not-yet-final on purpose.
+const PROVES = [
+  ['01', 'Multi-agent orchestration', 'Eight agents, four projects, one shared canon — roles, routing, handoffs.'],
+  ['02', 'Eval & QC infrastructure',  'Adversarial validation and canon-integrity checks; a gatekeeper ships only what passes.'],
+  ['03', 'Persona systems',           'A dial-based persona matrix modulates each agent’s tone and output.'],
+  ['04', 'Prompt & skill engineering','Reusable skills with structured triggers — prompt design as durable tooling.'],
+  ['05', 'Memory architecture',       'Layered, two-tier memory that bridges sessions and decodes shorthand.'],
+  ['06', 'Learning in public',        'Essays and lab logs documenting the build honestly — mistakes and all.'],
+];
+
+const WhatItProves = () => {
+  const s = PG.proves || {};
+  return (
+    <section style={{ padding: '24px 40px 56px', borderTop: '1px solid var(--line)' }}>
+      <div style={{ paddingTop: 32 }}>
+        <Eyebrow color="var(--candle)">// {s.eyebrow}</Eyebrow>
+        <h2 style={{ marginTop: 8, marginBottom: 8 }}>{s.heading}</h2>
+        <p style={{ maxWidth: 560 }}>{s.sub}</p>
+      </div>
+
+      <div style={{ marginTop: 24, border: '1px dashed var(--line-loud)', padding: 18 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <Tick>// COMPETENCY GRAPH</Tick>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.16em', color: 'var(--candle)' }}>
+            ◷ IN DESIGN
+          </span>
+        </div>
+
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 1, background: 'var(--line-soft)', border: '1px solid var(--line-soft)',
+        }}>
+          {PROVES.map(([n, t, d]) => (
+            <div key={n} style={{ background: 'var(--bg-elev-1)', padding: 16 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.14em', color: 'var(--accent)' }}>{n}</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 18, lineHeight: 1.15, marginTop: 6 }}>{t}</div>
+              <div style={{ fontSize: 13, color: 'var(--fg-muted)', lineHeight: 1.45, marginTop: 6 }}>{d}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="scribble" style={{ marginTop: 14, color: 'var(--fg-muted)', fontSize: 18 }}>
+          (these become an interactive node graph — like the homepage, but the nodes are skills)
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ── 02 · LIVE FROM THE LAB ──────────────────────────────────────────────────
+// Section header + the real GitHub commit feed (components/LiveActivity.jsx,
+// lifted from the homepage). The feed is the receipt that backs the claim above.
+const LiveFromLab = () => {
+  const s = PG.live || {};
+  return (
+    <>
+      <div style={{ padding: '32px 40px 16px', borderTop: '1px solid var(--line)' }}>
+        <Eyebrow color="var(--candle)">// {s.eyebrow}</Eyebrow>
+        <h2 style={{ marginTop: 8, marginBottom: 8 }}>{s.heading}</h2>
+        <p style={{ maxWidth: 560 }}>{s.sub}</p>
+      </div>
+      <LiveActivity />
+    </>
+  );
+};
+
+// ── 03 · THE WORK ──────────────────────────────────────────────────────────
 // Project rows read from data.js PORTFOLIO. Expanded view uses the optional
 // `details` and `excerpt` fields the homepage teaser ignores.
 const PortfolioMatrix = () => {
@@ -133,7 +203,7 @@ const ProjectRow = ({ p, first, last }) => {
     <a href={p.href} style={{
       display: 'grid', gridTemplateColumns: '80px 1fr 320px',
       gap: 32, padding: '36px 0',
-      borderTop: first ? '1px solid var(--line)' : '1px solid var(--line)',
+      borderTop: '1px solid var(--line)',
       borderBottom: last ? '1px solid var(--line)' : 'none',
       transition: 'background 200ms var(--ease-out)',
     }}
@@ -203,101 +273,33 @@ const ProjectRow = ({ p, first, last }) => {
   );
 };
 
-// ── 02 · WHAT IT PROVES ─────────────────────────────────────────────────────
-// STUB / carve-out. These six competencies become an interactive node graph
-// (index-style inspector, but nodes = skills). Static grid for now; the dashed
-// frame + IN DESIGN marker flag it as not-yet-final on purpose.
-const PROVES = [
-  ['01', 'Multi-agent orchestration', 'Eight agents, four projects, one shared canon — roles, routing, handoffs.'],
-  ['02', 'Eval & QC infrastructure',  'Adversarial validation and canon-integrity checks; a gatekeeper ships only what passes.'],
-  ['03', 'Persona systems',           'A dial-based persona matrix modulates each agent’s tone and output.'],
-  ['04', 'Prompt & skill engineering','Reusable skills with structured triggers — prompt design as durable tooling.'],
-  ['05', 'Memory architecture',       'Layered, two-tier memory that bridges sessions and decodes shorthand.'],
-  ['06', 'Learning in public',        'Essays and lab logs documenting the build honestly — mistakes and all.'],
-];
-
-const WhatItProves = () => {
-  const s = PG.proves || {};
-  return (
-    <section style={{ padding: '24px 40px 56px', borderTop: '1px solid var(--line)' }}>
-      <div style={{ paddingTop: 32 }}>
-        <Eyebrow color="var(--candle)">// {s.eyebrow}</Eyebrow>
-        <h2 style={{ marginTop: 8, marginBottom: 8 }}>{s.heading}</h2>
-        <p style={{ maxWidth: 560 }}>{s.sub}</p>
-      </div>
-
-      <div style={{ marginTop: 24, border: '1px dashed var(--line-loud)', padding: 18 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <Tick>// COMPETENCY GRAPH</Tick>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.16em', color: 'var(--candle)' }}>
-            ◷ IN DESIGN
-          </span>
-        </div>
-
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 1, background: 'var(--line-soft)', border: '1px solid var(--line-soft)',
-        }}>
-          {PROVES.map(([n, t, d]) => (
-            <div key={n} style={{ background: 'var(--bg-elev-1)', padding: 16 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.14em', color: 'var(--accent)' }}>{n}</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 18, lineHeight: 1.15, marginTop: 6 }}>{t}</div>
-              <div style={{ fontSize: 13, color: 'var(--fg-muted)', lineHeight: 1.45, marginTop: 6 }}>{d}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="scribble" style={{ marginTop: 14, color: 'var(--fg-muted)', fontSize: 18 }}>
-          (these become an interactive node graph — like the homepage, but the nodes are skills)
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// ── 03 · REACH ──────────────────────────────────────────────────────────────
-// Closing CTA. Contact targets read from data.js ME.
+// ── REACH ───────────────────────────────────────────────────────────────────
+// Closing CTA. Email + résumé are the active next steps the footer doesn't give;
+// passive social links stay in the footer. Email comes from data.js ME.email
+// (add it there); falls back to the public address until then.
 const PortfolioReach = () => {
   const s = PG.reach || {};
+  const email = (typeof ME !== 'undefined' && ME.email) || 'jeremydmontz@gmail.com';
   return (
     <section id="reach" style={{ padding: '48px 40px 64px', borderTop: '1px solid var(--line)' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 48, alignItems: 'flex-start' }}>
-        <div>
-          <Eyebrow color="var(--candle)">// {s.eyebrow}</Eyebrow>
-          <h2 style={{ marginTop: 10, marginBottom: 14 }}>{s.heading}</h2>
-          <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--fg-muted)', maxWidth: 460 }}>{s.sub}</p>
-        </div>
+      <Eyebrow color="var(--candle)">// {s.eyebrow}</Eyebrow>
+      <h2 style={{ marginTop: 10, marginBottom: 14 }}>{s.heading}</h2>
+      <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--fg-muted)', maxWidth: 520, marginBottom: 24 }}>{s.sub}</p>
 
-        <div style={{ border: '1px solid var(--line)', background: 'var(--bg-elev-1)', padding: 20 }}>
-          <Eyebrow color="var(--candle)">// REACH</Eyebrow>
-          <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <a href={`https://${ME.github}`} style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              padding: '10px 12px', border: '1px solid var(--line-loud)',
-              fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.14em',
-            }}>
-              <span><span style={{ color: 'var(--accent)' }}>↗ </span>GITHUB</span>
-              <span style={{ color: 'var(--fg-subtle)' }}>@{ME.ghUser}</span>
-            </a>
-            <a href={`https://${ME.linkedin}`} style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              padding: '10px 12px', border: '1px solid var(--line-loud)',
-              fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.14em',
-            }}>
-              <span><span style={{ color: 'var(--accent)' }}>↗ </span>LINKEDIN</span>
-              <span style={{ color: 'var(--fg-subtle)' }}>/{ME.linkedin.split('/').pop()}</span>
-            </a>
-            <a href="index.html" style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              padding: '10px 12px', border: '1px solid color-mix(in oklch, var(--accent) 40%, transparent)',
-              background: 'var(--accent-low)',
-              fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.14em', color: 'var(--accent)',
-            }}>
-              <span>▸ THE LAB</span>
-              <span>→</span>
-            </a>
-          </div>
-        </div>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+        <a href={`mailto:${email}`} style={{ textDecoration: 'none' }}>
+          <Button variant="primary">▸ EMAIL ME</Button>
+        </a>
+        <a href="about/assets/jeremy-montz-resume.pdf" download style={{ textDecoration: 'none' }}>
+          <Button variant="secondary">↓ RÉSUMÉ (PDF)</Button>
+        </a>
+        <a href="about/human.html" style={{
+          marginLeft: 6, fontFamily: 'var(--font-mono)', fontSize: 11,
+          letterSpacing: '0.16em', textTransform: 'uppercase',
+          color: 'var(--fg-subtle)', borderBottom: '1px solid var(--line-loud)',
+        }}>
+          More about me →
+        </a>
       </div>
     </section>
   );
