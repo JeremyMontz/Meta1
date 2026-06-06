@@ -124,6 +124,11 @@
   }
   .btn-link:hover { color: var(--accent); border-color: var(--accent); }
 
+  /* Buttons live inside .article-body, whose `a` rule would otherwise
+     repaint them accent + underline. These higher-specificity rules win. */
+  .article-body a.btn-resume { color: var(--bg); border-bottom: none; }
+  .article-body a.btn-link   { border-bottom: none; }
+
   .fact-grid {
     display: grid; grid-template-columns: 130px 1fr; gap: 8px 20px;
     font-size: var(--fs-md); margin: 4px 0 8px;
@@ -174,7 +179,7 @@
     </div>
 
     <p class="lede">
-      I create products. Most of my career has been the same skill at a different scale: translator, software trainer, product manager — take the complex thing, make it graspable, help others act on it.
+      I create products. Most of my career has been the same skill at a different scale: translator, software trainer, product manager — take the complex thing, make it graspable, help others act on it. You're looking at an example right now.
     </p>
 
     <h2>What I do</h2>
@@ -184,12 +189,12 @@
 
     <h2>Now</h2>
     <p>
-      I'm pivoting toward AI product management and building my first AI product in the open. Claudemonzter — this site — is the lab. I am tinkering with the dials and challenging the platforms and the models and myself at the same time. The AI material is new; the lens is a lifetime.
+      I'm pivoting to AI product management the only way that convinces me — by building, in the open. Claudemonzter, this entire site, is the lab: a multi-agent system I designed and run, where I tinker with the dials and pressure-test the platforms, the models, and myself. It isn't a commercial product. It's the work itself — so don't take my word for any of this. See the <a href="../portfolio.html">portfolio</a>, watch it evolve in <a href="history.html">our history</a>, or meet the <a href="../dashboard.html">agents</a>.
     </p>
 
     <h2>Background</h2>
     <p>
-      Before tech, I served in the U.S. Marine Corps. I hold a BA from the University of Oregon, where I continued to study russian and the major world religions. I wrote an honors thesis with a philosophical analysis of the similarities of mystical experiences across different cultures. Then I got a real job and have been working with data and technology and building software products for most of my professional career.
+      Before tech, I served in the U.S. Marine Corps. I hold a BA from the University of Oregon, where I studied Russian and the major world religions, and wrote an honors thesis on the common threads in mystical experience across cultures. Then I got a real job — and have spent most of my career since building software products and working with data.
     </p>
 
     <h2>How I work</h2>
@@ -198,9 +203,10 @@
     </p>
 
     <dl class="fact-grid">
+      <dt>Looking for</dt><dd>AI product roles where systems thinking and shipping both count — contract or full-time, remote.</dd>
       <dt>Focus</dt><dd>AI product management · agentic systems · data analytics</dd>
       <dt>Tools</dt><dd>Jira, Aha!, GitHub, Figma, SQL, AWS</dd>
-      <dt>Based</dt><dd>Portland, Oregon · open to remote</dd>
+      <dt>Based</dt><dd>Portland, Oregon</dd>
       <dt>Résumé</dt><dd>Full work history and dates in the PDF above.</dd>
     </dl>
 
