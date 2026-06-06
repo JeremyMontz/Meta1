@@ -58,24 +58,31 @@ window.PAGE_PORTFOLIO = {
     graphLink: 'See the graph',               // appended to last body line, links index.html
   },
 
-  // ── 01 · The Work (project matrix; rows come from data.js PORTFOLIO) ──
-  work: {
-    eyebrow: '01 · THE WORK',
-    heading: 'Portfolio projects.',
-  },
-
-  // ── 02 · What It Proves (competency graph — stubbed; full design later) ──
+  // ── 01 · What It Proves (competency graph — stubbed; full design later) ──
   proves: {
-    eyebrow: '02 · WHAT IT PROVES',
+    eyebrow: '01 · WHAT IT PROVES',
     heading: 'Competencies, demonstrated.',
     sub: "The lab isn't the point — what it proves is. Each node is a product skill the system actually exercises.",
   },
 
-  // ── 03 · Reach (closing CTA; contact targets come from data.js ME) ──
+  // ── 02 · Live from the Lab (real GitHub commit feed via LiveActivity.jsx) ──
+  live: {
+    eyebrow: '02 · LIVE FROM THE LAB',
+    heading: 'The lab, live.',
+    sub: "Not a mockup. This is the actual commit stream of the system you're reading — pulled from GitHub at page load.",
+  },
+
+  // ── 03 · The Work (project matrix; rows come from data.js PORTFOLIO) ──
+  work: {
+    eyebrow: '03 · THE WORK',
+    heading: 'Portfolio projects.',
+  },
+
+  // ── Reach (closing CTA; email from data.js ME.email, résumé in about/assets) ──
   reach: {
-    eyebrow: '03 · REACH',
+    eyebrow: 'REACH',
     heading: "Let's talk.",
-    sub: 'Open to AI-native product roles. The fastest ways in are on the right.',
+    sub: 'Open to AI-native product roles — contract or full-time, remote. The fastest ways to reach me are right here.',
   },
 };
 </script>
@@ -83,6 +90,7 @@ window.PAGE_PORTFOLIO = {
 <script type="text/babel" src="components/Wordmark.jsx"></script>
 <script type="text/babel" src="components/Primitives.jsx"></script>
 <script type="text/babel" src="components/HomeShell.jsx"></script>
+<script type="text/babel" src="components/LiveActivity.jsx"></script>
 <script type="text/babel" src="components/PortfolioMain.jsx"></script>
 
 <script type="text/babel">
