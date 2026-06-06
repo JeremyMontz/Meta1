@@ -6,24 +6,29 @@
  * end with commas inside arrays/objects.
  *
  * What lives here:
- *   ME        — your bio, contact, name (top of every page)
- *   NOW       — the "Under the lamp" bullets on the homepage
- *   PORTFOLIO — the short Portfolio Projects list (homepage)
- *   ARTICLES  — recent writing entries (homepage + writing index)
- *   PROJECTS  — the four lab projects (graph + lab snapshot)
- *   AGENTS    — the eight agents (graph nodes, inspector cards)
- *   LEVELS    — the L1-L5 chip set on agent cards
- *   SITE      — canonical version, status (shown in nav + footer)
+ *   ME           — your bio, contact, name (top of every page)
+ *   NOW          — the "Under the lamp" bullets on the homepage
+ *   COMPETENCIES — the skill nodes in the portfolio "What It Proves" graph
+ *   PORTFOLIO    — the Portfolio Projects list (homepage + portfolio page)
+ *   ARTICLES     — recent writing entries (homepage + writing index)
+ *   PROJECTS     — the four lab projects (graph + lab snapshot)
+ *   AGENTS       — the eight agents (graph nodes, inspector cards)
+ *   LEVELS       — the L1-L5 chip set on agent cards
+ *   SITE         — canonical version, status (shown in nav + footer)
  *
  * Quick edits:
  *   - Update NOW       → change weekly to reflect current focus.
  *   - Add ARTICLE      → copy an existing block, change the fields, add comma.
  *   - Add AGENT        → same pattern; pick a project id that exists below.
  *   - Update bio       → edit the ME block at top.
+ *   - Tag evidence     → add competency ids to a Work/Article `demonstrates`
+ *                        array; it surfaces under that node automatically.
  *
  * Files I depend on:
  *   none. This is loaded as plain JS via <script src="data.js"></script>
  *   BEFORE the JSX components. The components read these as globals.
+ *   NOTE: bump the ?v= on the data.js <script> tag in each HTML page whenever
+ *   you change this file, or the browser/CDN will serve a cached old copy.
  * ========================================================================== */
 
 // ─── SITE · canonical metadata shown in nav, footer, hard stats ──────────
@@ -125,23 +130,58 @@ window.NOW = [
   'Launching Phils Journal',
 ];
 
+// ─── COMPETENCIES · the "What It Proves" graph (portfolio.html) ────────────
+// Static skill nodes for the competency graph. Each node's evidence is
+// computed at runtime: any PORTFOLIO or ARTICLES item whose `demonstrates`
+// array includes this id surfaces under the node. So you never edit the graph —
+// you tag a Work or Article and it shows up here automatically.
+//
+// fields:
+//   id    — slug; matched against `demonstrates` tags on works/articles
+//   node  — short label shown under the graph node
+//   label — full label shown in the inspector
+//   what  — what the skill is (recruiter-facing definition)
+//   mine  — what it means to me (personal, one line)
+window.COMPETENCIES = [
+  { id: 'agentic',    node: 'Agentic',       label: 'LLM & agentic literacy',
+    what: 'Using, prompting, and wiring LLMs and agents into a working product.',
+    mine: "I don't theorize about agents — I run a pack of them and clean up after them." },
+  { id: 'eval',       node: 'Eval & QC',     label: 'Eval & QC fluency',
+    what: 'Tests and metrics that catch confident-but-wrong AI before users do.',
+    mine: "The dangerous failure isn't a crash — it's a plausible lie, so I'm building a gatekeeper for it." },
+  { id: 'discovery',  node: 'Discovery',     label: 'AI-aware problem discovery',
+    what: 'Knowing which problems need a model and which just need a script.',
+    mine: 'Half of building this was deciding what not to hand an agent.' },
+  { id: 'collab',     node: 'Collaboration', label: 'Technical collaboration',
+    what: 'Turning fuzzy goals into precise specs a technical team can build from.',
+    mine: 'My agents only behave when the grounding doc is clear — same as any eng team.' },
+  { id: 'building',   node: 'Prototyping',   label: 'Rapid prototyping, in public',
+    what: 'Rough idea to working prototype, fast — with the work shown.',
+    mine: "This whole site is the prototype. You're standing in the receipts." },
+  { id: 'reflective', node: 'Reflective',    label: 'Responsible & reflective AI',
+    what: "Holding space for the harder questions — trust, bias, what it's like to be a system.",
+    mine: "Phil is where I let those questions breathe instead of pretending they're solved." },
+];
+
 // ─── PORTFOLIO · selected work ────────────────────────────────────────────
 // Each entry is a short card on the homepage's Showcase rail. The longer
 // version lives on the portfolio page itself.
 //
 // fields:
-//   id      — slug, unique
-//   no      — display number, e.g. '01'
-//   title   — display title
-//   blurb   — 1-sentence description
-//   status  — short label, e.g. 'WIP', 'LIVE', 'COMING SOON'
-//   tone    — 'warn' for WIP, 'na' for placeholder, 'ok' for shipped
-//   tag     — short uppercase tag
-//   href    — link target
-//   date    — display date string
-//   details — optional array of [key, value] pairs (portfolio page expanded view)
-//   excerpt — optional pull quote (portfolio page only). Kept on first-month
-//             only — pull-quotes lose their punch when every card has one.
+//   id           — slug, unique
+//   no           — display number, e.g. '01'
+//   title        — display title
+//   blurb        — 1-sentence description
+//   status       — short label, e.g. 'WIP', 'LIVE', 'COMING SOON'
+//   tone         — 'warn' for WIP, 'na' for placeholder, 'ok' for shipped
+//   tag          — short uppercase tag
+//   href         — link target
+//   date         — display date string
+//   details      — optional array of [key, value] pairs (portfolio page)
+//   excerpt      — optional pull quote (portfolio page). Kept on first-month
+//                  only — pull-quotes lose their punch when every card has one.
+//   demonstrates — competency ids this work proves (see COMPETENCIES). Surfaces
+//                  under those nodes in the What It Proves graph.
 window.PORTFOLIO = [
   {
     id: 'first-month',
@@ -153,6 +193,7 @@ window.PORTFOLIO = [
     tag: 'INTERACTIVE',
     href: 'writing/first-month.html',
     date: '4/19/2026',
+    demonstrates: ['building', 'agentic', 'discovery'],
     details: [
       ['ROLE',    'NO PRIOR AI EXPERIENCE'],
       ['STARTED', 'April 2026'],
@@ -169,6 +210,7 @@ window.PORTFOLIO = [
     tag: 'DATA INPUT',
     href: 'agents/house/house-timeline.html',
     date: '04/2026 →',
+    demonstrates: ['collab', 'building'],
     details: [
       ['ROLE',    'PROJECT MEETS PRODUCT MANAGER'],
       ['STARTED', 'March 2026'],
@@ -185,6 +227,7 @@ window.PORTFOLIO = [
     tag: 'SKILL',
     href: 'graph/heart.html',
     date: null,
+    demonstrates: ['agentic', 'discovery', 'collab'],
     details: [
       ['ROLE',    'Mad Scientist · Experiment'],
       ['STARTED', 'May 2026'],
@@ -201,6 +244,7 @@ window.PORTFOLIO = [
     tag: 'AUTOMATED',
     href: 'agents/phil/journal.html',
     date: null,
+    demonstrates: ['reflective', 'agentic'],
     details: [
       ['ROLE',    'Philosopher · Translucent'],
       ['STARTED', 'May 2026'],
@@ -217,6 +261,7 @@ window.PORTFOLIO = [
     tag: null,
     href: null,
     date: null,
+    demonstrates: [],
     details: [
       ['ROLE',    ],
       ['STARTED', ],
@@ -229,11 +274,12 @@ window.PORTFOLIO = [
 // Each entry shows on the homepage's writing list. To add one:
 //   1. Drop a new HTML file in writing/<slug>.html (copy an existing one).
 //   2. Add an entry below with its date, title, tag, read time, and href.
+//   3. Optionally tag `demonstrates` so it surfaces in the competency graph.
 window.ARTICLES = [
-  { id: 'a1', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html' },
-  { id: 'a2', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html' },
-  { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html' },
-  { id: 'a4', date: '04.29.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html' },
+  { id: 'a1', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html', demonstrates: ['agentic', 'discovery'] },
+  { id: 'a2', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html', demonstrates: ['eval', 'collab'] },
+  { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html', demonstrates: ['collab', 'agentic'] },
+  { id: 'a4', date: '04.29.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html', demonstrates: ['building', 'discovery'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
