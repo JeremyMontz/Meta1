@@ -243,32 +243,31 @@ const ProjectRow = ({ p, first, last }) => {
         )}
       </div>
 
-      {p.details && (
-        <div>
-          <Tick>// SPECS</Tick>
-          <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column' }}>
-            {p.details.map(([k, v]) => (
-              <div key={k} style={{
-                display: 'flex', justifyContent: 'space-between',
-                padding: '8px 0', borderBottom: '1px solid var(--line-soft)',
-                fontFamily: 'var(--font-mono)', fontSize: 10.5, letterSpacing: '0.14em',
-              }}>
-                <span style={{ color: 'var(--fg-subtle)' }}>{k}</span>
-                <span style={{ color: live ? 'var(--fg)' : 'var(--fg-faint)' }}>{v}</span>
-              </div>
-            ))}
+      {p.details && (() => {
+        // Single meta line drafted from the entry's `details` (role · started).
+        // STATUS lives in the left-column badge already, so it's left out here;
+        // change which detail keys feed this line to taste.
+        const dv = Object.fromEntries(p.details);
+        const meta = [dv.ROLE, dv.STARTED].filter(v => v && v !== '—').join('  ·  ');
+        return (
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: 10.5,
+              letterSpacing: '0.12em', lineHeight: 1.7,
+              color: live ? 'var(--fg-muted)' : 'var(--fg-faint)',
+            }}>{meta}</div>
+            <div style={{
+              marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+            }}>
+              <span style={{ color: live ? 'var(--accent)' : 'var(--fg-faint)' }}>
+                {live ? '▸ READ' : 'COMING SOON'}
+              </span>
+              <span style={{ color: 'var(--fg-faint)' }}>{live ? '↗' : ''}</span>
+            </div>
           </div>
-          <div style={{
-            marginTop: 18, display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-          }}>
-            <span style={{ color: live ? 'var(--accent)' : 'var(--fg-faint)' }}>
-              {live ? '▸ READ' : 'COMING SOON'}
-            </span>
-            <span style={{ color: 'var(--fg-faint)' }}>{live ? '↗' : ''}</span>
-          </div>
-        </div>
-      )}
+        );
+      })()}
     </a>
   );
 };
@@ -287,18 +286,11 @@ const PortfolioReach = () => {
       <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--fg-muted)', maxWidth: 520, marginBottom: 24 }}>{s.sub}</p>
 
       <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-        <a href={`mailto:${email}`} style={{ textDecoration: 'none' }}>
-          <Button variant="primary">▸ EMAIL ME</Button>
-        </a>
         <a href="about/assets/jeremy-montz-resume.pdf" download style={{ textDecoration: 'none' }}>
-          <Button variant="secondary">↓ RÉSUMÉ (PDF)</Button>
+          <Button variant="primary">↓ RÉSUMÉ (PDF)</Button>
         </a>
-        <a href="about/human.html" style={{
-          marginLeft: 6, fontFamily: 'var(--font-mono)', fontSize: 11,
-          letterSpacing: '0.16em', textTransform: 'uppercase',
-          color: 'var(--fg-subtle)', borderBottom: '1px solid var(--line-loud)',
-        }}>
-          More about me →
+        <a href={`mailto:${email}`} style={{ textDecoration: 'none' }}>
+          <Button variant="secondary">EMAIL ME →</Button>
         </a>
       </div>
     </section>
