@@ -1,15 +1,19 @@
 <!--
   ╔════════════════════════════════════════════════════════════════════════╗
-  ║  ABOUT · ai.html — SYSTEM OVERVIEW (#203)                               ║
+  ║  ABOUT · ai.html — SYSTEM OVERVIEW (#203) — v2                          ║
   ║                                                                        ║
-  ║  Art-led organ-map treatment. The body IS the system overview.         ║
-  ║  Hero raster: about/assets/claudemonzter_20260606.png (baked art).     ║
-  ║  Interactivity lives here: hotspots + status + copy are HTML/CSS/JS     ║
-  ║  so live-vs-planned flips with a class, never a re-render of the art.   ║
+  ║  Art-led organ-map. The body IS the system overview.                   ║
+  ║  Hero raster (legend cropped OFF): about/assets/claudemonzter_20260606.png
   ║                                                                        ║
-  ║  Hotspot coords (ORGANS[].spots / .legend) are FIRST-PASS estimates in  ║
-  ║  % of the rendered image. Press 'd' to outline them, then nudge the     ║
-  ║  numbers and re-test live in Chrome (#175 workflow).                    ║
+  ║  Everything that churns lives HERE, not in the art:                     ║
+  ║   - the legend/index is rendered from the ORGANS config (rename,        ║
+  ║     recolor, add organs = edit the list; never a re-render of the art). ║
+  ║   - live-vs-pending status flips with a field.                          ║
+  ║   - ALARM reacts: hovering a LIVE (sensitive) organ flares the gauge;   ║
+  ║     pending/concept organs are inert.                                   ║
+  ║                                                                        ║
+  ║  Body hotspot coords (ORGANS[].spots) are %-of-image estimates for the  ║
+  ║  CROPPED art. Press 'd' to outline them, nudge, re-test in Chrome.      ║
   ╚════════════════════════════════════════════════════════════════════════╝
 -->
 <!doctype html>
@@ -71,7 +75,7 @@
     font-variation-settings: "opsz" 72, "SOFT" 100; margin: 14px 0 0; text-wrap: balance;
   }
 
-  /* ---- the operating table (hero + hotspot overlay) ---- */
+  /* ---- the operating table (hero + overlay) ---- */
   .stage-wrap { padding: 18px 40px 8px; }
   .stage {
     position: relative; width: 100%; max-width: 1180px; margin: 0 auto;
@@ -82,7 +86,8 @@
     display: block; width: 100%; height: auto;
     image-rendering: pixelated; image-rendering: crisp-edges;
   }
-  .overlay { position: absolute; inset: 0; }
+  .overlay { position: absolute; inset: 0; pointer-events: none; }
+  .overlay .hotspot { pointer-events: auto; }
 
   .hotspot {
     position: absolute; display: block;
@@ -91,12 +96,10 @@
     -webkit-tap-highlight-color: transparent;
   }
   .hotspot:focus { outline: none; }
-  /* glow ring drawn just inside the box, tinted to the organ */
   .hotspot::after {
     content: ""; position: absolute; inset: 4%;
     border-radius: 10px;
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--organ) 0%, transparent),
-                0 0 22px 4px color-mix(in oklch, var(--organ) 0%, transparent);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--organ) 0%, transparent);
     transition: box-shadow 200ms ease, background 200ms ease;
   }
   /* live organs breathe */
@@ -107,26 +110,57 @@
     50%      { box-shadow: 0 0 0 2px color-mix(in oklch, var(--organ) 78%, transparent),
                            0 0 30px 8px color-mix(in oklch, var(--organ) 46%, transparent); }
   }
-  /* hover / focus: light any organ up, regardless of status */
+  /* hover/focus: light any organ up */
   .hotspot:hover::after, .hotspot:focus-visible::after {
     background: color-mix(in oklch, var(--organ) 14%, transparent);
     box-shadow: 0 0 0 2px color-mix(in oklch, var(--organ) 90%, transparent),
                 0 0 34px 10px color-mix(in oklch, var(--organ) 55%, transparent);
   }
-  .hotspot.is-planned { cursor: help; }
+  .hotspot.is-pending, .hotspot.is-concept { cursor: help; }
   @media (prefers-reduced-motion: reduce) {
     .hotspot.is-live::after { animation: none;
       box-shadow: 0 0 0 2px color-mix(in oklch, var(--organ) 60%, transparent),
                   0 0 22px 5px color-mix(in oklch, var(--organ) 34%, transparent); }
   }
 
-  /* debug: press 'd' to see the boxes for calibration */
+  /* ---- ALARM: reacts when a LIVE organ is probed ---- */
+  /* overlaid on the baked gauge (bottom-left of the cropped art) */
+  .alarm-aura {
+    position: absolute; left: 23.5%; top: 76%; width: 22%; height: 24%;
+    border-radius: 50%; pointer-events: none; opacity: 0;
+    background: radial-gradient(circle, rgba(255,40,40,0.55) 0%, rgba(255,40,40,0) 68%);
+    transition: opacity 220ms ease; mix-blend-mode: screen;
+  }
+  .alarm-led {
+    position: absolute; left: 36.4%; top: 87.5%; width: 4.2%; height: 8.5%;
+    border-radius: 50%; pointer-events: none; opacity: 0;
+    background: radial-gradient(circle, rgba(255,70,60,0.95) 0%, rgba(255,70,60,0) 70%);
+    transition: opacity 160ms ease;
+  }
+  body.probing-live .alarm-aura { opacity: 1; animation: alarm-throb 0.7s ease-in-out infinite; }
+  body.probing-live .alarm-led  { opacity: 1; animation: alarm-blink 0.42s steps(2, jump-none) infinite; }
+  @keyframes alarm-throb { 0%,100% { opacity: 0.45; } 50% { opacity: 0.9; } }
+  @keyframes alarm-blink { 0%,100% { opacity: 0.35; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    body.probing-live .alarm-aura, body.probing-live .alarm-led { animation: none; opacity: 0.8; }
+  }
+
+  /* debug: press 'd' to see hotspot boxes */
   body.debug .hotspot { background: color-mix(in oklch, var(--organ) 22%, transparent);
     outline: 1px solid var(--organ); }
+  body.debug .alarm-aura, body.debug .alarm-led { opacity: 0.5; }
   body.debug .hotspot::before {
     content: attr(data-tag); position: absolute; top: 2px; left: 4px;
     font-family: var(--font-mono); font-size: 9px; color: #fff;
     text-shadow: 0 1px 2px #000; pointer-events: none;
+  }
+
+  /* ---- figcaption placard ---- */
+  .placard {
+    max-width: 1180px; margin: 12px auto 0; padding: 10px 14px;
+    border-left: 2px solid var(--line-loud);
+    font-family: var(--font-mono); font-size: 11px; line-height: 1.6;
+    letter-spacing: 0.04em; color: var(--fg-faint); text-wrap: pretty;
   }
 
   /* ---- caption bar: reflects the focused/hovered organ ---- */
@@ -143,10 +177,10 @@
   .caption .cap-sub { color: var(--fg-muted); }
   .caption .cap-status { margin-left: auto; text-transform: uppercase; letter-spacing: 0.14em; font-size: 10px; }
   .caption .cap-status.live { color: #6fe26f; }
-  .caption .cap-status.planned { color: var(--fg-subtle); }
+  .caption .cap-status.pending, .caption .cap-status.concept { color: var(--fg-subtle); }
   .caption .cap-hint { color: var(--fg-faint); }
 
-  /* ---- text organ index (accessible + guaranteed links) ---- */
+  /* ---- legend / organ index (THE list — data-driven, accessible) ---- */
   .index-head { padding: 30px 40px 0; max-width: 1180px; margin: 0 auto; }
   .index-head h2 {
     font-family: var(--font-mono); font-size: 12px;
@@ -155,7 +189,7 @@
   }
   .organ-index {
     max-width: 1180px; margin: 14px auto 0; padding: 0 40px;
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
   }
   .organ-card {
     display: flex; align-items: flex-start; gap: 12px;
@@ -168,12 +202,13 @@
     width: 12px; height: 12px; border-radius: 50%; margin-top: 3px; flex: 0 0 auto;
     background: var(--organ); box-shadow: 0 0 10px 1px color-mix(in oklch, var(--organ) 60%, transparent);
   }
-  .organ-card.planned .pip { box-shadow: none; background: color-mix(in oklch, var(--organ) 45%, transparent); }
-  .organ-card .body { display: flex; flex-direction: column; gap: 3px; }
+  .organ-card.pending .pip, .organ-card.concept .pip {
+    box-shadow: none; background: color-mix(in oklch, var(--organ) 42%, transparent); }
+  .organ-card .body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
   .organ-card .name {
     font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.12em;
     text-transform: uppercase; color: var(--fg);
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   }
   .organ-card .name .arrow { color: var(--organ); font-size: 11px; }
   .organ-card .status-chip {
@@ -182,6 +217,7 @@
     border: 1px solid var(--line-loud); color: var(--fg-subtle);
   }
   .organ-card.live .status-chip { color: #6fe26f; border-color: color-mix(in oklch, #6fe26f 45%, transparent); }
+  .organ-card.concept .status-chip { color: var(--organ); border-color: color-mix(in oklch, var(--organ) 50%, transparent); }
   .organ-card .desc {
     font-family: var(--font-sans); font-size: 13px; line-height: 1.5; color: var(--fg-muted);
   }
@@ -193,20 +229,17 @@
   }
   .closing p { font-family: var(--font-sans); font-size: var(--fs-md);
     line-height: var(--lh-loose); margin: 0; color: var(--fg-muted); text-wrap: pretty; }
-  .visually-hidden {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-  }
 
+  @media (max-width: 980px) {
+    .organ-index { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   @media (max-width: 820px) {
     .overview-head { padding: 36px 22px 14px; }
     .stage-wrap { padding: 12px 14px 6px; }
-    .caption { padding: 0 14px; }
+    .caption, .placard { padding-left: 14px; padding-right: 14px; }
     .index-head, .organ-index, .closing { padding-left: 22px; padding-right: 22px; }
     .organ-index { grid-template-columns: 1fr; }
     .overview-title { font-size: var(--fs-2xl); }
-    /* on small screens the hotspots get tiny — the index below is the real nav */
-    .hotspot.is-live::after { animation-duration: 4s; }
   }
 </style>
 </head>
@@ -229,16 +262,26 @@
     <p class="overview-lede">
       One human plugs a small graph of projects into a much larger graph of models.
       The system is told as a body — each organ a part of how it thinks, remembers, and feels.
-      Lit organs pulse because they're online; the rest are wired and warming up.
+      The live organs pulse, and they're sensitive: probe one and the alarm stirs. The dark bays are parts still on the bench.
     </p>
   </section>
 
   <div class="stage-wrap">
-    <div class="stage">
-      <img src="assets/claudemonzter_20260606.png"
-           alt="Operation: Claudemonzter — a pixel-art operating table holding a stitched cyborg body. Its organs are labelled: Face(s), Brain, Memory, Heart, Stomach, Hands, Bones, and Spirit." />
-      <div class="overlay" id="overlay" aria-hidden="true"></div>
-    </div>
+    <figure style="margin:0;">
+      <div class="stage">
+        <img src="assets/claudemonzter_20260606.png"
+             alt="Operation: Claudemonzter — a pixel-art operating table holding a stitched cyborg body, organs glowing: a green brain, face ports, neck bolts, a red heart, a teal stomach, a gold automation chip, pink hands, blue bones, and gold feet. An ALARM gauge sits at the bottom left." />
+        <div class="overlay" id="overlay">
+          <div class="alarm-aura"></div>
+          <div class="alarm-led"></div>
+        </div>
+      </div>
+
+      <figcaption class="placard">
+        Operation: Claudemonzter — portrait by a colleague (ChatGPT), pixel on screen, 2026.
+        The only thing in this house Claude didn't build, and — let's be honest — the best-looking.
+      </figcaption>
+    </figure>
 
     <div class="caption" id="caption">
       <span class="dot" id="cap-dot"></span>
@@ -257,8 +300,8 @@
     <h2>Where this is going</h2>
     <p>
       The map grows as the system does. Four organs are live today; the dark bays on the
-      table are real estate held for parts still on the bench — the vault, the intake
-      workflow, and more. When one comes online, its organ lights up here.
+      table are real estate held for parts still on the bench. When one comes online, its
+      organ lights up here — and starts reacting when you probe it.
     </p>
   </section>
 
@@ -269,61 +312,56 @@
 <!-- ============================ ORGAN MAP DATA + LOGIC ============================ -->
 <script>
 (function () {
-  // Coordinates are PERCENT of the rendered image (top-left origin): {x,y,w,h}.
-  // FIRST-PASS estimates — press 'd' to outline, then nudge and re-test in Chrome.
-  // Legend boxes (right panel) are the reliable nav surface; body spots are art.
+  // Coordinates are PERCENT of the rendered (cropped) image, top-left origin: {x,y,w,h}.
+  // FIRST-PASS estimates for the legend-less crop — press 'd' to outline, then nudge.
   var ORGANS = [
     { id:"faces",   name:"Face(s)",  color:"#b06cff", status:"live",
       href:"../dashboard.html",
       desc:"The agents — each a specialist with its own persona and beat.",
-      legend:{x:85.5,y:22.5,w:14,h:5.5},
-      spots:[{x:23.0,y:39,w:6.0,h:16}] },
+      spots:[{x:25.0,y:37,w:5.5,h:15}] },
+
+    { id:"brain",   name:"Brain",    color:"#6fe26f", status:"pending",
+      href:null,
+      desc:"The Obsidian vault and wiki — the long-term knowledge store.",
+      spots:[{x:20.5,y:36,w:5.0,h:16}] },
 
     { id:"memory",  name:"Memory",   color:"#f5b53c", status:"live",
       href:"../graph/memory.html",
-      desc:"The layered config and working recall the system stands on — and the store it reaches into.",
-      legend:{x:85.5,y:36.1,w:14,h:5.5},
-      spots:[{x:46.5,y:38,w:6.0,h:15},   /* gut chip — the store */
-             {x:74.0,y:15,w:8.0,h:18},   /* top foot — the foundation */
-             {x:73.0,y:52,w:8.0,h:18}] },
+      desc:"The layered config and working recall the system stands on — the feet it walks on.",
+      spots:[{x:82.0,y:16,w:9.0,h:20},   /* top foot */
+             {x:81.0,y:52,w:9.0,h:20}] },/* bottom foot */
 
     { id:"heart",   name:"Heart",    color:"#ff4d4d", status:"live",
       href:"../graph/heart.html",
       desc:"The persona engine — the dials that set each agent's voice and temperament.",
-      legend:{x:85.5,y:42.9,w:14,h:5.5},
-      spots:[{x:33.5,y:37,w:6.5,h:19}] },
+      spots:[{x:37.0,y:35,w:6.5,h:20}] },
+
+    { id:"stomach", name:"Stomach",  color:"#35d6c8", status:"pending",
+      href:null,
+      desc:"Intake and metabolism — turning raw captures into knowledge the brain can hold.",
+      spots:[{x:44.0,y:35,w:6.0,h:20}] },
+
+    { id:"womb",    name:"Womb",     color:"#ff8a3c", status:"concept",
+      href:null,
+      desc:"Automation — where the creature gives birth to its own subagents. A concept, gestating.",
+      spots:[{x:51.0,y:36,w:6.0,h:16}] },
+
+    { id:"hands",   name:"Hands",    color:"#ff5fa8", status:"pending",
+      href:null,
+      desc:"The skills — the learned moves the system reaches for to get work done.",
+      spots:[{x:57.5,y:16,w:8.5,h:16},
+             {x:54.5,y:61,w:9.5,h:18}] },
+
+    { id:"bones",   name:"Bones",    color:"#5b8cff", status:"pending",
+      href:null,
+      desc:"The architecture — the local + GitHub substrate the whole creature is built on.",
+      spots:[{x:72.0,y:28,w:9.5,h:13},
+             {x:70.0,y:50,w:9.5,h:13}] },
 
     { id:"spirit",  name:"Spirit",   color:"#a98cff", status:"live",
       href:"../graph/spirit.html",
       desc:"The daily reading practice — the animating jolt at the neck bolts.",
-      legend:{x:85.5,y:70.1,w:14,h:5.5},
-      spots:[{x:28.5,y:40,w:4.0,h:16}] },
-
-    { id:"brain",   name:"Brain",    color:"#6fe26f", status:"planned",
-      href:null,
-      desc:"The Obsidian vault and wiki — the long-term knowledge store.",
-      legend:{x:85.5,y:29.3,w:14,h:5.5},
-      spots:[{x:18.5,y:38,w:5.5,h:17}] },
-
-    { id:"stomach", name:"Stomach",  color:"#35d6c8", status:"planned",
-      href:null,
-      desc:"Intake and metabolism — turning raw captures into knowledge the brain can hold.",
-      legend:{x:85.5,y:49.7,w:14,h:5.5},
-      spots:[{x:40.5,y:37,w:5.5,h:19}] },
-
-    { id:"hands",   name:"Hands",    color:"#ff5fa8", status:"planned",
-      href:null,
-      desc:"The skills — the learned moves the system reaches for to get work done.",
-      legend:{x:85.5,y:56.5,w:14,h:5.5},
-      spots:[{x:51.0,y:16,w:8.0,h:15},
-             {x:47.0,y:60,w:9.0,h:17}] },
-
-    { id:"bones",   name:"Bones",    color:"#5b8cff", status:"planned",
-      href:null,
-      desc:"The architecture — the local + GitHub substrate the whole creature is built on.",
-      legend:{x:85.5,y:63.3,w:14,h:5.5},
-      spots:[{x:65.0,y:26,w:9.0,h:12},
-             {x:63.0,y:49,w:9.0,h:12}] }
+      spots:[{x:30.5,y:33,w:4.0,h:22}] }
   ];
 
   var overlay = document.getElementById("overlay");
@@ -334,7 +372,12 @@
   var capStatus = document.getElementById("cap-status");
   var caption   = document.getElementById("caption");
 
+  function statusLabel(s) {
+    return s === "live" ? "Online" : (s === "concept" ? "Concept" : "Pending");
+  }
+
   function setCaption(o) {
+    document.body.classList.toggle("probing-live", !!(o && o.status === "live"));
     if (!o) {
       caption.style.setProperty("--cap-color", "");
       capDot.style.setProperty("--cap-color", "");
@@ -347,29 +390,26 @@
     capDot.style.setProperty("--cap-color", o.color);
     capName.textContent = o.name;
     capSub.textContent  = "— " + o.desc;
-    if (o.status === "live") { capStatus.textContent = "Online ↗"; capStatus.className = "cap-status live"; }
-    else { capStatus.textContent = "Wired · not yet online"; capStatus.className = "cap-status planned"; }
+    if (o.status === "live") { capStatus.textContent = "Online ↗ · sensitive"; capStatus.className = "cap-status live"; }
+    else if (o.status === "concept") { capStatus.textContent = "Concept"; capStatus.className = "cap-status concept"; }
+    else { capStatus.textContent = "Pending"; capStatus.className = "cap-status pending"; }
   }
 
   function makeHotspot(o, box, label) {
     var el;
     if (o.status === "live" && o.href) { el = document.createElement("a"); el.href = o.href; }
     else { el = document.createElement("button"); el.type = "button"; }
-    el.className = "hotspot " + (o.status === "live" ? "is-live" : "is-planned");
+    el.className = "hotspot is-" + o.status;
     el.style.setProperty("--organ", o.color);
     el.style.left = box.x + "%"; el.style.top = box.y + "%";
     el.style.width = box.w + "%"; el.style.height = box.h + "%";
     // Visual enhancement only — the text index below is the accessible nav.
-    // Keep these out of the tab order / a11y tree (overlay is aria-hidden).
-    el.tabIndex = -1;
+    // Keep these out of the tab order; overlay duplicates the index links.
+    el.tabIndex = -1; el.setAttribute("aria-hidden", "true");
     el.setAttribute("data-tag", label);
-    el.setAttribute("aria-label",
-      o.name + " — " + o.desc + (o.status === "live" ? " (online)" : " (wired, not yet online)"));
-    el.setAttribute("title", o.name + (o.status === "live" ? "" : " — wired, not yet online"));
+    el.setAttribute("title", o.name + (o.status === "live" ? "" : " — " + statusLabel(o.status).toLowerCase()));
     el.addEventListener("mouseenter", function(){ setCaption(o); });
-    el.addEventListener("focus", function(){ setCaption(o); });
     el.addEventListener("mouseleave", function(){ setCaption(null); });
-    el.addEventListener("blur", function(){ setCaption(null); });
     if (!(o.status === "live" && o.href)) {
       el.addEventListener("click", function(e){ e.preventDefault(); setCaption(o); });
     }
@@ -377,14 +417,10 @@
   }
 
   ORGANS.forEach(function (o) {
-    // legend row hotspot (reliable)
-    if (o.legend) overlay.appendChild(makeHotspot(o, o.legend, o.name + " ·legend"));
-    // body art hotspots (estimated)
     (o.spots || []).forEach(function (box, i) {
       overlay.appendChild(makeHotspot(o, box, o.name + " ·" + (i+1)));
     });
 
-    // text index card
     var live = o.status === "live";
     var card = document.createElement(live ? "a" : "div");
     card.className = "organ-card " + o.status;
@@ -395,7 +431,7 @@
       '<span class="body">' +
         '<span class="name">' + o.name +
           (live ? ' <span class="arrow">↗</span>' : '') +
-          '<span class="status-chip">' + (live ? "Online" : "Planned") + '</span>' +
+          '<span class="status-chip">' + statusLabel(o.status) + '</span>' +
         '</span>' +
         '<span class="desc">' + o.desc + '</span>' +
       '</span>';
