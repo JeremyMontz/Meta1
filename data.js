@@ -207,6 +207,22 @@ window.PORTFOLIO = [
     ],
     excerpt: null,
   },
+    {
+    id: 'Month-two',
+    no: '05',
+    title: 'Month Two and a Whole New Experience',
+    blurb: 'Coming soon.',
+    status: 'TO DO',
+    tone: 'na',
+    tag: null,
+    href: null,
+    date: null,
+    details: [
+      ['ROLE',    ],
+      ['STARTED', ],
+    ],
+    excerpt: null,
+  },
 ];
 
 // ─── ARTICLES · writing & field notes ─────────────────────────────────────
