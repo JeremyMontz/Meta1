@@ -187,8 +187,8 @@ const Hero = () => (
         </p>
 
         <div style={{ marginTop: 28, display: 'flex', gap: 12 }}>
-          <a href="ai.html" style={{ textDecoration: 'none' }}>
-            <Button variant="primary">▸ LEARN ABOUT THE GRAPH</Button>
+          <a href="about/ai.html" style={{ textDecoration: 'none' }}>
+            <Button variant="primary">▸ LEARN ABOUT THE THING</Button>
           </a>
           <a href="portfolio.html" style={{ textDecoration: 'none' }}>
             <Button variant="secondary">VIEW MY PORTFOLIO →</Button>
