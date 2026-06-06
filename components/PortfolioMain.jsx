@@ -173,21 +173,18 @@ const LiveFromLab = () => {
 // `details` and `excerpt` fields the homepage teaser ignores.
 const PortfolioMatrix = () => {
   const s = PG.work || {};
-  const liveCt = PORTFOLIO.filter(p => p.tone !== 'na').length;
+  const okCt   = PORTFOLIO.filter(p => p.tone === 'ok').length;   // live / shipped
+  const warnCt = PORTFOLIO.filter(p => p.tone === 'warn').length; // WIP
+  const naCt   = PORTFOLIO.filter(p => p.tone === 'na').length;   // to come
 
   return (
     <section style={{ padding: '24px 40px 56px', borderTop: '1px solid var(--line)' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 24, paddingTop: 32 }}>
-        <div>
-          <Eyebrow color="var(--candle)">// {s.eyebrow}</Eyebrow>
-          <h2 style={{ marginTop: 8 }}>{s.heading}</h2>
-          <p style={{ marginTop: 8, maxWidth: 580 }}>
-            {liveCt} active, {PORTFOLIO.length - liveCt} on deck. Each entry links to a full write-up or a working artifact.
-          </p>
-        </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fg-faint)' }}>
-          {String(liveCt).padStart(2, '0')} / {String(PORTFOLIO.length).padStart(2, '0')} ACTIVE
-        </span>
+      <div style={{ marginBottom: 24, paddingTop: 32 }}>
+        <Eyebrow color="var(--candle)">// {s.eyebrow}</Eyebrow>
+        <h2 style={{ marginTop: 8 }}>{s.heading}</h2>
+        <p style={{ marginTop: 8, maxWidth: 580 }}>
+          {okCt} live, {warnCt} in progress, {naCt} to come. Each entry links to a full write-up or a working artifact.
+        </p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
