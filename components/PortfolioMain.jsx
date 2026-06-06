@@ -100,18 +100,9 @@ const PortfolioHero = () => {
 };
 
 // ── 01 · WHAT IT PROVES ─────────────────────────────────────────────────────
-// STUB / carve-out. These six competencies become an interactive node graph
-// (index-style inspector, but nodes = skills). Static grid for now; the dashed
-// frame + IN DESIGN marker flag it as not-yet-final on purpose.
-const PROVES = [
-  ['01', 'Multi-agent orchestration', 'Eight agents, four projects, one shared canon — roles, routing, handoffs.'],
-  ['02', 'Eval & QC infrastructure',  'Adversarial validation and canon-integrity checks; a gatekeeper ships only what passes.'],
-  ['03', 'Persona systems',           'A dial-based persona matrix modulates each agent’s tone and output.'],
-  ['04', 'Prompt & skill engineering','Reusable skills with structured triggers — prompt design as durable tooling.'],
-  ['05', 'Memory architecture',       'Layered, two-tier memory that bridges sessions and decodes shorthand.'],
-  ['06', 'Learning in public',        'Essays and lab logs documenting the build honestly — mistakes and all.'],
-];
-
+// Section header + the competency node graph (components/CompetencyGraph.jsx).
+// Nodes = competencies (data.js COMPETENCIES); evidence under each node is
+// computed from PORTFOLIO/ARTICLES `demonstrates` tags.
 const WhatItProves = () => {
   const s = PG.proves || {};
   return (
@@ -121,32 +112,7 @@ const WhatItProves = () => {
         <h2 style={{ marginTop: 8, marginBottom: 8 }}>{s.heading}</h2>
         <p style={{ maxWidth: 560 }}>{s.sub}</p>
       </div>
-
-      <div style={{ marginTop: 24, border: '1px dashed var(--line-loud)', padding: 18 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <Tick>// COMPETENCY GRAPH</Tick>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.16em', color: 'var(--candle)' }}>
-            ◷ IN DESIGN
-          </span>
-        </div>
-
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 1, background: 'var(--line-soft)', border: '1px solid var(--line-soft)',
-        }}>
-          {PROVES.map(([n, t, d]) => (
-            <div key={n} style={{ background: 'var(--bg-elev-1)', padding: 16 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.14em', color: 'var(--accent)' }}>{n}</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 18, lineHeight: 1.15, marginTop: 6 }}>{t}</div>
-              <div style={{ fontSize: 13, color: 'var(--fg-muted)', lineHeight: 1.45, marginTop: 6 }}>{d}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="scribble" style={{ marginTop: 14, color: 'var(--fg-muted)', fontSize: 18 }}>
-          (these become an interactive node graph — like the homepage, but the nodes are skills)
-        </div>
-      </div>
+      <CompetencyGraph />
     </section>
   );
 };
