@@ -37,7 +37,7 @@ const CompetencyGraph = () => {
     const ang = (-90 + i * (360 / n)) * Math.PI / 180;
     return [cx + rx * Math.cos(ang), cy + ry * Math.sin(ang)];
   });
-  const palette = ['var(--accent)', 'var(--ok)', 'var(--candle)', 'var(--info)', 'var(--accent)', 'var(--ok)'];
+  const palette = ['var(--accent)', 'var(--err)', 'var(--candle)', 'var(--info)', 'var(--ok)', 'var(--candle)'];
 
   const active = comps[sel] || {};
   const ev = active.id ? evidenceFor(active.id) : [];
@@ -61,7 +61,7 @@ const CompetencyGraph = () => {
           ))}
 
           {/* hub */}
-          <circle cx={cx} cy={cy} r="36" strokeWidth="1.5" style={{ fill: 'var(--bg-elev-2)', stroke: 'var(--candle)' }} />
+          <circle cx={cx} cy={cy} r="36" strokeWidth="1.5" style={{ fill: 'var(--bg-elev-2)', stroke: 'var(--ok)' }} />
           <text x={cx} y={cy - 3} textAnchor="middle" fontSize="11" letterSpacing="1.5" style={{ fontFamily: mono, fill: 'var(--fg-muted)' }}>WHAT IT</text>
           <text x={cx} y={cy + 12} textAnchor="middle" fontSize="11" letterSpacing="1.5" style={{ fontFamily: mono, fill: 'var(--fg-muted)' }}>PROVES</text>
 
