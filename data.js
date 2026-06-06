@@ -107,12 +107,12 @@ window.ME = {
 window.SPEC = {
   badge: 'BUILDING WITH AI',
   rows: [
-    ['ROLE',      'SR. PRODUCT MANAGER / OWNER'],
-    ['DOMAINS',   'EDISCOVERY · SECURITY · GRC · ANALYTICS'],
-    ['PRACTICE',  'ROADMAPS · AGILE · DATA & DASHBOARDS'],
-    ['AI',        'HANDS-ON · BUILDING IN PUBLIC'],
-    ['PROOF',     'THIS SITE — SOLO + AGENTS'],
-    ['AVAILABLE', 'OPEN TO AI-NATIVE ROLES →'],
+  ['ROLE',      'SR. PM / PRODUCT OWNER'],
+  ['DOMAINS',   'EDISCOVERY · SECURITY · DATA'],
+  ['PRACTICE',  'ROADMAPS · AGILE · DASHBOARDS'],
+  ['AI',        'HANDS-ON, IN PUBLIC'],
+  ['PROOF',     'THIS SITE · SOLO + AGENTS'],
+  ['AVAILABLE', 'OPEN TO AI-NATIVE ROLES'],
   ],
 };
 
