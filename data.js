@@ -140,7 +140,8 @@ window.NOW = [
 //   href    — link target
 //   date    — display date string
 //   details — optional array of [key, value] pairs (portfolio page expanded view)
-//   excerpt — optional pull quote (portfolio page only)
+//   excerpt — optional pull quote (portfolio page only). Kept on first-month
+//             only — pull-quotes lose their punch when every card has one.
 window.PORTFOLIO = [
   {
     id: 'first-month',
@@ -176,7 +177,7 @@ window.PORTFOLIO = [
       ['STARTED', '03 / 2026'],
       ['STATUS',  'LIVE'],
     ],
-    excerpt: '"What I work on in the real world."',
+    excerpt: null,
   },
   {
     id: 'heart',
@@ -194,7 +195,7 @@ window.PORTFOLIO = [
       ['STARTED', 'May 2026'],
       ['STATUS',  'TEST'],
     ],
-    excerpt: '"What happends when I press on this?"',
+    excerpt: null,
   },
   {
     id: 'Phils-Journal',
@@ -212,7 +213,7 @@ window.PORTFOLIO = [
       ['STARTED', 'May 2026'],
       ['STATUS',  'TEST'],
     ],
-    excerpt: '"My AI reflects on mystical texts and its own experience."',
+    excerpt: null,
   },
 ];
 
