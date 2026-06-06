@@ -107,12 +107,12 @@ window.ME = {
 window.SPEC = {
   badge: 'BUILDING WITH AI',
   rows: [
-    ['ROLE',      'SENIOR PRODUCT MANAGER'],
-    ['STAGE',     'EXPERIMENTATION'],
-    ['DEPTH',     '20+ YEARS'],
-    ['STACK',     'COWORK → GOOGLE → GITHUB → PAGES'],
-    ['FOCUS',     'AI-NATIVE PRODUCT MANAGER'],
-    ['AVAILABLE', 'FOR THE RIGHT OP →'],
+    ['ROLE',      'SR. PRODUCT MANAGER / OWNER'],
+    ['DOMAINS',   'EDISCOVERY · SECURITY · GRC · ANALYTICS'],
+    ['PRACTICE',  'ROADMAPS · AGILE · DATA & DASHBOARDS'],
+    ['AI',        'HANDS-ON · BUILDING IN PUBLIC'],
+    ['PROOF',     'THIS SITE — SOLO + AGENTS'],
+    ['AVAILABLE', 'OPEN TO AI-NATIVE ROLES →'],
   ],
 };
 
