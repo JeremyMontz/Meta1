@@ -1,0 +1,236 @@
+<!--
+  ╔════════════════════════════════════════════════════════════════════════╗
+  ║  ABOUT · human.html — professional bio (the human behind the lab)       ║
+  ║                                                                        ║
+  ║  Recruiter-facing. Chrome (TopNav + Footer) + AboutSubnav mounted      ║
+  ║  from components via React, same pattern as the writing articles.      ║
+  ║  Résumé download button → about/assets/jeremy-montz-resume.pdf         ║
+  ║  (drop the PDF there to make the button live).                         ║
+  ║  Issue #198. Tone: professional. Refine content later.                 ║
+  ╚════════════════════════════════════════════════════════════════════════╝
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About · Jeremy Montz · Claudemonzter</title>
+<meta name="description" content="Jeremy Montz — senior product manager and product owner. Twenty-plus years shipping product across legal software, GRC, cybersecurity, and data analytics, now building in AI." />
+
+<link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+  html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
+  body { font-family: var(--font-sans); }
+  a { color: inherit; text-decoration: none; }
+  .page { width: 100%; max-width: 1280px; margin: 0 auto; }
+
+  /* ── About subnav (professional register) ─────────────────────── */
+  .about-subnav {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 40px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .about-subnav-label { color: var(--fg-faint); }
+  .about-subnav-sep   { color: var(--line-loud); }
+  .about-subnav a {
+    color: var(--fg-muted); text-decoration: none;
+    padding-bottom: 2px; border-bottom: 1px solid transparent;
+    transition: color 160ms, border-color 160ms;
+  }
+  .about-subnav a:hover { color: var(--accent); }
+  .about-subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── Article header / body (mirrors writing article style) ────── */
+  .article-head { padding: 56px 40px 28px; }
+  .article-head-inner { max-width: 680px; margin: 0 auto; }
+
+  .meta-row {
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: var(--fs-sm);
+    letter-spacing: var(--ls-wider); text-transform: uppercase;
+    color: var(--fg-subtle);
+  }
+  .meta-row .sep { color: var(--line-loud); }
+  .meta-row .accent { color: var(--accent); }
+
+  .article-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: var(--fs-4xl); line-height: var(--lh-tight);
+    letter-spacing: var(--ls-tight);
+    margin: 20px 0 0;
+    font-variation-settings: "opsz" 144;
+    text-wrap: balance;
+  }
+  .article-title em { font-style: italic; color: var(--accent); }
+
+  .article-subtitle {
+    font-family: var(--font-display); font-style: italic;
+    font-size: var(--fs-xl); line-height: var(--lh-snug);
+    margin-top: 16px; color: var(--fg-muted);
+    font-variation-settings: "opsz" 72, "SOFT" 100;
+  }
+
+  .article-body { max-width: 680px; margin: 0 auto; padding: 0 40px 40px; }
+  .article-body p {
+    font-family: var(--font-sans); font-size: var(--fs-md);
+    line-height: var(--lh-loose); margin: 0 0 22px; color: var(--fg);
+    text-wrap: pretty;
+  }
+  .article-body p.lede {
+    font-family: var(--font-display); font-weight: 400; font-style: italic;
+    font-size: 24px; line-height: 1.45; color: var(--fg);
+    font-variation-settings: "opsz" 72, "SOFT" 100;
+    margin-bottom: 32px; text-wrap: balance;
+  }
+  .article-body h2 {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fg-subtle); margin: 36px 0 14px;
+  }
+  .article-body a {
+    color: var(--accent);
+    border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);
+  }
+  .article-body a:hover { border-bottom-color: var(--accent); }
+
+  /* ── Résumé download + links row ──────────────────────────────── */
+  .cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin: 4px 0 12px; }
+  .btn-resume {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 20px; border-radius: 8px;
+    background: var(--accent); color: var(--bg);
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    border: 1px solid var(--accent);
+    transition: opacity 160ms;
+  }
+  .btn-resume:hover { opacity: 0.85; }
+  .btn-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 18px; border-radius: 8px;
+    color: var(--fg-muted);
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    border: 1px solid var(--line-loud);
+    transition: color 160ms, border-color 160ms;
+  }
+  .btn-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  .fact-grid {
+    display: grid; grid-template-columns: 130px 1fr; gap: 8px 20px;
+    font-size: var(--fs-md); margin: 4px 0 8px;
+  }
+  .fact-grid dt {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg-subtle); padding-top: 3px;
+  }
+  .fact-grid dd { margin: 0; color: var(--fg); }
+
+  @media (max-width: 720px) {
+    .article-head { padding: 40px 24px 20px; }
+    .article-body { padding: 0 24px 32px; }
+    .article-title { font-size: var(--fs-3xl); }
+    .fact-grid { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ─── SITE CHROME ─────────────────────────────────────────── -->
+  <div id="topnav-mount"></div>
+  <div id="about-subnav-mount"></div>
+
+  <!-- ─── HEADER ──────────────────────────────────────────────── -->
+  <section class="article-head">
+    <div class="article-head-inner">
+      <div class="meta-row">
+        <span class="accent">ABOUT · THE HUMAN</span>
+        <span class="sep">·</span>
+        <span>Portland, OR</span>
+        <span class="sep">·</span>
+        <span>Remote</span>
+      </div>
+
+      <h1 class="article-title">
+        Jeremy Montz — <em>product, plainly.</em>
+      </h1>
+
+      <p class="article-subtitle">
+        Senior product manager and product owner. Twenty-plus years taking something complex, grokking it, and making it shippable.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── BODY ────────────────────────────────────────────────── -->
+  <article class="article-body">
+
+    <div class="cta-row">
+      <a class="btn-resume" href="assets/jeremy-montz-resume.pdf" download>↓ Download résumé (PDF)</a>
+      <a class="btn-link" href="https://www.linkedin.com/in/jeremydmontz" target="_blank" rel="noopener">↗ LinkedIn</a>
+      <a class="btn-link" href="https://github.com/JeremyMontz" target="_blank" rel="noopener">↗ GitHub</a>
+    </div>
+
+    <p class="lede">
+      I create products. Most of my career has been the same skill at a different scale: translator, software trainer, product manager — take the complex thing, make it graspable, help others act on it.
+    </p>
+
+    <h2>What I do</h2>
+    <p>
+      Senior PM / PO and Agile coach, contracting after 20+ years in technology. My core work is product strategy, roadmap design, backlog management, and leading cross-functional teams — with a strong streak of data visualization and process design. Most recently I was a Data Analytics Product Owner at T-Mobile. My career spans eDiscovery, legal software, GRC, cybersecurity, and data analytics.
+    </p>
+
+    <h2>Now</h2>
+    <p>
+      I'm pivoting toward AI product management and building my first AI product in the open. Claudemonzter — this site — is the lab: an operator-plus-agents practice where I run a small graph of projects against a much larger graph of models, and document what actually happens. The AI material is new; the lens is twenty years old.
+    </p>
+
+    <h2>Background</h2>
+    <p>
+      Before tech, I served in the U.S. Marine Corps as a Signals Intelligence Analyst (TS/SCI clearance). I hold a BA from the University of Oregon, where I studied the major world religions and wrote an honors thesis on mystical experience and philosophical analysis. I've been a technology professional since the early PC era.
+    </p>
+
+    <h2>How I work</h2>
+    <p>
+      I think in connected systems and trust pattern recognition alongside the data. I pick up new tools fast and prefer nuance over basics. I adopt positions to examine them, not defend them — and I'd rather find out I'm wrong early than be comfortably wrong for long.
+    </p>
+
+    <dl class="fact-grid">
+      <dt>Focus</dt><dd>AI product management · agentic systems · data analytics</dd>
+      <dt>Tools</dt><dd>Jira, Aha!, GitHub, Figma, SQL, AWS</dd>
+      <dt>Based</dt><dd>Portland, Oregon · open to remote</dd>
+      <dt>Résumé</dt><dd>Full work history and dates in the PDF above.</dd>
+    </dl>
+
+  </article>
+
+  <!-- ─── SITE FOOTER ─────────────────────────────────────────── -->
+  <div id="footer-mount"></div>
+
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+<script type="text/babel" src="../components/AboutSubnav.jsx"></script>
+
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="ABOUT" />);
+  ReactDOM.createRoot(document.getElementById('about-subnav-mount')).render(<AboutSubnav active="HUMAN" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>

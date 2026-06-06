@@ -1,0 +1,176 @@
+<!--
+  ╔════════════════════════════════════════════════════════════════════════╗
+  ║  ABOUT · ai.html — STAND-IN — system overview of the AI                 ║
+  ║                                                                        ║
+  ║  Placeholder. Copies human.html's professional article style for now.  ║
+  ║  This is the "system overview" page (issue #203): the body / organ     ║
+  ║  metaphor IS the overview. Unique art-led visual treatment comes       ║
+  ║  later — for now it just needs to exist so the breadcrumb works.       ║
+  ╚════════════════════════════════════════════════════════════════════════╝
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About · The AI · Claudemonzter</title>
+<meta name="description" content="System overview of Claudemonzter — an operator-plus-agents practice. Stand-in page; fuller visual treatment coming." />
+
+<link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+  html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
+  body { font-family: var(--font-sans); }
+  a { color: inherit; text-decoration: none; }
+  .page { width: 100%; max-width: 1280px; margin: 0 auto; }
+
+  .about-subnav {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 40px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    border-bottom: 1px solid var(--line); background: var(--bg);
+  }
+  .about-subnav-label { color: var(--fg-faint); }
+  .about-subnav-sep   { color: var(--line-loud); }
+  .about-subnav a {
+    color: var(--fg-muted); text-decoration: none;
+    padding-bottom: 2px; border-bottom: 1px solid transparent;
+    transition: color 160ms, border-color 160ms;
+  }
+  .about-subnav a:hover { color: var(--accent); }
+  .about-subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .article-head { padding: 56px 40px 28px; }
+  .article-head-inner { max-width: 680px; margin: 0 auto; }
+  .meta-row {
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: var(--fs-sm);
+    letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--fg-subtle);
+  }
+  .meta-row .sep { color: var(--line-loud); }
+  .meta-row .accent { color: var(--accent); }
+  .article-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: var(--fs-4xl); line-height: var(--lh-tight);
+    letter-spacing: var(--ls-tight); margin: 20px 0 0;
+    font-variation-settings: "opsz" 144; text-wrap: balance;
+  }
+  .article-title em { font-style: italic; color: var(--accent); }
+  .article-subtitle {
+    font-family: var(--font-display); font-style: italic;
+    font-size: var(--fs-xl); line-height: var(--lh-snug);
+    margin-top: 16px; color: var(--fg-muted);
+    font-variation-settings: "opsz" 72, "SOFT" 100;
+  }
+  .article-body { max-width: 680px; margin: 0 auto; padding: 0 40px 40px; }
+  .article-body p {
+    font-family: var(--font-sans); font-size: var(--fs-md);
+    line-height: var(--lh-loose); margin: 0 0 22px; color: var(--fg); text-wrap: pretty;
+  }
+  .article-body p.lede {
+    font-family: var(--font-display); font-weight: 400; font-style: italic;
+    font-size: 24px; line-height: 1.45; color: var(--fg);
+    font-variation-settings: "opsz" 72, "SOFT" 100; margin-bottom: 32px; text-wrap: balance;
+  }
+  .article-body h2 {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fg-subtle); margin: 36px 0 14px;
+  }
+  .article-body a { color: var(--accent); border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent); }
+  .article-body a:hover { border-bottom-color: var(--accent); }
+
+  .standin-tag {
+    display: inline-block; margin-bottom: 18px;
+    padding: 6px 12px; border-radius: 6px;
+    border: 1px dashed var(--line-loud);
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-faint);
+  }
+  .organ-links { display: flex; gap: 14px; flex-wrap: wrap; margin: 6px 0 8px; }
+  .organ-links a {
+    padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line-loud);
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--fg-muted);
+    transition: color 160ms, border-color 160ms;
+  }
+  .organ-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 720px) {
+    .article-head { padding: 40px 24px 20px; }
+    .article-body { padding: 0 24px 32px; }
+    .article-title { font-size: var(--fs-3xl); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div id="topnav-mount"></div>
+  <div id="about-subnav-mount"></div>
+
+  <section class="article-head">
+    <div class="article-head-inner">
+      <div class="meta-row">
+        <span class="accent">ABOUT · THE AI</span>
+        <span class="sep">·</span>
+        <span>System Overview</span>
+      </div>
+      <h1 class="article-title">
+        The lab, <em>as a body.</em>
+      </h1>
+      <p class="article-subtitle">
+        Claudemonzter is an operator-plus-agents practice. The system overview is told as a body — each organ a part of how it thinks, remembers, and feels.
+      </p>
+    </div>
+  </section>
+
+  <article class="article-body">
+    <span class="standin-tag">Stand-in · fuller visual treatment coming (#203)</span>
+
+    <p class="lede">
+      One human plugs a small graph of projects into a much larger graph of models. The agents specialize; the operator coordinates; the work gets documented as it happens.
+    </p>
+
+    <h2>The organs (today)</h2>
+    <p>
+      The body metaphor is the system overview — it answers "what have you built?" without making you assemble the answer from a nav bar. Faces are the agents; Memory is the layered config and knowledge base; Heart is the persona engine; Spirit is the daily reading practice. More organs (the vault, the intake workflow, the skills layer) are on the way.
+    </p>
+
+    <div class="organ-links">
+      <a href="../dashboard.html">Faces ↗</a>
+      <a href="../graph/memory.html">Memory ↗</a>
+      <a href="../graph/heart.html">Heart ↗</a>
+      <a href="../graph/spirit.html">Spirit ↗</a>
+    </div>
+
+    <h2>Where this is going</h2>
+    <p>
+      This page will get its own art-led treatment that continues the organ visualization rather than borrowing the bio layout. For now it exists so the ABOUT breadcrumb is whole and every link works.
+    </p>
+  </article>
+
+  <div id="footer-mount"></div>
+
+</div>
+
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+<script type="text/babel" src="../components/AboutSubnav.jsx"></script>
+
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="ABOUT" />);
+  ReactDOM.createRoot(document.getElementById('about-subnav-mount')).render(<AboutSubnav active="AI" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>
