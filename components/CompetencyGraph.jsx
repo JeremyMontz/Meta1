@@ -39,8 +39,8 @@ const CompetencyGraph = () => {
   return (
     <div style={{
       marginTop: 24,
-      display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 320px',
-      gap: 20, alignItems: 'stretch',
+      display: 'grid', gridTemplateColumns: 'minmax(0, 460px) 320px',
+      gap: 20, alignItems: 'start',
     }}>
       {/* ── Graph ── */}
       <div style={{ border: '1px solid var(--line)', background: 'var(--bg-elev-1)', padding: 12 }}>
@@ -92,7 +92,7 @@ const CompetencyGraph = () => {
           fontVariationSettings: '"opsz" 36, "SOFT" 100',
         }}>{active.mine}</p>
 
-        <div style={{ marginTop: 'auto', paddingTop: 14, borderTop: '1px solid var(--line)' }}>
+        <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--line)' }}>
           <div style={{ fontFamily: mono, fontSize: 10, letterSpacing: '0.18em', color: 'var(--fg-faint)', marginBottom: 10 }}>
             DEMONSTRATED IN
           </div>
