@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Jeremy Montz · Portfolio</title>
-<meta name="description" content="Senior product manager. Selected work, plainly shown." />
+<meta name="description" content="Senior product manager and product owner. Selected work, out in the open." />
 
 <link rel="stylesheet" href="design-system/colors_and_type.css" />
 
@@ -14,12 +14,6 @@
   a { color: inherit; text-decoration: none; }
 
   .home-page { width: 100%; max-width: 1280px; margin: 0 auto; }
-
-  @keyframes hero-flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-    20%, 24%, 55% { opacity: 0.55; }
-  }
-  .hero-flicker { animation: hero-flicker 9s infinite; }
 
   @keyframes pulse-dot {
     0%, 100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
@@ -46,6 +40,45 @@
 <div id="root"></div>
 
 <script src="data.js?v=3.3"></script>
+
+<!-- PAGE_PORTFOLIO · page-specific prose for portfolio.html (the #186 PAGE_* pattern).
+     Edit copy here; facts/lists live in data.js (ME, SPEC, PORTFOLIO). -->
+<script>
+window.PAGE_PORTFOLIO = {
+
+  // ── Hero ──
+  hero: {
+    eyebrow:        'MY PORTFOLIO · SELECTED WORK',
+    headline:       'Product work,',          // plain part
+    headlineAccent: 'out in the open.',       // italic accent part
+    body: [
+      "I've spent a career leading teams — engineers, designers, analysts — pointed at a problem until it shipped. Now there's no team: just me and a crew of AI agents, building the very site you're standing in.",
+      'This page is the entrance. The whole of Claudemonzter — every page and link here — is the proof of what one product person and a pack of agents can actually ship.',
+    ],
+    graphLink: 'See the graph',               // appended to last body line, links index.html
+  },
+
+  // ── 01 · The Work (project matrix; rows come from data.js PORTFOLIO) ──
+  work: {
+    eyebrow: '01 · THE WORK',
+    heading: 'Portfolio projects.',
+  },
+
+  // ── 02 · What It Proves (competency graph — stubbed; full design later) ──
+  proves: {
+    eyebrow: '02 · WHAT IT PROVES',
+    heading: 'Competencies, demonstrated.',
+    sub: "The lab isn't the point — what it proves is. Each node is a product skill the system actually exercises.",
+  },
+
+  // ── 03 · Reach (closing CTA; contact targets come from data.js ME) ──
+  reach: {
+    eyebrow: '03 · REACH',
+    heading: "Let's talk.",
+    sub: 'Open to AI-native product roles. The fastest ways in are on the right.',
+  },
+};
+</script>
 
 <script type="text/babel" src="components/Wordmark.jsx"></script>
 <script type="text/babel" src="components/Primitives.jsx"></script>
