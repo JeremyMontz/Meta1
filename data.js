@@ -56,6 +56,38 @@ window.ORGANS = [
 ];
 
 
+// ─── ABOUT_PAGES · the ABOUT-section breadcrumb ───────────────────────────
+// Single source of truth for the shared <AboutSubnav active="..." /> component
+// (components/AboutSubnav.jsx). Renders: About: The Human / The AI / Our History
+// across about/human.html, about/ai.html, about/history.html — and any future
+// about page. Adding one: append an entry here + create the page that mounts
+// <AboutSubnav active="ITSID" />. Existing pages don't need editing.
+//
+//   id       — uppercase token, matches what each page passes as `active`
+//   label    — display text in the strip
+//   href     — root-relative URL; component prefixes with site base
+//   isParent — optional; true for the section landing page (Human)
+window.ABOUT_PAGES = [
+  { id: 'HUMAN',   label: 'The Human', href: 'about/human.html',   isParent: true },
+  { id: 'AI',      label: 'The AI',    href: 'about/ai.html' },
+  { id: 'HISTORY', label: 'Our History', href: 'about/history.html' },
+];
+
+// ─── HISTORY · the month-by-month interactive graphs ──────────────────────
+// Powers about/history.html. These are the INTERACTIVE scrollytelling graphs
+// (kept distinct from written essays in ARTICLES) — they tell the operator +
+// agents story month by month. href is root-relative; the page prefixes it
+// with its site base. Use href '#' for not-yet-built months.
+window.HISTORY = [
+  { id: 'm1', month: 'MONTH 01', date: '04 · 2026', title: 'A Month and a Day',
+    sub: 'INTERACTIVE · 32 DAYS · GRAPH', read: '7 min', href: 'writing/first-month.html' },
+  { id: 'm2', month: 'MONTH 02', date: 'COMING SOON', title: 'Month Two',
+    sub: 'INTERACTIVE · IN PROGRESS', read: '—', href: '#' },
+  { id: 'm3', month: 'MONTH 03', date: 'COMING SOON', title: 'Month Three',
+    sub: 'INTERACTIVE · PLANNED', read: '—', href: '#' },
+];
+
+
 window.ME = {
   name:     'Jeremy Montz',
   title:    'senior product manager · operator · learning AI in public',
