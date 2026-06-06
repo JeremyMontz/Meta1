@@ -221,11 +221,10 @@ window.PORTFOLIO = [
 //   1. Drop a new HTML file in writing/<slug>.html (copy an existing one).
 //   2. Add an entry below with its date, title, tag, read time, and href.
 window.ARTICLES = [
-  { id: 'a1', date: '04.19.26', title: 'A Month and a Day',     tag: 'INTERACTIVE',   read: '7 min', href: 'writing/first-month.html' },
-  { id: 'a2', date: '04.29.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html' },
+  { id: 'a1', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html' },
+  { id: 'a2', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html' },
   { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html' },
-  { id: 'a4', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html' },
-  { id: 'a5', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html' },
+  { id: 'a4', date: '04.29.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html' },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
