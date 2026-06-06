@@ -37,7 +37,7 @@ const CompetencyGraph = () => {
     const ang = (-90 + i * (360 / n)) * Math.PI / 180;
     return [cx + rx * Math.cos(ang), cy + ry * Math.sin(ang)];
   });
-  const palette = ['var(--accent)', 'var(--err)', 'var(--candle)', 'var(--info)', 'var(--ok)', 'var(--candle)'];
+  const palette = ['var(--accent)', 'var(--warn)', 'var(--candle)', 'var(--info)', 'var(--ok)', 'var(--candle)'];
 
   const active = comps[sel] || {};
   const ev = active.id ? evidenceFor(active.id) : [];
