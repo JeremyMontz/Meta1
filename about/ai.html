@@ -126,13 +126,13 @@
   /* ---- ALARM: reacts when a LIVE organ is probed ---- */
   /* overlaid on the baked gauge (bottom-left of the cropped art) */
   .alarm-aura {
-    position: absolute; left: 23.5%; top: 76%; width: 22%; height: 24%;
+    position: absolute; left: 24.5%; top: 73%; width: 22%; height: 24%;
     border-radius: 50%; pointer-events: none; opacity: 0;
     background: radial-gradient(circle, rgba(255,40,40,0.55) 0%, rgba(255,40,40,0) 68%);
     transition: opacity 220ms ease; mix-blend-mode: screen;
   }
   .alarm-led {
-    position: absolute; left: 36.4%; top: 87.5%; width: 4.2%; height: 8.5%;
+    position: absolute; left: 37.4%; top: 81.7%; width: 3.9%; height: 7.2%;
     border-radius: 50%; pointer-events: none; opacity: 0;
     background: radial-gradient(circle, rgba(255,70,60,0.95) 0%, rgba(255,70,60,0) 70%);
     transition: opacity 160ms ease;
@@ -320,7 +320,7 @@
       desc:"The agents — each a specialist with its own persona and beat.",
       spots:[{x:25.0,y:37,w:5.5,h:15}] },
 
-    { id:"brain",   name:"Brain",    color:"#6fe26f", status:"pending",
+    { id:"brain",   name:"Brain",    color:"#6fe26f", status:"concept",
       href:null,
       desc:"The Obsidian vault and wiki — the long-term knowledge store.",
       spots:[{x:20.5,y:36,w:5.0,h:16}] },
@@ -328,35 +328,35 @@
     { id:"memory",  name:"Memory",   color:"#f5b53c", status:"live",
       href:"../graph/memory.html",
       desc:"The layered config and working recall the system stands on — the feet it walks on.",
-      spots:[{x:82.0,y:16,w:9.0,h:20},   /* top foot */
-             {x:81.0,y:52,w:9.0,h:20}] },/* bottom foot */
+      spots:[{x:84.5,y:18.5,w:8.4,h:17.8},   /* top foot */
+             {x:83.7,y:47.5,w:8.4,h:19.1}] },/* bottom foot */
 
     { id:"heart",   name:"Heart",    color:"#ff4d4d", status:"live",
       href:"../graph/heart.html",
       desc:"The persona engine — the dials that set each agent's voice and temperament.",
-      spots:[{x:37.0,y:35,w:6.5,h:20}] },
+      spots:[{x:34.4,y:30.0,w:10.0,h:18.3}] },
 
-    { id:"stomach", name:"Stomach",  color:"#35d6c8", status:"pending",
+    { id:"stomach", name:"Stomach",  color:"#35d6c8", status:"concept",
       href:null,
       desc:"Intake and metabolism — turning raw captures into knowledge the brain can hold.",
-      spots:[{x:44.0,y:35,w:6.0,h:20}] },
+      spots:[{x:44.0,y:30.4,w:9.6,h:17.5}] },
 
     { id:"womb",    name:"Womb",     color:"#ff8a3c", status:"concept",
       href:null,
       desc:"Automation — where the creature gives birth to its own subagents. A concept, gestating.",
-      spots:[{x:51.0,y:36,w:6.0,h:16}] },
+      spots:[{x:54.6,y:32.0,w:8.3,h:15.1}] },
 
-    { id:"hands",   name:"Hands",    color:"#ff5fa8", status:"pending",
+    { id:"hands",   name:"Hands",    color:"#ff5fa8", status:"concept",
       href:null,
       desc:"The skills — the learned moves the system reaches for to get work done.",
-      spots:[{x:57.5,y:16,w:8.5,h:16},
-             {x:54.5,y:61,w:9.5,h:18}] },
+      spots:[{x:58.0,y:13.4,w:10.6,h:14.3},
+             {x:58.5,y:58.6,w:10.0,h:14.0}] },
 
-    { id:"bones",   name:"Bones",    color:"#5b8cff", status:"pending",
+    { id:"bones",   name:"Bones",    color:"#5b8cff", status:"concept",
       href:null,
       desc:"The architecture — the local + GitHub substrate the whole creature is built on.",
-      spots:[{x:72.0,y:28,w:9.5,h:13},
-             {x:70.0,y:50,w:9.5,h:13}] },
+      spots:[{x:72.4,y:24.5,w:10.7,h:12.7},
+             {x:72.4,y:47.1,w:10.2,h:12.4}] },
 
     { id:"spirit",  name:"Spirit",   color:"#a98cff", status:"live",
       href:"../graph/spirit.html",
