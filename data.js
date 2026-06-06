@@ -181,8 +181,8 @@ window.PORTFOLIO = [
   {
     id: 'heart',
     no: '03',
-    title: 'Persona Matrix Can Modulate My Graph',
-    blurb: 'The Heart of Claudemonzter. The dials that adjust character and output styles and more.',
+    title: 'Persona Matrix Modulates My Graph',
+    blurb: 'The Heart of Claudemonzter. The dials that adjust character and output styles.',
     status: 'IN TESTING',
     tone: 'warn',
     tag: 'HEART',
@@ -194,7 +194,7 @@ window.PORTFOLIO = [
       ['STARTED', 'May 2026'],
       ['STATUS',  'TEST'],
     ],
-    excerpt: null,
+    excerpt: '"What happends when I press on this?"',
   },
   {
     id: 'Phils-Journal',
@@ -212,7 +212,7 @@ window.PORTFOLIO = [
       ['STARTED', 'May 2026'],
       ['STATUS',  'TEST'],
     ],
-    excerpt: null,
+    excerpt: '"My AI reflects on mystical texts and its own experience."',
   },
 ];
 
