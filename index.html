@@ -47,6 +47,29 @@
     --L5: #ff6b6b;
     --open: var(--info);
   }
+
+  /* ── Hero portrait accent ───────────────────────────────────────────
+     Decorative crop of the Claudemonzter portrait, floated into the
+     empty right half of the hero. Sits above the React layer but
+     pointer-events:none so nav + buttons stay clickable. Hidden on
+     narrow screens where the hero text goes full-width.
+     Swap the image by editing the ONE src on the <img> below.        */
+  .hero-portrait-layer {
+    position: absolute; top: 0; left: 0; width: 100%;
+    display: flex; justify-content: center;
+    pointer-events: none; z-index: 3;
+  }
+  .hero-portrait-col { position: relative; width: 100%; max-width: 1280px; }
+  .hero-portrait {
+    position: absolute; top: 84px; right: 16px;
+    width: clamp(150px, 19vw, 268px); height: auto;
+    image-rendering: pixelated; image-rendering: crisp-edges;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 26px rgba(123, 97, 255, 0.35));
+    opacity: 0.96;
+  }
+  @media (max-width: 980px) { .hero-portrait { right: 8px; width: clamp(130px, 22vw, 210px); } }
+  @media (max-width: 760px) { .hero-portrait-layer { display: none; } }
 </style>
 
 <!-- React + Babel -->
@@ -57,6 +80,16 @@
 <body>
 
 <div id="root"></div>
+
+<!-- ── Hero portrait accent (decorative) ──────────────────────────────
+     TODO: set the filename you saved in design-system/assets/ below.   -->
+<div class="hero-portrait-layer" aria-hidden="true">
+  <div class="hero-portrait-col">
+    <img class="hero-portrait"
+         src="design-system/assets/cmz-portrait.png"
+         alt="" />
+  </div>
+</div>
 
 <!-- Content data (edit me!) — loaded plain so it's the simplest possible surface.
      Shared facts (name, links) and lists (articles, portfolio, agents) live there. -->
