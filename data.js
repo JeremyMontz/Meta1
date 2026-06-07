@@ -54,7 +54,8 @@ window.SITE = {
 //   href      — root-relative URL; component prefixes with _SITE_BASE
 //   isParent  — optional; true for Dashboard (the section landing page)
 window.ORGANS = [
-  { id: 'DASHBOARD', label: 'Faces', href: 'dashboard.html',     isParent: true },
+  { id: 'DASHBOARD', label: 'Dashboard', href: 'dashboard.html',     isParent: true },
+  { id: 'FACES',     label: 'Faces',     href: 'graph/faces.html' },
   { id: 'MEMORY',    label: 'Memory',    href: 'graph/memory.html' },
   { id: 'HEART',     label: 'Heart',     href: 'graph/heart.html' },
     { id: 'SPIRIT',    label: 'Spirit',    href: 'graph/spirit.html' },
