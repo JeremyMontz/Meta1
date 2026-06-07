@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Faces · Agent Status — Claudemonzter</title>
+<meta name="description" content="The Faces — a glanceable agent roster (idle / active / open) with a fly-in dossier: live status card + persona card. The portrait companion to the dashboard." />
+
+<link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+  html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; overflow-x: hidden; }
+  body { font-family: var(--font-sans); }
+  a { color: inherit; text-decoration: none; }
+  .page { width: 100%; max-width: 1280px; margin: 0 auto; }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 currentColor; }
+    50%      { opacity: 0.45; box-shadow: 0 0 0 5px transparent; }
+  }
+  .pulse-dot { animation: pulse-dot 1.8s var(--ease-out, ease-out) infinite; }
+
+  /* ── Graph sub-nav — same pattern as spirit.html / heart.html ───── */
+  .graph-subnav {
+    display: flex; align-items: center; gap: 24px;
+    padding: 12px 40px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    border-bottom: 1px solid var(--line);
+    position: relative; z-index: 3; background: var(--bg);
+  }
+  .graph-subnav-label { color: var(--fg-faint); }
+  .graph-subnav a {
+    color: var(--fg-muted); text-decoration: none;
+    padding-bottom: 2px; border-bottom: 1px solid transparent;
+    transition: color 160ms, border-color 160ms;
+  }
+  .graph-subnav a:hover { color: var(--accent); }
+  .graph-subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── Page header ──────────────────────────────────────────────── */
+  .faces-head { padding: 30px 40px 8px; }
+  .faces-eyebrow { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--candle); }
+  .faces-title { font-family: var(--font-display); font-weight: 700; font-size: 44px; letter-spacing: -0.02em; margin: 8px 0 0; font-variation-settings: "opsz" 72; }
+  .faces-sub { font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--fg-muted); margin: 6px 0 0; max-width: 640px; }
+
+  /* ── Status legend ────────────────────────────────────────────── */
+  .legend { display: flex; gap: 18px; padding: 14px 40px 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-subtle); flex-wrap: wrap; }
+  .legend .chip { display: flex; align-items: center; gap: 6px; }
+  .legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── The wall — 3×3 ───────────────────────────────────────────── */
+  .wall {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    padding: 18px 40px 48px;
+  }
+  @media (max-width: 720px) { .wall { grid-template-columns: repeat(2, 1fr); } }
+
+  .tile {
+    position: relative; cursor: pointer; border: 1px solid var(--line);
+    background: var(--bg-elev-1); overflow: hidden;
+    aspect-ratio: 1 / 1; display: flex; flex-direction: column;
+    transition: transform 180ms var(--ease-out, ease-out), border-color 180ms, box-shadow 180ms;
+    text-align: left;
+  }
+  .tile:hover { transform: translateY(-3px); border-color: var(--accent-bezel, var(--accent)); box-shadow: 0 10px 28px rgba(0,0,0,0.38); }
+  .tile.core { cursor: pointer; }
+  .tile-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .tile-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,3,8,0.92) 0%, rgba(5,3,8,0.30) 42%, rgba(5,3,8,0) 70%); }
+  .tile-status-edge { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .tile-meta { position: relative; margin-top: auto; padding: 12px 14px; z-index: 2; }
+  .tile-name { font-family: var(--font-display); font-size: 19px; font-weight: 600; letter-spacing: -0.01em; line-height: 1; }
+  .tile-row { display: flex; align-items: center; gap: 7px; margin-top: 6px; }
+  .tile-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tile-stat { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .tile-role { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-faint); margin-left: auto; }
+  .tile.core .tile-name { color: var(--accent); }
+  .tile.core .core-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-subtle); margin-top: 5px; }
+
+  /* ── Dossier (fly-in) ─────────────────────────────────────────── */
+  .dossier-backdrop {
+    position: fixed; inset: 0; background: rgba(3,2,6,0.66); backdrop-filter: blur(3px);
+    z-index: 50; display: flex; align-items: flex-start; justify-content: center;
+    padding: 48px 20px; overflow-y: auto;
+    animation: fade-in 180ms ease-out;
+  }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fly-in { from { opacity: 0; transform: translateY(18px) scale(0.985); } to { opacity: 1; transform: none; } }
+  .dossier {
+    position: relative; width: 100%; max-width: 880px;
+    background: var(--bg-elev-1); border: 1px solid var(--line-loud, var(--line));
+    box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+    animation: fly-in 240ms var(--ease-out, cubic-bezier(0.22,1,0.36,1));
+  }
+  .dossier-edge { height: 3px; width: 100%; }
+  .dossier-bracket { position: absolute; width: 16px; height: 16px; pointer-events: none; }
+  .dossier-bracket.tl { top: 8px; left: 8px; border-top: 2px solid; border-left: 2px solid; }
+  .dossier-bracket.br { bottom: 8px; right: 8px; border-bottom: 2px solid; border-right: 2px solid; }
+  .dossier-close { position: absolute; top: 12px; right: 14px; z-index: 5; background: none; border: none; color: var(--fg-subtle); font-size: 22px; line-height: 1; cursor: pointer; font-family: var(--font-mono); }
+  .dossier-close:hover { color: var(--fg); }
+  .dossier-grid { display: grid; grid-template-columns: 1fr 300px; gap: 0; }
+  @media (max-width: 760px) { .dossier-grid { grid-template-columns: 1fr; } }
+
+  .dossier-left { padding: 26px 26px 28px; min-width: 0; }
+  .dossier-right { position: relative; border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+  @media (max-width: 760px) { .dossier-right { border-left: none; border-top: 1px solid var(--line); } }
+  .dossier-face { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
+  .dossier-face img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .dossier-face .face-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,3,8,0.75), rgba(5,3,8,0) 55%); }
+
+  .d-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-faint); }
+  .d-name { font-family: var(--font-display); font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin: 6px 0 0; font-variation-settings: "opsz" 72; }
+  .d-blurb { font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--fg-muted); margin: 8px 0 0; line-height: 1.4; }
+  .d-statusrow { display: flex; align-items: center; gap: 12px; margin: 16px 0 0; }
+  .d-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
+  .d-mood { font-size: 13px; font-style: italic; color: var(--accent-deep, var(--accent)); }
+  .d-time { font-family: var(--font-mono); font-size: 10px; color: var(--fg-faint); letter-spacing: 0.08em; margin-left: auto; }
+  .d-flag { margin-top: 12px; background: color-mix(in oklch, var(--err) 8%, transparent); border: 1px solid color-mix(in oklch, var(--err) 25%, transparent); padding: 7px 10px; font-size: 12px; color: var(--err); display: flex; gap: 7px; align-items: baseline; }
+  .d-flag .reason { color: var(--fg-muted); }
+  .d-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .d-field { margin-bottom: 13px; }
+  .d-field:last-child { margin-bottom: 0; }
+  .d-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-faint); margin-bottom: 4px; }
+  .d-value { font-size: 14px; color: var(--fg-muted); line-height: 1.5; }
+  .d-empty { font-size: 13px; color: var(--fg-faint); font-style: italic; }
+  .persona-slot { padding: 14px; }
+
+  .loading-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-faint); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .dossier, .dossier-backdrop { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <!-- shared site chrome -->
+  <div id="topnav-mount"></div>
+  <div id="graph-subnav-mount"></div>
+
+  <div class="faces-head">
+    <div class="faces-eyebrow">// GRAPH · FACES · LIVE</div>
+    <h1 class="faces-title">The Faces.</h1>
+    <p class="faces-sub">A glanceable roster of the lab. Each face reads its own state — resting, present, or live. Tap one for the dossier.</p>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <!-- the wall -->
+  <div id="root"></div>
+
+  <div id="footer-mount"></div>
+</div>
+
+<!-- shared chrome + data -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+<script type="text/babel" src="../components/GraphSubnav.jsx"></script>
+
+<!-- persona stack (same order the agent pages use) -->
+<script src="heart-data.js"></script>
+<script type="text/babel" src="heart-dials.jsx"></script>
+<script type="text/babel" src="heart-embed.jsx"></script>
+
+<!-- ─── Sheet plumbing — same logic as dashboard.html / agent pages ─── -->
+<script>
+window.SHEET_ID  = "16OAh0lBMAZJLhJqsu1574PBsD7tkP_sqHIZa58t_-VI";
+window.STALE_DAYS = 7;
+
+window.FACE_TABS = [
+  { tab: "Meta1Checkin",    id: "meta1"    },
+  { tab: "BondCheckin",     id: "bond"     },
+  { tab: "HouseCheckin",    id: "house"    },
+  { tab: "FreedomCheckin",  id: "freedom"  },
+  { tab: "EvolveCheckin",   id: "evolve"   },
+  { tab: "AssessorCheckin", id: "assessor" },
+  { tab: "PhilCheckin",     id: "phil"     },
+  { tab: "HumanCheckin",    id: "jeremy"   }
+];
+
+function csvUrl(tab) {
+  return "https://docs.google.com/spreadsheets/d/" + window.SHEET_ID +
+    "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(tab);
+}
+function splitCSVLine(line) {
+  var cols = [], inQ = false, cur = "";
+  for (var i = 0; i < line.length; i++) {
+    var c = line[i];
+    if (c === '"') inQ = !inQ;
+    else if (c === ',' && !inQ) { cols.push(cur); cur = ""; }
+    else cur += c;
+  }
+  cols.push(cur); return cols;
+}
+function parseCSV(text) {
+  var lines = text.trim().split("\n");
+  if (lines.length < 2) return [];
+  var headers = splitCSVLine(lines[0]);
+  return lines.slice(1).map(function(line) {
+    var cols = splitCSVLine(line), obj = {};
+    headers.forEach(function(h, i) { obj[h.trim().replace(/^"|"$/g,"")] = (cols[i] || "").replace(/^"|"$/g,"").trim(); });
+    return obj;
+  });
+}
+function parseDate(raw) { if (!raw) return null; var d = new Date(raw); return isNaN(d) ? null : d; }
+function daysSince(d) { return d ? (Date.now() - d.getTime()) / 86400000 : Infinity; }
+function fmtDate(d) {
+  if (!d) return "—";
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + ", " +
+    d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+}
+
+// Composite an agent's checkin rows into a single display state.
+// Mirrors dashboard.html / agents/<id>.html exactly.
+function compositeRows(rows) {
+  var openRow = null, closeRow = null;
+  rows.forEach(function(r) {
+    var ts = parseDate(r["Timestamp"]); if (!ts) return; r._ts = ts;
+    if (r["Type"] === "open")  { if (!openRow  || ts > openRow._ts)  openRow  = r; }
+    else if (r["Type"] === "close") { if (!closeRow || ts > closeRow._ts) closeRow = r; }
+  });
+  var upperRow = (openRow && closeRow) ? (openRow._ts > closeRow._ts ? openRow : closeRow) : (openRow || closeRow || null);
+  var sessionIsOpen = openRow && (!closeRow || openRow._ts > closeRow._ts);
+
+  var displayStatus = "idle";
+  if (upperRow) {
+    if (upperRow === openRow && sessionIsOpen) {
+      displayStatus = (openRow["Flags"] || "").trim() ? "flagged" : "open";
+    } else if (upperRow === closeRow) {
+      displayStatus = "active";
+    }
+    if (daysSince(upperRow._ts) > window.STALE_DAYS) displayStatus = "idle";
+  } else {
+    displayStatus = "nodata";
+  }
+  return {
+    upperRow: upperRow, closeRow: closeRow,
+    sessionIsOpen: sessionIsOpen, isStale: sessionIsOpen, displayStatus: displayStatus
+  };
+}
+window.csvUrl = csvUrl; window.parseCSV = parseCSV; window.compositeRows = compositeRows;
+window.fmtDate = fmtDate; window.parseDate = parseDate;
+</script>
+
+<!-- ─── The wall + dossier app ──────────────────────────────────── -->
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+// Identity-only visual config (accent + glyph). Not volatile, not a fact
+// that lives in data.js — pure design identity, so it stays in code.
+const FACE_IDENTITY = {
+  meta1:    { accent: '#b57bff' },
+  bond:     { accent: '#ff4757' },
+  house:    { accent: '#f5c56a' },
+  freedom:  { accent: '#8dd9ff' },
+  evolve:   { accent: '#a7ff7d' },
+  assessor: { accent: '#ff6ec7' },
+  phil:     { accent: '#f5c56a' },
+  jeremy:   { accent: '#b57bff' },
+  monzter:  { accent: '#b57bff' },
+};
+
+// Status → colour (matches dashboard semantics) ----------------------------
+const STATUS_COLOR = {
+  open:    'var(--info)',
+  flagged: 'var(--warn)',
+  active:  'var(--ok)',
+  idle:    'var(--fg-subtle)',
+  nodata:  'var(--fg-faint)',
+};
+const STATUS_LABEL = {
+  open: 'OPEN', flagged: 'FLAGGED', active: 'ACTIVE', idle: 'IDLE', nodata: 'NO DATA',
+};
+
+// Status → portrait variant. Sessions running (open/flagged) use the "open"
+// art; present uses active; resting / no-data uses idle.
+function artStem(id) {
+  if (id === 'jeremy')  return 'unknown';
+  if (id === 'monzter') return 'claudemonzter';
+  return id;
+}
+function faceArt(id, status) {
+  const stem = artStem(id);
+  if (status === 'open' || status === 'flagged') return `assets/faces/open-${stem}.png`;
+  if (status === 'active')                       return `assets/faces/${stem}.png`;
+  return `assets/faces/idle-${stem}.png`; // idle / nodata
+}
+
+// 3×3 layout, Claude Monzter core in the centre.
+const LAYOUT = [
+  'meta1', 'bond',    'house',
+  'freedom', 'monzter', 'evolve',
+  'assessor', 'phil',  'jeremy',
+];
+
+function agentById(id) { return (window.AGENTS || []).find(a => a.id === id) || null; }
+
+function fields(comp) {
+  const u = comp && comp.upperRow ? comp.upperRow : null;
+  const c = comp && comp.closeRow ? comp.closeRow : null;
+  return {
+    mood:    u ? (u["Mood"] || "") : "",
+    persona: u ? (u["Persona"] || "") : "",
+    project: u ? (u["Project"] || "") : "",
+    ts:      u ? window.parseDate(u["Timestamp"]) : null,
+    flags:   u ? (u["Flags"] || "").trim() : "",
+    flagReason: u ? (u["Flag Reason"] || "").trim() : "",
+    summary: c ? (c["Session Summary"] || "") : "",
+    focus:   c ? (c["Current Focus"] || "") : "",
+    blockers:c ? (c["Blockers"] || "") : "",
+    next:    c ? (c["Next"] || "") : "",
+  };
+}
+
+// ── Tile ──────────────────────────────────────────────────────────────
+function Tile({ id, comp, onOpen }) {
+  const ident = FACE_IDENTITY[id] || {};
+  const status = comp ? comp.displayStatus : 'loading';
+
+  if (id === 'monzter') {
+    return (
+      <a className="tile core" href="../dashboard.html"
+         style={{ '--accent-bezel': ident.accent }}>
+        <span className="tile-status-edge" style={{ background: ident.accent }} />
+        <img className="tile-img" src={faceArt('monzter','active')} alt="Claude Monzter" loading="lazy" />
+        <span className="tile-scrim" />
+        <span className="tile-meta">
+          <span className="tile-name">Claude Monzter</span>
+          <span className="core-tag">Orchestrator → Dashboard ↗</span>
+        </span>
+      </a>
+    );
+  }
+
+  const agent = agentById(id);
+  const color = comp ? STATUS_COLOR[status] : 'var(--fg-faint)';
+  const label = comp ? STATUS_LABEL[status] : '…';
+  return (
+    <button className="tile" onClick={() => onOpen(id)} style={{ '--accent-bezel': ident.accent }}>
+      <span className="tile-status-edge" style={{ background: color }} />
+      <img className="tile-img" src={faceArt(id, comp ? status : 'idle')} alt={agent ? agent.name : id} loading="lazy" />
+      <span className="tile-scrim" />
+      <span className="tile-meta">
+        <span className="tile-name">{agent ? agent.name : id}</span>
+        <span className="tile-row">
+          <span className="tile-dot" style={{ background: color, boxShadow: (status==='open'||status==='active') ? `0 0 7px ${color}` : 'none' }} />
+          <span className="tile-stat" style={{ color }}>{label}</span>
+          {agent && <span className="tile-role">{agent.role}</span>}
+        </span>
+      </span>
+    </button>
+  );
+}
+
+// ── Dossier ───────────────────────────────────────────────────────────
+function Dossier({ id, comp, heartReady, onClose }) {
+  const agent = agentById(id);
+  if (!agent) return null;
+  const ident = FACE_IDENTITY[id] || {};
+  const status = comp ? comp.displayStatus : 'nodata';
+  const f = fields(comp);
+  const color = STATUS_COLOR[status];
+
+  const PersonaCard = window.PersonaCard;
+  const heartAgent = heartReady && window.HEART_AGENTS
+    ? window.HEART_AGENTS.find(a => a.id === id) : null;
+
+  useEffect(() => {
+    function esc(e) { if (e.key === 'Escape') onClose(); }
+    window.addEventListener('keydown', esc);
+    return () => window.removeEventListener('keydown', esc);
+  }, []);
+
+  const hasSession = f.summary || f.focus || f.blockers || f.next;
+
+  return (
+    <div className="dossier-backdrop" onClick={onClose}>
+      <div className="dossier" onClick={(e) => e.stopPropagation()}>
+        <div className="dossier-edge" style={{ background: color }} />
+        <span className="dossier-bracket tl" style={{ borderColor: ident.accent }} />
+        <span className="dossier-bracket br" style={{ borderColor: ident.accent }} />
+        <button className="dossier-close" onClick={onClose} aria-label="Close">×</button>
+
+        <div className="dossier-grid">
+          {/* LEFT — live status */}
+          <div className="dossier-left">
+            <div className="d-eyebrow">// AGENT · {agent.role.toUpperCase()}</div>
+            <h2 className="d-name">{agent.name}</h2>
+            <p className="d-blurb">{f.persona || agent.blurb}</p>
+
+            <div className="d-statusrow">
+              <span className="d-badge" style={{ background: `color-mix(in oklch, ${color} 14%, transparent)`, color }}>{STATUS_LABEL[status]}</span>
+              {f.mood && <span className="d-mood">{f.mood}</span>}
+              <span className="d-time">{f.ts ? window.fmtDate(f.ts) : 'no check-in yet'}</span>
+            </div>
+
+            {f.flags && (
+              <div className="d-flag"><span>⚑</span><span>{f.flags}</span>{f.flagReason && <span className="reason">— {f.flagReason}</span>}</div>
+            )}
+
+            <div className="d-section">
+              {!comp && <div className="loading-tag">Loading status…</div>}
+              {comp && !hasSession && <div className="d-empty">No session detail reported yet.</div>}
+              {f.summary  && <div className="d-field"><div className="d-label">Summary</div><div className="d-value">{f.summary}</div></div>}
+              {f.focus    && <div className="d-field"><div className="d-label">Focus</div><div className="d-value">{f.focus}</div></div>}
+              {f.blockers && <div className="d-field"><div className="d-label">Blockers</div><div className="d-value">{f.blockers}</div></div>}
+              {f.next     && <div className="d-field"><div className="d-label">Next</div><div className="d-value">{f.next}</div></div>}
+            </div>
+          </div>
+
+          {/* RIGHT — face + persona */}
+          <div className="dossier-right">
+            <div className="dossier-face">
+              <img src={faceArt(id, status)} alt={agent.name} />
+              <span className="face-scrim" />
+            </div>
+            <div className="persona-slot">
+              {PersonaCard && heartAgent
+                ? <PersonaCard agent={heartAgent} rev="—" lastSync="live" hyde={true} />
+                : <div className="loading-tag">{heartReady ? 'No persona on file.' : 'Loading persona…'}</div>}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── App ───────────────────────────────────────────────────────────────
+function FacesApp() {
+  const [statusMap, setStatusMap] = useState(null);
+  const [heartReady, setHeartReady] = useState(false);
+  const [openId, setOpenId] = useState(null);
+
+  useEffect(() => {
+    const bust = "&cachebust=" + Date.now();
+    Promise.all(window.FACE_TABS.map(t =>
+      fetch(window.csvUrl(t.tab) + bust)
+        .then(r => r.text())
+        .then(txt => ({ id: t.id, comp: window.compositeRows(window.parseCSV(txt)) }))
+        .catch(() => ({ id: t.id, comp: window.compositeRows([]) }))
+    )).then(res => {
+      const m = {}; res.forEach(r => { m[r.id] = r.comp; }); setStatusMap(m);
+    });
+
+    if (window.fetchHeartData) {
+      window.fetchHeartData().then(() => setHeartReady(true)).catch(() => setHeartReady(true));
+    }
+  }, []);
+
+  return (
+    <React.Fragment>
+      <div className="wall">
+        {LAYOUT.map(id => (
+          <Tile key={id} id={id} comp={statusMap ? statusMap[id] : null} onOpen={setOpenId} />
+        ))}
+      </div>
+      {openId && (
+        <Dossier id={openId} comp={statusMap ? statusMap[openId] : null}
+                 heartReady={heartReady} onClose={() => setOpenId(null)} />
+      )}
+    </React.Fragment>
+  );
+}
+
+// Legend (static, plain DOM)
+(function renderLegend() {
+  const items = [['open','OPEN'],['active','ACTIVE'],['idle','IDLE'],['flagged','FLAGGED']];
+  const el = document.getElementById('legend');
+  el.innerHTML = items.map(([k,l]) =>
+    `<span class="chip"><span class="dot" style="background:${STATUS_COLOR[k]}"></span>${l}</span>`
+  ).join('');
+})();
+
+ReactDOM.createRoot(document.getElementById('root')).render(<FacesApp />);
+</script>
+
+<!-- mount shared chrome -->
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('graph-subnav-mount')).render(<GraphSubnav active="FACES" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>
