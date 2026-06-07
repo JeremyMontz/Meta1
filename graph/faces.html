@@ -120,6 +120,8 @@
   .d-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
   .d-mood { font-size: 13px; font-style: italic; color: var(--accent-deep, var(--accent)); }
   .d-time { font-family: var(--font-mono); font-size: 10px; color: var(--fg-faint); letter-spacing: 0.08em; margin-left: auto; }
+  .d-pagelink { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid color-mix(in oklch, var(--accent) 45%, transparent); padding-bottom: 1px; transition: color 140ms, border-color 140ms; white-space: nowrap; }
+  .d-pagelink:hover { color: var(--fg); border-bottom-color: var(--fg); }
   .d-flag { margin-top: 12px; background: color-mix(in oklch, var(--err) 8%, transparent); border: 1px solid color-mix(in oklch, var(--err) 25%, transparent); padding: 7px 10px; font-size: 12px; color: var(--err); display: flex; gap: 7px; align-items: baseline; }
   .d-flag .reason { color: var(--fg-muted); }
   .d-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
@@ -388,13 +390,13 @@ function Dossier({ id, comp, heartReady, onClose }) {
         <div className="dossier-grid">
           {/* LEFT — live status */}
           <div className="dossier-left">
-            <div className="d-eyebrow">// AGENT · {agent.role.toUpperCase()}</div>
             <h2 className="d-name">{agent.name}</h2>
             <p className="d-blurb">{f.persona || agent.blurb}</p>
 
             <div className="d-statusrow">
               <span className="d-badge" style={{ background: `color-mix(in oklch, ${color} 14%, transparent)`, color }}>{STATUS_LABEL[status]}</span>
               {f.mood && <span className="d-mood">{f.mood}</span>}
+              <a className="d-pagelink" href={`../agents/${id}/${id}.html`}>Agent page ↗</a>
               <span className="d-time">{f.ts ? window.fmtDate(f.ts) : 'no check-in yet'}</span>
             </div>
 
