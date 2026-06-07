@@ -43,27 +43,28 @@
   .graph-subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
 
   /* ── Page header ──────────────────────────────────────────────── */
-  .faces-head { padding: 30px 40px 8px; }
-  .faces-eyebrow { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--candle); }
-  .faces-title { font-family: var(--font-display); font-weight: 700; font-size: 44px; letter-spacing: -0.02em; margin: 8px 0 0; font-variation-settings: "opsz" 72; }
-  .faces-sub { font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--fg-muted); margin: 6px 0 0; max-width: 640px; }
+  .faces-head { padding: 22px 40px 4px; }
+  .faces-eyebrow { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); }
+  .faces-title { font-family: var(--font-display); font-weight: 700; font-size: 36px; letter-spacing: -0.02em; margin: 7px 0 0; font-variation-settings: "opsz" 72; }
+  .faces-sub { font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--fg-muted); margin: 5px 0 0; max-width: 600px; }
 
-  /* ── Status legend ────────────────────────────────────────────── */
-  .legend { display: flex; gap: 18px; padding: 14px 40px 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-subtle); flex-wrap: wrap; }
-  .legend .chip { display: flex; align-items: center; gap: 6px; }
-  .legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+  /* ── Status summary (live counts) ─────────────────────────────── */
+  .summary { display: flex; gap: 16px; padding: 12px 40px 2px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--fg-subtle); flex-wrap: wrap; align-items: center; min-height: 18px; }
+  .summary .chip { display: flex; align-items: center; gap: 7px; }
+  .summary .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .summary .chip-n { color: var(--fg); font-weight: 700; }
 
   /* ── The wall — 3×3 ───────────────────────────────────────────── */
   .wall {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-    padding: 18px 40px 48px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    padding: 14px 40px 44px; max-width: 1040px; margin: 0 auto;
   }
   @media (max-width: 720px) { .wall { grid-template-columns: repeat(2, 1fr); } }
 
   .tile {
     position: relative; cursor: pointer; border: 1px solid var(--line);
     background: var(--bg-elev-1); overflow: hidden;
-    aspect-ratio: 1 / 1; display: flex; flex-direction: column;
+    aspect-ratio: 466 / 380; display: flex; flex-direction: column;
     transition: transform 180ms var(--ease-out, ease-out), border-color 180ms, box-shadow 180ms;
     text-align: left;
   }
@@ -108,7 +109,7 @@
   .dossier-left { padding: 26px 26px 28px; min-width: 0; }
   .dossier-right { position: relative; border-left: 1px solid var(--line); display: flex; flex-direction: column; }
   @media (max-width: 760px) { .dossier-right { border-left: none; border-top: 1px solid var(--line); } }
-  .dossier-face { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
+  .dossier-face { position: relative; width: 100%; aspect-ratio: 466 / 380; overflow: hidden; }
   .dossier-face img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
   .dossier-face .face-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,3,8,0.75), rgba(5,3,8,0) 55%); }
 
@@ -145,14 +146,12 @@
   <div id="graph-subnav-mount"></div>
 
   <div class="faces-head">
-    <div class="faces-eyebrow">// GRAPH · FACES · LIVE</div>
+    <div class="faces-eyebrow">// Claudemonzter · Roster · Live</div>
     <h1 class="faces-title">The Faces.</h1>
     <p class="faces-sub">A glanceable roster of the lab. Each face reads its own state — resting, present, or live. Tap one for the dossier.</p>
   </div>
 
-  <div class="legend" id="legend"></div>
-
-  <!-- the wall -->
+  <!-- the wall (summary bar + grid render here) -->
   <div id="root"></div>
 
   <div id="footer-mount"></div>
@@ -330,11 +329,10 @@ function Tile({ id, comp, onOpen }) {
       <a className="tile core" href="../dashboard.html"
          style={{ '--accent-bezel': ident.accent }}>
         <span className="tile-status-edge" style={{ background: ident.accent }} />
-        <img className="tile-img" src={faceArt('monzter','active')} alt="Claude Monzter" loading="lazy" />
+        <img className="tile-img" src={faceArt('monzter','active')} alt="Claude Monzter — open dashboard" loading="lazy" />
         <span className="tile-scrim" />
         <span className="tile-meta">
-          <span className="tile-name">Claude Monzter</span>
-          <span className="core-tag">Orchestrator → Dashboard ↗</span>
+          <span className="core-tag">Dashboard ↗</span>
         </span>
       </a>
     );
@@ -349,11 +347,9 @@ function Tile({ id, comp, onOpen }) {
       <img className="tile-img" src={faceArt(id, comp ? status : 'idle')} alt={agent ? agent.name : id} loading="lazy" />
       <span className="tile-scrim" />
       <span className="tile-meta">
-        <span className="tile-name">{agent ? agent.name : id}</span>
         <span className="tile-row">
           <span className="tile-dot" style={{ background: color, boxShadow: (status==='open'||status==='active') ? `0 0 7px ${color}` : 'none' }} />
           <span className="tile-stat" style={{ color }}>{label}</span>
-          {agent && <span className="tile-role">{agent.role}</span>}
         </span>
       </span>
     </button>
@@ -434,6 +430,28 @@ function Dossier({ id, comp, heartReady, onClose }) {
   );
 }
 
+// ── Summary bar (live counts) ─────────────────────────────────────────
+function SummaryBar({ statusMap }) {
+  if (!statusMap) return <div className="summary"><span className="loading-tag">Loading roster…</span></div>;
+  const order = ['open', 'active', 'idle', 'flagged', 'nodata'];
+  const counts = {};
+  Object.keys(statusMap).forEach(id => {
+    const s = statusMap[id] ? statusMap[id].displayStatus : null;
+    if (s) counts[s] = (counts[s] || 0) + 1;
+  });
+  const shown = order.filter(s => counts[s]);
+  return (
+    <div className="summary">
+      {shown.map(s => (
+        <span className="chip" key={s}>
+          <span className="dot" style={{ background: STATUS_COLOR[s] }} />
+          <span className="chip-n">{counts[s]}</span> {STATUS_LABEL[s]}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 // ── App ───────────────────────────────────────────────────────────────
 function FacesApp() {
   const [statusMap, setStatusMap] = useState(null);
@@ -458,6 +476,7 @@ function FacesApp() {
 
   return (
     <React.Fragment>
+      <SummaryBar statusMap={statusMap} />
       <div className="wall">
         {LAYOUT.map(id => (
           <Tile key={id} id={id} comp={statusMap ? statusMap[id] : null} onOpen={setOpenId} />
@@ -470,15 +489,6 @@ function FacesApp() {
     </React.Fragment>
   );
 }
-
-// Legend (static, plain DOM)
-(function renderLegend() {
-  const items = [['open','OPEN'],['active','ACTIVE'],['idle','IDLE'],['flagged','FLAGGED']];
-  const el = document.getElementById('legend');
-  el.innerHTML = items.map(([k,l]) =>
-    `<span class="chip"><span class="dot" style="background:${STATUS_COLOR[k]}"></span>${l}</span>`
-  ).join('');
-})();
 
 ReactDOM.createRoot(document.getElementById('root')).render(<FacesApp />);
 </script>
