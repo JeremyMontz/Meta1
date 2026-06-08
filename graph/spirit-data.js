@@ -44,38 +44,43 @@
   var JOURNAL_URL = '../agents/phil/journal.html';
   var PHIL_PAGE_URL = '../agents/phil/phil.html';
 
-  // ── Small CSV parser (mirrors dashboard.html pattern) ──────────────────────
-  function splitCSVLine(line) {
-    var cols = [], inQ = false, cur = '';
-    for (var i = 0; i < line.length; i++) {
-      var c = line[i];
-      if (c === '"') {
-        // Handle escaped quotes ("") inside quoted fields
-        if (inQ && line[i + 1] === '"') { cur += '"'; i++; }
-        else inQ = !inQ;
-      } else if (c === ',' && !inQ) {
-        cols.push(cur); cur = '';
+  // ── RFC-4180 CSV parser (single-pass, respects quoted newlines) ────────────
+  // Replaces the prior line-split approach, which tore quoted fields containing
+  // embedded newlines (e.g. multi-paragraph Responses) across physical lines and
+  // shifted every subsequent column. See #217.
+  function tokenizeCSV(text) {
+    // Returns an array of records; each record is an array of field strings.
+    // Quotes are consumed; escaped quotes ("") become a literal "; newlines
+    // inside quoted fields are preserved.
+    var records = [], row = [], cur = '', inQ = false;
+    var s = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    for (var i = 0; i < s.length; i++) {
+      var c = s[i];
+      if (inQ) {
+        if (c === '"') {
+          if (s[i + 1] === '"') { cur += '"'; i++; }  // escaped quote ""
+          else inQ = false;                            // closing quote
+        } else { cur += c; }                           // newlines preserved here
       } else {
-        cur += c;
+        if (c === '"') { inQ = true; }
+        else if (c === ',') { row.push(cur); cur = ''; }
+        else if (c === '\n') { row.push(cur); records.push(row); row = []; cur = ''; }
+        else { cur += c; }
       }
     }
-    cols.push(cur);
-    return cols;
+    if (cur !== '' || row.length > 0) { row.push(cur); records.push(row); }
+    return records;
   }
 
   function parseCSV(text) {
-    // gviz returns CRLF or LF — normalize, drop blank trailing lines
-    var lines = text.replace(/\r\n/g, '\n').split('\n').filter(function (l) { return l.length > 0; });
-    if (lines.length < 2) return { headers: [], rows: [] };
-    var headers = splitCSVLine(lines[0]).map(function (h) {
-      return h.replace(/^"|"$/g, '').trim();
+    var records = tokenizeCSV(text).filter(function (r) {
+      return r.length > 1 || (r.length === 1 && r[0] !== '');
     });
-    var rows = lines.slice(1).map(function (line) {
-      var cols = splitCSVLine(line);
+    if (records.length < 2) return { headers: [], rows: [] };
+    var headers = records[0].map(function (h) { return h.trim(); });
+    var rows = records.slice(1).map(function (cols) {
       var obj = {};
-      headers.forEach(function (h, i) {
-        obj[h] = (cols[i] || '').replace(/^"|"$/g, '').trim();
-      });
+      headers.forEach(function (h, i) { obj[h] = (cols[i] || '').trim(); });
       return obj;
     });
     return { headers: headers, rows: rows };
