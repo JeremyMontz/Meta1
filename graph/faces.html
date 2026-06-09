@@ -167,9 +167,9 @@
 <script type="text/babel" src="../components/GraphSubnav.jsx"></script>
 
 <!-- persona stack (same order the agent pages use) -->
-<script src="heart-data.js"></script>
-<script type="text/babel" src="heart-dials.jsx"></script>
-<script type="text/babel" src="heart-embed.jsx"></script>
+<script src="spirit-data.js"></script>
+<script type="text/babel" src="spirit-dials.jsx"></script>
+<script type="text/babel" src="spirit-embed.jsx"></script>
 
 <!-- ─── Sheet plumbing — same logic as dashboard.html / agent pages ─── -->
 <script>
@@ -359,7 +359,7 @@ function Tile({ id, comp, onOpen }) {
 }
 
 // ── Dossier ───────────────────────────────────────────────────────────
-function Dossier({ id, comp, heartReady, onClose }) {
+function Dossier({ id, comp, spiritReady, onClose }) {
   const agent = agentById(id);
   if (!agent) return null;
   const ident = FACE_IDENTITY[id] || {};
@@ -368,8 +368,8 @@ function Dossier({ id, comp, heartReady, onClose }) {
   const color = STATUS_COLOR[status];
 
   const PersonaCard = window.PersonaCard;
-  const heartAgent = heartReady && window.HEART_AGENTS
-    ? window.HEART_AGENTS.find(a => a.id === id) : null;
+  const spiritAgent = spiritReady && window.SPIRIT_AGENTS
+    ? window.SPIRIT_AGENTS.find(a => a.id === id) : null;
 
   useEffect(() => {
     function esc(e) { if (e.key === 'Escape') onClose(); }
@@ -421,9 +421,9 @@ function Dossier({ id, comp, heartReady, onClose }) {
               <span className="face-scrim" />
             </div>
             <div className="persona-slot">
-              {PersonaCard && heartAgent
-                ? <PersonaCard agent={heartAgent} rev="—" lastSync="live" hyde={true} />
-                : <div className="loading-tag">{heartReady ? 'No persona on file.' : 'Loading persona…'}</div>}
+              {PersonaCard && spiritAgent
+                ? <PersonaCard agent={spiritAgent} rev="—" lastSync="live" hyde={true} />
+                : <div className="loading-tag">{spiritReady ? 'No persona on file.' : 'Loading persona…'}</div>}
             </div>
           </div>
         </div>
@@ -457,7 +457,7 @@ function SummaryBar({ statusMap }) {
 // ── App ───────────────────────────────────────────────────────────────
 function FacesApp() {
   const [statusMap, setStatusMap] = useState(null);
-  const [heartReady, setHeartReady] = useState(false);
+  const [spiritReady, setSpiritReady] = useState(false);
   const [openId, setOpenId] = useState(null);
 
   useEffect(() => {
@@ -471,8 +471,8 @@ function FacesApp() {
       const m = {}; res.forEach(r => { m[r.id] = r.comp; }); setStatusMap(m);
     });
 
-    if (window.fetchHeartData) {
-      window.fetchHeartData().then(() => setHeartReady(true)).catch(() => setHeartReady(true));
+    if (window.fetchSpiritData) {
+      window.fetchSpiritData().then(() => setSpiritReady(true)).catch(() => setSpiritReady(true));
     }
   }, []);
 
@@ -486,7 +486,7 @@ function FacesApp() {
       </div>
       {openId && (
         <Dossier id={openId} comp={statusMap ? statusMap[openId] : null}
-                 heartReady={heartReady} onClose={() => setOpenId(null)} />
+                 spiritReady={spiritReady} onClose={() => setOpenId(null)} />
       )}
     </React.Fragment>
   );
