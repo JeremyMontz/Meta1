@@ -1,138 +1,204 @@
-// heart/heart-data.js — Persona dial data
-// Static config (HEART_DIALS, HEART_INTENSITY) lives here.
-// Agent data (HEART_AGENTS, HEART_CONTAINMENT) fetched from GAS at load time.
-
-// ── GAS endpoint ─────────────────────────────────────────────────────────
-// Replace after deploying gas-persona-matrix.js as a web app:
-//   Extensions > Apps Script > Deploy > Web app
-//   Execute as: Me | Who has access: Anyone
-var HEART_GAS_URL = 'https://script.google.com/macros/s/AKfycbyRo2he2WpfR8i1WfeleyHVIbhW4d9GdBDUAqT4nJX_B-iJHK95ba7mFJgqOj7mB9bM/exec';
-
-// ── Static reference data ────────────────────────────────────────────────
-
-window.HEART_DIALS = [
-  { id: 'verbosity',     name: 'Verbosity',        reliability: 'High',
-    settings: ['Terse', 'Standard', 'Explanatory', 'Pedagogical'],
-    blurb: 'How much Claude says.' },
-  { id: 'register',      name: 'Register',         reliability: 'High',
-    settings: ['Clinical', 'Professional', 'Coaching', 'Tactical', 'Strategic', 'Inquiry', 'Conversational'],
-    blurb: 'The tonal frame.' },
-  { id: 'structure',     name: 'Structure',        reliability: 'High',
-    settings: ['Prose', 'Mixed', 'Structured'],
-    blurb: 'Shape of output.' },
-  { id: 'proactivity',   name: 'Proactivity',      reliability: 'High',
-    settings: ['Reactive', 'Balanced', 'Anticipatory'],
-    blurb: 'Volunteer or wait.' },
-  { id: 'assertiveness', name: 'Assertiveness',    reliability: 'Moderate',
-    settings: ['Deferential', 'Collaborative', 'Challenging', 'Adversarial'],
-    blurb: 'How hard it pushes.' },
-  { id: 'audience',      name: 'Audience',         reliability: 'High',
-    settings: ['Expert', 'Practitioner', 'Learner'],
-    blurb: 'Assumed competence.' },
-  { id: 'questions',     name: 'Question Density', reliability: 'Moderate',
-    settings: ['Sparse', 'Moderate', 'Frequent'],
-    blurb: 'How often it probes.' },
-  { id: 'informality',   name: 'Informality',      reliability: 'Moderate',
-    settings: ['Formal', 'Professional', 'Relaxed', 'Profane-OK'],
-    blurb: 'Language register.' },
-  { id: 'humor',         name: 'Humor',            reliability: 'Low–Mod',
-    settings: ['None', 'Dry/contextual', 'Playful'],
-    blurb: 'Wit permission.' },
-];
-
-window.HEART_INTENSITY = {
-  verbosity:     { Terse: 2, Standard: 0, Explanatory: 1, Pedagogical: 3 },
-  register:      { Clinical: 3, Professional: 0, Coaching: 1, Tactical: 1, Strategic: 2, Inquiry: 3, Conversational: 2 },
-  structure:     { Prose: 2, Mixed: 0, Structured: 1 },
-  proactivity:   { Reactive: 2, Balanced: 0, Anticipatory: 2 },
-  assertiveness: { Deferential: 2, Collaborative: 0, Challenging: 2, Adversarial: 3 },
-  audience:      { Expert: 2, Practitioner: 0, Learner: 2 },
-  questions:     { Sparse: 1, Moderate: 0, Frequent: 2 },
-  informality:   { Formal: 2, Professional: 0, Relaxed: 1, 'Profane-OK': 'h' },
-  humor:         { None: 1, 'Dry/contextual': 0, Playful: 'h' },
-};
-
-// ── Project mapping (not in Sheet — client-side constant) ────────────────
-// Maps domain id → project slug for display grouping
-var DOMAIN_PROJECT = {
-  assessor: 'pura-vida', evolve: 'pura-vida', house: 'pura-vida', freedom: 'pura-vida',
-  phil: 'phil',
-  meta1: 'meta1', bond: 'meta1',
-};
-
-// ── Fetch + transform ────────────────────────────────────────────────────
-
-// Initialize with empty arrays; populated by fetchHeartData()
-window.HEART_AGENTS = [];
-window.HEART_CONTAINMENT = {};
-
-/**
- * Fetch persona data from GAS and populate HEART_AGENTS + HEART_CONTAINMENT.
- * Also merges Dial Ranges from the Sheet into HEART_DIALS (overwriting
- * static settings/reliability if the Sheet has data).
+/* ============================================================================
+ * heart-data.js · CLAUDEMONZTER — "WISDOM OF THE DAY"
+ * ----------------------------------------------------------------------------
+ * The data layer for /graph/heart.html and /agents/phil/journal.html.
  *
- * Returns the assembled HEART_AGENTS array.
- */
-window.fetchHeartData = async function fetchHeartData() {
-  var resp = await fetch(HEART_GAS_URL);
-  var data = await resp.json();
+ * Reads entries from the live "Phil-Journal" Google Sheet, tab "PhilLectio".
+ * Schema (lectio-design.md v0.3 §6.1, 9 cols):
+ *
+ *   Timestamp, Entry Date, Page Ref, Subtopic,
+ *   Attribution, Work, Quote, Response, Post Status
+ *
+ * Normalized entry shape (what callers see):
+ *
+ *   timestamp     ISO-ish string from GAS, may be empty
+ *   date          'YYYY-MM-DD' (from "Entry Date" — newest = today)
+ *   pageRef       int | null
+ *   subtopic      string
+ *   attribution   string  (person/voice; may be empty)
+ *   work          string  (work title; may be empty)
+ *   quote         string  (verbatim, guarded by skill)
+ *   response      string  (Phil's response through the Map)
+ *   postStatus    string  ('posted' | 'failed-...' | 'seed-...' | 'smoke-test')
+ *
+ * Public API:
+ *   window.HEART_DATA.fetchEntries() → Promise<entry[]>  (newest-first)
+ *   window.HEART_DATA.SHEET_ID, TAB, CSV_URL
+ *   window.HEART_DATA.JOURNAL_URL, PHIL_PAGE_URL
+ *   window.heartWordCounts(entries, opts) → [{word, count}]  (for journal cloud)
+ *   window.HEART_STOPWORDS — Set<string>
+ *   window.HEART_MONTHS — computed from entries by fetchEntries()
+ * ========================================================================== */
 
-  // data shape: { agents, boundaries, signatures, ranges, filterConfig }
+(function () {
+  'use strict';
 
-  // ── Merge ranges into HEART_DIALS (Sheet is authoritative) ──
-  if (data.ranges) {
-    window.HEART_DIALS.forEach(function(dial) {
-      var r = data.ranges[dial.id];
-      if (r) {
-        if (r.settings && r.settings.length) dial.settings = r.settings;
-        if (r.reliability) dial.reliability = r.reliability;
+  // ── Sheet config ────────────────────────────────────────────────────────────
+  var SHEET_ID = '1N_Th9wJ0VRpCZfhuqs5tXCO35tlu1pjgCtPZIXZ_004';
+  var TAB = 'PhilLectio';
+  var CSV_URL =
+    'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+    '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(TAB);
+
+  // Link targets (used by chrome and footer)
+  var JOURNAL_URL = '../agents/phil/journal.html';
+  var PHIL_PAGE_URL = '../agents/phil/phil.html';
+
+  // ── RFC-4180 CSV parser (single-pass, respects quoted newlines) ────────────
+  // Replaces the prior line-split approach, which tore quoted fields containing
+  // embedded newlines (e.g. multi-paragraph Responses) across physical lines and
+  // shifted every subsequent column. See #217.
+  function tokenizeCSV(text) {
+    // Returns an array of records; each record is an array of field strings.
+    // Quotes are consumed; escaped quotes ("") become a literal "; newlines
+    // inside quoted fields are preserved.
+    var records = [], row = [], cur = '', inQ = false;
+    var s = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    for (var i = 0; i < s.length; i++) {
+      var c = s[i];
+      if (inQ) {
+        if (c === '"') {
+          if (s[i + 1] === '"') { cur += '"'; i++; }  // escaped quote ""
+          else inQ = false;                            // closing quote
+        } else { cur += c; }                           // newlines preserved here
+      } else {
+        if (c === '"') { inQ = true; }
+        else if (c === ',') { row.push(cur); cur = ''; }
+        else if (c === '\n') { row.push(cur); records.push(row); row = []; cur = ''; }
+        else { cur += c; }
       }
-    });
+    }
+    if (cur !== '' || row.length > 0) { row.push(cur); records.push(row); }
+    return records;
   }
 
-  // ── Build HEART_AGENTS array ──
-  var agentIds = Object.keys(data.agents || {});
-  var agents = agentIds.map(function(id) {
-    var dials = data.agents[id] || {};
-    var fc = (data.filterConfig || {})[id] || {};
+  function parseCSV(text) {
+    var records = tokenizeCSV(text).filter(function (r) {
+      return r.length > 1 || (r.length === 1 && r[0] !== '');
+    });
+    if (records.length < 2) return { headers: [], rows: [] };
+    var headers = records[0].map(function (h) { return h.trim(); });
+    var rows = records.slice(1).map(function (cols) {
+      var obj = {};
+      headers.forEach(function (h, i) { obj[h] = (cols[i] || '').trim(); });
+      return obj;
+    });
+    return { headers: headers, rows: rows };
+  }
 
+  // ── Normalize raw row → entry ──────────────────────────────────────────────
+  function normalize(row) {
+    var pageRefRaw = row['Page Ref'];
+    var pageRef = pageRefRaw === '' || pageRefRaw == null ? null : parseInt(pageRefRaw, 10);
     return {
-      id:        id,
-      name:      fc.component || id.charAt(0).toUpperCase() + id.slice(1),
-      kind:      'agent',
-      bracket:   fc.bracket || '[' + id + ']',
-      signature: (data.signatures || {})[id] || '',
-      project:   DOMAIN_PROJECT[id] || null,
-      feature:   fc.feature || null,
-      dials:     dials,
-      boundaries:(data.boundaries || {})[id] || [],
+      timestamp:   row['Timestamp']   || '',
+      date:        row['Entry Date']  || '',
+      pageRef:     isNaN(pageRef) ? null : pageRef,
+      subtopic:    row['Subtopic']    || '',
+      attribution: row['Attribution'] || '',
+      work:        row['Work']        || '',
+      quote:       row['Quote']       || '',
+      response:    row['Response']    || '',
+      postStatus:  row['Post Status'] || ''
     };
-  });
-
-  // ── Append Jeremy (human — not in Sheet) ──
-  agents.push({
-    id: 'jeremy', name: 'Jeremy', kind: 'human', bracket: '[self]',
-    signature: 'The operator. The one who turns the dials.',
-    project: 'self', feature: null,
-    dials: null,
-    boundaries: [
-      { t: 'A', text: 'Reserves all final decisions' },
-      { t: 'A', text: 'Operates the dials' },
-      { t: 'F', text: 'Subject to physical entropy' },
-    ],
-  });
-
-  window.HEART_AGENTS = agents;
-
-  // ── Containment ──
-  var containment = {};
-  if (data.filterConfig) {
-    Object.keys(data.filterConfig).forEach(function(id) {
-      var c = data.filterConfig[id].containment;
-      if (c) containment[id] = c;
-    });
   }
-  window.HEART_CONTAINMENT = containment;
 
-  return agents;
-};
+  // ── Filter out smoke-test / failed rows from the live feed ─────────────────
+  function isPublishable(entry) {
+    if (!entry.date) return false;                    // must have a date
+    if (!entry.quote) return false;                   // must have a quote
+    if (!entry.response) return false;                // must have Phil's response
+    if (entry.postStatus === 'smoke-test') return false;
+    if (entry.postStatus && entry.postStatus.indexOf('failed') === 0) return false;
+    return true;
+  }
+
+  // ── Public fetch ───────────────────────────────────────────────────────────
+  function fetchEntries() {
+    return fetch(CSV_URL, { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('CSV fetch failed: ' + r.status);
+        return r.text();
+      })
+      .then(function (text) {
+        var parsed = parseCSV(text);
+        var entries = parsed.rows.map(normalize).filter(isPublishable);
+        // Newest first by entry_date desc (tiebreak: timestamp desc)
+        entries.sort(function (a, b) {
+          if (a.date < b.date) return 1;
+          if (a.date > b.date) return -1;
+          return (b.timestamp || '').localeCompare(a.timestamp || '');
+        });
+        return entries;
+      });
+  }
+
+  // ── Word frequency (used by journal cloud) ─────────────────────────────────
+  window.HEART_STOPWORDS = new Set((
+    'the a an and or but if then else of to in on at by for with from into onto upon ' +
+    'is are was were be been being am i me my mine myself we us our ours you your yours ' +
+    'he him his she her it its they them their this that these those there here what which ' +
+    'who whom whose when where why how all any both each few more most other some such no ' +
+    'nor not only own same so than too very can will just dont should now also do does did ' +
+    'doing done have has had having would could may might must shall about as up out off over ' +
+    'under again further once because while between through during before after above below ' +
+    'down s t re ve ll d m o re cannot one two thing things like get got make made way ways ' +
+    'much many them they then thats whatever whether something anyone anything everything ' +
+    'never always ever still yet maybe perhaps almost quite even though although am im ' +
+    'into within without upon every part well good back time times day days say said says'
+  ).split(/\s+/));
+
+  window.heartWordCounts = function (entries, opts) {
+    opts = opts || {};
+    var includeTopics = opts.includeTopics !== false;  // default true
+    var counts = new Map();
+    function add(text, weight) {
+      (text || '').toLowerCase().replace(/[’']/g, '').split(/[^a-z]+/).forEach(function (w) {
+        if (w.length < 4) return;
+        if (window.HEART_STOPWORDS.has(w)) return;
+        counts.set(w, (counts.get(w) || 0) + weight);
+      });
+    }
+    entries.forEach(function (e) {
+      add(e.response, 1);
+      if (includeTopics) add(e.subtopic, 2);
+    });
+    var out = [];
+    counts.forEach(function (count, word) { out.push({ word: word, count: count }); });
+    out.sort(function (a, b) { return b.count - a.count; });
+    return out;
+  };
+
+  // ── Month buckets from a fetched set ───────────────────────────────────────
+  window.heartMonths = function (entries) {
+    var seen = {};
+    entries.forEach(function (e) {
+      var ym = (e.date || '').slice(0, 7);  // 'YYYY-MM'
+      if (!ym) return;
+      seen[ym] = (seen[ym] || 0) + 1;
+    });
+    var monthNames = ['January','February','March','April','May','June',
+                      'July','August','September','October','November','December'];
+    return Object.keys(seen).sort().reverse().map(function (ym) {
+      var year = ym.slice(0, 4), m = parseInt(ym.slice(5, 7), 10);
+      return {
+        id: ym,
+        label: monthNames[m - 1] + ' ' + year,
+        short: monthNames[m - 1].slice(0, 3).toUpperCase(),
+        count: seen[ym]
+      };
+    });
+  };
+
+  // ── Export ─────────────────────────────────────────────────────────────────
+  window.HEART_DATA = {
+    SHEET_ID: SHEET_ID,
+    TAB: TAB,
+    CSV_URL: CSV_URL,
+    JOURNAL_URL: JOURNAL_URL,
+    PHIL_PAGE_URL: PHIL_PAGE_URL,
+    fetchEntries: fetchEntries,
+    parseCSV: parseCSV,
+    normalize: normalize
+  };
+})();

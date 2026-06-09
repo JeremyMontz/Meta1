@@ -219,14 +219,14 @@ window.PORTFOLIO = [
     excerpt: null,
   },
   {
-    id: 'heart',
+    id: 'spirit',
     no: '03',
     title: 'Persona Matrix Modulates the Graph',
-    blurb: 'The Heart of Claudemonzter. The dials that adjust character and output styles.',
+    blurb: 'The Spirit of Claudemonzter. The dials that adjust character and output styles.',
     status: 'TESTING',
     tone: 'warn',
     tag: 'SKILL',
-    href: 'graph/heart.html',
+    href: 'graph/spirit.html',
     date: null,
     demonstrates: ['agentic', 'discovery', 'collab'],
     details: [
@@ -365,10 +365,10 @@ window.AGENT_ARTIFACTS = {
    { title: 'Adversarial validation and structured perspective expansion', sub: 'ESSAY · 2 min · Week 2',            href: 'writing/adversarial-validation.html' },
   ],
   phil:     [
-      { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/spirit.html' },
+      { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/heart.html' },
       { title: 'Phils Journal',             sub: 'WOTD · WORDCLOUD · MY VOICE',   href: '../../agents/phil/journal.html' },
   ],
   jeremy:   [
-    { title: 'Heart',             sub: 'PERSONA MAP · 9 DIALS · THE LAB',   href: '../../graph/heart.html' },
+    { title: 'Spirit',             sub: 'PERSONA MAP · 9 DIALS · THE LAB',   href: '../../graph/spirit.html' },
   ],
 };

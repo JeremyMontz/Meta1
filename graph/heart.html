@@ -1,144 +1,125 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="cabinet">
 <head>
 <meta charset="utf-8"/>
-<title>Heart · Persona Matrix · Claudemonzter</title>
+<title>Heart · Wisdom of the Day · Claudemonzter</title>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Heart — Phil's daily reading from A Treasury of Traditional Wisdom, and his response through the Map." />
+
 <link rel="stylesheet" href="../design-system/colors_and_type.css"/>
+
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
 <style>
-  html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
-  body { padding: 0; margin: 0; overflow-x: hidden; font-family: var(--font-sans); }
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body {
+    font-family: var(--font-sans);
+  }
   a { color: inherit; text-decoration: none; }
 
-  /* Graph sub-nav — matches dashboard.html */
+  /* Graph sub-nav — matches dashboard.html / heart.html pattern (option A) */
   .graph-subnav {
     display: flex; align-items: center; gap: 24px;
     padding: 12px 40px;
     font-family: var(--font-mono); font-size: 11px;
     letter-spacing: 0.16em; text-transform: uppercase;
     border-bottom: 1px solid var(--line);
-    position: relative; z-index: 1;
+    position: relative; z-index: 3;
+    background: var(--bg);
   }
   .graph-subnav-label { color: var(--fg-faint); }
-  .graph-subnav a { color: var(--fg-muted); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; }
+  .graph-subnav a {
+    color: var(--fg-muted); text-decoration: none;
+    padding-bottom: 2px; border-bottom: 1px solid transparent;
+    transition: color 160ms, border-color 160ms;
+  }
   .graph-subnav a:hover { color: var(--accent); }
   .graph-subnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-  :root {
-    --cm-grid-opacity: 0.6;
-    --cm-scan-opacity: 0.4;
-    --cm-noise-opacity: 0.3;
-    --cm-vignette-opacity: 0.3;
-    --cm-mascot-opacity: 0.35;
-    --cm-glitch-duration: 6s;
-    --cm-flicker-duration: 9s;
-    --cm-title-rotate: 0deg;
+  /* Page-turn animation — rotates the leaf about its vertical spine.
+     No opacity is animated; the page goes edge-on at ±88°, naturally
+     invisible. Two phases: out → swap entry → in. */
+  @keyframes heart-out-next {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(88deg); }
+  }
+  @keyframes heart-in-next {
+    from { transform: rotateY(-88deg); }
+    to   { transform: rotateY(0deg); }
+  }
+  @keyframes heart-out-prev {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(-88deg); }
+  }
+  @keyframes heart-in-prev {
+    from { transform: rotateY(88deg); }
+    to   { transform: rotateY(0deg); }
+  }
+  .heart-leaf.turning .heart-leaf-bleed {
+    backface-visibility: hidden;
+  }
+  .heart-leaf.out-next .heart-leaf-bleed {
+    animation: heart-out-next 250ms cubic-bezier(0.55,0,1,0.45) forwards;
+  }
+  .heart-leaf.in-next .heart-leaf-bleed {
+    animation: heart-in-next 340ms cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .heart-leaf.out-prev .heart-leaf-bleed {
+    animation: heart-out-prev 250ms cubic-bezier(0.55,0,1,0.45) forwards;
+  }
+  .heart-leaf.in-prev .heart-leaf-bleed {
+    animation: heart-in-prev 340ms cubic-bezier(0.22,1,0.36,1) forwards;
   }
 
-  /* ─── Background layers — controlled by --cm-* vars driven by crazy ── */
-  .bg-grid-layer {
-    position: fixed; inset: 0; pointer-events: none; z-index: 1;
-    background-image:
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
-    opacity: var(--cm-grid-opacity);
-  }
-  .bg-scan-layer {
-    position: fixed; inset: 0; pointer-events: none; z-index: 1;
-    background-image: repeating-linear-gradient(0deg, transparent 0 2px, var(--scan-color) 2px 3px);
-    mix-blend-mode: screen;
-    opacity: var(--cm-scan-opacity);
-  }
-  .bg-vignette-layer {
-    position: fixed; inset: 0; pointer-events: none; z-index: 1;
-    background:
-      radial-gradient(ellipse 80% 70% at 50% 40%, transparent 50%, rgba(0,0,0,0.6) 100%),
-      radial-gradient(ellipse 40% 30% at 50% 100%, color-mix(in oklch, var(--party) 18%, transparent), transparent 70%);
-    opacity: var(--cm-vignette-opacity);
-  }
-  /* ─── Crazy gates — disable effects entirely below thresholds ───────── */
-  .crazy-0 .bg-grid-layer, .crazy-1 .bg-grid-layer { display: none; }
-  .crazy-0 .bg-scan-layer, .crazy-1 .bg-scan-layer, .crazy-2 .bg-scan-layer { display: none; }
-  .crazy-0 .bg-vignette-layer, .crazy-1 .bg-vignette-layer, .crazy-2 .bg-vignette-layer { display: none; }
-  .crazy-0 .hyde-stamp, .crazy-1 .hyde-stamp, .crazy-2 .hyde-stamp,
-  .crazy-3 .hyde-stamp, .crazy-4 .hyde-stamp, .crazy-5 .hyde-stamp { display: none; }
-
-  /* Hyde gate */
-  html:not(.hyde) .hyde-stamp,
-  html:not(.hyde) .bg-vignette-layer { display: none; }
-
-  /* Glitch on title — only at high crazy */
-  @keyframes cm-title-glitch {
-    0%, 96%, 100%   { transform: translate(0, 0) rotate(var(--cm-title-rotate)); filter: none; }
-    97%             { transform: translate(-1px, 0) rotate(var(--cm-title-rotate)); filter: hue-rotate(20deg); }
-    98%             { transform: translate(1px, 0) rotate(var(--cm-title-rotate)); }
-  }
-  .crazy-8 h1, .crazy-9 h1, .crazy-10 h1 {
-    animation: cm-title-glitch var(--cm-glitch-duration) infinite steps(1, end);
-  }
-
-  /* Heart-monitor scroll */
-  @keyframes monitor-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  .monitor-trace { animation: monitor-scroll 6s linear infinite; }
-
-  /* Cells: hover */
-  .dial-cell:hover:not([disabled]) {
-    background: color-mix(in oklch, var(--accent) 10%, transparent) !important;
-  }
-  .dial-cell:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
-
-  /* Subdued non-focused state */
-  .dial-cell.is-dimmed { opacity: 0.28 !important; }
-  .dial-details.is-dimmed-details { opacity: 0.5 !important; }
-
-  /* Agent column header — clickable */
-  .agent-col-header:hover {
-    background: color-mix(in oklch, var(--accent) 10%, var(--bg-elev-1)) !important;
-  }
-  .agent-col-header:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
-
-  /* Modal fade-in */
-  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-
-  /* commit spinner */
-  .cm-spinner {
-    display: inline-block;
-    animation: cm-spin 1s linear infinite;
-  }
-  @keyframes cm-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-
-  /* Loading pulse */
-  @keyframes pulse {
+  /* Candle flicker — subtle breathing on the candlelight wash */
+  @keyframes candle-breathe {
     0%, 100% { opacity: 1; }
-    50%      { opacity: 0.4; }
+    37%      { opacity: 0.62; }
+    55%      { opacity: 0.84; }
+    72%      { opacity: 0.55; }
+  }
+  .room-candle { animation: candle-breathe 5.6s ease-in-out infinite; }
+  .candle-dot  { animation: candle-breathe 3.4s ease-in-out infinite; }
+
+  /* Reduced motion: no animations */
+  @media (prefers-reduced-motion: reduce) {
+    .heart-leaf .heart-leaf-bleed,
+    .room-candle, .candle-dot { animation: none !important; }
   }
 
   /* Selection */
-  ::selection { background: var(--accent); color: var(--bg); }
+  ::selection { background: var(--candle); color: var(--bg); }
+
+  /* Page chrome wrapper */
+  .page { width: 100%; max-width: 1280px; margin: 0 auto; }
 </style>
 </head>
+
 <body>
 
-<!-- ─── SITE CHROME (React) ─────────────────────────────────── -->
-<div id="topnav-mount"></div>
-<div id="graph-subnav-mount"></div>
+<div class="page">
 
-<!-- ─── PAGE CONTENT (React app) ──────────────────────────────── -->
-<div id="root"></div>
+  <!-- ─── SITE TOPNAV ─────────────────────────────────────────── -->
+  <div id="topnav-mount"></div>
 
-<!-- ─── SITE FOOTER (React) ───────────────────────────────────── -->
-<div id="footer-mount"></div>
+  <!-- ─── GRAPH SUBNAV — option A (Heart appended) ──────────── -->
+  <div id="graph-subnav-mount"></div>
+
+  <!-- ─── PAGE CONTENT (React app) ──────────────────────────── -->
+  <div id="root"></div>
+
+  <!-- ─── SITE FOOTER ─────────────────────────────────────────── -->
+  <div id="footer-mount"></div>
+
+</div>
 
 <!-- Shared site chrome -->
 <script src="../data.js"></script>
@@ -147,10 +128,9 @@
 <script type="text/babel" src="../components/HomeShell.jsx"></script>
 <script type="text/babel" src="../components/GraphSubnav.jsx"></script>
 
-<!-- Page-specific app -->
+<!-- Heart data + components + app -->
 <script src="heart-data.js"></script>
-<script type="text/babel" src="heart-dials.jsx"></script>
-<script type="text/babel" src="heart-monitor.jsx"></script>
+<script type="text/babel" src="heart-leaf.jsx"></script>
 <script type="text/babel" src="heart-app.jsx"></script>
 
 <!-- Mount site chrome -->
@@ -159,5 +139,6 @@
   ReactDOM.createRoot(document.getElementById('graph-subnav-mount')).render(<GraphSubnav active="HEART" />);
   ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
 </script>
+
 </body>
 </html>
