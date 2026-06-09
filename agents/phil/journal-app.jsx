@@ -5,7 +5,7 @@
 
 const { useState, useEffect, useMemo } = React;
 
-// ── Ambient room (lighter than Spirit; this is a workshop view, not the leaf) ─
+// ── Ambient room (lighter than Heart; this is a workshop view, not the leaf) ─
 const ArchiveRoom = () => (
   <>
     <div style={{
@@ -216,11 +216,11 @@ const ActiveWordLine = ({ word, hitCount, onClear }) => (
 
 // ── Ledger row ────────────────────────────────────────────────────────────
 const LedgerRow = ({ entry, activeWord, isHit }) => {
-  var spiritUrl = '../../graph/spirit.html?date=' + entry.date;
+  var heartUrl = '../../graph/heart.html?date=' + entry.date;
   var dim = activeWord && !isHit;
 
   return (
-    <a href={spiritUrl} style={{
+    <a href={heartUrl} style={{
       display: 'grid',
       gridTemplateColumns: '84px minmax(220px,1.05fr) 1.25fr 20px',
       gap: 28,
@@ -323,12 +323,12 @@ const JournalApp = () => {
   const [word, setWord] = useState(null);
 
   useEffect(() => {
-    window.SPIRIT_DATA.fetchEntries()
+    window.HEART_DATA.fetchEntries()
       .then(setEntries)
       .catch(e => setErr(e.message || String(e)));
   }, []);
 
-  const months = useMemo(() => entries ? window.spiritMonths(entries) : [], [entries]);
+  const months = useMemo(() => entries ? window.heartMonths(entries) : [], [entries]);
 
   const inFrame = useMemo(() => {
     if (!entries) return [];
@@ -348,7 +348,7 @@ const JournalApp = () => {
 
   const distinctWords = useMemo(() => {
     if (!inFrame || inFrame.length === 0) return 0;
-    return window.spiritWordCounts(inFrame).length;
+    return window.heartWordCounts(inFrame).length;
   }, [inFrame]);
 
   const frameLabel = useMemo(() => {

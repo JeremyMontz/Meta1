@@ -1,6 +1,6 @@
 // journal-cloud.jsx — Ink-spatter word cloud for /agents/phil/journal.html
 //
-// Reads from spiritWordCounts(entries) (defined in graph/spirit-data.js),
+// Reads from heartWordCounts(entries) (defined in graph/heart-data.js),
 // takes the top 36 words, lays them out on an Archimedean spiral inside a
 // fixed 920×540 coordinate box, then CSS-scales that box to fit the viewport.
 //
@@ -125,7 +125,7 @@ const JournalCloud = ({ entries, activeWord, onWord }) => {
   // Compute layout once per entries set
   const placed = React.useMemo(() => {
     if (!entries || entries.length === 0) return [];
-    var counts = window.spiritWordCounts(entries).slice(0, MAX_WORDS);
+    var counts = window.heartWordCounts(entries).slice(0, MAX_WORDS);
     if (counts.length === 0) return [];
 
     // Size mapping
