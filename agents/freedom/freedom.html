@@ -28,6 +28,19 @@
 <style>
   html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
   body { font-family: var(--font-sans); }
+
+  /* ── Hero portrait (fills the hero's right, aligned to the card column) ─ */
+  .hero-portrait {
+    position: absolute; top: 28px; right: 40px;
+    width: min(256px, 40vw); height: auto;
+    image-rendering: pixelated; image-rendering: crisp-edges;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 26px color-mix(in oklch, var(--accent) 30%, transparent));
+    z-index: 2; pointer-events: none;
+  }
+  @media (max-width: 820px) {
+    .hero-portrait { position: static; width: 220px; margin-top: 18px; }
+  }
   a { color: inherit; text-decoration: none; }
   .page { width: 100%; max-width: 1280px; margin: 0 auto; }
 
@@ -91,7 +104,8 @@
   <div id="topnav-mount"></div>
 
    <!-- ─── HERO HEADER ─────────────────────────────────────────── -->
-  <section style="padding: 32px 40px 40px;">
+  <section style="padding: 32px 40px 40px; position: relative; min-height: 236px;">
+    <img class="hero-portrait" src="../../graph/assets/faces/freedom.png" alt="Freedom" />
     <div class="agent-eyebrow">// PURA VIDA · FREEDOM · STRATEGIST</div>
     <h1 style='font-family: var(--font-display); font-weight: 700; font-size: 96px; line-height: 0.94; letter-spacing: -0.03em; margin: 14px 0 0; font-variation-settings: "opsz" 144;'>
       Freedom<span style="color: var(--accent);">.</span>
@@ -168,10 +182,10 @@
 <script type="text/babel" src="../../components/Primitives.jsx"></script>
 <script type="text/babel" src="../../components/HomeShell.jsx"></script>
 
-<!-- Persona card (Heart system) -->
-<script src="../../graph/heart-data.js"></script>
-<script type="text/babel" src="../../graph/heart-dials.jsx"></script>
-<script type="text/babel" src="../../graph/heart-embed.jsx"></script>
+<!-- Persona card (Spirit system) -->
+<script src="../../graph/spirit-data.js"></script>
+<script type="text/babel" src="../../graph/spirit-dials.jsx"></script>
+<script type="text/babel" src="../../graph/spirit-embed.jsx"></script>
 
 <script src="../../components/agent-card.js"></script>
 <script>
@@ -246,31 +260,10 @@ renderArtifacts();
   // Mount site chrome
   ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
   ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
-
-  // Fetch persona data then render PersonaCard
-  (async () => {
-    try {
-      await window.fetchHeartData();
-      const agent = window.HEART_AGENTS.find(a => a.id === AGENT_ID);
-      if (agent && window.PersonaCard) {
-        const container = document.getElementById('personaCard');
-        container.innerHTML = '';
-        const root = ReactDOM.createRoot(container);
-        root.render(
-          React.createElement(window.PersonaCard, {
-            agent: agent,
-            rev: '—',
-            lastSync: 'live',
-            hyde: true,
-          })
-        );
-      }
-    } catch (e) {
-      document.getElementById('personaCard').innerHTML =
-        '<div class="card-loading">Could not load persona</div>';
-    }
-  })();
 </script>
+
+<!-- Persona card (Spirit system) — shared widget, renders into #personaCard -->
+<script type="text/babel" src="../../components/spirit-card.jsx"></script>
 
 </body>
 </html>
