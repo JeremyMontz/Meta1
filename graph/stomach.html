@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="meta-description" content="The Stomach — the vault's metabolism. The file system IS the digestive tract: live surfaces are captured to Inbox/, digested into Raw/ and Wiki/, then linked or eliminated through Temp / Archive / Museum.">
+<title>Stomach · Intake &amp; Metabolism · Claudemonzter</title>
+
+<!-- Shared design system (tokens + fonts). Single source of truth. -->
+<link rel="stylesheet" href="../design-system/colors_and_type.css">
+
+<!-- React + Babel, same versions as the other graph pages -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+
+<style>
+:root{
+  --err-glow:color-mix(in oklab,var(--err) 48%,transparent);
+  --gray-bright:var(--fg-muted);   /* storage folders — brighter than 'eliminated' */
+}
+body{
+  background-image:
+    linear-gradient(var(--grid-color) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
+  background-size:var(--grid-size) var(--grid-size);
+}
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+
+/* ---- header ---- */
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;padding:30px 0 8px}
+.eyebrow{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.eyebrow .sep{color:var(--fg-faint)}
+.head h1{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,5vw,72px);line-height:.9;letter-spacing:-.03em;margin:10px 0 0;font-variation-settings:"opsz" 144}
+.head h1 .dot{color:var(--accent)}
+.lead{margin:13px 0 0;max-width:30em;font-family:var(--font-display);font-weight:400;font-style:italic;font-size:clamp(16px,1.7vw,19px);line-height:1.42;color:var(--fg-muted);font-variation-settings:"opsz" 36}
+.lead em{font-style:normal;color:var(--candle)}.lead b{font-style:normal;font-weight:400;color:var(--accent)}
+.head .note{font-family:var(--font-hand);font-size:18px;color:var(--fg-subtle);transform:rotate(-1.5deg);max-width:210px;text-align:right}
+
+/* graph sub-nav */
+.graph-subnav{display:flex;align-items:center;gap:24px;padding:12px 40px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--line);position:relative;z-index:5}
+.graph-subnav-label{color:var(--fg-faint)}
+.graph-subnav a{color:var(--fg-muted);text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent}
+.graph-subnav a:hover{color:var(--accent)}
+.graph-subnav a.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ---- the stage: plate + rail ---- */
+.stagebox{display:flex;margin:22px 0 50px;border:1px solid var(--line);background:var(--bg);overflow:hidden;border-radius:3px}
+.plate{flex:1 1 60%;position:relative;min-width:0}
+#diagram{display:block;width:100%;height:auto}
+.rail{flex:0 0 384px;border-left:1px solid var(--line);padding:20px;background:linear-gradient(180deg,var(--bg-elev-1),var(--bg))}
+
+/* ---- SVG diagram ---- */
+.plate-img{filter:contrast(1.05) saturate(1.05) brightness(1.04)}
+.edge{fill:none;transition:opacity var(--dur),stroke-width var(--dur)}
+.edge.src{stroke:var(--ok);stroke-width:1.6;stroke-dasharray:2 5;opacity:.55}
+.edge.flow{stroke:var(--candle);stroke-dasharray:5 9;stroke-linecap:round;opacity:.5}
+.edge.spine{stroke-width:2.6}
+.edge.branch{stroke-width:2}
+@media(prefers-reduced-motion:no-preference){.edge.flow{animation:flow 2.1s linear infinite}}
+@keyframes flow{to{stroke-dashoffset:-112}}
+.edge.dim{opacity:.08}
+.edge.lit{opacity:.95;stroke-width:3.2}
+
+/* bolus — the swallowed item travelling the tract */
+.bolus{transition:opacity var(--dur)}
+.bolus.dim{opacity:.1}
+.bolus.lit{opacity:1}
+
+.node{cursor:pointer}
+.node .ring{opacity:0;transform-box:fill-box;transform-origin:center}
+@media(prefers-reduced-motion:no-preference){.node.lit .ring{animation:cm-pulse 1.4s ease-out infinite}}
+@keyframes cm-pulse{0%{transform:scale(.55);opacity:.85}70%{opacity:.35}100%{transform:scale(2.7);opacity:0}}
+.node.dim{opacity:.26;transition:opacity var(--dur)}
+.ntag{font-family:var(--font-mono);font-weight:500;letter-spacing:.02em}
+.node.lit .core{stroke-width:2}
+
+.decision{cursor:help}
+.decision .dia{fill:var(--bg-elev-2);stroke:var(--err);stroke-width:1.6;transition:fill var(--dur),filter var(--dur)}
+.decision .dn{font-family:var(--font-mono);font-size:15px;fill:var(--err);font-weight:600}
+.decision.lit .dia{fill:var(--bg-elev-3);filter:drop-shadow(0 0 9px var(--err-glow))}
+.decision.dim{opacity:.32;transition:opacity var(--dur)}
+
+/* ---- inspector rail: persistent numbered stage boxes ---- */
+.rail-head{font-family:var(--font-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.scard{position:relative;border:1px solid var(--line);border-left:3px solid var(--tone,var(--line-loud));border-radius:4px;
+  padding:12px 14px;margin-bottom:11px;background:var(--bg-elev-1);cursor:default;
+  transition:border-color var(--dur),box-shadow var(--dur),opacity var(--dur),background var(--dur)}
+.scard .stop{display:flex;align-items:center;gap:11px}
+.scard .snum{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1;color:var(--tone);min-width:24px;text-align:center;font-variation-settings:"opsz" 40}
+.scard .stitle{font-family:var(--font-sans);font-weight:700;font-size:15px;letter-spacing:-.01em;color:var(--fg)}
+.scard .sfolder{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.03em;color:var(--tone);margin-top:2px}
+.scard.dim{opacity:.42}
+.scard.active{border-color:var(--tone);background:linear-gradient(180deg,color-mix(in oklab,var(--tone) 8%,var(--bg-elev-1)),var(--bg-elev-1));box-shadow:0 8px 26px rgba(0,0,0,.4),0 0 0 1px color-mix(in oklab,var(--tone) 30%,transparent)}
+.scard .detail{max-height:0;opacity:0;overflow:hidden;transition:max-height var(--dur-slow) var(--ease-out),opacity var(--dur),margin var(--dur)}
+.scard.active .detail{max-height:360px;opacity:1;margin-top:11px}
+.scard .detail p{font-size:12.5px;line-height:1.5;color:var(--fg-subtle);margin:0}
+.scard .sk{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.scard .sk span{font-family:var(--font-mono);font-size:9.5px;color:var(--fg-muted);background:var(--bg-elev-3);border:1px solid var(--line);border-radius:3px;padding:2px 6px}
+.scard .dec{margin-top:12px;border-top:1px dashed var(--line-loud);padding-top:10px}
+.scard .dec-h{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--err);display:flex;align-items:center;gap:6px;margin-bottom:7px}
+.scard .dec-h .di{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border:1px solid var(--err);transform:rotate(45deg);font-size:8px}
+.scard .dec-h .di b{transform:rotate(-45deg)}
+.scard .dec-row{display:grid;grid-template-columns:46px 1fr;gap:8px;font-size:11.5px;line-height:1.45;margin-bottom:5px}
+.scard .dec-row .k{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding-top:1px}
+.scard .dec-row .k.now{color:var(--ok)}
+.scard .dec-row .k.next{color:var(--accent)}
+.scard .dec-row .v{color:var(--fg-muted)}
+.scard .dec-row .v em{font-style:normal;color:var(--fg-faint)}
+
+.legend{display:flex;flex-wrap:wrap;gap:13px;margin-top:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-subtle)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:2px}
+.rnote{margin-top:14px;font-family:var(--font-hand);font-size:16px;color:var(--fg-subtle);transform:rotate(-1.5deg)}
+
+@media(max-width:860px){
+  .stagebox{flex-direction:column}
+  .rail{flex-basis:auto;border-left:none;border-top:1px solid var(--line)}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div id="topnav-mount"></div>
+  <div id="graph-subnav-mount"></div>
+
+  <main class="wrap">
+    <header class="head">
+      <div>
+        <div class="eyebrow">// Claudemonzter <span class="sep">·</span> Stomach</div>
+        <h1>We digest it<span class="dot">.</span></h1>
+        <p class="lead">The file system <em>is</em> the gut. Live surfaces are swallowed into <em>Inbox/</em>, broken down into raw source and <b>metabolized</b> into the Wiki, then linked or passed. From capture to knowledge.</p>
+      </div>
+      <div class="note">the vault's metabolism — issue #191</div>
+    </header>
+
+    <section class="stagebox" id="stagebox">
+      <div class="plate">
+        <svg id="diagram" viewBox="0 0 1000 1000" role="img" aria-label="The vault's content pipeline drawn over an anatomical torso: live surfaces feed Inbox, which digests into Raw and Wiki, then eliminates through Temp, Archive and Museum."></svg>
+      </div>
+
+      <aside class="rail" id="rail">
+        <div class="rail-head">// stages</div>
+
+        <div class="scard" data-stage="sources" style="--tone:var(--ok)">
+          <div class="stop"><span class="snum">1</span><div><div class="stitle">Sources</div><div class="sfolder">live integrations</div></div></div>
+          <div class="detail">
+            <p>The surfaces we eat from — built integrations that reach off-disk into the tools where work actually happens.</p>
+            <div class="sk"><span>GitHub</span><span>Gmail</span><span>Drive</span><span>MS To&nbsp;Do</span><span>Web</span></div>
+            <div class="dec">
+              <div class="dec-h"><span class="di"><b>1</b></span> Capture</div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] surfaces are pulled on demand or on a schedule.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] continuous auto-sync as sources change.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scard" data-stage="ingest" style="--tone:var(--candle)">
+          <div class="stop"><span class="snum">2</span><div><div class="stitle">Ingestion</div><div class="sfolder">Inbox/</div></div></div>
+          <div class="detail">
+            <p>Everything lands in the inbox first as a structured note. Nothing skips the queue.</p>
+            <div class="sk"><span>todo-ingest</span><span>email-ingest</span><span>check-email</span></div>
+            <div class="dec">
+              <div class="dec-h"><span class="di"><b>2</b></span> Triage</div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] items triaged per-domain, a human approving each move.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] a router agent proposes routing; human confirms exceptions.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scard" data-stage="digest" style="--tone:var(--accent)">
+          <div class="stop"><span class="snum">3</span><div><div class="stitle">Digestion &amp; Metabolism</div><div class="sfolder">Raw/ · Wiki/</div></div></div>
+          <div class="detail">
+            <p>Source is preserved <b style="color:var(--accent);font-weight:400">raw</b> and immutable; the meaning is metabolized into densely wikilinked knowledge.</p>
+            <div class="sk"><span>ingest-inbox</span><span>wiki-write</span></div>
+            <div class="dec">
+              <div class="dec-h"><span class="di"><b>3</b></span> Compile</div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] compiled to wiki with explicit approval; raw never edited.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] assisted synthesis with code-checked links.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scard" data-stage="eliminate" style="--tone:var(--gray-bright)">
+          <div class="stop"><span class="snum">4</span><div><div class="stitle">Linking &amp; Elimination</div><div class="sfolder">Temp · Archive · Museum</div></div></div>
+          <div class="detail">
+            <p>What's done passes through. Scratch is flushed, working files retire, a few artifacts are preserved — deletion only with clearance.</p>
+            <div class="sk"><span>close-session</span><span>consolidate-memory</span></div>
+            <div class="dec">
+              <div class="dec-h"><span class="di"><b>4</b></span> Lifecycle</div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] lifecycle is manual; deletion requires explicit clearance.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] an Archivist/router agent with move + delete hooks enforced by code.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span><i style="background:var(--ok)"></i>Live source</span>
+          <span><i style="background:var(--candle)"></i>Inbox</span>
+          <span><i style="background:var(--accent)"></i>Raw · Wiki</span>
+          <span><i style="background:var(--gray-bright)"></i>Storage</span>
+          <span><i style="background:var(--err)"></i>Decision</span>
+        </div>
+        <div class="rnote">↖ hover the tract to read a stage.</div>
+      </aside>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+</div>
+
+<!-- shared site data + components -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+<script type="text/babel" src="../components/GraphSubnav.jsx"></script>
+
+<!-- ===========================================================================
+ * STOMACH DIAGRAM — data-driven. Folders ARE the organs.
+ * 1000×1000 space over the square torso plate. Each stage owns one decision ◇.
+ * ======================================================================== -->
+<script>
+const TONE={src:'var(--ok)',candle:'var(--candle)',ether:'var(--ether)',accent:'var(--accent)',gray:'var(--fg-muted)',dim:'var(--fg-subtle)'};
+const STAGE_TONE={sources:'src',ingest:'candle',digest:'accent',eliminate:'gray'};  // bolus colour per region
+
+const NODES=[
+  // Stage 1 — Sources (green, top-left corner; labels to the right)
+  {id:'www',   label:'WWW',    tone:'src', x:128, y:104, r:6, stage:'sources', side:'right'},
+  {id:'todo',  label:'To Do',  tone:'src', x:128, y:156, r:6, stage:'sources', side:'right'},
+  {id:'github',label:'GitHub', tone:'src', x:128, y:208, r:6, stage:'sources', side:'right'},
+  {id:'drive', label:'Drive',  tone:'src', x:128, y:260, r:6, stage:'sources', side:'right'},
+  {id:'gmail', label:'Gmail',  tone:'src', x:128, y:312, r:6, stage:'sources', side:'right'},
+  // Stage 2 — Ingestion
+  {id:'inbox', label:'Inbox/', tone:'candle', x:500, y:206, r:14, stage:'ingest'},
+  // Stage 3 — Digestion
+  {id:'raw',   label:'Raw/',   tone:'accent', x:392, y:470, r:13, stage:'digest'},
+  {id:'wiki',  label:'Wiki/',  tone:'accent', x:608, y:470, r:13, stage:'digest'},
+  // Stage 4 — Elimination
+  {id:'temp',  label:'Temp/',    tone:'gray', x:386, y:712, r:10, stage:'eliminate'},
+  {id:'archive',label:'Archive/',tone:'gray', x:500, y:760, r:10, stage:'eliminate'},
+  {id:'museum',label:'Museum/',  tone:'gray', x:614, y:712, r:10, stage:'eliminate'},
+  {id:'exit',  label:'eliminated', tone:'dim', x:500, y:936, r:7, stage:'eliminate', exit:true},
+];
+const DECISIONS=[
+  {n:1, x:500, y:126, stage:'sources'},   // entry — top of esophagus
+  {n:2, x:500, y:340, stage:'ingest'},    // inbox → digest
+  {n:3, x:500, y:600, stage:'digest'},    // digest → eliminate
+  {n:4, x:500, y:852, stage:'eliminate'}, // eliminate → out
+];
+const EDGES=[
+  {from:'www',to:'d1',cls:'src',stage:'sources'},{from:'todo',to:'d1',cls:'src',stage:'sources'},
+  {from:'github',to:'d1',cls:'src',stage:'sources'},{from:'drive',to:'d1',cls:'src',stage:'sources'},
+  {from:'gmail',to:'d1',cls:'src',stage:'sources'},
+  {from:'d1',to:'inbox', cls:'spine', stage:'ingest'},
+  {from:'inbox',to:'d2', cls:'spine', stage:'ingest'},
+  {from:'d2',to:'raw',   cls:'branch',stage:'digest'},
+  {from:'d2',to:'wiki',  cls:'branch',stage:'digest'},
+  {from:'raw',to:'d3',   cls:'branch',stage:'digest'},
+  {from:'wiki',to:'d3',  cls:'branch',stage:'digest'},
+  {from:'d3',to:'temp',  cls:'branch',stage:'eliminate'},
+  {from:'d3',to:'archive',cls:'spine',stage:'eliminate'},
+  {from:'d3',to:'museum',cls:'branch',stage:'eliminate'},
+  {from:'temp',to:'d4',  cls:'branch',stage:'eliminate'},
+  {from:'archive',to:'d4',cls:'spine',stage:'eliminate'},
+  {from:'museum',to:'d4',cls:'branch',stage:'eliminate'},
+  {from:'d4',to:'exit',  cls:'spine', stage:'eliminate'},
+];
+
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.getElementById('diagram');
+  const box=document.getElementById('stagebox');
+  const cards=[...document.querySelectorAll('.scard')];
+  const pos={}; NODES.forEach(n=>pos[n.id]=n); DECISIONS.forEach(d=>pos['d'+d.n]={x:d.x,y:d.y});
+  const col=t=>TONE[t]||t;
+  const mix=(t,p)=>`color-mix(in oklab, ${col(t)} ${p}%, transparent)`;
+  const el=(tag,attrs,html)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(html!=null)e.innerHTML=html;return e;};
+  const curve=(a,b)=>{const my=(a.y+b.y)/2;return `M ${a.x} ${a.y} C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${b.y}`;};
+
+  // plate + vignette
+  svg.appendChild(el('image',{href:'assets/stomach-anatomy.png','xlink:href':'assets/stomach-anatomy.png',
+    x:0,y:0,width:1000,height:1000,preserveAspectRatio:'xMidYMid slice',class:'plate-img'}));
+  const defs=el('defs',{},`<radialGradient id="vig" cx="50%" cy="47%" r="62%">
+      <stop offset="55%" stop-color="rgba(8,7,13,0)"/><stop offset="100%" stop-color="rgba(8,7,13,0.55)"/></radialGradient>`);
+  svg.appendChild(defs);
+  svg.appendChild(el('rect',{x:0,y:0,width:1000,height:1000,fill:'url(#vig)','pointer-events':'none'}));
+
+  // edges + travelling boluses
+  const edgeLayer=el('g',{}), bolusLayer=el('g',{});
+  EDGES.forEach((e,i)=>{
+    const a=pos[e.from],b=pos[e.to],d=curve(a,b);
+    const p=el('path',{d,class:'edge '+e.cls+(e.cls!=='src'?' flow':'')}); p.dataset.stage=e.stage;
+    edgeLayer.appendChild(p);
+    if(e.cls!=='src'){
+      const bt=STAGE_TONE[e.stage]||'candle';
+      const dot=el('circle',{class:'bolus',r:4.5,cx:0,cy:0,style:`fill:${col(bt)};filter:drop-shadow(0 0 4px ${mix(bt,48)})`}); dot.dataset.stage=e.stage;
+      dot.appendChild(el('animateMotion',{dur:(2.0+(i%3)*0.5)+'s',repeatCount:'indefinite',path:d,begin:(i*0.28)+'s',rotate:'0'}));
+      bolusLayer.appendChild(dot);
+    }
+  });
+  svg.appendChild(edgeLayer); svg.appendChild(bolusLayer);
+
+  // nodes
+  const nodeLayer=el('g',{});
+  NODES.forEach(n=>{
+    const g=el('g',{class:'node'}); g.dataset.stage=n.stage; g.dataset.id=n.id;
+    g.appendChild(el('circle',{class:'halo',cx:n.x,cy:n.y,r:n.r+(n.side?4:8),fill:mix(n.tone,n.side?18:22)}));
+    g.appendChild(el('circle',{class:'ring',cx:n.x,cy:n.y,r:n.r+1,fill:'none',stroke:col(n.tone),'stroke-width':2.4}));
+    g.appendChild(el('circle',{class:'core',cx:n.x,cy:n.y,r:n.r,fill:col(n.tone),stroke:'rgba(8,7,13,0.85)','stroke-width':1.4}));
+    const fs=n.side?12:(n.exit?12:15);
+    const tw=n.label.length*(fs*0.62)+16, th=fs+8, lt=n.labelTone||n.tone;
+    const tag=el('g',{});
+    if(n.side==='right'){
+      const lx=n.x+n.r+7;
+      tag.appendChild(el('rect',{x:lx,y:n.y-th/2,width:tw,height:th,rx:3,fill:'rgba(8,7,13,0.82)',stroke:mix(lt,55),'stroke-width':1}));
+      const t=el('text',{x:lx+7,y:n.y+fs*0.34,class:'ntag','font-size':fs,fill:col(lt)}); t.textContent=n.label; tag.appendChild(t);
+    }else{
+      const ly=n.y+n.r+(n.exit?20:22);
+      tag.appendChild(el('rect',{x:n.x-tw/2,y:ly-fs*0.9,width:tw,height:th,rx:3,fill:'rgba(8,7,13,0.82)',stroke:mix(lt,55),'stroke-width':1}));
+      const t=el('text',{x:n.x,y:ly+fs*0.32,'text-anchor':'middle',class:'ntag','font-size':fs,fill:col(lt)}); t.textContent=n.label; tag.appendChild(t);
+    }
+    g.appendChild(tag);
+    nodeLayer.appendChild(g);
+  });
+  svg.appendChild(nodeLayer);
+
+  // decisions (red, solid)
+  const decLayer=el('g',{});
+  DECISIONS.forEach(d=>{
+    const g=el('g',{class:'decision'}); g.dataset.stage=d.stage; g.dataset.dn=d.n;
+    const inner=el('g',{transform:`translate(${d.x},${d.y})`});
+    inner.appendChild(el('rect',{class:'dia',x:-14,y:-14,width:28,height:28,rx:3,transform:'rotate(45)'}));
+    const t=el('text',{class:'dn',x:0,y:0,'text-anchor':'middle','dominant-baseline':'central'}); t.textContent=d.n;
+    inner.appendChild(t); g.appendChild(inner); decLayer.appendChild(g);
+  });
+  svg.appendChild(decLayer);
+
+  // ---- interaction: hover any hotspot → focus its stage; leave the box → idle ----
+  const staged=svg.querySelectorAll('[data-stage]');
+  function focus(stage){
+    staged.forEach(e=>{e.classList.toggle('lit',e.dataset.stage===stage);e.classList.toggle('dim',e.dataset.stage!==stage);});
+    cards.forEach(c=>{c.classList.toggle('active',c.dataset.stage===stage);c.classList.toggle('dim',c.dataset.stage!==stage);});
+  }
+  function idle(){
+    staged.forEach(e=>e.classList.remove('lit','dim'));
+    cards.forEach(c=>c.classList.remove('active','dim'));
+  }
+  svg.querySelectorAll('.node,.decision').forEach(g=>g.addEventListener('mouseenter',()=>focus(g.dataset.stage)));
+  cards.forEach(c=>c.addEventListener('mouseenter',()=>focus(c.dataset.stage)));
+  // single source of truth for reset — snaps back whenever the cursor isn't on a hotspot
+  box.addEventListener('mousemove',(ev)=>{ if(!ev.target.closest('.node,.decision,.scard')) idle(); });
+  box.addEventListener('mouseleave',idle);
+})();
+</script>
+
+<!-- mount shared chrome -->
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('graph-subnav-mount')).render(<GraphSubnav active="STOMACH" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+</body>
+</html>
