@@ -47,21 +47,21 @@ const BrainApp = () => (
       alignItems: 'flex-end', gap: 30, flexWrap: 'wrap' }}>
       <div style={{ maxWidth: 900 }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.28em',
-          textTransform: 'uppercase', color: 'var(--accent)' }}>// claudemonzter · body · the brain</div>
+          textTransform: 'uppercase', color: 'var(--accent)' }}>// claudemonzter · obsidian vault</div>
         <h1 style={{ margin: '10px 0 0', fontFamily: 'var(--font-display)', fontSize: 76,
           fontWeight: 700, letterSpacing: '-0.035em', color: 'var(--fg)',
           fontVariationSettings: '"opsz" 144', lineHeight: 0.88 }}>
-          Brain<span style={{ color: 'var(--accent)' }}>.</span></h1>
+          My 2nd <span style={{ color: 'var(--accent)' }}>brain</span></h1>
         <p style={{ margin: '14px 0 0', maxWidth: 720, fontFamily: 'var(--font-display)',
           fontStyle: 'italic', fontSize: 18, lineHeight: 1.45, color: 'var(--fg-muted)',
           fontVariationSettings: '"opsz" 36' }}>{window.BRAIN.thesis}</p>
         <div style={{ marginTop: 12, fontFamily: 'var(--font-mono)', fontSize: 10,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-faint)' }}>
-          a local vault of markdown · {window.BRAIN.credit}</div>
+          Inspired by Andrej Karpathy</div>
       </div>
       <div style={{ fontFamily: 'var(--font-hand)', fontSize: 18, color: 'var(--fg-subtle)',
         transform: 'rotate(-1.5deg)', maxWidth: 230, textAlign: 'right' }}>
-        the graph, drawn over the anatomy.</div>
+        the Obsidian vault, modeled over a human brain.</div>
     </header>
 
     {/* the brain stage */}
@@ -69,20 +69,6 @@ const BrainApp = () => (
       background: 'var(--bg)', overflow: 'hidden' }}>
       <Stage><window.CombinedComp/></Stage>
     </div>
-
-    {/* page-summary footer (distinct from the site footer below it) */}
-    <footer style={{ marginTop: 28, paddingTop: 18, borderTop: '1px dashed var(--line-loud)',
-      display: 'flex', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap', alignItems: 'flex-end' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 15,
-        color: 'var(--fg-muted)', maxWidth: 680, lineHeight: 1.5, fontVariationSettings: '"opsz" 36' }}>
-        The vault is the brain; the LLM is the bookkeeper; you curate. The source→wiki→schema
-        spine is {window.BRAIN.credit} — the Inbox and the Extended brain are mine.
-      </div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.14em',
-        color: 'var(--fg-faint)', textTransform: 'uppercase', textAlign: 'right', lineHeight: 1.8 }}>
-        brain.regions = 5<br/>organ · brain<br/>after karpathy’s llm wiki
-      </div>
-    </footer>
 
   </div>
 );
