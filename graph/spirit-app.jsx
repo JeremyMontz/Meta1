@@ -48,7 +48,7 @@ const SpiritHeader = ({ hyde, crazy, dirtyCount, onCommit, onDiscard, committing
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.28em',
           color: 'var(--accent)', textTransform: 'uppercase',
-        }}>// CLAUDEMONZTER · AMALGAMATION</div>
+        }}>// CLAUDEMONZTER · THE PERSONA MATRIX</div>
         <h1 style={{
           fontFamily: 'var(--font-display)', fontSize: 60, fontWeight: 700,
           letterSpacing: '-0.03em', margin: '6px 0 0',
