@@ -254,7 +254,7 @@ const SKILLS=[
 
   function nodeHTML(item){
     const ext=item.status&&item.status!=='built';
-    const tag=item.status==='external'?'3rd-party':item.status==='planned'?'soon':'';
+    const tag=item.status==='external'?'2nd brain':item.status==='planned'?'soon':'';
     return `<div class="node${ext?' ext':''}" data-id="${item.id}">`+
       `<svg viewBox="0 0 24 24">${item.icon}</svg>`+
       `<span class="nlabel">${item.label}</span>`+
