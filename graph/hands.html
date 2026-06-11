@@ -349,13 +349,13 @@ const SKILLS=[
   // connection targets are never below the fold. Guarded so the programmatic
   // scroll doesn't re-trigger hover and cascade.
   function ensureWiringVisible(){
-    const r=integrWrap.getBoundingClientRect();
-    if(r.bottom>window.innerHeight-8){
-      scrollGuard=true;
-      integrWrap.scrollIntoView({behavior:'smooth',block:'end'});
-      clearTimeout(ensureWiringVisible._t);
-      ensureWiringVisible._t=setTimeout(()=>{scrollGuard=false;},650);
-    }
+    const doc=document.documentElement;
+    const atBottom=window.innerHeight+window.scrollY>=doc.scrollHeight-12;
+    if(atBottom)return;
+    scrollGuard=true;
+    window.scrollTo({top:doc.scrollHeight,behavior:'smooth'});
+    clearTimeout(ensureWiringVisible._t);
+    ensureWiringVisible._t=setTimeout(()=>{scrollGuard=false;},800);
   }
   // Hover is "sticky": the lit state persists when the cursor leaves (so the
   // auto-scroll can't drop it). Hover another skill to switch; click to clear.
