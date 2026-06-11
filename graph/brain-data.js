@@ -8,9 +8,8 @@
 
 window.BRAIN = {
   thesis:
-    'The brain is a local vault of markdown — raw sources, a synthesized wiki, and the ' +
-    'schema that runs it — plus a reach that extends past the local disk.',
-  credit: 'after Karpathy’s LLM wiki',
+    'Claudemonzter has a brain on its own computer, a vault of markdown files on a local disk — raw sources, a synthesized wiki, and the ' +
+    'skills that run it — plus a reach that extends into online canonical resources like our GitHub repo, Google account, and more.',
   vaultRoot: '~/vault',
 };
 
@@ -23,9 +22,9 @@ window.BRAIN_LEVELS = [
     group: 'vault',
     kind: 'incoming',
     folder: '~/vault/inbox/',
-    desc: 'New arrivals, unfiled. Quick captures waiting to be sorted into Raw or written up in the Wiki.',
+    desc: 'New arrivals, unfiled. Quick captures waiting to be sorted into Raw and/or written up in the Wiki.',
     scale: 'always shifting',
-    examples: ['quick-capture.md', 'to-file/voice-memo.md'],
+    examples: ['session briefs', 'undigested items'],
     echo: null,
   },
   {
@@ -35,7 +34,7 @@ window.BRAIN_LEVELS = [
     group: 'vault',
     kind: 'immutable',
     folder: '~/vault/raw/',
-    desc: 'Original source material — clippings, PDFs, transcripts. Captured once, never edited.',
+    desc: 'Original source material — web clippings, PDFs, transcripts. Captured once, never edited.',
     scale: 'the deep archive',
     examples: ['clippings/*.md', 'pdf/*.pdf', 'transcripts/*.md'],
     echo: 'Source',
@@ -48,7 +47,7 @@ window.BRAIN_LEVELS = [
     kind: 'synthesized',
     folder: '~/vault/wiki/',
     desc: 'The living, written knowledge — concept and entity pages, densely wikilinked.',
-    scale: 'a growing web',
+    scale: 'a growing web of connections',
     examples: ['[[concept]].md', '[[entity]].md', 'index.md'],
     echo: 'Wiki',
   },
@@ -61,7 +60,7 @@ window.BRAIN_LEVELS = [
     folder: '~/vault/**/CLAUDE.md',
     desc: 'The operating schema — context, project, and domain rules that tell the brain how to run.',
     scale: 'a small, tight core',
-    examples: ['CLAUDE.md', 'context/*.md', 'rules/*.md'],
+    examples: ['CLAUDE.md', 'ABOUT-ME.md', 'MY-VOICE.md', 'Index.md'],
     echo: 'Schema',
   },
   {
