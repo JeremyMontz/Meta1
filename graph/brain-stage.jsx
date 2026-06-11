@@ -221,9 +221,9 @@ const CombinedComp = () => {
           <h3 style={{ margin: '8px 0 0', fontFamily: 'var(--font-sans)', fontSize: 25, fontWeight: 800,
             letterSpacing: '-0.02em', color: 'var(--fg)', lineHeight: 1.05 }}>Hover a region.</h3>
           <p style={{ margin: '11px 0 0', fontFamily: 'var(--font-sans)', fontSize: 13, lineHeight: 1.55,
-            color: 'var(--fg-muted)' }}>The brain is a local vault of markdown. Five regions hold its
-            documents — sources, a synthesized wiki, the schema that runs it. Five memory layers pin to
-            the anatomy. Hover a region to read it.</p>
+            color: 'var(--fg-muted)' }}>The 2nd brain is a local Obsidian vault of markdown files. Five regions hold its
+            documents — project and grounding documents, immutable research documents, a agent-synthesized wiki, an inbox of unprocessed material, and external 
+            surfaces where the human sends new items. Files reside at five memory layers, as shown here and on memory.html. Hover a region to read it.</p>
 
           <div style={{ margin: '18px 0 14px', borderTop: '1px dashed var(--line-loud)' }}/>
 
@@ -243,7 +243,7 @@ const CombinedComp = () => {
           </div>
 
           <div style={{ marginTop: 20, fontFamily: 'var(--font-hand)', fontSize: 17, color: 'var(--fg-subtle)',
-            transform: 'rotate(-1.5deg)' }}>← hover a node, read its region.</div>
+            transform: 'rotate(-1.5deg)' }}>← hover a region to read more about it.</div>
         </div>
       )}
 
