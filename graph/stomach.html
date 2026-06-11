@@ -129,11 +129,14 @@ body{
   <main class="wrap">
     <header class="head">
       <div>
-        <div class="eyebrow">// Claudemonzter <span class="sep">·</span> Stomach</div>
-        <h1>We digest it<span class="dot">.</span></h1>
-        <p class="lead">The file system <em>is</em> the gut. Live surfaces are swallowed into <em>Inbox/</em>, broken down into raw source and <b>metabolized</b> into the Wiki, then linked or passed. From capture to knowledge.</p>
+        <div class="eyebrow">// Claudemonzter <span class="sep">·</span> Stomach & Metabolism</div>
+        <h1>We are what <span class="dot">we eat</span></h1>
+        <p class="lead">Claudemonzter's <b>information processing workflow</b> can be compared to the human digestive track. 
+          Delicious research can be found and created at any time, <em>ingested and metabolized</em> into the system
+          at regular intervals, and routed to serve the body's needs. Processed and temporary materials are periodically eliminated 
+          to keep the system healthy and the body lean./p>
       </div>
-      <div class="note">the vault's metabolism — issue #191</div>
+      <div class="note">from raw capture to embodied knowledge</div>
     </header>
 
     <section class="stagebox" id="stagebox">
@@ -145,14 +148,14 @@ body{
         <div class="rail-head">// stages</div>
 
         <div class="scard" data-stage="sources" style="--tone:var(--ok)">
-          <div class="stop"><span class="snum">1</span><div><div class="stitle">Sources</div><div class="sfolder">live integrations</div></div></div>
+          <div class="stop"><span class="snum">1</span><div><div class="stitle">Sources</div><div class="sfolder">Network locations</div></div></div>
           <div class="detail">
-            <p>The surfaces we eat from — built integrations that reach off-disk into the tools where work actually happens.</p>
-            <div class="sk"><span>GitHub</span><span>Gmail</span><span>Drive</span><span>MS To&nbsp;Do</span><span>Web</span></div>
+            <p>The buffet we eat from — live integrations that reach off-disk into the external tools where work happens.</p>
+            <div class="sk"><span>GitHub</span><span>Gmail</span><span>Drive</span><span>MS To&nbsp;Dos</span><span>Web</span></div>
             <div class="dec">
-              <div class="dec-h"><span class="di"><b>1</b></span> Capture</div>
-              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] surfaces are pulled on demand or on a schedule.</span></div>
-              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] continuous auto-sync as sources change.</span></div>
+              <div class="dec-h"><span class="di"><b>1</b></span> Query</div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">Sources are queried automatically at session start.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">Add sources, expand reach, and automate more.</span></div>
             </div>
           </div>
         </div>
@@ -160,12 +163,12 @@ body{
         <div class="scard" data-stage="ingest" style="--tone:var(--candle)">
           <div class="stop"><span class="snum">2</span><div><div class="stitle">Ingestion</div><div class="sfolder">Inbox/</div></div></div>
           <div class="detail">
-            <p>Everything lands in the inbox first as a structured note. Nothing skips the queue.</p>
+            <p>Everything lands in the local filesystem's inbox as a structured note tagging the agent or applicable domain. Nothing skips the queue.</p>
             <div class="sk"><span>todo-ingest</span><span>email-ingest</span><span>check-email</span></div>
             <div class="dec">
-              <div class="dec-h"><span class="di"><b>2</b></span> Triage</div>
-              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] items triaged per-domain, a human approving each move.</span></div>
-              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] a router agent proposes routing; human confirms exceptions.</span></div>
+              <div class="dec-h"><span class="di"><b>2</b></span> Ingest</div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">Agents present the open items and the human determines the agenda.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">A router automates low-level moves and escalates exceptions for human confirmation.</span></div>
             </div>
           </div>
         </div>
@@ -173,12 +176,12 @@ body{
         <div class="scard" data-stage="digest" style="--tone:var(--accent)">
           <div class="stop"><span class="snum">3</span><div><div class="stitle">Digestion &amp; Metabolism</div><div class="sfolder">Raw/ · Wiki/</div></div></div>
           <div class="detail">
-            <p>Source is preserved <b style="color:var(--accent);font-weight:400">raw</b> and immutable; the meaning is metabolized into densely wikilinked knowledge.</p>
+            <p>Source data is preserved in <b style="color:var(--accent);font-weight:400">raw</b> and made immutable; agents synthesize the meaning, link to the original research, and maintain <b style="color:var(--accent);font-weight:400">wiki</b> with their working knowledge.</p>
             <div class="sk"><span>ingest-inbox</span><span>wiki-write</span></div>
             <div class="dec">
               <div class="dec-h"><span class="di"><b>3</b></span> Compile</div>
-              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] compiled to wiki with explicit approval; raw never edited.</span></div>
-              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] assisted synthesis with code-checked links.</span></div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">Agents and human review updates manually while frontmatter links notes automatically.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">Improved write gate enforcement by using Claude Code to restrict when and how changes can be made; then automated.</span></div>
             </div>
           </div>
         </div>
@@ -186,24 +189,24 @@ body{
         <div class="scard" data-stage="eliminate" style="--tone:var(--gray-bright)">
           <div class="stop"><span class="snum">4</span><div><div class="stitle">Linking &amp; Elimination</div><div class="sfolder">Temp · Archive · Museum</div></div></div>
           <div class="detail">
-            <p>What's done passes through. Scratch is flushed, working files retire, a few artifacts are preserved — deletion only with clearance.</p>
+            <p>What's fully consumed passes through. Temporary session briefs and working files are flushed. Some fat might get saved to the museum for posterity.</p>
             <div class="sk"><span>close-session</span><span>consolidate-memory</span></div>
             <div class="dec">
               <div class="dec-h"><span class="di"><b>4</b></span> Lifecycle</div>
-              <div class="dec-row"><span class="k now">Now</span><span class="v">[placeholder] lifecycle is manual; deletion requires explicit clearance.</span></div>
-              <div class="dec-row"><span class="k next">Next</span><span class="v">[placeholder] an Archivist/router agent with move + delete hooks enforced by code.</span></div>
+              <div class="dec-row"><span class="k now">Now</span><span class="v">File system lifecycle is manual; only the human can archive or delete.</span></div>
+              <div class="dec-row"><span class="k next">Next</span><span class="v">Archivist/router agent with linting and move + delete hooks enforced by code.</span></div>
             </div>
           </div>
         </div>
 
         <div class="legend">
-          <span><i style="background:var(--ok)"></i>Live source</span>
+          <span><i style="background:var(--ok)"></i>Sources</span>
           <span><i style="background:var(--candle)"></i>Inbox</span>
-          <span><i style="background:var(--accent)"></i>Raw · Wiki</span>
-          <span><i style="background:var(--gray-bright)"></i>Storage</span>
+          <span><i style="background:var(--accent)"></i>Embodied</span>
+          <span><i style="background:var(--gray-bright)"></i>Staging</span>
           <span><i style="background:var(--err)"></i>Decision</span>
         </div>
-        <div class="rnote">↖ hover the tract to read a stage.</div>
+        <div class="rnote">↖ hover the body to examine its stage.</div>
       </aside>
     </section>
   </main>
