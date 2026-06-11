@@ -50,9 +50,13 @@ body{
 .plate .frame::before{content:"";position:absolute;inset:9px;border-radius:5px;background:repeating-linear-gradient(45deg,#2a2238,#2a2238 8px,#241d31 8px,#241d31 16px);z-index:-1}
 .plate figcaption{margin-top:9px;text-align:right;font-family:var(--font-hand);font-size:17px;color:var(--fg-subtle);transform:rotate(-1.5deg)}
 
-.diaglead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding-top:20px;margin-top:6px;flex-wrap:wrap}
-.diaglead p{font-size:14px;color:var(--fg-muted);max-width:42em;line-height:1.5}
-.diaglead .hint{font-family:var(--font-hand);font-size:19px;color:var(--candle);white-space:nowrap;transform:rotate(-1deg)}
+/* graph sub-nav — per-page visual treatment (matches memory.html / dashboard.html) */
+.graph-subnav{display:flex;align-items:center;gap:24px;padding:12px 40px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--line);position:relative;z-index:1}
+.graph-subnav-label{color:var(--fg-faint)}
+.graph-subnav a{color:var(--fg-muted);text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent}
+.graph-subnav a:hover{color:var(--accent)}
+.graph-subnav a.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tierlabel .hint{font-family:var(--font-hand);font-size:18px;color:var(--candle);white-space:nowrap;transform:rotate(-1deg);margin-left:6px}
 
 /* ---- diagram ---- */
 .diagram{position:relative;margin:22px 0 40px;padding:6px 0}
@@ -108,9 +112,6 @@ body{
 .legend .dot.gold{background:var(--candle)}.legend .dot.violet{background:var(--accent)}.legend .dot.cyan{background:var(--ether)}
 .legend .dot.gray{background:transparent;border:1px dashed var(--fg-subtle)}
 
-.closer{border-top:1px solid var(--line);margin-top:8px;padding:22px 0 36px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-.closer .note{font-size:12.5px;color:var(--fg-faint);max-width:46em;line-height:1.5}
-.closer a{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 
 @media(max-width:920px){
   .hands-wrap{padding:0 22px}
@@ -146,15 +147,10 @@ body{
       </figure>
     </section>
 
-    <div class="diaglead">
-      <p>Every skill I've built is a <strong style="color:var(--fg-muted)">composition</strong> of the primitives below — reaching into real, live services to get work done. Hover a skill to watch the wiring light up.</p>
-      <span class="hint">hover a skill ↓</span>
-    </div>
-
     <section class="diagram" id="diagram">
       <svg class="svg-layer" id="lines" preserveAspectRatio="none"></svg>
 
-      <div class="tierlabel"><span class="gold">Built by me — custom skills</span><span class="ln"></span></div>
+      <div class="tierlabel"><span class="gold">Built by me — custom skills</span><span class="ln"></span><span class="hint">hover a skill ↓</span></div>
       <div class="clusters" id="clusters"></div>
 
       <div class="tierlabel" style="margin-top:28px"><span class="violet">Inherent — Claude's primitives</span><span class="ln"></span></div>
@@ -170,11 +166,6 @@ body{
         <span><i class="dot gray"></i>Third-party / planned</span>
       </div>
     </section>
-
-    <div class="closer">
-      <p class="note">The body metaphor is a bridge, not a claim. These are the hands: the platform's grip, the tools I shaped to fit it, and the things they reach out and touch.</p>
-      <a href="../about/ai.html">← Back to the body</a>
-    </div>
   </main>
 
   <!-- shared chrome mount -->
