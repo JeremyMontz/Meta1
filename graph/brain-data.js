@@ -9,7 +9,7 @@
 window.BRAIN = {
   thesis:
     'Claudemonzter has a brain on its own computer, a vault of markdown files on a local disk — raw sources, a synthesized wiki, and the ' +
-    'skills that run it — plus a reach that extends into online canonical resources like our GitHub repo, Google account, and more.',
+    'skills that run it — plus a reach that extends into online resources like our GitHub repo, Google account, and more.',
   vaultRoot: '~/vault',
 };
 
@@ -29,7 +29,7 @@ window.BRAIN_LEVELS = [
   },
   {
     key: 'raw',
-    name: 'Raw',
+    name: 'Raw Research',
     token: 'var(--info)',
     group: 'vault',
     kind: 'immutable',
@@ -41,7 +41,7 @@ window.BRAIN_LEVELS = [
   },
   {
     key: 'wiki',
-    name: 'Wiki',
+    name: 'Agentic Wiki',
     token: 'var(--err)',
     group: 'vault',
     kind: 'synthesized',
@@ -93,9 +93,9 @@ window.BRAIN_BOUNDARY = {
 // Memory layers, restored as static PINS (no hover). Colors deviate from memory.html.
 // Positions are fractions of the brain plate image (facing right).
 window.BRAIN_MEMORY = [
-  { id: 1, name: 'Identity',       token: 'var(--accent)', f: [0.415, 0.855], desc: 'Who am I — personality, rules, tone.' },
-  { id: 2, name: 'Context',        token: 'var(--accent)', f: [0.515, 0.695], desc: 'Calibration data, not instructions.' },
-  { id: 3, name: 'Project',        token: 'var(--accent)', f: [0.525, 0.600], desc: 'Operating manual for a codebase.' },
-  { id: 4, name: 'Agent · Domain', token: 'var(--candle)', f: [0.548, 0.515], desc: 'Conditional config per role.' },
-  { id: 5, name: 'Session',        token: 'var(--ok)',     f: [0.598, 0.485], desc: 'Active goals, blockers, state.' },
+  { id: 1, name: 'Identity',       token: 'var(--accent)', f: [0.415, 0.855], desc: 'Who am I and how do I want Claude to behave?' },
+  { id: 2, name: 'Context',        token: 'var(--info)', f: [0.515, 0.695], desc: 'What background does Claude need to calibrate its judgment?' },
+  { id: 3, name: 'Project',        token: 'var(--ok)', f: [0.525, 0.600], desc: 'What rules and architecture govern the project?' },
+  { id: 4, name: 'Agent · Domain', token: 'var(--candle)', f: [0.548, 0.515], desc: 'What additional context does the specific role need?' },
+  { id: 5, name: 'Session',        token: 'var(--err)',     f: [0.598, 0.485], desc: 'What is Claude doing right NOW?' },
 ];
