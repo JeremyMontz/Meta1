@@ -138,8 +138,6 @@
   .q a{ color:var(--accent); text-decoration:none; border-bottom:1px solid color-mix(in oklch, var(--accent) 40%, transparent); transition:border-color 180ms var(--ease-out); }
   .q a:hover{ border-bottom-color:var(--accent); }
   .q .q-arrow{ font-style:normal; font-size:0.62em; color:var(--accent); opacity:0.7; vertical-align:middle; margin-left:4px; }
-  .q-cap{ margin-top:10px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--fg-faint); transition:color 180ms; }
-  a.q:hover ~ .q-cap{ color:var(--fg-subtle); }
 
   @media (max-width:820px){
     .inspector{ position:static; left:auto; right:auto; margin-bottom:10px; flex-direction:column; gap:10px; backdrop-filter:none; }
@@ -159,10 +157,10 @@
 
   <main>
     <div class="head">
-      <div class="kicker"><span class="accent">\\ CLAUDEMONZTER  · BODY · GENERATIONS</div>
+      <div class="kicker"><span class="accent">// CLAUDEMONZTER  · BODY · GENERATIONS</div>
       <h1 class="title">Embodying a mind</h1>
       <p class="lede">Every major version upgrade was an improvement to the creature's ability to write and read memories, to <em>know things.</em> Platform limitations and new capabilities,
-        once understood, can become roadmap items, a path forward. We can't see around the singularity, we will have to go through it.</p>
+        once understood, can become roadmap items, a path forward. We can't see around the singularity; we will have to go through it.</p>
     </div>
 
     <div class="plate-wrap">
@@ -197,7 +195,7 @@
     </div>
 
     <section class="closing">
-    <p class="q">"Check out my <a href="../about/ai.html">'About the AI' page,</a> or use the breadcrumb links above, to explore this body in more detail."<span class="q-arrow">↗</span></p>
+    <p class="q">"Check out my <a href="../about/ai.html">'About the AI'</a> page (or use the links at the top here) to examine the Body."<span class="q-arrow">↗</span></p>
     </section>
   </main>
 
@@ -221,7 +219,7 @@
   var STAGES=[
     { id:'v0', v:'v0', figure:1, era:'First Contact', color:'#9aa0ad', state:'past', center:8.5,
       name:'First Contact', badge:'PAST',
-      narr:'One conversation, no memory. The model knew nothing about me and would soon forget  .',
+      narr:'One conversation, no memory. The model knew nothing about me and would soon forget.',
       spot:{x:2.5,y:60,w:15,h:29},
       stores:[ {n:'Claude.ai · chat', role:'new'} ] },
 
@@ -232,8 +230,8 @@
       stores:[ {n:'Claude.ai Projects', role:'canon'} ] },
 
     { id:'v2', v:'v2', figure:3, era:'Network Memory', color:'#f5c56a', state:'past', center:37,
-      name:'Google Drive & a GitHub Repo', badge:'PASST',
-      narr:'Canon moved outside the platform. Google Drive held the working corpus; the GitHub repo and on-line presence were born.',
+      name:'Google Drive & a GitHub Repo', badge:'PAST',
+      narr:'Canon moved outside the platform. Google Drive held the working corpus; the GitHub repo and online presence were born.',
       spot:{x:31,y:36,w:15,h:53},
       stores:[ {n:'Google Drive', role:'canon'}, {n:'GitHub repo', role:'new'}, {n:'Claude.ai', role:'surface'} ] },
 
@@ -245,11 +243,11 @@
 
     { id:'v4', v:'Next', figure:5, era:'Convergence', color:'#a7ff7d', state:'future', center:69,
       name:'On the Go', badge:'NEXT',
-      narr:'Future chat sessions will be mobile and able to load canon regardless of platform; local and cloud agents will share a common source of truth in the online repo. The wiki brain on the filesystem accessible through always-on automation.',
+      narr:'Future chat sessions will be mobile and able to load canon regardless of platform; local and cloud agents will share a common source of truth in the online repo. The wiki brain on the filesystem to be accessible through always-on automation.',
       spot:{x:62.5,y:30,w:15,h:58},
       stores:[ {n:'Repo / Pages', role:'canon'}, {n:'Local', role:'new'}, {n:'Claude.ai', role:'new'}, {n:'Wiki', role:'new'} ] },
 
-    { id:'v5', v:'v5', figure:6, era:'Future', color:'#c2ff3d', state:'future', center:85,
+    { id:'v5', v:'Future', figure:6, era:'Future', color:'#c2ff3d', state:'future', center:85,
       name:'The Future is so Bright...', badge:'FUTURE',
       narr:'The open horizon past convergence — who knows what the future holds?',
       spot:{x:78,y:28,w:15.5,h:61},
