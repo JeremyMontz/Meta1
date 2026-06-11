@@ -280,13 +280,14 @@ const SKILLS=[
   const clusters=[...clustersWrap.querySelectorAll('.cluster')];
   const nodes=[...document.querySelectorAll('.node')];
   const nodeById=Object.fromEntries(nodes.map(n=>[n.dataset.id,n]));
-  let pinned=null;
+  let pinned=null, shown=null, scrollGuard=false;
 
   function clear(){
     svg.innerHTML='';
     clusters.forEach(c=>c.classList.remove('dim','active'));
     nodes.forEach(n=>n.classList.remove('lit-v','lit-c','lit-g','dim'));
     clustersWrap.classList.remove('pinned');
+    shown=null;
   }
   const litClassFor=id=>PRIMS.has(id)?'lit-v':(statusOf[id]==='built'?'lit-c':'lit-g');
   const gradFor=id=>PRIMS.has(id)?'gv':(statusOf[id]==='built'?'gc':'gg');
@@ -322,6 +323,7 @@ const SKILLS=[
       const x2=tb.left+tb.width/2-box.left, y2=tb.top-box.top;
       svg.appendChild(curve(x1,y1,x2,y2,gradFor(id),statusOf[id]!=='built'));
     });
+    shown={type:'c',el:card};
   }
   function showNode(node){
     clear();
@@ -340,18 +342,32 @@ const SKILLS=[
       const x1=cb.left+cb.width/2-box.left, y1=cb.bottom-box.top;
       svg.appendChild(curve(x1,y1,x2,y2,gradFor(id),statusOf[id]!=='built'));
     });
+    shown={type:'n',el:node};
   }
 
+  // Bring the integrations row into view when wiring lights up, so the
+  // connection targets are never below the fold. Guarded so the programmatic
+  // scroll doesn't re-trigger hover and cascade.
+  function ensureWiringVisible(){
+    const r=integrWrap.getBoundingClientRect();
+    if(r.bottom>window.innerHeight-8){
+      scrollGuard=true;
+      integrWrap.scrollIntoView({behavior:'smooth',block:'end'});
+      clearTimeout(ensureWiringVisible._t);
+      ensureWiringVisible._t=setTimeout(()=>{scrollGuard=false;},650);
+    }
+  }
+  // Hover is "sticky": the lit state persists when the cursor leaves (so the
+  // auto-scroll can't drop it). Hover another skill to switch; click to clear.
   clusters.forEach(card=>{
-    card.addEventListener('mouseenter',()=>{if(!pinned)showCluster(card)});
-    card.addEventListener('focus',()=>{if(!pinned)showCluster(card)});
+    card.addEventListener('mouseenter',()=>{if(!pinned&&!scrollGuard){showCluster(card);ensureWiringVisible();}});
+    card.addEventListener('focus',()=>{if(!pinned){showCluster(card);ensureWiringVisible();}});
     card.addEventListener('click',()=>{
-      if(pinned===card){pinned=null;clear();}else{pinned=card;showCluster(card);}
+      if(pinned===card){pinned=null;clear();}else{pinned=card;showCluster(card);ensureWiringVisible();}
     });
   });
-  nodes.forEach(n=>n.addEventListener('mouseenter',()=>{if(!pinned)showNode(n)}));
-  diagram.addEventListener('mouseleave',()=>{if(!pinned)clear()});
-  window.addEventListener('resize',()=>{if(pinned)showCluster(pinned);else clear();});
+  nodes.forEach(n=>n.addEventListener('mouseenter',()=>{if(!pinned&&!scrollGuard)showNode(n)}));
+  window.addEventListener('resize',()=>{if(pinned)showCluster(pinned);else if(shown){shown.type==='c'?showCluster(shown.el):showNode(shown.el);}});
 })();
 </script>
 
