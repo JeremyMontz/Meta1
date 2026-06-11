@@ -134,10 +134,10 @@
   .vtab.is-current .vn{ text-decoration:underline; text-underline-offset:3px; text-decoration-color:color-mix(in oklch,var(--draw-ink) 60%, transparent); }
 
   .closing{ max-width:760px; margin:0 auto; padding:20px 40px 44px; }
-  a.q{ display:inline-block; font-family:var(--font-display); font-style:italic; font-size:20px; line-height:1.4;
-    color:var(--fg); text-wrap:balance; margin:0; text-decoration:none; transition:color 180ms var(--ease-out); cursor:pointer; }
-  a.q .q-arrow{ font-style:normal; font-size:0.62em; color:var(--accent); opacity:0.65; transition:opacity 180ms; vertical-align:middle; margin-left:4px; }
-  a.q:hover{ color:var(--accent); } a.q:hover .q-arrow{ opacity:1; }
+  .q{ font-family:var(--font-display); font-style:italic; font-size:20px; line-height:1.4; color:var(--fg); text-wrap:balance; margin:0; }
+  .q a{ color:var(--accent); text-decoration:none; border-bottom:1px solid color-mix(in oklch, var(--accent) 40%, transparent); transition:border-color 180ms var(--ease-out); }
+  .q a:hover{ border-bottom-color:var(--accent); }
+  .q .q-arrow{ font-style:normal; font-size:0.62em; color:var(--accent); opacity:0.7; vertical-align:middle; margin-left:4px; }
   .q-cap{ margin-top:10px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--fg-faint); transition:color 180ms; }
   a.q:hover ~ .q-cap{ color:var(--fg-subtle); }
 
@@ -159,9 +159,10 @@
 
   <main>
     <div class="head">
-      <div class="kicker"><span class="accent">GRAPH</span><span class="sep">/</span><span>BODY</span><span class="sep">·</span><span>WHERE CANON LIVES</span></div>
-      <h1 class="title">The body remembers — but where?</h1>
-      <p class="lede">Every version moved the creature's memory somewhere new. Hover a figure to read where its canon lived.</p>
+      <div class="kicker"><span class="accent">\\ CLAUDEMONZTER  · BODY · GENERATIONS</div>
+      <h1 class="title">Embodying a mind</h1>
+      <p class="lede">Every major version upgrade was an improvement to the creature's ability to write and read memories, to <em>know things.</em> Platform limitations and new capabilities,
+        once understood, can become roadmap items, a path forward. We can't see around the singularity, we will have to go through it.</p>
     </div>
 
     <div class="plate-wrap">
@@ -196,8 +197,7 @@
     </div>
 
     <section class="closing">
-      <a class="q" href="../about/ai.html">"The body remembers by leaving pieces of itself where it can find them again."<span class="q-arrow">↗</span></a>
-      <div class="q-cap">The body, as it stands now</div>
+    <p class="q">"Check out my <a href="../about/ai.html">'About the AI' page,</a> or use the breadcrumb links above, to explore this body in more detail."<span class="q-arrow">↗</span></p>
     </section>
   </main>
 
@@ -219,41 +219,41 @@
   // SIX stages on SIX figures. spot = {x,y,w,h} % of image (press 'd').
   // center = x% the v# mark sits at (under the figure). Edit to re-spread.
   var STAGES=[
-    { id:'v0', v:'v0', figure:1, era:'Genesis', color:'#9aa0ad', state:'past', center:8.5,
-      name:'Direct Chat', badge:'',
-      narr:'One conversation at a time. No project memory — close the chat and nothing carried over. The body had no past.',
+    { id:'v0', v:'v0', figure:1, era:'First Contact', color:'#9aa0ad', state:'past', center:8.5,
+      name:'First Contact', badge:'PAST',
+      narr:'One conversation, no memory. The model knew nothing about me and would soon forget  .',
       spot:{x:2.5,y:60,w:15,h:29},
-      stores:[ {n:'Claude.ai · chat', role:'ephemeral'} ] },
+      stores:[ {n:'Claude.ai · chat', role:'new'} ] },
 
-    { id:'v1', v:'v1', figure:2, era:'Memory', color:'#8dd9ff', state:'past', center:22,
-      name:'Project Memory', badge:'',
-      narr:'Claude.ai Projects arrived — the chat gained memory that persisted across sessions. Canon lived inside the platform.',
+    { id:'v1', v:'v1', figure:2, era:'Claude.ai', color:'#8dd9ff', state:'past', center:22,
+      name:'Inherent Memory', badge:'PAST',
+      narr:'Claude.ai Projects were created — each chat could save research and memories (i.e. notes and files) that persisted across sessions. Canon was inside the platform.',
       spot:{x:15.5,y:42,w:15,h:47},
       stores:[ {n:'Claude.ai Projects', role:'canon'} ] },
 
-    { id:'v2', v:'v2', figure:3, era:'Externalize', color:'#f5c56a', state:'past', center:37,
-      name:'Drive & Repo', badge:'',
-      narr:'Canon moved outside the chat. Google Drive held the working corpus; the GitHub repo was born.',
+    { id:'v2', v:'v2', figure:3, era:'Network Memory', color:'#f5c56a', state:'past', center:37,
+      name:'Google Drive & a GitHub Repo', badge:'PASST',
+      narr:'Canon moved outside the platform. Google Drive held the working corpus; the GitHub repo and on-line presence were born.',
       spot:{x:31,y:36,w:15,h:53},
       stores:[ {n:'Google Drive', role:'canon'}, {n:'GitHub repo', role:'new'}, {n:'Claude.ai', role:'surface'} ] },
 
-    { id:'v3', v:'v3', figure:4, era:'Ground', color:'#b57bff', state:'current', center:53,
-      name:'Local + Repo', badge:'NOW',
-      narr:'The vault settled on the local filesystem. The repo became canonical for the website, sharing that duty with parts of the vault.',
+    { id:'v3', v:'v3', figure:4, era:'Local Memory', color:'#b57bff', state:'current', center:53,
+      name:'Obsidian Vault + Repo', badge:'NOW',
+      narr:'A PC was purchased and dedicated to the Body for further experimentation. The local filesystem became an Obsidian vault of markdown files. The wiki brain continues to grow. The repo and the website grow too.',
       spot:{x:45.5,y:30,w:16.5,h:59},
       stores:[ {n:'Local vault', role:'canon'}, {n:'GitHub repo · site', role:'canon'}, {n:'Claude.ai', role:'surface'} ] },
 
-    { id:'v4', v:'v4', figure:5, era:'Converge', color:'#a7ff7d', state:'future', center:69,
-      name:'All of the Above', badge:'ENVISIONED',
-      narr:'Repo / Pages as primary canon, dual-surfaced to local and Claude.ai on one source of truth. Only the wiki stays on the filesystem.',
+    { id:'v4', v:'Next', figure:5, era:'Convergence', color:'#a7ff7d', state:'future', center:69,
+      name:'On the Go', badge:'NEXT',
+      narr:'Future chat sessions will be mobile and able to load canon regardless of platform; local and cloud agents will share a common source of truth in the online repo. The wiki brain on the filesystem accessible through always-on automation.',
       spot:{x:62.5,y:30,w:15,h:58},
-      stores:[ {n:'Repo / Pages', role:'future'}, {n:'Local', role:'future'}, {n:'Claude.ai', role:'future'}, {n:'Wiki', role:'fsonly'} ] },
+      stores:[ {n:'Repo / Pages', role:'canon'}, {n:'Local', role:'new'}, {n:'Claude.ai', role:'new'}, {n:'Wiki', role:'new'} ] },
 
     { id:'v5', v:'v5', figure:6, era:'Future', color:'#c2ff3d', state:'future', center:85,
-      name:'The Spread', badge:'FUTURE',
-      narr:'The open horizon past convergence — one canon, every surface, the creature at home anywhere. Subject to change; the shape here is a question, not a plan.',
+      name:'The Future is so Bright...', badge:'FUTURE',
+      narr:'The open horizon past convergence — who knows what the future holds?',
       spot:{x:78,y:28,w:15.5,h:61},
-      stores:[ {n:'shape TBD', role:'future'} ] },
+      stores:[ {n:'Mystery', role:'canon'} ] },
   ];
 
   var ROLE_LABEL={ canon:'source of truth', 'new':'introduced', surface:'surface', ephemeral:'ephemeral', future:'envisioned', fsonly:'filesystem-only' };
