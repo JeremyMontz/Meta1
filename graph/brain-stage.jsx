@@ -219,11 +219,11 @@ const CombinedComp = () => {
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.24em',
             textTransform: 'uppercase', color: 'var(--accent)' }}>// inspector</div>
           <h3 style={{ margin: '8px 0 0', fontFamily: 'var(--font-sans)', fontSize: 25, fontWeight: 800,
-            letterSpacing: '-0.02em', color: 'var(--fg)', lineHeight: 1.05 }}>Hover a region.</h3>
+            letterSpacing: '-0.02em', color: 'var(--fg)', lineHeight: 1.05 }}>How I remember things.</h3>
           <p style={{ margin: '11px 0 0', fontFamily: 'var(--font-sans)', fontSize: 13, lineHeight: 1.55,
-            color: 'var(--fg-muted)' }}>The 2nd brain is a local Obsidian vault of markdown files. Five regions hold its
-            documents — project and grounding documents, immutable research documents, a agent-synthesized wiki, an inbox of unprocessed material, and external 
-            surfaces where the human sends new items. Files reside at five memory layers, as shown here and on memory.html. Hover a region to read it.</p>
+            color: 'var(--fg-muted)' }}>The 2nd brain loads crucial information automatically, determined by memory configuration 
+            layers and session start-up instructions. It has direct access to immutable raw research and the freedom to summarize the information
+            and link it as 'working memory.' And it can connect and remember things like emails, tasks, and GitHub issues. Hover a region to read it.</p>
 
           <div style={{ margin: '18px 0 14px', borderTop: '1px dashed var(--line-loud)' }}/>
 
