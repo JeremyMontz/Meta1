@@ -55,13 +55,10 @@ const BrainApp = () => (
         <p style={{ margin: '14px 0 0', maxWidth: 720, fontFamily: 'var(--font-display)',
           fontStyle: 'italic', fontSize: 18, lineHeight: 1.45, color: 'var(--fg-muted)',
           fontVariationSettings: '"opsz" 36' }}>{window.BRAIN.thesis}</p>
-        <div style={{ marginTop: 12, fontFamily: 'var(--font-mono)', fontSize: 10,
-          letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-faint)' }}>
-          Inspired by Andrej Karpathy</div>
       </div>
       <div style={{ fontFamily: 'var(--font-hand)', fontSize: 18, color: 'var(--fg-subtle)',
         transform: 'rotate(-1.5deg)', maxWidth: 230, textAlign: 'right' }}>
-        the Obsidian vault, modeled over a human brain.</div>
+        Inspired by Andrej Karpathy's LLM Wiki.</div>
     </header>
 
     {/* the brain stage */}
