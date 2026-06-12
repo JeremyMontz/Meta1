@@ -282,7 +282,8 @@ window.ARTICLES = [
   { id: 'a1', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html', demonstrates: ['agentic', 'discovery'] },
   { id: 'a2', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', tag: 'ESSAY', read: '2 min', href: 'writing/adversarial-validation.html', demonstrates: ['eval', 'collab'] },
   { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html', demonstrates: ['collab', 'agentic'] },
-  { id: 'a4', date: '04.29.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html', demonstrates: ['building', 'discovery'] },
+  { id: 'a4', date: '04.15.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html', demonstrates: ['building', 'discovery'] },
+  { id: 'a5', date: '04.29.26', title: 'Memory tiering into persistent context.', tag: 'ESSAY', read: '2 min', href: 'writing/memory-tiering.html', demonstrates: ['agentic', 'eval'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
