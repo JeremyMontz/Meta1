@@ -1,0 +1,209 @@
+<!--
+  ╔════════════════════════════════════════════════════════════════════════╗
+  ║  WRITING ENTRY · agentic-behavioral-tuning.html                        ║
+  ║                                                                        ║
+  ║  Essay / field note. Chrome (TopNav + Footer) rendered by React from   ║
+  ║  components/HomeShell.jsx — same pattern as coaching-system /          ║
+  ║  memory-tiering / canon-load-evaluation.                               ║
+  ║                                                                        ║
+  ║  Month 2. Explainer for spirit.html (graph/spirit.html): the persona   ║
+  ║  matrix — nine behavioral dials per agent, each with a reliability     ║
+  ║  rating; an end-to-end loop (page → GAS → Sheet → cascade-persona      ║
+  ║  skill → grounding docs); a working prototype = the AI-PM skill.       ║
+  ║  Recruiter-keyword: agentic behavioral tuning, persona engine,         ║
+  ║  behavioral dials, prototype, proof of concept, AI PM, multi-agent.    ║
+  ╚════════════════════════════════════════════════════════════════════════╝
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Agentic behavioral tuning &middot; Claudemonzter</title>
+<meta name="description" content="A field note on spirit.html: a mixing board of nine behavioral dials per agent, each with a reliability rating, wired into an end-to-end loop that actually changes how the agents behave. A working prototype." />
+
+<link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+<!-- React + Babel — chrome is mounted from HomeShell.jsx -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+/* ── Page shell ─────────────────────────────────────────────── */
+html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
+body { font-family: var(--font-sans); }
+a { color: inherit; text-decoration: none; }
+.page { width: 100%; max-width: 1280px; margin: 0 auto; }
+
+/* ── Article header ────────────────────────────────────────── */
+.article-head { padding: 64px 40px 32px; }
+.article-head-inner { max-width: 680px; margin: 0 auto; }
+
+.meta-row {
+display: flex; gap: 16px; align-items: center;
+font-family: var(--font-mono); font-size: var(--fs-sm);
+letter-spacing: var(--ls-wider); text-transform: uppercase;
+color: var(--fg-subtle);
+}
+.meta-row .sep { color: var(--line-loud); }
+.meta-row .accent { color: var(--candle); }
+
+.article-title {
+font-family: var(--font-display); font-weight: 700;
+font-size: var(--fs-4xl); line-height: var(--lh-tight);
+letter-spacing: var(--ls-tight);
+margin: 22px 0 0;
+font-variation-settings: "opsz" 144;
+text-wrap: balance;
+}
+.article-title em {
+font-style: italic; color: var(--accent);
+font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+
+.article-subtitle {
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-xl); line-height: var(--lh-snug);
+margin-top: 18px;
+color: var(--fg-muted);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+}
+.article-subtitle em {
+color: var(--accent);
+}
+
+/* ── Article body ───────────────────────────────────────────── */
+.article-body { max-width: 680px; margin: 0 auto; padding: 0 40px 48px; }
+
+.article-body p {
+font-family: var(--font-sans);
+font-size: var(--fs-md); line-height: var(--lh-loose);
+margin: 0 0 22px; color: var(--fg);
+text-wrap: pretty;
+}
+
+.article-body p.lede {
+font-family: var(--font-display); font-weight: 400; font-style: italic;
+font-size: 24px; line-height: 1.45; color: var(--fg);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+margin-bottom: 36px;
+text-wrap: balance;
+}
+
+.article-body blockquote {
+margin: 28px 0; padding: 4px 0 4px 20px;
+border-left: 2px solid var(--candle);
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-lg); line-height: var(--lh-snug);
+color: var(--fg-muted);
+font-variation-settings: "opsz" 48, "SOFT" 100;
+}
+.article-body blockquote em {
+color: var(--accent); font-style: italic;
+}
+
+.article-body hr {
+border: none; border-top: 1px dashed var(--line-loud);
+margin: 48px auto; width: 80px;
+}
+
+.article-body a {
+color: var(--accent);
+border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);
+}
+.article-body a:hover { border-bottom-color: var(--accent); }
+
+.article-footnote {
+color: var(--fg-subtle);
+font-size: var(--fs-sm);
+margin-top: 0;
+}
+
+@media (max-width: 720px) {
+.article-head { padding: 48px 24px 24px; }
+.article-body { padding: 0 24px 40px; }
+.article-title { font-size: var(--fs-3xl); }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ─── SITE CHROME (mounted by HomeShell.jsx) ─────────────── -->
+<div id="topnav-mount"></div>
+
+<!-- ─── ARTICLE HEADER ─────────────────────────────────────── -->
+<section class="article-head">
+<div class="article-head-inner">
+
+<div class="meta-row">
+<span class="accent">06&middot;12&middot;2026</span>
+<span class="sep">&middot;</span>
+<span>WORKING PROTOTYPE</span>
+<span class="sep">&middot;</span>
+<span>2 min read</span>
+</div>
+
+<h1 class="article-title">
+Agentic behavioral <em>tuning</em>.
+</h1>
+
+<p class="article-subtitle">
+The persona&rsquo;s animating jolt, minus the <em>lightning</em>.
+</p>
+
+</div>
+</section>
+
+<!-- ─── ARTICLE BODY ───────────────────────────────────────── -->
+<article class="article-body">
+
+<p class="lede">
+Claudemonzter&rsquo;s <a href="../graph/spirit.html">spirit page</a> is a mixing board of nine dials per agent, and turning them changes how each one actually behaves. Verbosity, register, assertiveness, humor, and five more, each a named setting you apply per agent, plus the hard boundaries you can spell out. Agentic behavioral tuning is what they call it. I just wanted agents with different personalities.
+</p>
+
+<p>
+Each dial also carries a reliability rating, because not every instruction is equally impactful. Tell Claude to be terse and it obeys; tell it to be funny and it tries, then quickly forgets. So I labeled each dial by how well it actually grips, High to Low, and I am still testing the levers and their combinations.
+</p>
+
+<blockquote>
+To craft a personality, first you have to know what&rsquo;s <em>tunable</em>.
+</blockquote>
+
+<p>
+The board is also a public demonstration of an end-to-end loop. The page uses a script to write to a Google Sheet, and a Claude skill I wrote cascades any change into the file system&rsquo;s grounding docs. So a web form can modify the multi-agent graph&rsquo;s behavior: turn a dial and the next session loads the settings as canon, setting the agent&rsquo;s persona and output. The dials stay visible on each agent&rsquo;s page, and they are verified at session start when the agent reports in.
+</p>
+
+<p>
+It might look like a toy, but it works. I just don&rsquo;t know how well yet. A control surface wired front to back that genuinely changes behavior is a proof of concept: I can build real things as an &ldquo;AI PM,&rdquo; and I don&rsquo;t need a design and development team to do it. I made it solo, learning the tools as I discovered them. <a href="../graph/spirit.html">Spirit</a> is the mad scientist revealed, a lab to jolt my monster into character for real.
+</p>
+
+<hr/>
+
+<p class="article-footnote">
+Filed under <a href="../writing.html">field notes</a>. Turn the dials yourself on the <a href="../graph/spirit.html">spirit</a> page; the settings are the same ones an agent <a href="canon-load-evaluation.html">verifies at session start</a>.
+</p>
+
+</article>
+
+<!-- ─── SITE FOOTER (mounted by HomeShell.jsx) ─────────────── -->
+<div id="footer-mount"></div>
+
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+
+<script type="text/babel">
+ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="WRITING" />);
+ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>
