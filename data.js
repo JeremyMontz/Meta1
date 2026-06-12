@@ -284,6 +284,7 @@ window.ARTICLES = [
   { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html', demonstrates: ['collab', 'agentic'] },
   { id: 'a4', date: '04.15.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html', demonstrates: ['building', 'discovery'] },
   { id: 'a5', date: '04.29.26', title: 'Memory tiering into persistent context.', tag: 'ESSAY', read: '2 min', href: 'writing/memory-tiering.html', demonstrates: ['agentic', 'eval'] },
+  { id: 'a6', date: '05.06.26', title: 'Canon load evaluation: how pass phrases prove an agent\'s claims.', tag: 'ESSAY', read: '2 min', href: 'writing/canon-load-evaluation.html', demonstrates: ['eval', 'agentic'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
