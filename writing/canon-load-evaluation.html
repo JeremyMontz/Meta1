@@ -1,0 +1,212 @@
+<!--
+  ╔════════════════════════════════════════════════════════════════════════╗
+  ║  WRITING ENTRY · canon-load-evaluation.html                            ║
+  ║                                                                        ║
+  ║  Essay / field note. Chrome (TopNav + Footer) rendered by React from   ║
+  ║  components/HomeShell.jsx — same pattern as coaching-system /          ║
+  ║  memory-tiering. Sequel to memory-tiering (#206).                      ║
+  ║                                                                        ║
+  ║  Month 2. The quick-start / full-start load-verification skill: a      ║
+  ║  pass phrase planted at each memory layer, echoed in the first         ║
+  ║  response as proof the file loaded. Grounding, canon, eval.            ║
+  ║  Recruiter-keyword: load verification, evaluation, grounding, canon,   ║
+  ║  agent drift, hallucination check, proof-of-load.                      ║
+  ╚════════════════════════════════════════════════════════════════════════╝
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Canon load evaluation &middot; Claudemonzter</title>
+<meta name="description" content="A field note on the load-verification skill that opens every session: a pass phrase planted at each memory layer, echoed back as proof the agent actually read the file." />
+
+<link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+<!-- React + Babel — chrome is mounted from HomeShell.jsx -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+/* ── Page shell ─────────────────────────────────────────────── */
+html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
+body { font-family: var(--font-sans); }
+a { color: inherit; text-decoration: none; }
+.page { width: 100%; max-width: 1280px; margin: 0 auto; }
+
+/* ── Article header ────────────────────────────────────────── */
+.article-head { padding: 64px 40px 32px; }
+.article-head-inner { max-width: 680px; margin: 0 auto; }
+
+.meta-row {
+display: flex; gap: 16px; align-items: center;
+font-family: var(--font-mono); font-size: var(--fs-sm);
+letter-spacing: var(--ls-wider); text-transform: uppercase;
+color: var(--fg-subtle);
+}
+.meta-row .sep { color: var(--line-loud); }
+.meta-row .accent { color: var(--candle); }
+
+.article-title {
+font-family: var(--font-display); font-weight: 700;
+font-size: var(--fs-4xl); line-height: var(--lh-tight);
+letter-spacing: var(--ls-tight);
+margin: 22px 0 0;
+font-variation-settings: "opsz" 144;
+text-wrap: balance;
+}
+.article-title em {
+font-style: italic; color: var(--accent);
+font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+
+.article-subtitle {
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-xl); line-height: var(--lh-snug);
+margin-top: 18px;
+color: var(--fg-muted);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+}
+.article-subtitle em {
+color: var(--accent);
+}
+
+/* ── Article body ───────────────────────────────────────────── */
+.article-body { max-width: 680px; margin: 0 auto; padding: 0 40px 48px; }
+
+.article-body p {
+font-family: var(--font-sans);
+font-size: var(--fs-md); line-height: var(--lh-loose);
+margin: 0 0 22px; color: var(--fg);
+text-wrap: pretty;
+}
+
+.article-body p.lede {
+font-family: var(--font-display); font-weight: 400; font-style: italic;
+font-size: 24px; line-height: 1.45; color: var(--fg);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+margin-bottom: 36px;
+text-wrap: balance;
+}
+
+.article-body blockquote {
+margin: 28px 0; padding: 4px 0 4px 20px;
+border-left: 2px solid var(--candle);
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-lg); line-height: var(--lh-snug);
+color: var(--fg-muted);
+font-variation-settings: "opsz" 48, "SOFT" 100;
+}
+.article-body blockquote em {
+color: var(--accent); font-style: italic;
+}
+
+.article-body hr {
+border: none; border-top: 1px dashed var(--line-loud);
+margin: 48px auto; width: 80px;
+}
+
+.article-body a {
+color: var(--accent);
+border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);
+}
+.article-body a:hover { border-bottom-color: var(--accent); }
+
+.article-footnote {
+color: var(--fg-subtle);
+font-size: var(--fs-sm);
+margin-top: 0;
+}
+
+@media (max-width: 720px) {
+.article-head { padding: 48px 24px 24px; }
+.article-body { padding: 0 24px 40px; }
+.article-title { font-size: var(--fs-3xl); }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ─── SITE CHROME (mounted by HomeShell.jsx) ─────────────── -->
+<div id="topnav-mount"></div>
+
+<!-- ─── ARTICLE HEADER ─────────────────────────────────────── -->
+<section class="article-head">
+<div class="article-head-inner">
+
+<div class="meta-row">
+<span class="accent">06&middot;12&middot;2026</span>
+<span class="sep">&middot;</span>
+<span>ESSAY</span>
+<span class="sep">&middot;</span>
+<span>2 min read</span>
+</div>
+
+<h1 class="article-title">
+Canon load <em>evaluation</em>.
+</h1>
+
+<p class="article-subtitle">
+How pass phrases <em>prove</em> an agent&rsquo;s claims.
+</p>
+
+</div>
+</section>
+
+<!-- ─── ARTICLE BODY ───────────────────────────────────────── -->
+<article class="article-body">
+
+<p class="lede">
+An agent will tell you it read a file. That costs nothing, and it proves nothing. The whole game is knowing whether the &ldquo;expert&rdquo; you depend on actually loaded its expertise before the work starts.
+</p>
+
+<p>
+In v2 I did this by hand, and I thought it was worth it. On request, the agent self-reported a file inventory: its crucial persistent context and grounding docs. I relayed that to the orchestrator, which checked it against the rules and updated a live dashboard page called &ldquo;<a href="../canon.html">canon.html</a>&rdquo; accordingly. A lot of machinery, baked into what I only later saw was a soft guarantee, because a self-report is just the agent telling me what it believes it loaded. Or worse, handing me the list it thinks it should have instead of the one it actually had. Ironically, that is exactly what my quality-control agent had done weeks earlier, right before the whole agentic-theater house of cards collapsed under its own weight.
+</p>
+
+<p>
+Now I was free from all of that. v3 replaced the machinery with a clever trick. In each file, at each memory layer, I plant a line only I know: a pass phrase. To prove the file loaded, the agent has to hand the phrase back in its very first response. It can&rsquo;t recite what it never read. Stack a few of them, one per layer, and the sequence becomes a fingerprint I recognize at a glance. Identity, context, project, domain, all present and accounted for, or not.
+</p>
+
+<blockquote>
+Belief is cheap. The pass phrase is <em>proof</em>.
+</blockquote>
+
+<p>
+I hate passwords. Reuse is dangerous, novelty is hard to recall, and setting four sounded tedious. So I made the phrases a mnemonic, one image per layer: a season for identity (L1), which rarely changes; the week&rsquo;s weather for the root file (L2), which changes often; a scene for the project (L3); a sensation for the domain agent (L4). Strung together you might get, &ldquo;End of winter&hellip; the snow had stopped&hellip; green shoots on the treetops&hellip; and the smell of rain.&rdquo; I don&rsquo;t memorize it verbatim. It is just vivid enough that a fabrication stands out at a glance.
+</p>
+
+<p>
+I haven&rsquo;t rebuilt the old file-based dashboard, even though it was my most impressive artifact at the time. The pass phrases made it unnecessary, and I had new ideas. They ride into a new <a href="../dashboard.html">session status dashboard</a> instead. You can see them right now, on the other pages, when you hover over an agent&rsquo;s configuration layers. The proof sits right next to the agent the moment it reports in. Publicly. Correct sequence, and I trust the expert and start my session. Wrong phrase, missing phrase, a phrase from three versions back, and I know something has drifted, or a file failed to load, or access broke, before I heed a word of its advice. Long sessions decay: context slips, memory compacts, agents wander from the canon. But a fresh one opens already holding what I need, and now it can prove it.
+</p>
+
+<hr/>
+
+<p class="article-footnote">
+Filed under <a href="../writing.html">field notes</a>. The layers each phrase guards are the ones I sorted in <a href="memory-tiering.html">last week&rsquo;s note</a>; the live read-out lives on the <a href="../graph/memory.html">memory</a> map.
+</p>
+
+</article>
+
+<!-- ─── SITE FOOTER (mounted by HomeShell.jsx) ─────────────── -->
+<div id="footer-mount"></div>
+
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+
+<script type="text/babel">
+ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="WRITING" />);
+ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>
