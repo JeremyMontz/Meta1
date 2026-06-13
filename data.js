@@ -286,6 +286,7 @@ window.ARTICLES = [
   { id: 'a5', date: '04.29.26', title: 'Memory tiering into persistent context.', tag: 'ESSAY', read: '2 min', href: 'writing/memory-tiering.html', demonstrates: ['agentic', 'eval'] },
   { id: 'a6', date: '05.06.26', title: 'Canon load evaluation: how pass phrases prove an agent\'s claims.', tag: 'EVAL', read: '2 min', href: 'writing/canon-load-evaluation.html', demonstrates: ['eval', 'agentic'] },
   { id: 'a7', date: '05.13.26', title: 'Agentic behavioral tuning: a working prototype.', tag: 'PROTOTYPE', read: '2 min', href: 'writing/agentic-behavioral-tuning.html', demonstrates: ['building', 'agentic'] },
+  { id: 'a8', date: '05.20.26', title: 'Inference economics: scaling a skill while watching the meter.', tag: 'ESSAY', read: '2 min', href: 'writing/inference-economics.html', demonstrates: ['eval', 'building'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
