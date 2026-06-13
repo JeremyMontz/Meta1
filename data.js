@@ -187,8 +187,25 @@ window.COMPETENCIES = [
 //                  under those nodes in the What It Proves graph.
 window.PORTFOLIO = [
   {
-    id: 'first-month',
+    id: 'about-ai',
     no: '01',
+    title: 'About my AI: Operation Claudemonzter',
+    blurb: 'START HERE to take a tour of my creation',
+    status: 'Live',
+    tone: 'ok',
+    tag: 'INTERACTIVE',
+    href: null,
+    date: '6/1/2026',
+    demonstrates: ['building', 'agentic',],
+    details: [
+      ['ROLE',    ],
+      ['STARTED', ],
+    ],
+    excerpt: null,
+  },
+  {
+    id: 'first-month',
+    no: '02',
     title: 'A Month and a Day',
     blurb: 'The first thirty two days of building Claudemonzter — what worked and what did not.',
     status: 'Live',
@@ -205,7 +222,7 @@ window.PORTFOLIO = [
   },
   {
     id: 'house-tracker',
-    no: '02',
+    no: '03',
     title: 'House Renovation Tracker',
     blurb: 'A home remodeling timeline and budget tracking application.',
     status: 'LIVE',
@@ -222,7 +239,7 @@ window.PORTFOLIO = [
   },
   {
     id: 'spirit',
-    no: '03',
+    no: '04',
     title: 'Persona Matrix Modulates the Graph',
     blurb: 'The Spirit of Claudemonzter. The dials that adjust character and output styles.',
     status: 'TESTING',
@@ -239,7 +256,7 @@ window.PORTFOLIO = [
   },
   {
     id: 'Phils-Journal',
-    no: '04',
+    no: '05',
     title: 'Phils Journal and the AI Wisdom of the Day',
     blurb: 'A random quote from The Treasury of Traditional Wisdom, with AI commentary.',
     status: 'IN TESTING',
@@ -254,23 +271,7 @@ window.PORTFOLIO = [
     ],
     excerpt: null,
   },
-    {
-    id: 'Month-two',
-    no: '05',
-    title: 'Month Two and a Whole New Experience',
-    blurb: 'Coming soon.',
-    status: 'TO DO',
-    tone: 'na',
-    tag: null,
-    href: null,
-    date: null,
-    demonstrates: [],
-    details: [
-      ['ROLE',    ],
-      ['STARTED', ],
-    ],
-    excerpt: null,
-  },
+
 ];
 
 // ─── ARTICLES · writing & field notes ─────────────────────────────────────
