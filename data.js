@@ -194,8 +194,8 @@ window.PORTFOLIO = [
     status: 'Live',
     tone: 'ok',
     tag: 'INTERACTIVE',
-    href: null,
-    date: '6/1/2026',
+    href: 'about/ai.html',
+    date: '6/5/2026',
     demonstrates: ['building', 'agentic',],
     details: [
       ['ROLE',    ],
