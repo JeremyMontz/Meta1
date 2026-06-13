@@ -140,7 +140,7 @@ margin-top: 0;
 <div class="article-head-inner">
 
 <div class="meta-row">
-<span class="accent">06&middot;12&middot;2026</span>
+<span class="accent">05&middot;13&middot;2026</span>
 <span class="sep">&middot;</span>
 <span>WORKING PROTOTYPE</span>
 <span class="sep">&middot;</span>
@@ -152,7 +152,7 @@ Agentic behavioral <em>tuning</em>.
 </h1>
 
 <p class="article-subtitle">
-The persona&rsquo;s animating jolt, minus the <em>lightning</em>.
+The persona&rsquo;s <em>animating jolt</em>, minus the shock.
 </p>
 
 </div>
@@ -162,11 +162,11 @@ The persona&rsquo;s animating jolt, minus the <em>lightning</em>.
 <article class="article-body">
 
 <p class="lede">
-Claudemonzter&rsquo;s <a href="../graph/spirit.html">spirit page</a> is a mixing board of nine dials per agent, and turning them changes how each one actually behaves. Verbosity, register, assertiveness, humor, and five more, each a named setting you apply per agent, plus the hard boundaries you can spell out. Agentic behavioral tuning is what they call it. I just wanted agents with different personalities.
+Claudemonzter&rsquo;s <a href="../graph/spirit.html">spirit page</a> is a mixing board of nine dials per agent, changing how each one behaves. In theory: verbosity, register, assertiveness, humor, and five more specific settings, plus the hard boundaries you list. Agentic behavioral tuning is what they call it. I just wanted agents with <b>character</b>.
 </p>
 
 <p>
-Each dial also carries a reliability rating, because not every instruction is equally impactful. Tell Claude to be terse and it obeys; tell it to be funny and it tries, then quickly forgets. So I labeled each dial by how well it actually grips, High to Low, and I am still testing the levers and their combinations.
+Each dial also carries a reliability rating, because not every instruction is equally reliable. Tell Claude to be terse and it obeys; tell it to be funny and it tries, then quickly forgets. So I labeled each dial by how well it actually grips, High to Low, though I am still testing the levers and their combinations.
 </p>
 
 <blockquote>
@@ -174,17 +174,17 @@ To craft a personality, first you have to know what&rsquo;s <em>tunable</em>.
 </blockquote>
 
 <p>
-The board is also a public demonstration of an end-to-end loop. The page uses a script to write to a Google Sheet, and a Claude skill I wrote cascades any change into the file system&rsquo;s grounding docs. So a web form can modify the multi-agent graph&rsquo;s behavior: turn a dial and the next session loads the settings as canon, setting the agent&rsquo;s persona and output. The dials stay visible on each agent&rsquo;s page, and they are verified at session start when the agent reports in.
+The board is also a public demonstration of an end-to-end loop. The page uses a Google script to write to a Sheet, then I wrote a Claude skill that cascades changes into the file system&rsquo;s grounding docs. So the web form can actually modify the entire multi-agent graph&rsquo;s behavior in one pass: turn a dial and the next session loads the settings as canon, setting the agent&rsquo;s persona and output tone. The dials are visible on each agent&rsquo;s page, and also verified at session start when the agent reports in.
 </p>
 
 <p>
-It might look like a toy, but it works. I just don&rsquo;t know how well yet. A control surface wired front to back that genuinely changes behavior is a proof of concept: I can build real things as an &ldquo;AI PM,&rdquo; and I don&rsquo;t need a design and development team to do it. I made it solo, learning the tools as I discovered them. <a href="../graph/spirit.html">Spirit</a> is the mad scientist revealed, a lab to jolt my monster into character for real.
+It might look like a toy, but it works. I just don&rsquo;t know how well yet. A control surface wired front to back that can change behavior is a useful, and also serves as a proof of concept: I can build real things as an &ldquo;AI PM,&rdquo; and don&rsquo;t need a full design and development team to do it. I know it's not enterprise grade but I made it solo, learning the tools as I discovered them. <a href="../graph/spirit.html">Spirit</a> is the mad scientist revealed, a lab to jolt my monster into character for real.
 </p>
 
 <hr/>
 
 <p class="article-footnote">
-Filed under <a href="../writing.html">field notes</a>. Turn the dials yourself on the <a href="../graph/spirit.html">spirit</a> page; the settings are the same ones an agent <a href="canon-load-evaluation.html">verifies at session start</a>.
+See Claudemonzter's <a href="../graph/spirit.html">spirit</a> for yourself. The settings are the same ones an agent <a href="canon-load-evaluation.html">verifies at session start</a>.
 </p>
 
 </article>
