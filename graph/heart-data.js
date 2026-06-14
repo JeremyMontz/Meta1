@@ -156,9 +156,9 @@
   // Phil's responses. Hand-tended editorial list: prune or extend as the run
   // grows. (See journal-cloud.jsx.)
   window.HEART_BLACKLIST = new Set((
-    'jeremy phil lectio substrate page reader reading entry journal map response quote'
+    'jeremy phil lectio substrate page read reader reading room entry journal map response quote'
     // Candidates under review — apparatus-leaning, not active. Uncomment to enable:
-    // + ' room read medium line thread method test'
+    // + 'medium line thread method test'
     // Deliberately NOT blacklisted (genuine philosophical content):
     //   form place inside outside mind silver
   ).split(/\s+/));
