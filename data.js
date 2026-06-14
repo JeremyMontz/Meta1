@@ -284,10 +284,11 @@ window.ARTICLES = [
   { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html', demonstrates: ['collab', 'agentic'] },
   { id: 'a4', date: '04.15.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html', demonstrates: ['building', 'discovery'] },
   { id: 'a5', date: '04.22.26', title: 'Memory tiering into persistent context.', tag: 'ESSAY', read: '2 min', href: 'writing/memory-tiering.html', demonstrates: ['agentic', 'eval'] },
-  { id: 'a6', date: '05.06.26', title: 'Canon load evaluation: how pass phrases prove an agent\'s claims.', tag: 'EVAL', read: '2 min', href: 'writing/canon-load-evaluation.html', demonstrates: ['eval', 'agentic'] },
-  { id: 'a7', date: '05.13.26', title: 'Agentic behavioral tuning: a working prototype.', tag: 'PROTOTYPE', read: '2 min', href: 'writing/agentic-behavioral-tuning.html', demonstrates: ['building', 'agentic'] },
-  { id: 'a8', date: '05.20.26', title: 'Inference economics: scaling a skill while watching the meter.', tag: 'ESSAY', read: '2 min', href: 'writing/inference-economics.html', demonstrates: ['eval', 'building'] },
-  { id: 'a9', date: '06.03.26', title: 'Speed to insight and alpha decay.', tag: 'ESSAY', read: '2 min', href: 'writing/speed-to-insight.html', demonstrates: ['discovery', 'reflective'] },
+  { id: 'a6', date: '04.29.26', title: 'GitHub Issues Integration.', tag: 'ESSAY', read: '2 min', href: 'writing/github-issues-integration.html', demonstrates: ['discovery', 'building'] },
+  { id: 'a7', date: '05.06.26', title: 'Canon load evaluation: how pass phrases prove an agent\'s claims.', tag: 'EVAL', read: '2 min', href: 'writing/canon-load-evaluation.html', demonstrates: ['eval', 'agentic'] },
+  { id: 'a8', date: '05.13.26', title: 'Agentic behavioral tuning: a working prototype.', tag: 'PROTOTYPE', read: '2 min', href: 'writing/agentic-behavioral-tuning.html', demonstrates: ['building', 'agentic'] },
+  { id: 'a9', date: '05.20.26', title: 'Inference economics: scaling a skill while watching the meter.', tag: 'ESSAY', read: '2 min', href: 'writing/inference-economics.html', demonstrates: ['eval', 'building'] },
+  { id: 'a10', date: '06.03.26', title: 'Speed to insight and alpha decay.', tag: 'ESSAY', read: '2 min', href: 'writing/speed-to-insight.html', demonstrates: ['discovery', 'reflective'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -368,8 +369,9 @@ window.AGENT_ARTIFACTS = {
     { title: 'Renovation Budget', sub: 'COST TRACKER · BUDGET · ESTIMATES',            href: 'house-budget.html' },
   ],
   bond:     [
-      { title: 'Coordination Tax and the Specialization Dividend',             sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/coordination-tax.html' }, 
-      { title: 'Canon load evaluation',             sub: 'ESSAY · 2 MIN · DASHBOARD',    href: '../../writing/canon-load-evaluation.html' },
+    { title: 'Canon load evaluation',             sub: 'ESSAY · 2 MIN · DASHBOARD',    href: '../../writing/canon-load-evaluation.html' },
+    { title: 'GitHub Issues Integration',             sub: 'ESSAY · 2 MIN · INTEGRATION',    href: '../../writing/github-issues-integration.html' },
+    { title: 'Coordination Tax and the Specialization Dividend',             sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/coordination-tax.html' }, 
   ],
   freedom:  [
      { title: 'Speed to insight and alpha decay',             sub: 'ESSAY · 2 MIN · FUTURE',    href: '../../writing/speed-to-insight.html' }, 
