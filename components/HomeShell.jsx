@@ -91,15 +91,19 @@ const TopNav = ({ active }) => (
       letterSpacing: '0.18em', textTransform: 'uppercase',
     }}>
       {[
-        ['HOME',      'index.html'],
-        ['PORTFOLIO', 'portfolio.html'],
-        ['MY AI',     'graph/faces.html'],
-        ['WRITING',   'writing.html'],
-        ['ABOUT',     'about/human.html'],
-      ].map(([label, href]) => (
+        // [display label, href, active-key] — the key is matched against the
+        // `active` prop, kept separate from the label so renaming a tab does
+        // not break section highlighting (pages pass the stable key, e.g.
+        // active="GRAPH" for the My AI section).
+        ['HOME',      'index.html',       'HOME'],
+        ['PORTFOLIO', 'portfolio.html',   'PORTFOLIO'],
+        ['MY AI',     'graph/faces.html', 'GRAPH'],
+        ['WRITING',   'writing.html',     'WRITING'],
+        ['ABOUT',     'about/human.html', 'ABOUT'],
+      ].map(([label, href, key]) => (
         <a key={label} href={_SITE_BASE + href} style={{
-          color: label === active ? 'var(--accent)' : 'var(--fg-muted)',
-          borderBottom: label === active ? '1px solid var(--accent)' : '1px solid transparent',
+          color: key === active ? 'var(--accent)' : 'var(--fg-muted)',
+          borderBottom: key === active ? '1px solid var(--accent)' : '1px solid transparent',
           paddingBottom: 4,
         }}>{label}</a>
       ))}
