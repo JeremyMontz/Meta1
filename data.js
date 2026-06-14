@@ -699,6 +699,14 @@ window.SITE_INDEX = {
     ],
     "updated": "2026-06-13"
   },
+  "/writing/github-issues-integration.html": {
+    "note": "A field note on the value of a specific skill and integration — the ability to file bugs, tasks, notes, and user stories — and how much easier it is when the human doesn't have to be in the loop for every action.",
+    "tags": [
+      "GitHub Issues / Integration",
+      "product strategy"
+    ],
+    "updated": "2026-06-13"
+  },
   "/dashboard.html": {
     "note": "This not a mockup, but a live agent-status dashboard: every agent's current state, derived from its latest check-in. The operational heartbeat of the lab.",
     "tags": [
