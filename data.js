@@ -127,10 +127,10 @@ window.SPEC = {
 // ─── NOW · what I'm working on right now ──────────────────────────────────
 // Update weekly. 1-4 bullets max — this is a status message, not a story.
 window.NOW = [
-  'Relaunched Claudemonzter online',
-  'Published "First Month and a Day" (half lab notebook, half confession)',
-  'Fine-tuning the house renovation tracker',
-  'Launching Phils Journal',
+  'Search engine optimizationa and mobile responsiveness',
+  'Testing Spirit and the persona matrix',
+  'Testing Heart and Phils Journal',
+  'First site demo (Hi Mom!)'
 ];
 
 // ─── COMPETENCIES · the "What It Proves" graph (portfolio.html) ────────────
