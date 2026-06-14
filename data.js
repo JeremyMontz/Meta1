@@ -189,8 +189,8 @@ window.PORTFOLIO = [
   {
     id: 'about-ai',
     no: '01',
-    title: 'About my AI: Operation Claudemonzter',
-    blurb: 'START HERE to take a tour of my creation',
+    title: 'Operation Claudemonzter',
+    blurb: 'START HERE to learn about my AI experiment',
     status: 'Live',
     tone: 'ok',
     tag: 'INTERACTIVE',
@@ -207,7 +207,7 @@ window.PORTFOLIO = [
     id: 'first-month',
     no: '02',
     title: 'A Month and a Day',
-    blurb: 'The first thirty two days of building Claudemonzter — what worked and what did not.',
+    blurb: 'The first month, and a day, of building Claudemonzter — what worked and what did not.',
     status: 'Live',
     tone: 'ok',
     tag: 'INTERACTIVE',
@@ -216,13 +216,47 @@ window.PORTFOLIO = [
     demonstrates: ['building', 'agentic', 'discovery'],
     details: [
       ['ROLE',    'NO PRIOR AI EXPERIENCE'],
-      ['STARTED', 'April 2026'],
+      ['STARTED', 'March 2026'],
     ],
     excerpt: '"I was writing a constitution for a country with no government."',
   },
   {
-    id: 'house-tracker',
+    id: 'spirit',
     no: '03',
+    title: 'The Persona Matrix Inspires the Graph',
+    blurb: 'The Spirit of Claudemonzter. The animating jolt.',
+    status: 'PROTOTYPE',
+    tone: 'warn',
+    tag: 'SKILL',
+    href: 'graph/spirit.html',
+    date: null,
+    demonstrates: ['agentic', 'discovery', 'collab'],
+    details: [
+      ['ROLE',    'Mad Scientist · Prototype'],
+      ['STARTED', 'May 2026'],
+    ],
+    excerpt: null,
+  },
+  {
+    id: 'Phils-Journal',
+    no: '04',
+    title: 'Phils Journal with the AI Wisdom of the Day',
+    blurb: 'A random quote each day from A Treasury of Traditional Wisdom, with AI commentary.',
+    status: 'PROTOTYPE',
+    tone: 'warn',
+    tag: 'AUTOMATED',
+    href: 'agents/phil/journal.html',
+    date: null,
+    demonstrates: ['reflective', 'agentic'],
+    details: [
+      ['ROLE',    'Philosopher · Translucent'],
+      ['STARTED', 'May 2026'],
+    ],
+    excerpt: null,
+  },
+  {
+    id: 'house-tracker',
+    no: '05',
     title: 'House Renovation Tracker',
     blurb: 'A home remodeling timeline and budget tracking application.',
     status: 'LIVE',
@@ -237,41 +271,6 @@ window.PORTFOLIO = [
         ],
     excerpt: null,
   },
-  {
-    id: 'spirit',
-    no: '04',
-    title: 'Persona Matrix Modulates the Graph',
-    blurb: 'The Spirit of Claudemonzter. The dials that adjust character and output styles.',
-    status: 'TESTING',
-    tone: 'warn',
-    tag: 'SKILL',
-    href: 'graph/spirit.html',
-    date: null,
-    demonstrates: ['agentic', 'discovery', 'collab'],
-    details: [
-      ['ROLE',    'Mad Scientist · Experiment'],
-      ['STARTED', 'May 2026'],
-    ],
-    excerpt: null,
-  },
-  {
-    id: 'Phils-Journal',
-    no: '05',
-    title: 'Phils Journal and the AI Wisdom of the Day',
-    blurb: 'A random quote from The Treasury of Traditional Wisdom, with AI commentary.',
-    status: 'IN TESTING',
-    tone: 'warn',
-    tag: 'AUTOMATED',
-    href: 'agents/phil/journal.html',
-    date: null,
-    demonstrates: ['reflective', 'agentic'],
-    details: [
-      ['ROLE',    'Philosopher · Translucent'],
-      ['STARTED', 'May 2026'],
-    ],
-    excerpt: null,
-  },
-
 ];
 
 // ─── ARTICLES · writing & field notes ─────────────────────────────────────
@@ -358,26 +357,39 @@ window.LEVELS = [
 //   href   — relative URL from the agent page (agents/{id}/{id}.html)
 window.AGENT_ARTIFACTS = {
   meta1: [
-    { title: 'Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
-    { title: 'Dashboard',    sub: 'LIVE STATUS · 7 AGENTS · 1 HUMAN ',             href: '../../dashboard.html' },
+      { title: 'Dashboard',    sub: 'LIVE STATUS · 7 AGENTS · 1 HUMAN ',             href: '../../dashboard.html' },
+      { title: 'Claudemonzter - Hands',             sub: 'SKILLS · MCP · INTEGRATIONS',    href: '../../graph/hands.html' },
+      { title: 'Multi-agent Orchestration and the Constraint Spectrum',             sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/multiagent-constraint.html' }, 
+      { title: 'Agentic Behavioral Tuning',             sub: 'ESSAY · 2 MIN · SPIRIT',    href: '../../graph/hands.html' },
   ],
   house: [
-    { title: 'Renovation Tracker', sub: 'TIMELINE · BUDGET · ENTRY',            href: 'house-timeline.html' },
+    { title: 'Renovation Timeline', sub: 'TIMELINE · PROJECT MGMT · DEPENDENCIES',            href: 'house-timeline.html' },
+    { title: 'Renovation Budget', sub: 'COST TRACKER · BUDGET · ESTIMATES',            href: 'house-budget.html' },
   ],
-  bond:     [],
-  freedom:  [],
+  bond:     [
+      { title: 'Coordination Tax and the Specialization Dividend',             sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/coordination-tax.html' }, 
+      { title: 'Canon load evaluation',             sub: 'ESSAY · 2 MIN · DASHBOARD',    href: '../../writing/canon-load-evaluation.html' },
+  ],
+  freedom:  [
+     { title: 'Speed to insight and alpha decay',             sub: 'ESSAY · 2 MIN · FUTURE',    href: '../../writing/speed-to-insight.html' }, 
+  ],
   evolve:   [
     { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: 'writing/first-month.html' },
+    { title: 'Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
   ],
   assessor: [
    { title: 'Adversarial validation and structured perspective expansion', sub: 'ESSAY · 2 min · Week 2',            href: 'writing/adversarial-validation.html' },
   ],
   phil:     [
-      { title: 'Daily Reflection',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/heart.html' },
-      { title: 'Phils Journal',             sub: 'WOTD · WORDCLOUD · MY VOICE',   href: '../../agents/phil/journal.html' },
+      { title: 'Claudemonzter - Heart',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/heart.html' },
+      { title: 'Phils Journal',             sub: 'WOTD · WORDCLOUD · PROTOTYPE',   href: '../../agents/phil/journal.html' },
+      { title: 'Inference economics', sub: 'ESSAY · 2 min · COST',            href: 'writing/inference-economics.html' },
   ],
   jeremy:   [
-    { title: 'Spirit',             sub: 'PERSONA MAP · 9 DIALS · THE LAB',   href: '../../graph/spirit.html' },
+    { title: 'Operation: Claudemonzter',    sub: 'START HERE · 8 AGENTS · THE LAB',   href: '../../about/ai.html' },
+    { title: 'Body',             sub: 'INFRASTRUCTURE · 4 VERSIONS · THE EVOLUTION',   href: '../../graph/body.html' },   
+    { title: 'Faces',             sub: 'AGENTS · 8 FACES · DASHBOARD',   href: '../../graph/faces.html' },
+    { title: 'Spirit',             sub: 'PERSONA MAP · 9 DIALS · PROTOTYPE',   href: '../../graph/spirit.html' },
   ],
 };
 window.SITE_INDEX = {
