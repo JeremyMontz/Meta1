@@ -361,6 +361,7 @@ window.AGENT_ARTIFACTS = {
       { title: 'Claudemonzter - Hands',             sub: 'SKILLS · MCP · INTEGRATIONS',    href: '../../graph/hands.html' },
       { title: 'Multi-agent Orchestration and the Constraint Spectrum',             sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/multiagent-constraint.html' }, 
       { title: 'Agentic Behavioral Tuning',             sub: 'ESSAY · 2 MIN · SPIRIT',    href: '../../graph/hands.html' },
+       { title: 'Claudemonzter - Stomach',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/stomach.html' },
   ],
   house: [
     { title: 'Renovation Timeline', sub: 'TIMELINE · PROJECT MGMT · DEPENDENCIES',            href: 'house-timeline.html' },
@@ -375,7 +376,8 @@ window.AGENT_ARTIFACTS = {
   ],
   evolve:   [
     { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: 'writing/first-month.html' },
-    { title: 'Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
+    { title: 'Claudemonzter - Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
+    { title: 'Claudemonzter - Brain',             sub: 'INBOX · RAW · WIKI',   href: '../../graph/brain.html' },
   ],
   assessor: [
    { title: 'Adversarial validation and structured perspective expansion', sub: 'ESSAY · 2 min · Week 2',            href: 'writing/adversarial-validation.html' },
@@ -387,9 +389,9 @@ window.AGENT_ARTIFACTS = {
   ],
   jeremy:   [
     { title: 'Operation: Claudemonzter',    sub: 'START HERE · 8 AGENTS · THE LAB',   href: '../../about/ai.html' },
-    { title: 'Body',             sub: 'INFRASTRUCTURE · 4 VERSIONS · THE EVOLUTION',   href: '../../graph/body.html' },   
-    { title: 'Faces',             sub: 'AGENTS · 8 FACES · DASHBOARD',   href: '../../graph/faces.html' },
-    { title: 'Spirit',             sub: 'PERSONA MAP · 9 DIALS · PROTOTYPE',   href: '../../graph/spirit.html' },
+    { title: 'Claudemonzter - Body',             sub: 'INFRASTRUCTURE · 4 VERSIONS · THE EVOLUTION',   href: '../../graph/body.html' },   
+    { title: 'Claudemonzter - Faces',             sub: 'AGENTS · 8 FACES · DASHBOARD',   href: '../../graph/faces.html' },
+    { title: 'Claudemonzter - Spirit',             sub: 'PERSONA MAP · 9 DIALS · PROTOTYPE',   href: '../../graph/spirit.html' },
   ],
 };
 window.SITE_INDEX = {
