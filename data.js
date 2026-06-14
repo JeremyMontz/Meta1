@@ -380,3 +380,344 @@ window.AGENT_ARTIFACTS = {
     { title: 'Spirit',             sub: 'PERSONA MAP · 9 DIALS · THE LAB',   href: '../../graph/spirit.html' },
   ],
 };
+window.SITE_INDEX = {
+  "/index.html": {
+    "note": "The front door to the lab: a senior product manager running a multi-agent AI 'graph' in public — one operator plus a crew of agents, building the very site you're standing in. Start here, then follow any organ deeper.",
+    "tags": [
+      "multi-agent orchestration",
+      "product strategy",
+      "building in public"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/portfolio.html": {
+    "note": "Selected product work, out in the open. A career spent pointing engineering, design, and analytics teams at a problem until it shipped — now done solo with a pack of agents.",
+    "tags": [
+      "product strategy",
+      "roadmapping",
+      "prototype",
+      "evals"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing.html": {
+    "note": "Field notes, essays, and lab logs from the operator. The writing surface where each build gets a plain-language post-mortem: what was attempted, what broke, and what it proves.",
+    "tags": [
+      "building in public",
+      "iterative build",
+      "evals"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/about/ai.html": {
+    "note": "Claudemonzter described as an assembled body to make the core ideas graspable — each organ is a part of how it thinks, remembers, processes information, and interacts with others. Click an organ to learn what's really behind the metaphor.",
+    "tags": [
+      "multi-agent orchestration",
+      "systems design"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/about/history.html": {
+    "note": "The operator-plus-agents story, told month by month as interactive graphs. How the system evolved from an ephemeral chat into... whatever this is. See another depiction of this at <a href=\"../graph/body.html\">body</a> and watch it evolve.",
+    "tags": [
+      "iterative build",
+      "building in public",
+      "multi-agent orchestration"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/about/human.html": {
+    "note": "Jeremy Montz, the human operator: a product manager and owner who has spent a career taking something complex, grokking it, and making it shippable — across legal software, GRC, cybersecurity, and data, now in AI.",
+    "tags": [
+      "product strategy",
+      "building in public"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/assessor/assessor.html": {
+    "note": "This is one of my agents or domains, named Assessor — the evaluation domain. Its job is to assess my progress as I learn more about AI, and to assess the agent (<a href=\"../evolve/evolve.html\">Evolve</a>) that is responsible for mentoring me. It scores my proficiency against evidential standards, so a claim of skill is backed by artifacts rather than assertion.",
+    "tags": [
+      "evals",
+      "adversarial validation"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/bond/bond.html": {
+    "note": "This is one of my agents or domains, named Bond — quality control, product owner, and release gating. Bond is currently on hiatus until his evals and tests cases are an automated part of our deployments, planned in v3.5+",
+    "tags": [
+      "evals",
+      "adversarial validation"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/evolve/evolve.html": {
+    "note": "This is one of my agents or domains, named Evolve — the career-development domain, steering the pivot into AI product management. Where strategy for the next role gets worked out in the open.",
+    "tags": [
+      "product strategy",
+      "persona engineering"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/freedom/freedom.html": {
+    "note": "This is one of my agents or domains, named Freedom — the financial-independence domain. Has a phased plan moving from rental income toward financial independence, modeled and tracked like a product roadmap.",
+    "tags": [
+      "product strategy",
+      "roadmapping"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/house/house.html": {
+    "note": "This is one of my agents or domains, named House — the property domain, based on an actual Portland Craftsman renovation run as a rental strategy: budget, timeline, and permits managed like a delivery project.",
+    "tags": [
+      "roadmapping",
+      "data visualization"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/house/house-budget.html": {
+    "note": "The live renovation budget for the Davis St property — every expense tracked against the total. A working data surface wired to a Sheet, not a mockup.",
+    "tags": [
+      "data visualization",
+      "tool use / MCP",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/house/house-entry.html": {
+    "note": "Quick-add form for the Davis St renovation: tasks and expenses pushed straight to the project Sheet. The intake end of a live data pipeline.",
+    "tags": [
+      "tool use / MCP",
+      "data visualization",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/house/house-timeline.html": {
+    "note": "The Davis St renovation timeline — phases and milestones laid out as a delivery schedule.",
+    "tags": [
+      "roadmapping",
+      "data visualization",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/jeremy/jeremy.html": {
+    "note": "Claudemonzter is a multi-agentic experiment being conducted in the open using Claude AI (primarily) and although the experiment is primarily about the AI, it would not function without me in the middle. I am a part of my own creation and we are building each other up.",
+    "tags": [
+      "multi-agent orchestration",
+      "building in public",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/meta1/meta1.html": {
+    "note": "This is one of my agents or domains, named Meta1 — the architect and lead developer. The 'human operator' has never written code before this experiment so this is a critical function to build and coordinate across the graph.",
+    "tags": [
+      "systems design",
+      "multi-agent orchestration"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/phil/phil.html": {
+    "note": "This is one of my agents or domains, named Phil — the philosophical domain. Phil has been an exception to the rules since day 1 and in the future I hope to maximize its potential. While my other agents can focus on getting real business done, Phil is 'the party in the back,' the <a href=\"../../graph/heart.html\">heart</a> of the graph, and we're just getting started. Watch this space.",
+    "tags": [
+      "persona engineering",
+      "multi-agent orchestration"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/agents/phil/journal.html": {
+    "note": "Every entry of Phil's daily lectio, plus an ink-spatter word-cloud of the language he reaches for. A persona's output accumulating into a body of voice over time.",
+    "tags": [
+      "persona engineering",
+      "evals",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/body.html": {
+    "note": "The migration of the system's canon across versions — from an ephemeral chat to one source dual-surfaced everywhere — told as an evolution. Where the personas live, and how that has changed.",
+    "tags": [
+      "grounding / canon",
+      "steel thread / iterative build"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/brain.html": {
+    "note": "The knowledge base drawn as a vault graph over a real anatomical brain plate: five document regions, five memory layers. How research is stored and retrieved.",
+    "tags": [
+      "memory tiering",
+      "grounding / canon"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/faces.html": {
+    "note": "Not a mock-up. A live agent roster showing three states— idle / active / open — with a fly-in dossier pairing each agent's actual status with its persona settings and latest session history. Visit each agents page to learn more about what they do.",
+    "tags": [
+      "multi-agent orchestration",
+      "persona engineering",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/hands.html": {
+    "note": "What the system can do: Claude has out-of-the-box capabilities but the real value is be able to easily build custom skills and live integrations to make the monster DO things.",
+    "tags": [
+      "skill design",
+      "tool use / MCP"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/heart.html": {
+    "note": "Not a mock-up. The system's contemplative pulse, refreshed each day with a randomized reading from A Treasury of Traditional Wisdom. Includes a thoughtful response from Phil that gets written into his <a href=\"../agents/phil/journal.html\">journal</a> and forms a word cloud. What is on an AI's mind when you feed it mystics?",
+    "tags": [
+      "persona engineering",
+      "evals",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/memory.html": {
+    "note": "The configuration layers: how context is tiered from user settings, to claude.md and project domains, and managing ephermeral memory as it moves from the inbox to the wiki. How a thought becomes canon.",
+    "tags": [
+      "memory tiering",
+      "grounding / canon"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/spirit.html": {
+    "note": "Not a mock-up. The persona matrix — a mixing board of behavioral dials per agent, each with a reliability rating. Changes get written to a backend and then a skill updates the grounding docs on my local disk, that actually changes how the agents behave. Under Testing",
+    "tags": [
+      "persona engineering",
+      "evals",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/graph/stomach.html": {
+    "note": "The information-processing workflow drawn as a digestive tract: how raw intake is captured, triaged, and metabolized into canon. We are what we eat.",
+    "tags": [
+      "memory tiering",
+      "tool use / MCP"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/adversarial-validation.html": {
+    "note": "A field note on building agents that disagree, an LLM council with a warning on the label, and what we even mean by 'agent.'",
+    "tags": [
+      "adversarial validation",
+      "multi-agent orchestration",
+      "evals"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/agentic-behavioral-tuning.html": {
+    "note": "A field note on the spirit page: nine behavioral dials per agent, each with a reliability rating, wired into an end-to-end loop that genuinely changes agent behavior.",
+    "tags": [
+      "persona engineering",
+      "evals"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/canon-load-evaluation.html": {
+    "note": "A field note on the load-verification skill that opens every session: a pass phrase planted at each memory layer, echoed back as proof the agent actually read the file.",
+    "tags": [
+      "evals",
+      "grounding / canon"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/coaching-system.html": {
+    "note": "A field note on a closed-loop coaching system designed to get smarter alongside me — teaching Claude to teach me how to use itself — and the platform that didn't quite ground the design.",
+    "tags": [
+      "vocabulary scaffolding",
+      "persona engineering"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/coordination-tax.html": {
+    "note": "A field note on splitting one function into two, the cost of the relay between them, and the 'specialization dividend' that turned out to be theater.",
+    "tags": [
+      "coordination tax",
+      "multi-agent orchestration"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/first-month.html": {
+    "note": "A month and a day to make a monster. My first month with Claude and what we build from V1→V2→V3 shown as an interactive scrollytelling graph. Scroll the page to watch it evolve.",
+    "tags": [
+      "steel thread / iterative build",
+      "multi-agent orchestration"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/inference-economics.html": {
+    "note": "A field note on the first long-running job — digitizing a book into the wiki — and the moment cost stopped being a limit and became a calibration signal.",
+    "tags": [
+      "inference economics",
+      "skill design"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/memory-tiering.html": {
+    "note": "A field note from early month two: moving the system off the cloud, sorting what persists into tiers, and discarding the evals and canon that had stopped being true.",
+    "tags": [
+      "memory tiering",
+      "grounding / canon"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/multiagent-constraint.html": {
+    "note": "A field note on building one agentic system that is tight where it must be predictable and loose where it must stay alive — the constraint spectrum, a.k.a. the mullet.",
+    "tags": [
+      "constraint spectrum",
+      "multi-agent orchestration"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/writing/speed-to-insight.html": {
+    "note": "A field note on the value of information — current and scarce equals leverage — and how AI is shortening the half-life of every edge toward zero. Alpha decay for everything.",
+    "tags": [
+      "speed to insight / alpha decay",
+      "product strategy"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/dashboard.html": {
+    "note": "This not a mockup, but a live agent-status dashboard: every agent's current state, derived from its latest check-in. The operational heartbeat of the lab.",
+    "tags": [
+      "multi-agent orchestration",
+      "data visualization"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/checkin.html": {
+    "note": "The human check-in form — where the operator transmits status into the graph. The input end of the live status pipeline.",
+    "tags": [
+      "tool use / MCP",
+      "data visualization",
+      "prototype"
+    ],
+    "updated": "2026-06-13"
+  },
+  "/canon.html": {
+    "note": "The original Canon Matrix, now archived and kept for posterity and as a reminder to hubris. My first attempt to reconcile agents' declared states to one shared canon. Retired, but still linked from older essays and preserved for continuity.",
+    "tags": [
+      "grounding / canon",
+      "multi-agent orchestration",
+      "prototype"
+    ],
+    "status": "retired",
+    "updated": "2026-06-13"
+  },
+  "/inventory.html": {
+    "note": "Google Drive Inventory — an early file-inventory utility. Retired, kept for reference where older pages still point to it.",
+    "tags": [
+      "tool use / MCP",
+      "systems design",
+      "prototype"
+    ],
+    "status": "retired",
+    "updated": "2026-06-13"
+  }
+};
