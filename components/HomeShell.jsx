@@ -141,7 +141,6 @@ Object.assign(window, {
   }
   .fn-tag{position:fixed;right:0;top:150px;z-index:60;cursor:pointer;background:none;border:none;padding:0;transition:transform 360ms var(--ease-out);}
   .fn-tag-body{background:var(--fn-paper);color:var(--fn-ink-dark);border:1px solid var(--fn-paper-edge);border-right:none;box-shadow:-10px 10px 28px rgba(0,0,0,0.45);padding:14px 13px 16px;border-radius:5px 0 0 5px;display:flex;flex-direction:column;align-items:center;gap:11px;position:relative;}
-  .fn-hole{width:11px;height:11px;border-radius:50%;background:var(--bg);border:1px solid var(--fn-paper-edge);margin-top:2px;}
   .fn-bolt{display:block;}
   .fn-label{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--fn-ink-dark);}
   .fn-tag::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);border-radius:3px 0 0 3px;opacity:0.9;}
@@ -225,7 +224,6 @@ Object.assign(window, {
     return h(React.Fragment, null,
       h('button', { className: 'fn-tag', 'aria-label': 'What this means', onClick: function () { setOpen(function (o) { return !o; }); } },
         h('div', { className: 'fn-tag-body' },
-          h('span', { className: 'fn-hole' }),
           h('span', { className: 'fn-bolt' }, bolt),
           h('span', { className: 'fn-label' }, 'What this means'))),
       h('div', { className: 'fn-scrim', onClick: function () { setOpen(false); } }),
