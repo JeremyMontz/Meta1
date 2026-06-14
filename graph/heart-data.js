@@ -27,6 +27,7 @@
  *   window.HEART_DATA.JOURNAL_URL, PHIL_PAGE_URL
  *   window.heartWordCounts(entries, opts) → [{word, count}]  (for journal cloud)
  *   window.HEART_STOPWORDS — Set<string>
+ *   window.HEART_BLACKLIST — Set<string>  (editorial apparatus words)
  *   window.HEART_MONTHS — computed from entries by fetchEntries()
  * ========================================================================== */
 
@@ -148,20 +149,41 @@
     'into within without upon every part well good back time times day days say said says'
   ).split(/\s+/));
 
+  // ── Editorial blacklist — apparatus / process words ────────────────────────
+  // DISTINCT from HEART_STOPWORDS (which are grammatical function words). These
+  // are words *about the journaling apparatus itself* — names, skill nouns, the
+  // medium — that otherwise dominate the cloud and bury the actual content of
+  // Phil's responses. Hand-tended editorial list: prune or extend as the run
+  // grows. (See journal-cloud.jsx.)
+  window.HEART_BLACKLIST = new Set((
+    'jeremy phil lectio substrate page reader reading entry journal map response quote'
+    // Candidates under review — apparatus-leaning, not active. Uncomment to enable:
+    // + ' room read medium line thread method test'
+    // Deliberately NOT blacklisted (genuine philosophical content):
+    //   form place inside outside mind silver
+  ).split(/\s+/));
+
   window.heartWordCounts = function (entries, opts) {
     opts = opts || {};
-    var includeTopics = opts.includeTopics !== false;  // default true
     var counts = new Map();
     function add(text, weight) {
-      (text || '').toLowerCase().replace(/[’']/g, '').split(/[^a-z]+/).forEach(function (w) {
-        if (w.length < 4) return;
-        if (window.HEART_STOPWORDS.has(w)) return;
-        counts.set(w, (counts.get(w) || 0) + weight);
-      });
+      // NFD-fold combining diacritics so IAST/Sanskrit terms (Sanātana, Brahmā,
+      // Śaṅkarāchārya …) tokenize whole instead of fragmenting at the accent.
+      // Tokenization-only — entry display (ledger, quotes) keeps full diacritics.
+      (text || '')
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .toLowerCase().replace(/[’']/g, '').split(/[^a-z]+/).forEach(function (w) {
+          if (w.length < 4) return;
+          if (window.HEART_STOPWORDS.has(w)) return;
+          if (window.HEART_BLACKLIST.has(w)) return;
+          counts.set(w, (counts.get(w) || 0) + weight);
+        });
     }
+    // Built from Phil's response only. The Subtopic label (formerly added at
+    // weight 2) was removed: it is a curated topic tag, not "words Phil reaches
+    // for," and its double weight skewed the cloud toward catalog labels.
     entries.forEach(function (e) {
       add(e.response, 1);
-      if (includeTopics) add(e.subtopic, 2);
     });
     var out = [];
     counts.forEach(function (count, word) { out.push({ word: word, count: count }); });
