@@ -93,7 +93,7 @@ const TopNav = ({ active }) => (
       {[
         ['HOME',      'index.html'],
         ['PORTFOLIO', 'portfolio.html'],
-        ['GRAPH',     'dashboard.html'],
+        ['MY AI',     'graph/faces.html'],
         ['WRITING',   'writing.html'],
         ['ABOUT',     'about/human.html'],
       ].map(([label, href]) => (
@@ -131,7 +131,7 @@ Object.assign(window, {
   if (typeof window === 'undefined' || !window.React || !window.ReactDOM) return;
 
   var FN_HEAD   = 'What this page means.';
-  var FN_THANKS = '(thanks for stopping by ~jeremy)';
+  var FN_THANKS = '(thanks for stopping by  ~jeremy)';
 
   var FN_CSS = `
   :root{
