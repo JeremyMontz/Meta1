@@ -215,8 +215,8 @@ const PhilHand = ({ entry }) => (
   <div style={{
     display: 'flex',
     flexDirection: 'column',
-    gap: 26,
-    paddingTop: 'clamp(20px, 2.4vw, 32px)',
+    gap: 16,
+    paddingTop: 'clamp(8px, 1.2vw, 16px)',
   }}>
     {/* "✐ in reply" label */}
     <div style={{
@@ -258,7 +258,17 @@ const PhilHand = ({ entry }) => (
         color: 'var(--fg-subtle)',
         textTransform: 'uppercase',
       }}>
-        the philosopher · in residence
+        Resident Philosopher ·{' '}
+        <a href={window.HEART_DATA.PHIL_PAGE_URL} style={{
+          color: 'var(--fg-subtle)',
+          textDecoration: 'none',
+          borderBottom: '1px solid transparent',
+          transition: 'color 160ms, border-color 160ms',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'var(--candle)'; e.currentTarget.style.borderBottomColor = 'var(--candle)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--fg-subtle)'; e.currentTarget.style.borderBottomColor = 'transparent'; }}>
+          link to page ↗
+        </a>
       </span>
       <span style={{
         fontFamily: 'var(--font-hand)',

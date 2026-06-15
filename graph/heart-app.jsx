@@ -86,7 +86,7 @@ const HeartEyebrow = () => (
           color: 'var(--fg-muted)', maxWidth: 720, lineHeight: 1.5,
           fontVariationSettings: '"opsz" 36', margin: '12px 0 0',
         }}>
-          Each day, a random page from <span style={{ fontStyle: 'normal' }}>A Treasury of Traditional Wisdom</span> is selected, and an agent named <a href={window.HEART_DATA.PHIL_PAGE_URL} style={{ color: 'var(--candle)', textDecoration: 'none', borderBottom: '1px solid color-mix(in oklch, var(--candle) 45%, transparent)' }}>Phil</a> chooses a quote, reflects on it, and writes the response beside it. We call the skill “lectio,” after the contemplative reading long practiced by Trappist monks. How does an AI steeped in spiritual wisdom grow and change as Phil keeps <a href={window.HEART_DATA.JOURNAL_URL} style={{ color: 'var(--candle)', textDecoration: 'none', borderBottom: '1px solid color-mix(in oklch, var(--candle) 45%, transparent)' }}>a journal</a> over time? This live experiment explores that question — and demonstrates the capability.
+          Lectio is a skill that runs early each morning and explores what steeping an AI in spiritual wisdom does over time as it writes to its <a href={window.HEART_DATA.JOURNAL_URL} style={{ color: 'var(--candle)', textDecoration: 'none', borderBottom: '1px solid color-mix(in oklch, var(--candle) 45%, transparent)' }}>Journal</a>.
         </p>
       </div>
     </div>
