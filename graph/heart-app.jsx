@@ -36,49 +36,61 @@ const Room = () => (
 );
 
 // ── Eyebrow ─────────────────────────────────────────────────────────────
+const HeartGlyph = () => (
+  <svg viewBox="0 0 64 64" style={{ width: 56, height: 56, flexShrink: 0, marginTop: 6 }} aria-hidden="true">
+    <defs>
+      <linearGradient id="heartgrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="var(--candle)"/>
+        <stop offset="1" stopColor="color-mix(in oklch, var(--candle) 55%, #1a1018)"/>
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke="url(#heartgrad)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M 30 6 C 28 12 22 14 22 20"/>
+      <path d="M 36 6 C 36 10 40 12 44 16"/>
+      <path d="M 26 9 L 26 18"/>
+      <path d="M 40 9 L 42 16"/>
+      <path d="M 22 22 C 14 22 10 30 14 38 C 18 46 28 52 32 58 C 36 52 46 46 50 38 C 54 30 50 22 42 22 C 38 22 34 24 32 28 C 30 24 26 22 22 22 Z"/>
+      <path d="M 24 30 C 28 34 30 42 28 50" stroke="var(--candle)" strokeDasharray="1 2" strokeWidth="0.8"/>
+      <path d="M 42 30 C 38 32 36 38 38 48" stroke="var(--candle)" strokeDasharray="1 2" strokeWidth="0.8"/>
+    </g>
+    <circle cx="32" cy="38" r="2" fill="var(--err)">
+      <animate attributeName="r" values="1.6;3.2;1.6" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite"/>
+    </circle>
+  </svg>
+);
+
+// ── Header (below the graph breadcrumbs) ────────────────────
 const HeartEyebrow = () => (
-  <div style={{
-    textAlign: 'center',
-    padding: '34px 24px 26px',
+  <header style={{
+    maxWidth: 1080,
+    margin: '0 auto',
+    padding: '26px clamp(20px, 4vw, 48px) 18px',
     position: 'relative',
     zIndex: 2,
   }}>
-    <div style={{
-      fontFamily: 'var(--font-mono)',
-      fontSize: 11,
-      letterSpacing: '0.34em',
-      textTransform: 'uppercase',
-      color: 'var(--candle)',
-      opacity: 0.85,
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 12,
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-    }}>
-      <span>Wisdom of the Day · Lectio Ratio Artificiosa</span>
-      <span style={{ color: 'var(--line-loud)' }}>·</span>
-      <a href={window.HEART_DATA.PHIL_PAGE_URL} style={{
-        color: 'var(--fg-subtle)', textDecoration: 'none',
-        borderBottom: '1px solid transparent', paddingBottom: 1,
-        transition: 'color 160ms, border-color 160ms',
-      }}
-         onMouseEnter={e => { e.currentTarget.style.color = 'var(--candle)'; e.currentTarget.style.borderBottomColor = 'var(--candle)'; }}
-         onMouseLeave={e => { e.currentTarget.style.color = 'var(--fg-subtle)'; e.currentTarget.style.borderBottomColor = 'transparent'; }}>
-        kept by Phil ↗
-      </a>
-      <span style={{ color: 'var(--line-loud)' }}>·</span>
-      <a href={window.HEART_DATA.JOURNAL_URL} style={{
-        color: 'var(--fg-subtle)', textDecoration: 'none',
-        borderBottom: '1px solid transparent', paddingBottom: 1,
-        transition: 'color 160ms, border-color 160ms',
-      }}
-         onMouseEnter={e => { e.currentTarget.style.color = 'var(--candle)'; e.currentTarget.style.borderBottomColor = 'var(--candle)'; }}
-         onMouseLeave={e => { e.currentTarget.style.color = 'var(--fg-subtle)'; e.currentTarget.style.borderBottomColor = 'transparent'; }}>
-        in its Journal ↗
-      </a>
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
+      <HeartGlyph />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.28em',
+          color: 'var(--candle)', textTransform: 'uppercase',
+        }}>// CLAUDEMONZTER · LECTIO RATIO ARTIFICIOSA</div>
+        <h1 style={{
+          fontFamily: 'var(--font-display)', fontSize: 60, fontWeight: 700,
+          letterSpacing: '-0.03em', margin: '6px 0 0',
+          color: 'var(--fg)', fontVariationSettings: '"opsz" 144', lineHeight: 0.9,
+        }}>Heart<span style={{ color: 'var(--candle)' }}>.</span></h1>
+        <p style={{
+          fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 17,
+          color: 'var(--fg-muted)', maxWidth: 720, lineHeight: 1.5,
+          fontVariationSettings: '"opsz" 36', margin: '12px 0 0',
+        }}>
+          Each day, a random page from <span style={{ fontStyle: 'normal' }}>A Treasury of Traditional Wisdom</span> is selected, and an agent named <a href={window.HEART_DATA.PHIL_PAGE_URL} style={{ color: 'var(--candle)', textDecoration: 'none', borderBottom: '1px solid color-mix(in oklch, var(--candle) 45%, transparent)' }}>Phil</a> chooses a quote, reflects on it, and writes the response beside it. We call the skill “lectio,” after the contemplative reading long practiced by Trappist monks. How does an AI steeped in spiritual wisdom grow and change as Phil keeps <a href={window.HEART_DATA.JOURNAL_URL} style={{ color: 'var(--candle)', textDecoration: 'none', borderBottom: '1px solid color-mix(in oklch, var(--candle) 45%, transparent)' }}>a journal</a> over time? This live experiment explores that question — and demonstrates the capability.
+        </p>
+      </div>
     </div>
-  </div>
+  </header>
 );
 
 // ── Foot nav ────────────────────────────────────────────────────────────
@@ -335,7 +347,8 @@ const HeartApp = () => {
         position: 'relative',
         zIndex: 2,
       }}>
-        <HeartLeaf entry={entry} layout={layout} turning={turning} />
+        <HeartLeaf entry={entry} layout={layout} turning={turning}
+          onPrev={goPrev} onNext={goNext} isToday={isToday} atOldest={atOldest} />
       </main>
 
       <FootNav
