@@ -6,6 +6,10 @@
   <title>Renovation Budget — Davis St</title>
   <link rel="stylesheet" href="https://jeremymontz.github.io/Meta1/design-system/fonts.css">
   <link rel="stylesheet" href="https://jeremymontz.github.io/Meta1/design-system/colors_and_type.css">
+  <!-- Site chrome (React) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -295,6 +299,8 @@
 <body>
 <div class="page">
 
+  <div id="topnav-mount"></div>
+
   <div class="header">
     <div>
       <div class="header-tag">// house — renovation budget</div>
@@ -451,6 +457,8 @@
     <span>house-budget v3.0 · <span id="footerDate"></span></span>
     <span>House — Pura Vida</span>
   </div>
+
+  <div id="footer-mount"></div>
 
 </div>
 <script>
@@ -627,6 +635,15 @@
   }
 
   loadBudgetData();
+</script>
+<!-- ─── SITE CHROME (TopNav + Footer) — shared site nav so users can get back ─── -->
+<script src="../../data.js"></script>
+<script type="text/babel" src="../../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../../components/Primitives.jsx"></script>
+<script type="text/babel" src="../../components/HomeShell.jsx"></script>
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
 </script>
 </body>
 </html>
