@@ -63,19 +63,18 @@ const WritingIndex = () => (
         Writing <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>from the lab</span>.
       </h1>
       <p style={{ marginTop: 18, maxWidth: 640, fontSize: 17, lineHeight: 1.5 }}>
-        Long-form essays, short lab logs, and the occasional rant about agentic memory.
-        Newest entries first.
+        Short essays, evals, lab logs, and the occasional rant about AI behavior.
+        A chronicle of new concepts & lessons learned.
       </p>
       <p style={{ marginTop: 8, maxWidth: 640, fontSize: 14, color: 'var(--fg-subtle)' }}>
-        {ARTICLES.length} {ARTICLES.length === 1 ? 'entry' : 'entries'} · a chronicle of new concepts & lessons learned ·
-        the first portfolio piece is at the top.
+        {ARTICLES.length} {ARTICLES.length === 1 ? 'entry' : 'entries'} · the latest is at the top.
       </p>
     </div>
 
     {/* List */}
     <div style={{ padding: '24px 40px 64px' }}>
       <div style={{ borderTop: '1px solid var(--line)' }}>
-        {ARTICLES.map((a, i) => {
+        {[...ARTICLES].reverse().map((a, i) => {
           const isReal = a.href && a.href !== '#';
           return (
             <a key={a.id} href={a.href || '#'} style={{
