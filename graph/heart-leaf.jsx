@@ -45,14 +45,15 @@ function formatReceivedDate(iso) {
 
 // ── LeafHead — date + "On <subtopic>." ─────────────────────────────────────
 const LeafHead = ({ entry }) => (
-  <div style={{ marginBottom: 28 }}>
+  <div style={{ marginBottom: 30, textAlign: 'center' }}>
     <div style={{
       fontFamily: 'var(--font-mono)',
-      fontSize: 10.5,
-      letterSpacing: '0.24em',
+      fontSize: 14,
+      fontWeight: 600,
+      letterSpacing: '0.2em',
       textTransform: 'uppercase',
       color: 'var(--candle)',
-      marginBottom: 16,
+      marginBottom: 14,
     }}>
       {formatLongDate(entry.date)}
     </div>
@@ -82,7 +83,6 @@ const LeafHead = ({ entry }) => (
 // ── Clipping — the received quote, pale aged-paper card on the dark page ──
 const Clipping = ({ entry }) => {
   var glyph = inferSourceGlyph(entry);
-  var receivedDate = formatReceivedDate(entry.date);
 
   return (
     <figure style={{
@@ -104,7 +104,7 @@ const Clipping = ({ entry }) => {
         textTransform: 'uppercase',
         marginBottom: 18,
       }}>
-        RECEIVED ———— {receivedDate}
+        Quote selected at random
       </div>
 
       {/* The quote */}
@@ -161,19 +161,21 @@ const Clipping = ({ entry }) => {
         }}>
           {entry.attribution || '—'}
         </span>
-        <span style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 10,
-          letterSpacing: '0.16em',
-          color: '#8a795a',
-          textTransform: 'uppercase',
-          display: 'flex',
-          alignItems: 'baseline',
-          gap: 8,
-        }}>
-          <span style={{ color: '#9a7b3c', fontSize: 12 }}>{glyph}</span>
-          {entry.work || '—'}
-        </span>
+        {entry.work && (
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            letterSpacing: '0.16em',
+            color: '#8a795a',
+            textTransform: 'uppercase',
+            display: 'flex',
+            alignItems: 'baseline',
+            gap: 8,
+          }}>
+            <span style={{ color: '#9a7b3c', fontSize: 12 }}>{glyph}</span>
+            {entry.work}
+          </span>
+        )}
       </figcaption>
     </figure>
   );
@@ -185,7 +187,7 @@ const PhilHand = ({ entry }) => (
     display: 'flex',
     flexDirection: 'column',
     gap: 26,
-    paddingTop: 4,
+    paddingTop: 'clamp(20px, 2.4vw, 32px)',
   }}>
     {/* "✐ in reply" label */}
     <div style={{
@@ -195,14 +197,14 @@ const PhilHand = ({ entry }) => (
       color: 'var(--candle)',
       textTransform: 'uppercase',
     }}>
-      ✐ in reply
+      ✐ Phil's reply
     </div>
 
     {/* Phil's response body */}
     <div style={{
       fontFamily: 'var(--font-display)',
       fontWeight: 400,
-      fontSize: 'clamp(17px, 1.9vw, 21px)',
+      fontSize: 'clamp(15px, 1.6vw, 18px)',
       lineHeight: 1.62,
       fontVariationSettings: '"opsz" 36',
       color: 'var(--fg)',
@@ -271,26 +273,28 @@ const HeartLeaf = ({ entry, layout, turning }) => {
         transition: 'none',
       }}>
         {isSpread ? (
-          <div className="heart-spread" style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1px 1fr',
-            gap: 'clamp(24px, 3vw, 44px)',
-            alignItems: 'start',
-          }}>
-            <div>
-              <LeafHead entry={entry} />
-              <Clipping entry={entry} />
+          <>
+            <LeafHead entry={entry} />
+            <div className="heart-spread" style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1px 1fr',
+              gap: 'clamp(24px, 3vw, 44px)',
+              alignItems: 'start',
+            }}>
+              <div>
+                <Clipping entry={entry} />
+              </div>
+              {/* Spine gutter */}
+              <div style={{
+                alignSelf: 'stretch',
+                background: 'linear-gradient(to right, transparent, rgba(0,0,0,0.35), transparent)',
+                width: 1,
+              }} />
+              <div>
+                <PhilHand entry={entry} />
+              </div>
             </div>
-            {/* Spine gutter */}
-            <div style={{
-              alignSelf: 'stretch',
-              background: 'linear-gradient(to right, transparent, rgba(0,0,0,0.35), transparent)',
-              width: 1,
-            }} />
-            <div>
-              <PhilHand entry={entry} />
-            </div>
-          </div>
+          </>
         ) : (
           <div>
             <LeafHead entry={entry} />
