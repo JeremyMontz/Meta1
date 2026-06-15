@@ -347,7 +347,8 @@ const HeartApp = () => {
         position: 'relative',
         zIndex: 2,
       }}>
-        <HeartLeaf entry={entry} layout={layout} turning={turning} />
+        <HeartLeaf entry={entry} layout={layout} turning={turning}
+          onPrev={goPrev} onNext={goNext} isToday={isToday} atOldest={atOldest} />
       </main>
 
       <FootNav

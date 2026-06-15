@@ -44,18 +44,47 @@ function formatReceivedDate(iso) {
 }
 
 // ── LeafHead — date + "On <subtopic>." ─────────────────────────────────────
-const LeafHead = ({ entry }) => (
+const StepArrow = ({ dir, onClick, disabled }) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    aria-label={dir === 'prev' ? 'Earlier entry' : 'Later entry'}
+    style={{
+      all: 'unset',
+      cursor: disabled ? 'default' : 'pointer',
+      fontFamily: 'var(--font-mono)',
+      fontSize: 20,
+      lineHeight: 1,
+      color: disabled ? 'var(--fg-faint)' : 'var(--candle)',
+      opacity: disabled ? 0.3 : 1,
+      padding: '2px 8px',
+      transition: 'opacity 160ms',
+    }}
+  >
+    {dir === 'prev' ? '\u2039' : '\u203A'}
+  </button>
+);
+
+const LeafHead = ({ entry, onPrev, onNext, isToday, atOldest }) => (
   <div style={{ marginBottom: 30, textAlign: 'center' }}>
     <div style={{
-      fontFamily: 'var(--font-mono)',
-      fontSize: 14,
-      fontWeight: 600,
-      letterSpacing: '0.2em',
-      textTransform: 'uppercase',
-      color: 'var(--candle)',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 10,
       marginBottom: 14,
     }}>
-      {formatLongDate(entry.date)}
+      <StepArrow dir="prev" onClick={onPrev} disabled={atOldest} />
+      <div style={{
+        fontFamily: 'var(--font-mono)',
+        fontSize: 14,
+        fontWeight: 600,
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        color: 'var(--candle)',
+      }}>
+        {formatLongDate(entry.date)}
+      </div>
+      <StepArrow dir="next" onClick={onNext} disabled={isToday} />
     </div>
     <h2 style={{
       fontFamily: 'var(--font-display)',
@@ -247,7 +276,7 @@ const PhilHand = ({ entry }) => (
 );
 
 // ── HeartLeaf — the whole leaf (spread or single) ─────────────────────────
-const HeartLeaf = ({ entry, layout, turning }) => {
+const HeartLeaf = ({ entry, layout, turning, onPrev, onNext, isToday, atOldest }) => {
   // layout: 'spread' (default, two facing pages) | 'single'
   // turning: '' | 'out-next' | 'in-next' | 'out-prev' | 'in-prev'
   if (!entry) return null;
@@ -274,7 +303,7 @@ const HeartLeaf = ({ entry, layout, turning }) => {
       }}>
         {isSpread ? (
           <>
-            <LeafHead entry={entry} />
+            <LeafHead entry={entry} onPrev={onPrev} onNext={onNext} isToday={isToday} atOldest={atOldest} />
             <div className="heart-spread" style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1px 1fr',
@@ -297,7 +326,7 @@ const HeartLeaf = ({ entry, layout, turning }) => {
           </>
         ) : (
           <div>
-            <LeafHead entry={entry} />
+            <LeafHead entry={entry} onPrev={onPrev} onNext={onNext} isToday={isToday} atOldest={atOldest} />
             <div style={{ marginBottom: 32 }}>
               <Clipping entry={entry} />
             </div>
