@@ -116,10 +116,13 @@
   .d-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-faint); }
   .d-name { font-family: var(--font-display); font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin: 6px 0 0; font-variation-settings: "opsz" 72; }
   .d-blurb { font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--fg-muted); margin: 8px 0 0; line-height: 1.4; }
-  .d-statusrow { display: flex; align-items: center; gap: 12px; margin: 16px 0 0; }
+  .d-statusrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 16px 0 0; flex-wrap: wrap; }
+  .d-cluster { display: flex; align-items: center; gap: 7px; }
+  .d-inline-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-faint); }
+  .d-namerow { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
   .d-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
   .d-mood { font-size: 13px; font-style: italic; color: var(--accent-deep, var(--accent)); }
-  .d-time { font-family: var(--font-mono); font-size: 10px; color: var(--fg-faint); letter-spacing: 0.08em; margin-left: auto; }
+  .d-time { font-family: var(--font-mono); font-size: 10px; color: var(--fg); letter-spacing: 0.08em; }
   .d-pagelink { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border-bottom: 1px solid color-mix(in oklch, var(--accent) 45%, transparent); padding-bottom: 1px; transition: color 140ms, border-color 140ms; white-space: nowrap; }
   .d-pagelink:hover { color: var(--fg); border-bottom-color: var(--fg); }
   .d-flag { margin-top: 12px; background: color-mix(in oklch, var(--err) 8%, transparent); border: 1px solid color-mix(in oklch, var(--err) 25%, transparent); padding: 7px 10px; font-size: 12px; color: var(--err); display: flex; gap: 7px; align-items: baseline; }
@@ -128,7 +131,7 @@
   .d-field { margin-bottom: 13px; }
   .d-field:last-child { margin-bottom: 0; }
   .d-label { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-faint); margin-bottom: 4px; }
-  .d-value { font-size: 14px; color: var(--fg-muted); line-height: 1.5; }
+  .d-value { font-size: 14px; color: var(--fg); line-height: 1.5; }
   .d-empty { font-size: 13px; color: var(--fg-faint); font-style: italic; }
   .persona-slot { padding: 14px; }
 
@@ -390,13 +393,15 @@ function Dossier({ id, comp, spiritReady, onClose }) {
         <div className="dossier-grid">
           {/* LEFT — live status */}
           <div className="dossier-left">
-            <h2 className="d-name">{agent.name}</h2>
+            <div className="d-namerow">
+              <h2 className="d-name">{agent.name}</h2>
+              <a className="d-pagelink" href={`../agents/${id}/${id}.html`}>Agent page ↗</a>
+            </div>
             <p className="d-blurb">{f.persona || agent.blurb}</p>
 
             <div className="d-statusrow">
-              <span className="d-badge" style={{ background: `color-mix(in oklch, ${color} 14%, transparent)`, color }}>{STATUS_LABEL[status]}</span>
-              {f.mood && <span className="d-mood">{f.mood}</span>}
-              <a className="d-pagelink" href={`../agents/${id}/${id}.html`}>Agent page ↗</a>
+              <span className="d-cluster"><span className="d-inline-label">status:</span><span className="d-badge" style={{ background: `color-mix(in oklch, ${color} 14%, transparent)`, color }}>{STATUS_LABEL[status]}</span></span>
+              {f.mood && <span className="d-cluster"><span className="d-inline-label">mood:</span><span className="d-mood">{f.mood}</span></span>}
               <span className="d-time">{f.ts ? window.fmtDate(f.ts) : 'no check-in yet'}</span>
             </div>
 
@@ -407,7 +412,7 @@ function Dossier({ id, comp, spiritReady, onClose }) {
             <div className="d-section">
               {!comp && <div className="loading-tag">Loading status…</div>}
               {comp && !hasSession && <div className="d-empty">No session detail reported yet.</div>}
-              {f.summary  && <div className="d-field"><div className="d-label">Summary</div><div className="d-value">{f.summary}</div></div>}
+              {f.summary  && <div className="d-field"><div className="d-label">Session Summary</div><div className="d-value">{f.summary}</div></div>}
               {f.focus    && <div className="d-field"><div className="d-label">Focus</div><div className="d-value">{f.focus}</div></div>}
               {f.blockers && <div className="d-field"><div className="d-label">Blockers</div><div className="d-value">{f.blockers}</div></div>}
               {f.next     && <div className="d-field"><div className="d-label">Next</div><div className="d-value">{f.next}</div></div>}

@@ -6,6 +6,10 @@
   <title>Renovation Timeline — Davis St</title>
   <link rel="stylesheet" href="https://jeremymontz.github.io/Meta1/design-system/fonts.css">
   <link rel="stylesheet" href="https://jeremymontz.github.io/Meta1/design-system/colors_and_type.css">
+  <!-- Site chrome (React) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
   <style>
     /* ── Page shell ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -179,7 +183,7 @@
     .week-marker {
       position: absolute; top: 0; bottom: 0;
       border-left: 1px solid color-mix(in oklch, var(--line) 50%, transparent);
-      font-size: var(--fs-micro); color: var(--fg-faint);
+      font-size: var(--fs-micro); color: var(--fg-subtle);
       letter-spacing: var(--ls-wide);
       padding: 2px 4px;
     }
@@ -376,6 +380,8 @@
 <body>
 <div class="page">
 
+  <div id="topnav-mount"></div>
+
   <div class="header">
     <div>
       <div class="header-tag">// house — renovation timeline</div>
@@ -441,6 +447,8 @@
     <span>house-timeline v2.0 · <span id="footerDate"></span></span>
     <span>House — Pura Vida</span>
   </div>
+
+  <div id="footer-mount"></div>
 
 </div>
 
@@ -1004,6 +1012,15 @@ document.getElementById('footerDate').textContent = TODAY.toISOString().slice(0,
 loadData().then(ok => {
   if (ok) render();
 });
+</script>
+<!-- ─── SITE CHROME (TopNav + Footer) — shared site nav so users can get back ─── -->
+<script src="../../data.js"></script>
+<script type="text/babel" src="../../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../../components/Primitives.jsx"></script>
+<script type="text/babel" src="../../components/HomeShell.jsx"></script>
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
 </script>
 </body>
 </html>

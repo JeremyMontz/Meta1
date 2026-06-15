@@ -101,7 +101,7 @@ const HomeMain = () => {
       {/* ─── NOW + PORTFOLIO TEASER ───────────────────────────────── */}
       <section style={{
         padding: '48px 40px',
-        display: 'grid', gridTemplateColumns: '1fr 1px 380px', gap: 40,
+        display: 'grid', gridTemplateColumns: '1fr 1px 1fr', gap: 40,
       }}>
         <NowBlock />
         <div style={{ background: 'var(--line)' }} />
@@ -269,32 +269,20 @@ const NowBlock = () => (
     <h2 style={{ marginTop: 10, marginBottom: 18 }}>
       What's <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>hot</span> under the lamp.
     </h2>
-    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 580 }}>
+    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 560, cursor: 'default' }}>
       {NOW.map((n, i) => (
         <li key={i} style={{
-          display: 'grid', gridTemplateColumns: '32px 1fr',
-          gap: 12, alignItems: 'flex-start',
-          paddingBottom: 14,
-          borderBottom: i < NOW.length - 1 ? '1px solid var(--line-soft)' : 'none',
+          display: 'grid', gridTemplateColumns: '20px 1fr',
+          gap: 10, alignItems: 'baseline',
         }}>
+          <span style={{ fontFamily: 'var(--font-hand)', color: 'var(--candle)', fontSize: 26, lineHeight: 1 }}>–</span>
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: 11,
-            color: 'var(--candle)', letterSpacing: '0.14em',
-          }}>0{i + 1}</span>
-          <span style={{
-            fontFamily: 'var(--font-display)', fontWeight: 400,
-            fontSize: 19, lineHeight: 1.35, color: 'var(--fg)',
-            fontVariationSettings: '"opsz" 36',
+            fontFamily: 'var(--font-hand)', fontWeight: 600,
+            fontSize: 27, lineHeight: 1.2, color: 'var(--fg-muted)',
           }}>{n}</span>
         </li>
       ))}
     </ul>
-    <div className="scribble" style={{
-      display: 'inline-block', marginTop: 18,
-      color: 'var(--candle)', fontSize: 22,
-    }}>
-      {PAGE_HOME.now.scribble}
-    </div>
   </div>
 );
 
@@ -317,14 +305,14 @@ const PortfolioTeaser = () => (
           borderBottom: i === PORTFOLIO.length - 1 ? '1px solid var(--line)' : 'none',
           alignItems: 'center',
         }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--fg-faint)', letterSpacing: '0.16em' }}>{p.no}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--candle)', letterSpacing: '0.16em' }}>{p.no}</span>
           <div>
             <div style={{
               fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600,
               color: p.tone === 'na' ? 'var(--fg-subtle)' : 'var(--fg)',
               letterSpacing: '-0.01em',
             }}>{p.title}</div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: p.tone === 'warn' ? 'var(--warn)' : 'var(--fg-faint)', marginTop: 2 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: p.tone === 'ok' ? 'var(--ok)' : (p.tone === 'warn' ? 'var(--warn)' : 'var(--fg-faint)'), marginTop: 2 }}>
               {p.status} · {p.date}
             </div>
           </div>
@@ -364,6 +352,7 @@ const WritingList = () => (
             letterSpacing: '-0.01em', lineHeight: 1.2,
             fontVariationSettings: '"opsz" 48',
           }}>{a.title}</div>
+          {a.subtitle && <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 15, lineHeight: 1.35, color: 'var(--fg-muted)', marginTop: 6 }}>{a.subtitle}</div>}
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--fg-faint)', letterSpacing: '0.16em', marginTop: 8 }}>{a.read} · READ →</div>
         </div>
         <span style={{ color: 'var(--fg-faint)' }}>↗</span>

@@ -279,16 +279,16 @@ window.PORTFOLIO = [
 //   2. Add an entry below with its date, title, tag, read time, and href.
 //   3. Optionally tag `demonstrates` so it surfaces in the competency graph.
 window.ARTICLES = [
-  { id: 'a1', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html', demonstrates: ['agentic', 'discovery'] },
-  { id: 'a2', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', tag: 'EVAL', read: '2 min', href: 'writing/adversarial-validation.html', demonstrates: ['eval', 'collab'] },
-  { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html', demonstrates: ['collab', 'agentic'] },
-  { id: 'a4', date: '04.15.26', title: 'Building a closed-loop adaptive coaching system.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html', demonstrates: ['building', 'discovery'] },
-  { id: 'a5', date: '04.22.26', title: 'Memory tiering into persistent context.', tag: 'ESSAY', read: '2 min', href: 'writing/memory-tiering.html', demonstrates: ['agentic', 'eval'] },
-  { id: 'a6', date: '04.29.26', title: 'GitHub Issues Integration.', tag: 'ESSAY', read: '2 min', href: 'writing/github-issues-integration.html', demonstrates: ['discovery', 'building'] },
-  { id: 'a7', date: '05.06.26', title: 'Canon load evaluation: how pass phrases prove an agent\'s claims.', tag: 'EVAL', read: '2 min', href: 'writing/canon-load-evaluation.html', demonstrates: ['eval', 'agentic'] },
-  { id: 'a8', date: '05.13.26', title: 'Agentic behavioral tuning: a working prototype.', tag: 'PROTOTYPE', read: '2 min', href: 'writing/agentic-behavioral-tuning.html', demonstrates: ['building', 'agentic'] },
-  { id: 'a9', date: '05.20.26', title: 'Inference economics: scaling a skill while watching the meter.', tag: 'ESSAY', read: '2 min', href: 'writing/inference-economics.html', demonstrates: ['eval', 'building'] },
-  { id: 'a10', date: '06.03.26', title: 'Speed to insight and alpha decay.', tag: 'ESSAY', read: '2 min', href: 'writing/speed-to-insight.html', demonstrates: ['discovery', 'reflective'] },
+  { id: 'a1', date: '03.25.26', title: 'Multi-agent orchestration and the constraint spectrum.', subtitle: 'The mullet as a design principle.', tag: 'ESSAY', read: '2 min', href: 'writing/multiagent-constraint.html', demonstrates: ['agentic', 'discovery'] },
+  { id: 'a2', date: '04.01.26', title: 'Adversarial validation and structured perspective expansion.', subtitle: 'Multiple personalities, on purpose.', tag: 'EVAL', read: '2 min', href: 'writing/adversarial-validation.html', demonstrates: ['eval', 'collab'] },
+  { id: 'a3', date: '04.08.26', title: 'Coordination tax and the specialization dividend.', subtitle: 'The needs were real, and so was the effort, but the value was dubious.', tag: 'ESSAY', read: '2 min', href: 'writing/coordination-tax.html', demonstrates: ['collab', 'agentic'] },
+  { id: 'a4', date: '04.15.26', title: 'Building a closed-loop adaptive coaching system.', subtitle: 'Teaching Claude to teach me how to use itself.', tag: 'ESSAY', read: '2 min', href: 'writing/coaching-system.html', demonstrates: ['building', 'discovery'] },
+  { id: 'a5', date: '04.22.26', title: 'Memory tiering into persistent context.', subtitle: 'Sorting my brain into little buckets.', tag: 'ESSAY', read: '2 min', href: 'writing/memory-tiering.html', demonstrates: ['agentic', 'eval'] },
+  { id: 'a6', date: '04.29.26', title: 'GitHub Issues Integration.', subtitle: 'Backlog management, minus the bottleneck.', tag: 'ESSAY', read: '2 min', href: 'writing/github-issues-integration.html', demonstrates: ['discovery', 'building'] },
+  { id: 'a7', date: '05.06.26', title: 'Canon load evaluation.', subtitle: 'How pass phrases prove an agent’s claims.', tag: 'EVAL', read: '2 min', href: 'writing/canon-load-evaluation.html', demonstrates: ['eval', 'agentic'] },
+  { id: 'a8', date: '05.13.26', title: 'Agentic behavioral tuning: a working prototype.', subtitle: 'The persona’s animating jolt, minus the shock.', tag: 'PROTOTYPE', read: '2 min', href: 'writing/agentic-behavioral-tuning.html', demonstrates: ['building', 'agentic'] },
+  { id: 'a9', date: '05.20.26', title: 'Inference economics.', subtitle: 'Scaling a skill while watching the meter.', tag: 'ESSAY', read: '2 min', href: 'writing/inference-economics.html', demonstrates: ['eval', 'building'] },
+  { id: 'a10', date: '06.03.26', title: 'Speed to insight and alpha decay.', subtitle: 'Information has a shelf life, and AI just unplugged the fridge.', tag: 'ESSAY', read: '2 min', href: 'writing/speed-to-insight.html', demonstrates: ['discovery', 'reflective'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
