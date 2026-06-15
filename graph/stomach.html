@@ -96,7 +96,8 @@ body{
 .scard.active .detail{max-height:360px;opacity:1;margin-top:11px}
 .scard .detail p{font-size:12.5px;line-height:1.5;color:var(--fg-subtle);margin:0}
 .scard .sk{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-.scard .sk span{font-family:var(--font-mono);font-size:9.5px;color:var(--fg-muted);background:var(--bg-elev-3);border:1px solid var(--line);border-radius:3px;padding:2px 6px}
+.scard .sk span{font-family:var(--font-mono);font-size:9.5px;color:var(--tone);background:color-mix(in oklch, var(--tone) 9%, var(--bg-elev-3));border:1px solid color-mix(in oklch, var(--tone) 42%, transparent);border-radius:3px;padding:2px 6px}
+.scard .sk .sk-lbl{background:none;border:none;padding:0 4px 0 0;color:var(--fg-faint);text-transform:uppercase;letter-spacing:.13em;font-size:8.5px;align-self:center}
 .scard .dec{margin-top:12px;border-top:1px dashed var(--line-loud);padding-top:10px}
 .scard .dec-h{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--err);display:flex;align-items:center;gap:6px;margin-bottom:7px}
 .scard .dec-h .di{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border:1px solid var(--err);transform:rotate(45deg);font-size:8px}
@@ -150,7 +151,7 @@ body{
           <div class="stop"><span class="snum">1</span><div><div class="stitle">Sources</div><div class="sfolder">Network locations</div></div></div>
           <div class="detail">
             <p>The buffet we eat from — live integrations that reach off-disk into the external tools where work happens.</p>
-            <div class="sk"><span>GitHub</span><span>Gmail</span><span>Drive</span><span>MS To&nbsp;Do</span><span>Web</span></div>
+            <div class="sk"><span class="sk-lbl">sources</span><span>GitHub</span><span>Gmail</span><span>Drive</span><span>MS To&nbsp;Do</span><span>Web</span></div>
             <div class="dec">
               <div class="dec-h"><span class="di"><b>1</b></span> Query</div>
               <div class="dec-row"><span class="k now">Now</span><span class="v">Sources are queried automatically at session start.</span></div>
@@ -163,7 +164,7 @@ body{
           <div class="stop"><span class="snum">2</span><div><div class="stitle">Ingestion</div><div class="sfolder">Inbox/</div></div></div>
           <div class="detail">
             <p>Everything lands in the local filesystem's inbox as a structured note tagged with the relevant agent or domain. Nothing skips the queue.</p>
-            <div class="sk"><span>todo-ingest</span><span>email-ingest</span><span>check-email</span></div>
+            <div class="sk"><span class="sk-lbl">skills</span><span>todo-ingest</span><span>email-ingest</span><span>check-email</span></div>
             <div class="dec">
               <div class="dec-h"><span class="di"><b>2</b></span> Queue</div>
               <div class="dec-row"><span class="k now">Now</span><span class="v">Agents present the open items and the human determines the agenda.</span></div>
@@ -176,7 +177,7 @@ body{
           <div class="stop"><span class="snum">3</span><div><div class="stitle">Digestion &amp; Metabolism</div><div class="sfolder">Raw/ · Wiki/</div></div></div>
           <div class="detail">
             <p>Source data is preserved in <b style="color:var(--accent);font-weight:400">raw/</b> and made immutable; agents synthesize the meaning, link to the original research, and maintain the <b style="color:var(--accent);font-weight:400">wiki/</b> with their working knowledge.</p>
-            <div class="sk"><span>ingest-inbox</span><span>wiki-write</span></div>
+            <div class="sk"><span class="sk-lbl">skills</span><span>ingest-inbox</span><span>wiki-write</span></div>
             <div class="dec">
               <div class="dec-h"><span class="di"><b>3</b></span> Compile</div>
               <div class="dec-row"><span class="k now">Now</span><span class="v">Agents and the human review updates manually while frontmatter links notes automatically.</span></div>
@@ -186,10 +187,10 @@ body{
         </div>
 
         <div class="scard" data-stage="eliminate" style="--tone:var(--gray-bright)">
-          <div class="stop"><span class="snum">4</span><div><div class="stitle">Linking &amp; Elimination</div><div class="sfolder">Temp · Archive · Museum</div></div></div>
+          <div class="stop"><span class="snum">4</span><div><div class="stitle">Linting &amp; Elimination</div><div class="sfolder">Temp/ · Archive/ · Museum/</div></div></div>
           <div class="detail">
             <p>What's fully consumed passes through. Temporary session briefs and working files are flushed. Some fat might get saved to the <b style="color:var(--accent);font-weight:400">Museum/</b> for posterity.</p>
-            <div class="sk"><span>close-session</span><span>consolidate-memory</span></div>
+            <div class="sk"><span class="sk-lbl">skills</span><span>close-session</span><span>consolidate-memory</span></div>
             <div class="dec">
               <div class="dec-h"><span class="di"><b>4</b></span> Lifecycle</div>
               <div class="dec-row"><span class="k now">Now</span><span class="v">File system lifecycle is manual; only the human can archive or delete.</span></div>
