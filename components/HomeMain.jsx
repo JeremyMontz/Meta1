@@ -352,6 +352,7 @@ const WritingList = () => (
             letterSpacing: '-0.01em', lineHeight: 1.2,
             fontVariationSettings: '"opsz" 48',
           }}>{a.title}</div>
+          {a.subtitle && <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 15, lineHeight: 1.35, color: 'var(--fg-muted)', marginTop: 6 }}>{a.subtitle}</div>}
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--fg-faint)', letterSpacing: '0.16em', marginTop: 8 }}>{a.read} · READ →</div>
         </div>
         <span style={{ color: 'var(--fg-faint)' }}>↗</span>
