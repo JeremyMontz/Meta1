@@ -31,7 +31,7 @@ The graph above is the live topology — agents and projects coordinated from on
 
 ## By the numbers
 
-**8 agents (1 human)** · **16 custom skills** · **three architecture generations (V1 → V2 → V3) in three months** · **a 1,000+ page ingestion pipeline** · **11 field notes** · **every claim confidence- and source-tagged**
+**8 agents (1 human)** · **16 custom skills** · **three architecture generations (V1 → V2 → V3) in three months** · **a 1,000+ page ingestion pipeline** · **10 field notes** · **every claim confidence- and source-tagged**
 
 ## How the verification works
 
