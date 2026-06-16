@@ -1,0 +1,8 @@
+# Spellcheck config for the Claudemonzter site — read automatically by codespell.
+# Allow-list = coined proper nouns ONLY. Real-word false positives are suppressed
+# by case/context-specific regex so a genuine typo is never globally hidden.
+[codespell]
+skip = *.png,*.jpg,*.jpeg,*.gif,*.svg,*.ico,*.woff,*.woff2,*.ttf,*.min.js,*.lock,*.pdf,.git,./graph/assets
+ignore-words-list = claudemonzter,monzter,lectio,pura,vivekachudamani,checkin
+# aCount=code identifier | "tao te"=Tao Te Ching | "then thats"=stopword token | word&rsquo;word=HTML-entity contractions
+ignore-regex = aCount|tao te|then thats|[A-Za-z]+&rsquo;[A-Za-z]*
