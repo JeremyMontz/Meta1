@@ -15,7 +15,7 @@
 const GH_TTL = 10 * 60 * 1000;
 const GH_CACHE_PREFIX = 'ghcache:';
 
-const GH = { SYNCING: 'syncing', STREAMING: 'streaming', CACHED: 'cached', OFFLINE: 'offline', EMPTY: 'empty' };
+const GH = { SYNCING: 'syncing', STREAMING: 'streaming', CACHED: 'cached', OFFLINE: 'offline', EMPTY: 'empty', SNAPSHOT: 'snapshot' };
 
 function ghReadCache(url) {
   try {
@@ -74,7 +74,7 @@ function ghAgo(when) {
   return Math.floor(h / 24) + 'd ago';
 }
 
-const LiveBadge = ({ status, repo, lastActivity, cachedAt }) => {
+const LiveBadge = ({ status, repo, lastActivity, cachedAt, snapshotDate }) => {
   const r = repo || 'JeremyMontz/Meta1';
   const row = { display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase' };
 
@@ -84,6 +84,9 @@ const LiveBadge = ({ status, repo, lastActivity, cachedAt }) => {
     dot = <span className="pulse-dot" style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--ok)', color: 'var(--ok)' }} />;
   } else if (status === GH.CACHED) {
     label = 'CACHED' + (cachedAt ? ' · ' + ghAgo(cachedAt) : ''); color = 'var(--warn)';
+    dot = <StatusDot tone="warn" />;
+  } else if (status === GH.SNAPSHOT) {
+    label = 'SNAPSHOT' + (snapshotDate ? ' · ' + snapshotDate : ''); color = 'var(--warn)';
     dot = <StatusDot tone="warn" />;
   } else if (status === GH.OFFLINE) {
     label = 'OFFLINE · GITHUB UNREACHABLE'; color = 'var(--err)';
