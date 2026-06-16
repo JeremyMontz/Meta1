@@ -619,7 +619,7 @@ const App = () => {
         )}
 
         {/* DIAL MATRIX — no section wrapper; it IS the page */}
-        <div style={{ marginTop: 22 }}>
+        <div className="dial-matrix-scroll" style={{ marginTop: 22 }}>
           <DialMatrix agents={liveAgents} dials={window.SPIRIT_DIALS}
                       focusedCell={focusedCell} draft={focusedCell ? {
                         agentId: focusedCell.agentId,
