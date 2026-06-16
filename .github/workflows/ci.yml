@@ -1,5 +1,5 @@
 name: CI
-# Cheapest meaningful CI for a no-build static site. Three honest checks:
+# Lightweight, no-build CI for the static site. Three honest checks:
 #   links    - every internal link in the HTML resolves to a real file
 #   data     - data.js (+ graph/*-data.js) parse and expose their sections
 #   spelling - codespell over content, with the lab's coined words allow-listed
