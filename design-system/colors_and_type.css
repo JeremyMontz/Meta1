@@ -470,3 +470,20 @@ p, .t-body {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
+
+/* ============================================================
+ * Mobile responsiveness pass (#163)
+ * ============================================================ */
+
+/* Site-wide guard against stray horizontal overflow on small screens.
+ * Stops pages drifting sideways; real overflow is still fixed at source
+ * on the priority pages. Watch position:sticky if anything misbehaves. */
+html, body { overflow-x: hidden; max-width: 100%; }
+
+/* Shared TopNav (HomeShell.jsx) is inline-styled, so these mobile
+ * overrides need !important to win over the element style attribute.
+ * Stack the wordmark over a centered, wrapping row of links. */
+@media (max-width: 720px) {
+  .topnav { flex-direction: column !important; gap: 14px !important; padding: 16px 20px !important; }
+  .topnav-links { flex: 0 1 auto !important; flex-wrap: wrap !important; justify-content: center !important; gap: 16px !important; row-gap: 10px !important; }
+}
