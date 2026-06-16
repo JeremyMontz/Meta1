@@ -538,3 +538,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
     display: -webkit-box !important; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
 }
+
+/* ---- Accessibility: graph node keyboard focus (a11y pass) ---- */
+.graph-node { outline: none; }
+.graph-node:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
