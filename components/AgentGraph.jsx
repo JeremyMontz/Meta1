@@ -112,7 +112,7 @@ const AgentGraph = ({ hovered, setHovered, agents: agentsProp, fetchStatus }) =>
         position: 'absolute', top: 14, left: 16,
         fontFamily: 'var(--font-mono)', fontSize: 10,
         letterSpacing: '0.22em', textTransform: 'uppercase',
-        color: 'var(--fg-subtle)', pointerEvents: 'none', zIndex: 1,
+        color: 'var(--fg-faint)', pointerEvents: 'none', zIndex: 1,
       }}>
         {'// GRAPH · CLAUDEMONZTER · ' + (SITE ? SITE.version : 'v3.3')}
       </div>
@@ -120,7 +120,7 @@ const AgentGraph = ({ hovered, setHovered, agents: agentsProp, fetchStatus }) =>
         position: 'absolute', top: 14, right: 16,
         fontFamily: 'var(--font-mono)', fontSize: 10,
         letterSpacing: '0.22em', textTransform: 'uppercase',
-        color: 'var(--fg-subtle)', pointerEvents: 'none', zIndex: 1,
+        color: 'var(--fg-faint)', pointerEvents: 'none', zIndex: 1,
       }}>
         {PROJECTS.length + ' PROJECTS · ' + AGENTS.length + ' AGENTS (1 HUMAN)'}
       </div>
@@ -163,7 +163,7 @@ const AgentGraph = ({ hovered, setHovered, agents: agentsProp, fetchStatus }) =>
           position: 'absolute', bottom: 14, left: 16,
           fontFamily: 'var(--font-mono)', fontSize: 10,
           letterSpacing: '0.22em', textTransform: 'uppercase',
-          color: 'var(--fg-subtle)',
+          color: 'var(--fg-faint)',
           display: 'inline-flex', alignItems: 'center', gap: 8,
         }}>
           <span className="pulse-dot" style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--accent)', color: 'var(--accent)' }} />
@@ -389,7 +389,7 @@ const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 10,
           letterSpacing: '0.22em', textTransform: 'uppercase',
-          color: 'var(--fg-subtle)', marginBottom: 8,
+          color: 'var(--fg-faint)', marginBottom: 8,
         }}>
           {projectAgents.length} AGENT{projectAgents.length === 1 ? '' : 'S'} IN THIS PROJECT
         </div>
@@ -403,7 +403,7 @@ const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
             }}>
               <div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 16 }}>{a.name}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.18em', color: 'var(--fg-subtle)', textTransform: 'uppercase' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.18em', color: 'var(--fg-faint)', textTransform: 'uppercase' }}>
                   {a.role}
                 </div>
               </div>
