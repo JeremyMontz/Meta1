@@ -513,3 +513,13 @@ html, body { overflow-x: hidden; max-width: 100%; }
 @media (max-width: 720px) {
   .graph-subnav { flex-wrap: wrap !important; gap: 12px 16px !important; padding: 10px 20px !important; }
 }
+
+/* ---- Tier 2: index secondary layouts (#163) ----
+   Stack the remaining two-column / fixed-column sections on mobile. */
+@media (max-width: 720px) {
+  .home-split { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .home-split-rule { display: none !important; }
+  .writing-list { grid-template-columns: 1fr !important; }
+  .writing-list a { border-right: 1px solid var(--line) !important; border-bottom: 1px solid var(--line) !important; }
+  .home-about { grid-template-columns: 1fr !important; gap: 32px !important; }
+}

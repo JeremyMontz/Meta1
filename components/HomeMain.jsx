@@ -102,12 +102,12 @@ const HomeMain = () => {
       <Divider label="// 02 · UNDER THE MICROSCOPE" tone="candle" />
 
       {/* ─── NOW + PORTFOLIO TEASER ───────────────────────────────── */}
-      <section style={{
+      <section className="home-split" style={{
         padding: '48px 40px',
         display: 'grid', gridTemplateColumns: '1fr 1px 1fr', gap: 40,
       }}>
         <NowBlock />
-        <div style={{ background: 'var(--line)' }} />
+        <div className="home-split-rule" style={{ background: 'var(--line)' }} />
         <PortfolioTeaser />
       </section>
 
@@ -334,7 +334,7 @@ const PortfolioTeaser = () => (
 
 // ── WRITING LIST ──────────────────────────────────────────────────────────
 const WritingList = () => (
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0 }}>
+  <div className="writing-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 0 }}>
     {ARTICLES.map((a, i) => (
       <a key={a.id} href={a.href || '#'} style={{
         display: 'grid', gridTemplateColumns: '70px 1fr 24px',
@@ -366,7 +366,7 @@ const WritingList = () => (
 
 // ── ABOUT ─────────────────────────────────────────────────────────────────
 const AboutBlock = () => (
-  <section id="about" style={{
+  <section id="about" className="home-about" style={{
     padding: '64px 40px',
     display: 'grid', gridTemplateColumns: '1fr 380px', gap: 56, alignItems: 'flex-start',
   }}>
