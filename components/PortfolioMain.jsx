@@ -35,7 +35,7 @@ const PortfolioHero = () => {
           <h1 style={{
             marginTop: 14, marginBottom: 18,
             fontFamily: 'var(--font-display)', fontWeight: 700,
-            fontSize: 76, lineHeight: 0.98, letterSpacing: '-0.025em',
+            fontSize: 'clamp(40px, 11vw, 76px)', lineHeight: 0.98, letterSpacing: '-0.025em',
             fontVariationSettings: '"opsz" 144',
             maxWidth: 760,
           }}>
