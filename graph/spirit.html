@@ -139,6 +139,12 @@
 
   /* Selection */
   ::selection { background: var(--accent); color: var(--bg); }
+
+  /* ── Mobile (#163): scrollable persona matrix ── */
+  @media (max-width: 720px) {
+    .dial-matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .dial-matrix-scroll > div { min-width: max-content; }
+  }
 </style>
 </head>
 <body>

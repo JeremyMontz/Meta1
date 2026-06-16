@@ -48,7 +48,7 @@ const MemoryGlyph = () => (
 // header ---------------------------------------------------------------------
 const MemoryHeader = () => (
   <header style={{ padding: '20px 0 14px', borderBottom: '1px solid var(--line)' }}>
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
+    <div className="mem-head-row" style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
       <MemoryGlyph/>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
@@ -89,7 +89,7 @@ const MemoryHeader = () => (
         </div>
       </div>
 
-      <div style={{ flexShrink: 0, textAlign: 'right' }}>
+      <div className="mem-head-meta" style={{ flexShrink: 0, textAlign: 'right' }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.18em',
           color: 'var(--fg-faint)', textTransform: 'uppercase',
@@ -106,7 +106,7 @@ const MemoryHeader = () => (
 // section header (echoes heart's Section component) --------------------------
 const Section = ({ num, eyebrow, title, sub, children }) => (
   <section style={{ marginTop: 36 }}>
-    <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 24, marginBottom: 14 }}>
+    <div className="mem-sec-head" style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 24, marginBottom: 14 }}>
       <div style={{
         fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 500,
         letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--candle)',
@@ -132,7 +132,7 @@ const BridgesBlock = () => {
   const layerById = (id) => window.MEMORY_LAYERS.find(l => l.id === id);
   const { reliable, fragile } = window.MEMORY_BRIDGES;
   return (
-    <div style={{
+    <div className="mem-bridges" style={{
       display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14,
     }}>
       <div style={{
@@ -224,8 +224,10 @@ const App = () => {
         <MemoryHeader/>
 
         {/* MATRIX */}
-        <div style={{ marginTop: 26 }}>
-          <MemoryMatrix/>
+        <div className="mtx-scroll" style={{ marginTop: 26 }}>
+          <div>
+            <MemoryMatrix/>
+          </div>
         </div>
 
         {/* BRIDGES */}
