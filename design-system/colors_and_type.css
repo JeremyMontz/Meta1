@@ -68,7 +68,7 @@
   --fg:         var(--ink-50);
   --fg-muted:   var(--ink-200);
   --fg-subtle:  var(--ink-300);
-  --fg-faint:   var(--ink-400);
+  --fg-faint:   var(--ink-300);  /* a11y: lifted from ink-400 (2.4:1, fails WCAG) to ink-300 (~4.5:1, AA). Re-tune here. */
   --fg-invert:  var(--ink-900);
 
   /* Lines */
@@ -538,3 +538,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
     display: -webkit-box !important; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
 }
+
+/* ---- Accessibility: graph node keyboard focus (a11y pass) ---- */
+.graph-node { outline: none; }
+.graph-node:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }

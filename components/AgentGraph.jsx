@@ -125,7 +125,7 @@ const AgentGraph = ({ hovered, setHovered, agents: agentsProp, fetchStatus }) =>
         {PROJECTS.length + ' PROJECTS · ' + AGENTS.length + ' AGENTS (1 HUMAN)'}
       </div>
 
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" style={{ display: 'block' }}>
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" role="group" aria-label="Interactive agent graph. Tab through nodes to explore; press Enter on an agent to open its profile." style={{ display: 'block' }}>
         {/* Edges */}
         {edges.map(e => {
           const A = POSITIONS[e.a], B = POSITIONS[e.b];
@@ -179,8 +179,15 @@ const HubNode = ({ hovered, setHovered, faded }) => {
   const active = hovered?.id === 'me';
   return (
     <g
+      className="graph-node"
+      tabIndex={0}
+      role="button"
+      aria-label="Claudemonzter, system hub — show details"
       onMouseEnter={() => setHovered({ id: 'me', kind: 'hub' })}
       onMouseLeave={() => setHovered(null)}
+      onFocus={() => setHovered({ id: 'me', kind: 'hub' })}
+      onBlur={() => setHovered(null)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setHovered({ id: 'me', kind: 'hub' }); } }}
       style={{ cursor: 'default', opacity: faded ? 0.4 : 1, transition: 'opacity 200ms var(--ease-out)' }}>
       <circle cx={CX} cy={CY} r="58" fill="var(--accent-low)" stroke="var(--accent)" strokeWidth={active ? 2.5 : 1.5} />
       <circle cx={CX} cy={CY} r="58" fill="none" stroke="var(--accent-glow)" strokeWidth="8" opacity="0.45" />
@@ -207,8 +214,15 @@ const ProjectNode = ({ project, hovered, setHovered, faded }) => {
 
   return (
     <g
+      className="graph-node"
+      tabIndex={0}
+      role="button"
+      aria-label={`${project.label} project — show details`}
       onMouseEnter={() => setHovered({ id: project.id, kind: 'project' })}
       onMouseLeave={() => setHovered(null)}
+      onFocus={() => setHovered({ id: project.id, kind: 'project' })}
+      onBlur={() => setHovered(null)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setHovered({ id: project.id, kind: 'project' }); } }}
       style={{ cursor: 'default', opacity: faded ? 0.35 : 1, transition: 'opacity 200ms var(--ease-out)' }}>
       <circle cx={pos.x} cy={pos.y} r="34"
               fill="var(--bg-elev-2)"
@@ -237,9 +251,16 @@ const AgentNode = ({ agent, hovered, setHovered, faded }) => {
   // every outer agent enough vertical room.
   return (
     <g
+      className="graph-node"
+      tabIndex={0}
+      role="link"
+      aria-label={`${agent.name}${agent.role ? ', ' + agent.role : ''} agent${flagged ? ', flagged' : ''} — view profile`}
       onMouseEnter={() => setHovered({ id, kind: 'agent' })}
       onMouseLeave={() => setHovered(null)}
+      onFocus={() => setHovered({ id, kind: 'agent' })}
+      onBlur={() => setHovered(null)}
       onClick={() => window.location.href = `agents/${agent.id}/${agent.id}.html`}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = `agents/${agent.id}/${agent.id}.html`; } }}
       style={{ cursor: 'pointer', opacity: faded ? 0.3 : 1, transition: 'opacity 200ms var(--ease-out)' }}>
       <circle cx={pos.x} cy={pos.y} r={active ? 18 : 14}
               fill="var(--bg-elev-2)"
