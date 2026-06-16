@@ -38,6 +38,19 @@ async function gasPost(payload) {
   });
 }
 
+// ── #211 client-side PIN gate (casual-submission deterrent; not a security boundary — see #227) ──
+const PIN_HASH = '9f79d46789159fde2ce018beb8417f80b6856be31d861688b59a2db120ae7e2b';
+async function pinSha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("");}
+async function pinGateOk(){
+  if(window.__pinUnlocked) return true;
+  while(true){
+    const v=window.prompt('Enter 4-digit PIN to submit:');
+    if(v===null) return false;
+    if(await pinSha(v.trim())===PIN_HASH){window.__pinUnlocked=true;return true;}
+    window.alert('Incorrect PIN. Try again.');
+  }
+}
+
 // ─── Header ────────────────────────────────────────────────────────────────
 const SpiritHeader = ({ hyde, crazy, dirtyCount, onCommit, onDiscard, committing,
                        rev, lastSync, customCount, totalCells }) => (
@@ -524,6 +537,7 @@ const App = () => {
   // ── Commit dials to GAS ──
   const commit = async () => {
     if (dirtyCount === 0) return;
+    if (!(await pinGateOk())) return;
     setCommitting(true);
 
     // Build edits array for GAS
@@ -570,6 +584,7 @@ const App = () => {
 
   // ── Save agent metadata (signature + boundaries) to GAS ──
   const saveAgent = async (signature, boundaries) => {
+    if (!(await pinGateOk())) return;
     const agentId = editingAgentId;
     setSavingAgent(true);
 
