@@ -38,6 +38,31 @@ window.SITE = {
   version: 'v3.3',
   status:  'LIVE',
 };
+
+// ─── COMMIT_WEEKS · baked snapshot for the portfolio commit chart ──────
+// Always-present fallback so every visitor (even first-time) sees the chart
+// instantly while /stats/commit_activity (which 202s during GitHub recompute)
+// catches up; the live endpoint upgrades it to STREAMING. Refresh: see issue #260.
+// Static early-history is fine for an extended period. Weekly Sunday buckets, UTC.
+window.COMMIT_WEEKS_ASOF = '2026-06-16';
+window.COMMIT_WEEKS = [
+  { week: 1772323200, total: 0 },
+  { week: 1772928000, total: 0 },
+  { week: 1773532800, total: 0 },
+  { week: 1774137600, total: 28 },
+  { week: 1774742400, total: 29 },
+  { week: 1775347200, total: 15 },
+  { week: 1775952000, total: 7 },
+  { week: 1776556800, total: 21 },
+  { week: 1777161600, total: 7 },
+  { week: 1777766400, total: 7 },
+  { week: 1778371200, total: 83 },
+  { week: 1778976000, total: 7 },
+  { week: 1779580800, total: 55 },
+  { week: 1780185600, total: 97 },
+  { week: 1780790400, total: 85 },
+  { week: 1781395200, total: 19 }
+];
 // ─── ORGANS · the body-part graph pages ───────────────────────────────────
 // Single source of truth for the graph-section subnav. The shared
 // <GraphSubnav active="..." /> component (in components/GraphSubnav.jsx)

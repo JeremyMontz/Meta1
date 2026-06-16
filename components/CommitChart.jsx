@@ -1,17 +1,20 @@
 // CommitChart.jsx — portfolio "Live from the Lab": all-time weekly commit volume
-// (violet bars) + cumulative total (gold line), drawn as dependency-free SVG to
-// match the site's hand-rolled graph convention. Honest status + last-activity via
-// LiveBadge (see live-github.jsx).
+// (violet bars) + cumulative total (gold line), dependency-free SVG.
 //
-// Range: anchored at the first commit and grows rightward — the "nothing before
-// March, look how much since" story. No window/scroll controls (they would scroll
-// past the origin). Data: /stats/commit_activity (trailing 52 weeks; see design
-// doc §7 for the ~Mar-2027 ceiling) + a 1-commit probe for the last-activity time.
+// Data model (no browser cache by design):
+//   1. A baked snapshot (window.COMMIT_WEEKS, dated COMMIT_WEEKS_ASOF) renders
+//      instantly so EVERY visitor — first-timers included — sees the chart at once,
+//      labeled honestly "SNAPSHOT · <date>".
+//   2. /stats/commit_activity (which returns 202 while GitHub recomputes after each
+//      push) is polled patiently in the background; the moment it returns 200, the
+//      chart upgrades to fresh data + green STREAMING.
+//   If the live endpoint never answers during the visit, the dated snapshot stays —
+//   graceful and honest, never a blank "warming up."
 //
-// Colors are applied via inline `style` (CSS vars do NOT resolve in SVG presentation
-// attributes like fill="var(--x)", only in the style property).
+// Colors via inline style (CSS vars don't resolve in SVG presentation attributes).
 
 const CHART_LEADIN = 3;
+const CHART_MAX_POLLS = 12;   // ~60s of patient background retries
 
 function chartMonth(epochSec) { return new Date(epochSec * 1000).toLocaleDateString('en-US', { month: 'short' }); }
 function chartMonthYear(epochSec) { return new Date(epochSec * 1000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }); }
@@ -20,34 +23,43 @@ const CHART_MSG = { padding: '36px 20px', textAlign: 'center', fontFamily: 'var(
 
 const CommitChart = () => {
   const repo = (window.ME && window.ME.ghRepo) || 'JeremyMontz/Meta1';
-  const [weeks, setWeeks] = React.useState(null);
-  const [status, setStatus] = React.useState(GH.SYNCING);
-  const [cachedAt, setCachedAt] = React.useState(null);
-  const [lastActivity, setLastActivity] = React.useState(null);
+  const snapshot = (typeof window !== 'undefined' && window.COMMIT_WEEKS) || [];
+  const asOfRaw = (typeof window !== 'undefined' && window.COMMIT_WEEKS_ASOF) || '';
+  const snapshotDate = asOfRaw ? new Date(asOfRaw + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
 
-  const triesRef = React.useRef(0);
+  const [weeks, setWeeks] = React.useState(snapshot);
+  const [status, setStatus] = React.useState(snapshot.length ? GH.SNAPSHOT : GH.SYNCING);
+  const [lastActivity, setLastActivity] = React.useState(null);
+  const pollsRef = React.useRef(0);
+
   React.useEffect(() => {
     let cancelled = false;
-    triesRef.current = 0;
+    pollsRef.current = 0;
     const base = `https://api.github.com/repos/${repo}`;
-    // Last-activity timestamp: a cheap commits probe, independent of chart data.
-    ghFetch(`${base}/commits?per_page=1`).then((c) => {
-      if (!cancelled && c.data && c.data[0]) setLastActivity(new Date(c.data[0].commit.author.date));
-    });
-    // Chart status is driven by the stats endpoint ALONE. /stats/commit_activity
-    // returns 202 while GitHub computes; ghFetch retries that internally and we
-    // self-heal with a few delayed passes so a cold cache fills without a reload.
-    const load = () => ghFetch(`${base}/stats/commit_activity`, { retry202: 4 }).then((s) => {
-      if (cancelled) return;
-      const arr = Array.isArray(s.data) ? s.data : [];
-      setCachedAt(s.cachedAt || null);
-      if (arr.length > 0) { setWeeks(arr); setStatus(s.status === GH.CACHED ? GH.CACHED : GH.STREAMING); return; }
-      if (s.status === GH.CACHED) { setWeeks(arr); setStatus(GH.CACHED); return; }
-      triesRef.current += 1;
-      if (triesRef.current < 3) { setStatus(GH.SYNCING); setTimeout(() => { if (!cancelled) load(); }, 4000); }
-      else { setWeeks([]); setStatus(s.status === GH.OFFLINE ? GH.OFFLINE : GH.EMPTY); }
-    });
-    load();
+
+    // Last-activity timestamp — cheap probe, independent of chart data.
+    fetch(`${base}/commits?per_page=1`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (!cancelled && d && d[0]) setLastActivity(new Date(d[0].commit.author.date)); })
+      .catch(() => {});
+
+    // Patiently poll the live stats endpoint; upgrade to STREAMING on a real 200.
+    const poll = () => fetch(`${base}/stats/commit_activity`)
+      .then((r) => { if (r.status === 200) return r.json(); throw new Error(String(r.status)); })
+      .then((arr) => {
+        if (cancelled) return;
+        if (Array.isArray(arr) && arr.length) { setWeeks(arr); setStatus(GH.STREAMING); }
+        else { again(); }
+      })
+      .catch(() => { if (!cancelled) again(); });
+
+    const again = () => {
+      pollsRef.current += 1;
+      if (pollsRef.current < CHART_MAX_POLLS && !cancelled) setTimeout(poll, 5000);
+      // else: keep the dated snapshot (status unchanged).
+    };
+
+    poll();
     return () => { cancelled = true; };
   }, [repo]);
 
@@ -65,7 +77,7 @@ const CommitChart = () => {
       <div style={{ border: '1px solid var(--line)', background: 'var(--bg-elev-1)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '14px 20px', borderBottom: '1px solid var(--line)' }}>
           <Eyebrow color="var(--candle)">// COMMIT VOLUME · ALL-TIME</Eyebrow>
-          <LiveBadge status={status} repo={repo} lastActivity={lastActivity} cachedAt={cachedAt} />
+          <LiveBadge status={status} repo={repo} lastActivity={lastActivity} snapshotDate={snapshotDate} />
         </div>
         {inner}
       </div>
