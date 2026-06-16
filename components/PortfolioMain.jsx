@@ -6,6 +6,7 @@
 // Sections: Hero → 01 What It Proves (stub) → 02 Live from the Lab → 03 The Work → Reach.
 
 const PG = (typeof window !== 'undefined' && window.PAGE_PORTFOLIO) || {};
+const ST = (typeof window !== 'undefined' && window.STATS) || [];
 
 const PortfolioMain = () => {
   return (
@@ -58,6 +59,17 @@ const PortfolioHero = () => {
               </p>
             );
           })}
+
+          {ST.length ? (
+            <div style={{ marginTop: 30, paddingTop: 22, borderTop: '1px solid var(--line)', display: 'flex', flexWrap: 'wrap', gap: 40 }}>
+              {ST.map((s, i) => (
+                <div key={i}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 42, lineHeight: 1, letterSpacing: '-0.02em', color: 'var(--fg)', fontVariationSettings: '"opsz" 80' }}>{s.value}</div>
+                  <div style={{ marginTop: 6, fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-subtle)' }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          ) : null}
 
           <div style={{ marginTop: 28, display: 'flex', gap: 12, alignItems: 'center' }}>
             <a href={`https://${ME.github}`} style={{ textDecoration: 'none' }}>

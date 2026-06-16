@@ -745,3 +745,13 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   }
 };
+
+// ── Hard stats (portfolio hero; reusable). Computed from real lists where
+// possible so they can't go stale; manual where not derivable (flagged). ──
+window.STATS = [
+  { value: '3 mo',                          label: 'zero to launch' },     // manual — fixed achievement, do not auto-age
+  { value: String(window.AGENTS.length),    label: 'agents (1 human)' },   // computed
+  { value: '16',                            label: 'custom skills' },      // manual — no skills list in data.js yet
+  { value: '1,000+',                        label: 'pages ingested' },     // manual — historical
+  { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
+];
