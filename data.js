@@ -383,11 +383,11 @@ window.LEVELS = [
 //   href   — relative URL from the agent page (agents/{id}/{id}.html)
 window.AGENT_ARTIFACTS = {
   meta1: [
-      { title: 'Dashboard',    sub: 'LIVE STATUS · 7 AGENTS · 1 HUMAN ',             href: '../../dashboard.html' },
-      { title: 'Claudemonzter - Hands',             sub: 'SKILLS · MCP · INTEGRATIONS',    href: '../../graph/hands.html' },
-      { title: 'Multi-agent Orchestration and the Constraint Spectrum',             sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/multiagent-constraint.html' }, 
-      { title: 'Agentic Behavioral Tuning',             sub: 'ESSAY · 2 MIN · SPIRIT',    href: '../../graph/hands.html' },
-       { title: 'Claudemonzter - Stomach',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/stomach.html' },
+      { title: 'System Dashboard',    sub: 'LIVE STATUS · 7 AGENTS · 1 HUMAN ',             href: '../../dashboard.html' },
+      { title: 'Claudemonzter - Skills',   sub: 'HANDS · MCP · INTEGRATIONS',    href: '../../graph/hands.html' },
+      { title: 'Multi-agent Orchestration and the Constraint Spectrum',   sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/multiagent-constraint.html' }, 
+      { title: 'Claudemonzter - Agentic Behavioral Tuning',  sub: 'SPIRIT · PROTOTYPE · INTERACTIVE',    href: '../../graph/spirit.html' },
+      { title: 'Claudemonzter - Data Ingestion',  sub: 'STOMACH · CAPABILITY · INTERACTIVE',   href: '../../graph/stomach.html' },
   ],
   house: [
     { title: 'Renovation Timeline', sub: 'TIMELINE · PROJECT MGMT · DEPENDENCIES',            href: 'house-timeline.html' },
