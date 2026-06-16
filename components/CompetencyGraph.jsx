@@ -44,13 +44,13 @@ const CompetencyGraph = () => {
   const mono = 'var(--font-mono)';
 
   return (
-    <div style={{
+    <div className="graph-layout" style={{
       marginTop: 24,
       display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 360px',
       gap: 20, alignItems: 'stretch',
     }}>
       {/* ── Graph (landscape, fills the column) ── */}
-      <div style={{
+      <div className="graph-box" style={{
         border: '1px solid var(--line)', background: 'var(--bg-elev-1)', padding: 12,
         height: CG_HEIGHT, display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
@@ -85,7 +85,7 @@ const CompetencyGraph = () => {
       </div>
 
       {/* ── Inspector (fixed height; evidence scrolls inside) ── */}
-      <div style={{
+      <div className="graph-inspector" style={{
         border: '1px solid var(--line)', borderLeft: '3px solid var(--accent)',
         background: 'var(--bg-elev-1)', padding: 18,
         height: CG_HEIGHT, display: 'flex', flexDirection: 'column', boxSizing: 'border-box',

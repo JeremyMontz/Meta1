@@ -82,7 +82,7 @@ const HomeMain = () => {
           <GraphLegend agents={liveAgents} fetchStatus={fetchStatus} />
         </div>
 
-        <div style={{
+        <div className="graph-layout" style={{
           display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 400px',
           gap: 20, alignItems: 'stretch',
         }}>
@@ -90,10 +90,13 @@ const HomeMain = () => {
           {/* height:0 + minHeight:100% — the inspector adopts the graph's row
               height without contributing its own, so the graph never resizes
               when inspector content changes (the old hover-jitter bug). */}
-          <div style={{ height: 0, minHeight: '100%' }}>
+          <div className="graph-inspector" style={{ height: 0, minHeight: '100%' }}>
             <Inspector hovered={hovered} agentData={inspectorData} agents={liveAgents} fetchStatus={fetchStatus} />
           </div>
         </div>
+        <p className="graph-caption" style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.1em', color: 'var(--fg-faint)', marginTop: 14, textAlign: 'center', textTransform: 'uppercase' }}>
+          &#9656; Interactive node graph &mdash; explore on desktop
+        </p>
       </section>
 
       <Divider label="// 02 · UNDER THE MICROSCOPE" tone="candle" />

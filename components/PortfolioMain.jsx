@@ -28,7 +28,7 @@ const PortfolioHero = () => {
   const body = h.body || [];
   return (
     <div style={{ padding: '64px 40px 56px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 56, alignItems: 'flex-end' }}>
+      <div className="portfolio-hero" style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 56, alignItems: 'flex-end' }}>
         <div>
           <Eyebrow color="var(--candle)">// {h.eyebrow}</Eyebrow>
 
@@ -125,6 +125,9 @@ const WhatItProves = () => {
         <p style={{ maxWidth: 560 }}>{s.sub}</p>
       </div>
       <CompetencyGraph />
+      <p className="graph-caption" style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.1em', color: 'var(--fg-faint)', marginTop: 14, textAlign: 'center', textTransform: 'uppercase' }}>
+        &#9656; Interactive competency graph &mdash; explore on desktop
+      </p>
     </section>
   );
 };
@@ -175,7 +178,7 @@ const PortfolioMatrix = () => {
 const ProjectRow = ({ p, first, last }) => {
   const live = p.tone !== 'na';
   return (
-    <a href={p.href} style={{
+    <a className="project-row" href={p.href} style={{
       display: 'grid', gridTemplateColumns: '80px 1fr 320px',
       gap: 32, padding: '36px 0',
       borderTop: '1px solid var(--line)',

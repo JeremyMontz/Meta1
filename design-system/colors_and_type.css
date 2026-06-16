@@ -487,3 +487,29 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .topnav { flex-direction: column !important; gap: 14px !important; padding: 16px 20px !important; }
   .topnav-links { flex: 0 1 auto !important; flex-wrap: wrap !important; justify-content: center !important; gap: 16px !important; row-gap: 10px !important; }
 }
+
+/* ---- Tier 1: priority-page layout fixes (#163) ---- */
+/* Graph + inspector blocks (index AgentGraph via HomeMain, portfolio
+   CompetencyGraph) share .graph-layout / .graph-inspector. On mobile,
+   collapse to one column and drop the inspector; the SVG scales full-width
+   and reads as a static labeled graph. .graph-caption explains the loss. */
+.graph-caption { display: none; }
+@media (max-width: 720px) {
+  .graph-layout { grid-template-columns: 1fr !important; }
+  .graph-inspector { display: none !important; }
+  .graph-caption { display: block !important; }
+  .graph-box { height: auto !important; aspect-ratio: 820 / 400 !important; }
+  /* Portfolio: stack the hero and project rows to full width — removes the
+     fixed 360px/320px side tracks that crushed content into a center band
+     and forced row 01 to overflow. */
+  .portfolio-hero { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .project-row { grid-template-columns: 1fr !important; gap: 16px !important; padding: 24px 0 !important; }
+}
+
+/* ---- Organ subnav (GraphSubnav .graph-subnav): wrap on mobile (#163) ----
+   Its base rules live in each organ page's inline <style>; this shared
+   override (with !important) reaches them all. Without it the organ links
+   overflow off-screen and, under the overflow-x guard, become unreachable. */
+@media (max-width: 720px) {
+  .graph-subnav { flex-wrap: wrap !important; gap: 12px 16px !important; padding: 10px 20px !important; }
+}
