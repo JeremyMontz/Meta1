@@ -54,7 +54,7 @@ const CompetencyGraph = () => {
         border: '1px solid var(--line)', background: 'var(--bg-elev-1)', padding: 12,
         height: CG_HEIGHT, display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <svg viewBox="0 0 820 400" style={{ width: '100%', height: '100%' }}>
+        <svg viewBox="0 0 820 400" role="group" aria-label="Competency graph. Tab through nodes to see the evidence behind each." style={{ width: '100%', height: '100%' }}>
           {pos.map((p, i) => (
             <line key={'edge-' + i} x1={cx} y1={cy} x2={p[0]} y2={p[1]} strokeWidth="1"
               style={{ stroke: i === sel ? palette[i % palette.length] : 'var(--line-loud)' }} />
@@ -70,8 +70,12 @@ const CompetencyGraph = () => {
             const on = i === sel;
             const color = palette[i % palette.length];
             return (
-              <g key={c.id} style={{ cursor: 'pointer' }}
-                 onMouseEnter={() => setSel(i)} onClick={() => setSel(i)}>
+              <g key={c.id} className="graph-node" tabIndex={0} role="button"
+                 aria-label={`${c.node}${c.label ? ': ' + c.label : ''} — show evidence`}
+                 style={{ cursor: 'pointer' }}
+                 onMouseEnter={() => setSel(i)} onClick={() => setSel(i)}
+                 onFocus={() => setSel(i)}
+                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSel(i); } }}>
                 <circle cx={pos[i][0]} cy={pos[i][1]} r={on ? 24 : 20} strokeWidth="1.5"
                   style={{ fill: on ? color : 'var(--bg-elev-2)', stroke: color }} />
                 <text x={pos[i][0]} y={pos[i][1] + 4} textAnchor="middle" fontSize="11" fontWeight="700"
