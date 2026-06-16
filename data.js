@@ -123,7 +123,7 @@ window.HISTORY = [
 
 window.ME = {
   name:     'Jeremy Montz',
-  title:    'senior product manager · operator · learning AI in public',
+  title:    'senior product manager · operator · building AI in public',
   blurb:    'I create products. Lately I run experiments. Claudemonzter is my first lab — an operator-plus-agents practice where I plug a small graph of projects into a much larger graph of models, and document what happens.',
   location: 'Portland, OR, USA',
   github:   'github.com/JeremyMontz',
@@ -154,7 +154,7 @@ window.SPEC = {
 window.NOW = [
   'Search engine optimizationa and mobile responsiveness',
   'Testing Spirit and the persona matrix',
-  'Testing Heart and Phils Journal',
+  "Testing Heart and Phil's Journal",
   'First site demo (Hi Mom!)'
 ];
 
@@ -263,9 +263,9 @@ window.PORTFOLIO = [
     excerpt: null,
   },
   {
-    id: 'Phils-Journal',
+    id: 'phils-journal',
     no: '04',
-    title: 'Phils Journal with the AI Wisdom of the Day',
+    title: "Phil's Journal with the AI Wisdom of the Day",
     blurb: 'A random quote each day from A Treasury of Traditional Wisdom, with AI commentary.',
     status: 'PROTOTYPE',
     tone: 'warn',
@@ -402,17 +402,17 @@ window.AGENT_ARTIFACTS = {
      { title: 'Speed to insight and alpha decay',             sub: 'ESSAY · 2 MIN · FUTURE',    href: '../../writing/speed-to-insight.html' }, 
   ],
   evolve:   [
-    { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: 'writing/first-month.html' },
+    { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: '../../writing/first-month.html' },
     { title: 'Claudemonzter - Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
     { title: 'Claudemonzter - Brain',             sub: 'INBOX · RAW · WIKI',   href: '../../graph/brain.html' },
   ],
   assessor: [
-   { title: 'Adversarial validation and structured perspective expansion', sub: 'ESSAY · 2 min · Week 2',            href: 'writing/adversarial-validation.html' },
+   { title: 'Adversarial validation and structured perspective expansion', sub: 'ESSAY · 2 min · Week 2',            href: '../../writing/adversarial-validation.html' },
   ],
   phil:     [
       { title: 'Claudemonzter - Heart',             sub: 'WISDOM OF THE DAY · WITH AI COMMENTARY',   href: '../../graph/heart.html' },
-      { title: 'Phils Journal',             sub: 'WOTD · WORDCLOUD · PROTOTYPE',   href: '../../agents/phil/journal.html' },
-      { title: 'Inference economics', sub: 'ESSAY · 2 min · COST',            href: 'writing/inference-economics.html' },
+      { title: "Phil's Journal",             sub: 'WOTD · WORDCLOUD · PROTOTYPE',   href: '../../agents/phil/journal.html' },
+      { title: 'Inference economics', sub: 'ESSAY · 2 min · COST',            href: '../../writing/inference-economics.html' },
   ],
   jeremy:   [
     { title: 'Operation: Claudemonzter',    sub: 'START HERE · 8 AGENTS · THE LAB',   href: '../../about/ai.html' },
