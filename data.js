@@ -27,8 +27,10 @@
  * Files I depend on:
  *   none. This is loaded as plain JS via <script src="data.js"></script>
  *   BEFORE the JSX components. The components read these as globals.
- *   NOTE: bump the ?v= on the data.js <script> tag in each HTML page whenever
- *   you change this file, or the browser/CDN will serve a cached old copy.
+ *   CACHING: pages load this as plain `data.js` (no ?v= param). GitHub Pages
+ *   serves it with a short cache lifetime, so edits go live within minutes of a
+ *   deploy. The manual ?v= cache-bust was dropped — it had drifted across pages
+ *   (3.3/3.4/3.6) and ~30 pages never used it.
  * ========================================================================== */
 
 // ─── SITE · canonical metadata shown in nav, footer, hard stats ──────────
