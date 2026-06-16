@@ -216,10 +216,24 @@ button[type="submit"]:disabled { opacity: 0.4; cursor: not-allowed; }
 </div>
 
 <script>
+// ── #211 client-side PIN gate (casual-submission deterrent; not a security boundary — see #227) ──
+var PIN_HASH = "9f79d46789159fde2ce018beb8417f80b6856be31d861688b59a2db120ae7e2b";
+async function pinSha(s){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0");}).join("");}
+async function pinGateOk(){
+  if(window.__pinUnlocked) return true;
+  while(true){
+    var v=window.prompt("Enter 4-digit PIN to submit:");
+    if(v===null) return false;
+    if(await pinSha(v.trim())===PIN_HASH){window.__pinUnlocked=true;return true;}
+    window.alert("Incorrect PIN. Try again.");
+  }
+}
+
 // GAS Web App webhook — targets HumanCheckin tab
 var GAS_URL = "https://script.google.com/macros/s/AKfycbxIOramPHpz7lypIO8ivFkN9-g9Tre_izkhetZjZRYA_Lnjtmno6uNRvGvbONkJLxOn/exec";
 
 async function submitCheckin() {
+  if (!(await pinGateOk())) return;
   var btn = document.getElementById("submitBtn");
   var msg = document.getElementById("statusMsg");
 
