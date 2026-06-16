@@ -130,8 +130,8 @@ const WhatItProves = () => {
 };
 
 // ── 02 · LIVE FROM THE LAB ──────────────────────────────────────────────────
-// Section header + the real GitHub commit feed (components/LiveActivity.jsx,
-// lifted from the homepage). The feed is the receipt that backs the claim above.
+// Section header + the all-time commit-volume chart (components/CommitChart.jsx,
+// dependency-free SVG). The chart is the receipt that backs the claim above.
 const LiveFromLab = () => {
   const s = PG.live || {};
   return (
@@ -141,7 +141,7 @@ const LiveFromLab = () => {
         <h2 style={{ marginTop: 8, marginBottom: 8 }}>{s.heading}</h2>
         <p style={{ maxWidth: 560 }}>{s.sub}</p>
       </div>
-      <LiveActivity />
+      <CommitChart />
     </>
   );
 };
