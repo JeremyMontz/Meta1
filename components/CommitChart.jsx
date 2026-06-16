@@ -25,21 +25,29 @@ const CommitChart = () => {
   const [cachedAt, setCachedAt] = React.useState(null);
   const [lastActivity, setLastActivity] = React.useState(null);
 
+  const triesRef = React.useRef(0);
   React.useEffect(() => {
     let cancelled = false;
+    triesRef.current = 0;
     const base = `https://api.github.com/repos/${repo}`;
-    Promise.all([
-      ghFetch(`${base}/stats/commit_activity`, { retry202: 1 }),
-      ghFetch(`${base}/commits?per_page=1`),
-    ]).then(([s, c]) => {
+    // Last-activity timestamp: a cheap commits probe, independent of chart data.
+    ghFetch(`${base}/commits?per_page=1`).then((c) => {
+      if (!cancelled && c.data && c.data[0]) setLastActivity(new Date(c.data[0].commit.author.date));
+    });
+    // Chart status is driven by the stats endpoint ALONE. /stats/commit_activity
+    // returns 202 while GitHub computes; ghFetch retries that internally and we
+    // self-heal with a few delayed passes so a cold cache fills without a reload.
+    const load = () => ghFetch(`${base}/stats/commit_activity`, { retry202: 4 }).then((s) => {
       if (cancelled) return;
       const arr = Array.isArray(s.data) ? s.data : [];
-      const st = ghCombineStatus([s.status, c.status]);
-      setWeeks(arr);
-      setStatus(arr.length === 0 && st === GH.STREAMING ? GH.EMPTY : st);
-      setCachedAt(s.cachedAt || c.cachedAt || null);
-      if (c.data && c.data[0]) setLastActivity(new Date(c.data[0].commit.author.date));
+      setCachedAt(s.cachedAt || null);
+      if (arr.length > 0) { setWeeks(arr); setStatus(s.status === GH.CACHED ? GH.CACHED : GH.STREAMING); return; }
+      if (s.status === GH.CACHED) { setWeeks(arr); setStatus(GH.CACHED); return; }
+      triesRef.current += 1;
+      if (triesRef.current < 3) { setStatus(GH.SYNCING); setTimeout(() => { if (!cancelled) load(); }, 4000); }
+      else { setWeeks([]); setStatus(s.status === GH.OFFLINE ? GH.OFFLINE : GH.EMPTY); }
     });
+    load();
     return () => { cancelled = true; };
   }, [repo]);
 
@@ -64,7 +72,7 @@ const CommitChart = () => {
     </section>
   );
 
-  if (!series) return card(<div style={CHART_MSG}>// PLOTTING COMMIT HISTORY …</div>);
+  if (!series) return card(<div style={CHART_MSG}>// WARMING UP · GITHUB STATS …</div>);
   if (series.length === 0) return card(<div style={CHART_MSG}>// NO COMMIT DATA</div>);
 
   const W = 920, H = 300, mL = 38, mR = 50, mT = 18, mB = 40;

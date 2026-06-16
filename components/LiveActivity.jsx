@@ -14,7 +14,7 @@
 const FEED_FETCH = 20;
 const FEED_SHOW  = 6;
 const FEED_KINDS = ['COMMIT', 'PR MERGED', 'ISSUE CLOSED'];
-const KIND_COLOR = { 'COMMIT': 'var(--accent)', 'PR MERGED': 'var(--ok)', 'ISSUE CLOSED': 'var(--info)' };
+const KIND_COLOR = { 'COMMIT': 'var(--ok)', 'PR MERGED': 'var(--accent)', 'ISSUE CLOSED': 'var(--info)' };
 
 function feedTime(d) {
   const x = new Date(d), p = (n) => String(n).padStart(2, '0');
