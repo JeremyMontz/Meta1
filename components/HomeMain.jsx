@@ -69,8 +69,8 @@ const HomeMain = () => {
 
       {/* ─── GRAPH SECTION ──────────────────────────────────────────── */}
       <section id="graph" style={{ padding: '32px 40px 56px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 18 }}>
-          <div>
+        <div className="graph-head" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 18 }}>
+          <div className="graph-head-main">
             <Eyebrow color="var(--candle)">// 01 · THE CURRENT GRAPH</Eyebrow>
             <h2 style={{ marginTop: 8 }}>
               {PAGE_HOME.graph.heading} <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>{PAGE_HOME.graph.headingAccent}</span>

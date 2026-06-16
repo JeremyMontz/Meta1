@@ -121,7 +121,7 @@ const LiveActivity = () => {
         ) : (
           <div>
             {visible.map((e, idx) => (
-              <a key={idx} href={e.url || '#'} target="_blank" rel="noopener noreferrer" style={{
+              <a key={idx} className="feed-row" href={e.url || '#'} target="_blank" rel="noopener noreferrer" style={{
                 display: 'grid', gridTemplateColumns: '96px 104px 1fr', gap: 12, padding: '12px 20px',
                 borderBottom: '1px solid var(--line-soft)', alignItems: 'baseline',
                 fontFamily: 'var(--font-mono)', fontSize: 12, textDecoration: 'none',
