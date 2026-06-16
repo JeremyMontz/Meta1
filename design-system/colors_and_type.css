@@ -505,3 +505,11 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .portfolio-hero { grid-template-columns: 1fr !important; gap: 28px !important; }
   .project-row { grid-template-columns: 1fr !important; gap: 16px !important; padding: 24px 0 !important; }
 }
+
+/* ---- Organ subnav (GraphSubnav .graph-subnav): wrap on mobile (#163) ----
+   Its base rules live in each organ page's inline <style>; this shared
+   override (with !important) reaches them all. Without it the organ links
+   overflow off-screen and, under the overflow-x guard, become unreachable. */
+@media (max-width: 720px) {
+  .graph-subnav { flex-wrap: wrap !important; gap: 12px 16px !important; padding: 10px 20px !important; }
+}
