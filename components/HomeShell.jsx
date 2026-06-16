@@ -77,7 +77,7 @@ const Mascot = ({ size = 96, color }) => (
 
 // TopNav — shared chrome across home + portfolio pages.
 const TopNav = ({ active }) => (
-  <div style={{
+  <div className="topnav" style={{
     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
     padding: '22px 40px', borderBottom: '1px solid var(--line)',
     gap: 32,
@@ -85,7 +85,7 @@ const TopNav = ({ active }) => (
     <div style={{ flexShrink: 0 }}>
       <Wordmark size={26} tick={false} />
     </div>
-    <nav style={{
+    <nav className="topnav-links" style={{
       display: 'flex', gap: 26, flex: 1, justifyContent: 'center',
       fontFamily: 'var(--font-mono)', fontSize: 11,
       letterSpacing: '0.18em', textTransform: 'uppercase',
