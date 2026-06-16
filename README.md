@@ -2,6 +2,8 @@
 
 **A multi-agent AI lab, built by one product manager — in public, from zero.**
 
+[![CI](https://github.com/JeremyMontz/Meta1/actions/workflows/ci.yml/badge.svg)](https://github.com/JeremyMontz/Meta1/actions/workflows/ci.yml)
+
 ![The Claudemonzter graph — 8 agents (1 human) across 4 projects, coordinated from one core](graph/assets/agent-graph.png)
 
 ## What this is
