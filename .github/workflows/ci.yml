@@ -1,0 +1,47 @@
+name: CI
+# Cheapest meaningful CI for a no-build static site. Three honest checks:
+#   links    - every internal link in the HTML resolves to a real file
+#   data     - data.js (+ graph/*-data.js) parse and expose their sections
+#   spelling - codespell over content, with the lab's coined words allow-listed
+# Advisory for now (informational on PRs). Promote to a required status check
+# on the main ruleset once the tree is green.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Internal links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node .github/scripts/check-links.mjs
+
+  data:
+    name: data.js integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node .github/scripts/validate-data.mjs
+
+  spelling:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: codespell-project/actions-codespell@v2
+        with:
+          skip: "*.png,*.jpg,*.jpeg,*.gif,*.svg,*.ico,*.woff,*.woff2,*.ttf,*.min.js,*.lock,.git,./graph/assets"
+          ignore_words_list: "claudemonzter,monzter,lectio,pura,vivekachudamani"
