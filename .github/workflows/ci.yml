@@ -41,7 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # All spell config (skip / ignore-words / ignore-regex) lives in
+      # .codespellrc at the repo root, which codespell reads automatically.
       - uses: codespell-project/actions-codespell@v2
-        with:
-          skip: "*.png,*.jpg,*.jpeg,*.gif,*.svg,*.ico,*.woff,*.woff2,*.ttf,*.min.js,*.lock,*.pdf,.git,./graph/assets"
-          ignore_words_list: "claudemonzter,monzter,lectio,pura,vivekachudamani,checkin,acount,wasn,couldn,te,thats"
