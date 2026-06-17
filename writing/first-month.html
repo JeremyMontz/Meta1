@@ -307,8 +307,11 @@
 
   @media (max-width: 900px) {
     main.case { grid-template-columns: 1fr; gap: 20px; padding: 68px 16px 0; }
-    .graph-col { position: sticky; top: 60px; height: 50vh; }
+    /* graph stays opaque and above the chapters that scroll underneath it */
+    .graph-col { position: sticky; top: 60px; height: 50vh; z-index: 2; background: var(--bg); }
     .chapter, .case-hero, .end-card { max-width: 100%; }
+    /* single-column reading: chapters read full-strength (no desktop active-chapter dim) */
+    .chapter { opacity: 1; }
     .chapters { padding: 40px 8px 60vh; gap: 30vh; }
   }
 
