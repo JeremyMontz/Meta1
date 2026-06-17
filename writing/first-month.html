@@ -30,7 +30,7 @@
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip; /* clip (not hidden) so body stays non-scroll-container -> .graph-col sticky works */
   }
   body::before {
     content: "";
