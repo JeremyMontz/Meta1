@@ -26,7 +26,7 @@
 .seo-summary{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
-body{ background:var(--bg); color:var(--fg); font-family:var(--font-sans); overflow-x:hidden; }
+body{ background:var(--bg); color:var(--fg); font-family:var(--font-sans); overflow-x:clip; /* clip, not hidden, so body stays a non-scroll-container and .graph-col sticky works */ }
 body::before{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
   background:
     radial-gradient(ellipse 900px 700px at 18% 8%, color-mix(in oklch, var(--violet-500) 11%, transparent), transparent 60%),
@@ -101,7 +101,7 @@ main.case{ position:relative; z-index:1; max-width:var(--page-max); margin:0 aut
 
 @media (max-width:900px){
   main.case{ grid-template-columns:1fr; gap:20px; padding:68px 16px 0; }
-  .graph-col{ position:sticky; top:60px; height:50vh; }
+  .graph-col{ position:sticky; top:60px; height:50vh; z-index:2; background:var(--bg); }
   .chapter,.case-hero,.end-card{ max-width:100%; }
   .chapters{ padding:40px 8px 60vh; gap:30vh; }
 }
