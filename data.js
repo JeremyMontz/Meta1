@@ -316,6 +316,7 @@ window.ARTICLES = [
   { id: 'a8', date: '05.13.26', title: 'Agentic behavioral tuning: a working prototype.', subtitle: 'The persona’s animating jolt, minus the shock.', tag: 'PROTOTYPE', read: '2 min', href: 'writing/agentic-behavioral-tuning.html', demonstrates: ['building', 'agentic'] },
   { id: 'a9', date: '05.20.26', title: 'Inference economics.', subtitle: 'Scaling a skill while watching the meter.', tag: 'ESSAY', read: '2 min', href: 'writing/inference-economics.html', demonstrates: ['eval', 'building'] },
   { id: 'a10', date: '06.03.26', title: 'Speed to insight and alpha decay.', subtitle: 'Information has a shelf life, and AI just unplugged the fridge.', tag: 'ESSAY', read: '2 min', href: 'writing/speed-to-insight.html', demonstrates: ['discovery', 'reflective'] },
+  { id: 'a11', date: '06.10.26', title: 'Proportionate security.', subtitle: 'A courtesy lock for the curious.', tag: 'ESSAY', read: '2 min', href: 'writing/proportionate-security.html', demonstrates: ['discovery', 'collab'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -780,7 +781,15 @@ window.SITE_INDEX = {
       "GitHub Pages"
     ],
     "updated": "2026-05-19"
-  }
+  },
+    "/writing/proportionate-security.html": {
+  "note": "A field note on proportionate security and product judgment: a four-digit lock shipped now to stop casual editing, with the stronger server-side control scoped and backlogged for later.",
+  "tags": [
+    "product judgment",
+    "prototype"
+  ],
+  "updated": "2026-06-10"
+}
 };
 
 // ── Hard stats (portfolio hero; reusable). Computed from real lists where
