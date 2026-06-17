@@ -832,7 +832,6 @@ function transitionTo(idx) {
   renderEdges(ch);
   applyFx(ch.fx || {});
   updateChapterLabel(ch.label);
-  try { localStorage.setItem('fm_chapter', idx); } catch(e) {}
 }
 
 /* ────────── ANIMATION LOOP ──────────
@@ -1074,18 +1073,31 @@ if (heroEl) {
 
 /* ────────── INIT ────────── */
 buildDots();
-let startIdx = 0;
-try {
-  const saved = parseInt(localStorage.getItem('fm_chapter'), 10);
-  if (!isNaN(saved) && saved >= 0 && saved < CHAPTERS.length) startIdx = saved;
-} catch (e) {}
 
-// Delay one frame so resize grabs dimensions
-requestAnimationFrame(() => {
+// Always open at the very beginning. No chapter memory, no browser scroll
+// restore -- either one could land us mid-story and trip the chapter observer.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+// Idempotent boot. The graph engine starts here and nowhere else, so the
+// trigger must be reliable: a lone requestAnimationFrame can be dropped on
+// background-tab load or back/forward cache restore, leaving the graph blank
+// with no error. Fire on whatever signal lands first; the guard makes the
+// extra calls harmless.
+let booted = false;
+function boot() {
+  if (booted) return;
+  booted = true;
+  window.scrollTo(0, 0);
   resize();
-  transitionTo(startIdx);
-  // Scroll to current chapter panel
-  const panel = document.querySelector(`.chapter[data-idx="${startIdx}"]`);
-  if (panel && startIdx !== 0) panel.scrollIntoView({ behavior: 'instant', block: 'center' });
+  transitionTo(0);
   tick();
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  requestAnimationFrame(boot);
+} else {
+  document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(boot));
+}
+window.addEventListener('load', boot);      // belt-and-suspenders
+window.addEventListener('pageshow', boot);  // back/forward cache restore
+setTimeout(boot, 300);                       // hard fallback if frames are starved
