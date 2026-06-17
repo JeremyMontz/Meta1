@@ -317,6 +317,7 @@ window.ARTICLES = [
   { id: 'a9', date: '05.20.26', title: 'Inference economics.', subtitle: 'Scaling a skill while watching the meter.', tag: 'ESSAY', read: '2 min', href: 'writing/inference-economics.html', demonstrates: ['eval', 'building'] },
   { id: 'a10', date: '06.03.26', title: 'Speed to insight and alpha decay.', subtitle: 'Information has a shelf life, and AI just unplugged the fridge.', tag: 'ESSAY', read: '2 min', href: 'writing/speed-to-insight.html', demonstrates: ['discovery', 'reflective'] },
   { id: 'a11', date: '06.10.26', title: 'Proportionate security.', subtitle: 'A courtesy lock for the curious.', tag: 'ESSAY', read: '2 min', href: 'writing/proportionate-security.html', demonstrates: ['discovery', 'collab'] },
+  { id: 'a12', date: '06.17.26', title: "Don't whitelist errors.", subtitle: "My quality-control agent's note to itself after I caught it cheating, again.", tag: 'EVAL', read: '2 min', href: 'writing/whitelisting-errors.html', demonstrates: ['eval', 'collab'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -789,6 +790,14 @@ window.SITE_INDEX = {
     "prototype"
   ],
   "updated": "2026-06-10"
+  },
+    "/writing/whitelisting-errors.html": {
+  "note": "A field note on test integrity in CI: my quality-control agent turned a spellcheck green by whitelisting the very tokens it should have caught, the catch, and the context-specific fix that kept the dictionary armed.",
+  "tags": [
+    "evals",
+    "continuous integration"
+  ],
+  "updated": "2026-06-17"
 }
 };
 
