@@ -115,9 +115,9 @@ window.ABOUT_PAGES = [
 // with its site base. Use href '#' for not-yet-built months.
 window.HISTORY = [
   { id: 'm1', month: 'MONTH 01', date: '04 · 2026', title: 'A Month and a Day',
-    sub: 'INTERACTIVE · 32 DAYS · GRAPH', read: '7 min', href: 'writing/first-month.html' },
-  { id: 'm2', month: 'MONTH 02', date: 'COMING SOON', title: 'Month Two',
-    sub: 'INTERACTIVE · IN PROGRESS', read: '—', href: '#' },
+    sub: 'INTERACTIVE · 32 DAYS · GRAPH', read: '5 min', href: 'writing/first-month.html' },
+  { id: 'm2', month: 'MONTH 02', date: '05 · 2026', title: 'Month Two',
+    sub: 'INTERACTIVE · 12 SKILLS · WIKI', read: '5 min', href: 'writing/second-month.html' },
   { id: 'm3', month: 'MONTH 03', date: 'COMING SOON', title: 'Month Three',
     sub: 'INTERACTIVE · PLANNED', read: '—', href: '#' },
 ];
@@ -405,6 +405,7 @@ window.AGENT_ARTIFACTS = {
   ],
   evolve:   [
     { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: '../../writing/first-month.html' },
+    { title: 'Month Two', sub: 'INTERACTIVE · 12 SKILLS · WIKI',            href: '../../writing/second-month.html' },
     { title: 'Claudemonzter - Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
     { title: 'Claudemonzter - Brain',             sub: 'INBOX · RAW · WIKI',   href: '../../graph/brain.html' },
   ],
@@ -770,6 +771,15 @@ window.SITE_INDEX = {
     ],
     "status": "retired",
     "updated": "2026-06-13"
+  },
+  "/writing/second-month.html": {
+    "note": "My second month building an AI monster. I migrated files to a local disk, built some skills and integrations, added a new UI design system, and relaunched our website. Scroll the page to watch it evolve.",
+    "tags": [
+      "skills",
+      "design system",
+      "GitHub Pages"
+    ],
+    "updated": "2026-05-19"
   }
 };
 
