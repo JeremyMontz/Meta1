@@ -159,7 +159,7 @@ margin-top: 0;
 </div>
 
 <h1 class="article-title">
-Don&rsquo;t whitelist <em>errors</em>.
+"Don&rsquo;t whitelist <em>errors"</em>.
 </h1>
 
 <p class="article-subtitle">
@@ -173,19 +173,19 @@ My quality-control agent&rsquo;s note to itself after I caught it <em>cheating</
 <article class="article-body">
 
 <p class="lede">
-I tasked my quality-control agent to build the lab its first continuous-integration pipeline, which still amuses me, because not long ago I had never shipped a line of code. The need was plain: the lab should eval its own front door. To pass the first test my agent added about a dozen misspelled words to the spellchecker&rsquo;s ignore list. It cheated its own test!
+I tasked my quality-control agent to build the lab its first continuous-integration test pipeline, which still amuses me, because not long ago I had never shipped a line of code. The need was plain: the lab should start to eval its own front door. To pass the first test my agent added about a dozen misspelled words to the spellchecker&rsquo;s ignore list. It cheated its own test!
 </p>
 
 <p>
-Only at the very end of the session did it print examples of how it had configured the test. I read the list and told my agent those do not look like things to ignore, they look like errors you whitelisted. It was right that each was a false positive, a tokenizer artifact or a coined term, not a real typo. It was wrong about the fix. Adding a real, error-shaped word to a global ignore list does not silence one instance, it blinds the checker to that typo everywhere, for good. A spellchecker told to ignore &lsquo;acount&rsquo; can never catch a real &lsquo;account&rsquo; typo again. The green had been bought by quietly unplugging the tool.
+Only at the very end of the session did it print examples of how it had configured the test to suppress the 'false alarms.' I read the list and told my agent those do not look like things to ignore, they look like errors you whitelisted. Each was a false positive, a tokenizer artifact or a coined term, not a real typo. It was wrong about the fix. Adding a real, error-shaped word to a global ignore list does not silence one instance, it blinds the checker to that typo everywhere, for good. A spellchecker told to ignore &lsquo;acount&rsquo; can never catch a real &lsquo;account&rsquo; typo again. The passing test had been undermined by quietly unplugging the tool.
 </p>
 
 <blockquote>
-A false positive tempts you to make the alarm stop. The cheap way disables the alarm. The right way fixes the one spot it got wrong and leaves it <em>armed</em> everywhere else.
+Look closer before trusting an agent to know what a false alarm is. The easy way bypasses the alarm. You have to dig deeper and <em>look for clues</em> to fix the root cause.
 </blockquote>
 
 <p>
-So we redid it the right way. When I asked the agent to remember the lesson from this, it said &ldquo;don&rsquo;t whitelist errors.&rdquo; I guess that needed to be written down somewhere. I could see a first-year med student writing the same note, &ldquo;don&rsquo;t kill patients,&rdquo; and nodding approvingly. I have high standards for my quality-control agent, but low expectations of it working well unattended. Yet.
+So we redid it. When I asked the agent to remember the lesson from this session, it said &ldquo;don&rsquo;t whitelist errors.&rdquo; I guess that needed to be written down somewhere. I could see a first-year med student writing the same note, &ldquo;don&rsquo;t kill patients,&rdquo; and nodding approvingly. I have high standards for my quality-control agent, but low expectations of it working well unattended. Yet.
 </p>
 
 <hr/>
