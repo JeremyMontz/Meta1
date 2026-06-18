@@ -401,6 +401,7 @@ window.AGENT_ARTIFACTS = {
     { title: 'Canon load evaluation',             sub: 'ESSAY · 2 MIN · DASHBOARD',    href: '../../writing/canon-load-evaluation.html' },
     { title: 'GitHub Issues Integration',             sub: 'ESSAY · 2 MIN · INTEGRATION',    href: '../../writing/github-issues-integration.html' },
     { title: 'Coordination Tax and the Specialization Dividend',             sub: 'ESSAY · 2 MIN · GRAPH',    href: '../../writing/coordination-tax.html' }, 
+    { title: "Don't whitelist errors",             sub: 'ESSAY · 2 MIN · EVALS',    href: '../../writing/whitelisting-errors.html' },
   ],
   freedom:  [
      { title: 'Speed to insight and alpha decay',             sub: 'ESSAY · 2 MIN · FUTURE',    href: '../../writing/speed-to-insight.html' }, 
