@@ -116,10 +116,10 @@ window.ABOUT_PAGES = [
 window.HISTORY = [
   { id: 'm1', month: 'MONTH 01', date: '04 · 2026', title: 'A Month and a Day',
     sub: 'INTERACTIVE · 32 DAYS · GRAPH', read: '5 min', href: 'writing/first-month.html' },
-  { id: 'm2', month: 'MONTH 02', date: '05 · 2026', title: 'Month Two',
+  { id: 'm2', month: 'MONTH 02', date: '05 · 2026', title: 'Month Two Rebuild',
     sub: 'INTERACTIVE · 12 SKILLS · WIKI', read: '5 min', href: 'writing/second-month.html' },
-  { id: 'm3', month: 'MONTH 03', date: 'COMING SOON', title: 'Month Three',
-    sub: 'INTERACTIVE · PLANNED', read: '—', href: '#' },
+  { id: 'm3', month: 'MONTH 03', date: '06 · 2026', title: 'Month Three Flourish',
+    sub: 'INTERACTIVE · 40+ PAGES · WEBSITE', read: '5 min', href: 'writing/third-month.html' },
 ];
 
 
@@ -409,6 +409,7 @@ window.AGENT_ARTIFACTS = {
   evolve:   [
     { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: '../../writing/first-month.html' },
     { title: 'Month Two', sub: 'INTERACTIVE · 12 SKILLS · WIKI',            href: '../../writing/second-month.html' },
+    { title: 'Month Three', sub: 'INTERACTIVE · 40+ PAGES · WEBSITE',            href: '../../writing/second-month.html' },
     { title: 'Claudemonzter - Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
     { title: 'Claudemonzter - Brain',             sub: 'INBOX · RAW · WIKI',   href: '../../graph/brain.html' },
   ],
@@ -799,6 +800,11 @@ window.SITE_INDEX = {
     "continuous integration"
   ],
   "updated": "2026-06-17"
+},
+  "/writing/third-month.html": {
+  "note": "Month three of building Claudemonzter solo: a senior PM with no coding background ingests a 1,100-page library into a wiki (using token economics as a tuning gauge), ships a first daily automation, gives the system a face and a body so every page explains itself, runs a frontier-model review of the whole repo, and adds a CI pipeline that tests every change. An interactive graph you scroll to watch the system grow.",
+  "tags": ["building in public", "iterative build", "evals", "continuous integration", "product judgment"],
+  "updated": "2026-06-18"
 }
 };
 
