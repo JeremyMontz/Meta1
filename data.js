@@ -37,7 +37,7 @@
 // version  — displayed in TopNav pulse-dot badge and footer
 // status   — 'LIVE', 'BETA', etc.
 window.SITE = {
-  version: 'v3.3',
+  version: 'v3.4',
   status:  'LIVE',
 };
 
