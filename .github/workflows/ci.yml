@@ -1,10 +1,11 @@
 name: CI
-# Lightweight, no-build CI for the static site. Three honest checks:
-#   links    - every internal link in the HTML resolves to a real file
-#   data     - data.js (+ graph/*-data.js) parse and expose their sections
-#   spelling - codespell over content, with the lab's coined words allow-listed
-# Advisory for now (informational on PRs). Promote to a required status check
-# on the main ruleset once the tree is green.
+# Lightweight, no-build CI for the static site. Four honest checks:
+#   links     - every internal link in the HTML resolves to a real file
+#   data      - data.js (+ graph/*-data.js) parse and expose their sections
+#   spelling  - codespell over content, with the lab's coined words allow-listed
+#   contracts - bond/Tests/*.test.mjs site-contract regression bench (one check, whole suite)
+# links / data / spelling are REQUIRED on the main ruleset (strict). Add the
+# "Contract tests" check to the required list once this lands green.
 on:
   pull_request:
     branches: [main]
@@ -44,3 +45,13 @@ jobs:
       # All spell config (skip / ignore-words / ignore-regex) lives in
       # .codespellrc at the repo root, which codespell reads automatically.
       - uses: codespell-project/actions-codespell@v2
+
+  contracts:
+    name: Contract tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node bond/Tests/run.mjs
