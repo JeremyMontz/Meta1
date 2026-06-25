@@ -4,8 +4,7 @@ name: CI
 #   data      - data.js (+ graph/*-data.js) parse and expose their sections
 #   spelling  - codespell over content, with the lab's coined words allow-listed
 #   contracts - bond/Tests/*.test.mjs site-contract regression bench (one check, whole suite)
-# links / data / spelling are REQUIRED on the main ruleset (strict). Add the
-# "Contract tests" check to the required list once this lands green.
+# All four checks are REQUIRED on the main ruleset (strict / branches-up-to-date).
 on:
   pull_request:
     branches: [main]
