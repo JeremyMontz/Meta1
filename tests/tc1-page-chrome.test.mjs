@@ -29,7 +29,7 @@
  *   - rendered-DOM / runtime mount        → Tier 4 (#306)
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
- * .github/scripts/check-links.mjs. Run directly or via bond/Tests/run.mjs.
+ * .github/scripts/check-links.mjs. Run directly or via tests/run.mjs.
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';

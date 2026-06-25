@@ -3,7 +3,7 @@ name: CI
 #   links     - every internal link in the HTML resolves to a real file
 #   data      - data.js (+ graph/*-data.js) parse and expose their sections
 #   spelling  - codespell over content, with the lab's coined words allow-listed
-#   contracts - bond/Tests/*.test.mjs site-contract regression bench (one check, whole suite)
+#   contracts - tests/*.test.mjs site-contract regression bench (one check, whole suite)
 # All four checks are REQUIRED on the main ruleset (strict / branches-up-to-date).
 on:
   pull_request:
@@ -53,4 +53,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: node bond/Tests/run.mjs
+      - run: node tests/run.mjs
