@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Contract test runner (CI) — bond/Tests/run.mjs
+ * Contract test runner (CI) — tests/run.mjs
  * ----------------------------------------------------------------------------
- * Discovers every *.test.mjs under bond/Tests/, runs each in an ISOLATED child
+ * Discovers every *.test.mjs under tests/, runs each in an ISOLATED child
  * process (so one TC's throw or process.exit cannot abort the batch), captures
  * exit code + output, prints an aggregate report, and exits non-zero if any TC
  * failed OR if the bench is empty (an empty bench is a misconfiguration, not a
@@ -15,7 +15,7 @@ import { join, relative, basename } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const ROOT = process.cwd();
-const TEST_DIR = join(ROOT, 'bond', 'Tests');
+const TEST_DIR = join(ROOT, 'tests');
 const isTest = (n) => n.endsWith('.test.mjs') && !basename(n).startsWith('_');
 
 function walk(dir, out = []) {
@@ -34,7 +34,7 @@ try { tests = walk(TEST_DIR); }
 catch (err) { console.error(`cannot read ${relative(ROOT, TEST_DIR)} — ${err.message}`); process.exit(1); }
 
 if (tests.length === 0) {
-  console.error('no *.test.mjs found in bond/Tests — empty bench is a misconfiguration.');
+  console.error('no *.test.mjs found in tests — empty bench is a misconfiguration.');
   process.exit(1);
 }
 

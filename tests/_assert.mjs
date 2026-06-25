@@ -1,4 +1,4 @@
-// bond/Tests/_assert.mjs
+// tests/_assert.mjs
 // Tiny shared reporter for contract TCs — uniform failure format, no framework.
 // Not a TC (no ".test." infix, and "_"-prefixed) so the runner never runs it.
 export function makeReport(name) {
