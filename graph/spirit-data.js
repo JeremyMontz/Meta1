@@ -55,7 +55,7 @@ window.SPIRIT_INTENSITY = {
 // ── Project mapping (not in Sheet — client-side constant) ────────────────
 // Maps domain id → project slug for display grouping
 var DOMAIN_PROJECT = {
-  assessor: 'pura-vida', evolve: 'pura-vida', house: 'pura-vida', freedom: 'pura-vida',
+  assessor: 'meta1', evolve: 'pura-vida', house: 'pura-vida', freedom: 'pura-vida',
   phil: 'phil',
   meta1: 'meta1', bond: 'meta1',
 };
