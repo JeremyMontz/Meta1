@@ -357,7 +357,7 @@ window.AGENTS = [
     blurb: 'The advocate. Financial independence, debt strategy, milestone tracking.' },
   { id: 'evolve',   name: 'Evolve',   project: 'pura-vida', role: 'coach',
     blurb: 'The coach. AI career development, learning log, skill assessment.' },
-  { id: 'assessor', name: 'Assessor', project: 'pura-vida', role: 'analyst',
+  { id: 'assessor', name: 'Assessor', project: 'meta1', role: 'analyst',
     blurb: 'The analyst. Property assessment, comparable research, valuation.' },
   { id: 'phil',     name: 'Phil',     project: 'phil',      role: 'philosopher',
     blurb: 'The philosopher. Consciousness inquiry, lived experience, open threads.' },
