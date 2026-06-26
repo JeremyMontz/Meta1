@@ -358,7 +358,7 @@ window.AGENTS = [
   { id: 'evolve',   name: 'Evolve',   project: 'pura-vida', role: 'coach',
     blurb: 'The coach. AI career development, learning log, skill assessment.' },
   { id: 'assessor', name: 'Assessor', project: 'meta1', role: 'analyst',
-    blurb: 'The analyst. Property assessment, comparable research, valuation.' },
+    blurb: 'The analyst. AI-proficiency evaluation, evidence-based scoring, claim interrogation.' },
   { id: 'phil',     name: 'Phil',     project: 'phil',      role: 'philosopher',
     blurb: 'The philosopher. Consciousness inquiry, lived experience, open threads.' },
   { id: 'jeremy',   name: 'Jeremy',   project: 'self',      role: 'self',
