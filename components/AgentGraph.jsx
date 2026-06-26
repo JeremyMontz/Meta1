@@ -23,11 +23,11 @@ const POSITIONS = {
   // meta1 cluster (top)
   'a-meta1':    { x: CX - 105,  y: CY - 240,   kind: 'agent', projectId: 'meta1' },
   'a-bond':     { x: CX + 100,  y: CY - 250,   kind: 'agent', projectId: 'meta1' },
+  'a-assessor': { x: CX + 250,  y: CY - 165,   kind: 'agent', projectId: 'meta1' },
   // pura-vida cluster (right)
   'a-house':    { x: CX + 320,  y: CY - 80,    kind: 'agent', projectId: 'pura-vida' },
   'a-freedom':  { x: CX + 365,  y: CY + 50,    kind: 'agent', projectId: 'pura-vida' },
   'a-evolve':   { x: CX + 345,  y: CY + 160,   kind: 'agent', projectId: 'pura-vida' },
-  'a-assessor': { x: CX + 240,  y: CY + 240,   kind: 'agent', projectId: 'pura-vida' },
   // phil cluster (bottom)
   'a-phil':     { x: CX - 100,  y: CY + 245,   kind: 'agent', projectId: 'phil' },
   // self cluster (left)
@@ -49,7 +49,7 @@ const GRAPH_COLORS = {
   'a-house':    'var(--info)',     // teal
   'a-freedom':  'var(--info)',     // teal
   'a-evolve':   'var(--info)',     // teal
-  'a-assessor': 'var(--info)',     // teal
+  'a-assessor': 'var(--ok)',       // green
   'phil':       'var(--err)',      // red — phil project
   'a-phil':     'var(--err)',      // red
 };
