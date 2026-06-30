@@ -10,6 +10,7 @@ Full registry tooling is tracked in #317.
 | —   | `smoke.test.mjs`            | #294  | —    | Harness canary — runner discovers, executes, and reports a TC                                                             | passing |
 | TC1 | `tc1-page-chrome.test.mjs`  | #298  | 1    | Every in-scope `.html` loads data.js + HomeShell/Wordmark/Primitives and has a chrome anchor (`#root` OR `topnav-mount`+`footer-mount`) | passing |
 | TC2 | `tc2-agent-completeness.test.mjs` | #299 | 1 | Every `window.AGENTS` agent is coherent across 6 rosters + project-agreement, and has page + portrait trio + graph node + wired page config + non-empty identity fields | passing |
+| articles | `tc-articles.test.mjs` | #332 | 1 | `writing/*.html` ⇄ ARTICLES bijection (data-derived HISTORY exemption) + per-article metadata (date MM.DD.YY, demonstrates→COMPETENCIES) + page slots (article-title/subtitle, og:description, active="WRITING") | authored |
 
 **Scope & exemptions (TC1).** In-scope = all `*.html` minus `_`-prefixed templates
 and the stable exempt set: `design-system/index.html` (template); `checkin.html` +
