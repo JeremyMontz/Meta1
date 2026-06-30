@@ -5,12 +5,20 @@ repo (this file sits beside the tests it indexes); the vault mirrors it, and it
 feeds `agents/bond/bond.html` (brag) per bond.md's teeth > brag > wiki priority.
 Full registry tooling is tracked in #317.
 
+**Status = existence, not pass/fail.** GitHub CI owns pass/fail; this column
+tracks a TC's lifecycle in the bench: `pending` (claimed, authoring) →
+`authored` (test written, PR open) → `live` (merged into `main`). The
+`pending`/`authored` states are the bond-author skill's `Tests` issue-field and
+appear only on in-flight branches; on `main` a row is `live` (or `retired`). The
+`authored → live` flip is a human post-merge step in a 1:1.
+
+
 | TC  | File                        | Issue | Tier | Asserts                                                                                                                   | Status  |
 | --- | --------------------------- | ----- | ---- | ------------------------------------------------------------------------------------------------------------------------- | ------- |
-| —   | `smoke.test.mjs`            | #294  | —    | Harness canary — runner discovers, executes, and reports a TC                                                             | passing |
-| TC1 | `tc1-page-chrome.test.mjs`  | #298  | 1    | Every in-scope `.html` loads data.js + HomeShell/Wordmark/Primitives and has a chrome anchor (`#root` OR `topnav-mount`+`footer-mount`) | passing |
-| TC2 | `tc2-agent-completeness.test.mjs` | #299 | 1 | Every `window.AGENTS` agent is coherent across 6 rosters + project-agreement, and has page + portrait trio + graph node + wired page config + non-empty identity fields | passing |
-| articles | `tc-articles.test.mjs` | #332 | 1 | `writing/*.html` ⇄ ARTICLES bijection (data-derived HISTORY exemption) + per-article metadata (date MM.DD.YY, demonstrates→COMPETENCIES) + page slots (article-title/subtitle, og:description, active="WRITING") | authored |
+| —   | `smoke.test.mjs`            | #294  | —    | Harness canary — runner discovers, executes, and reports a TC                                                             | live |
+| TC1 | `tc1-page-chrome.test.mjs`  | #298  | 1    | Every in-scope `.html` loads data.js + HomeShell/Wordmark/Primitives and has a chrome anchor (`#root` OR `topnav-mount`+`footer-mount`) | live |
+| TC2 | `tc2-agent-completeness.test.mjs` | #299 | 1 | Every `window.AGENTS` agent is coherent across 6 rosters + project-agreement, and has page + portrait trio + graph node + wired page config + non-empty identity fields | live |
+| articles | `tc-articles.test.mjs` | #332 | 1 | `writing/*.html` ⇄ ARTICLES bijection (data-derived HISTORY exemption) + per-article metadata (date MM.DD.YY, demonstrates→COMPETENCIES) + page slots (article-title/subtitle, og:description, active="WRITING") | live |
 
 **Scope & exemptions (TC1).** In-scope = all `*.html` minus `_`-prefixed templates
 and the stable exempt set: `design-system/index.html` (template); `checkin.html` +
