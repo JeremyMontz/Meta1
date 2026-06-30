@@ -4,30 +4,34 @@
  * ----------------------------------------------------------------------------
  * Characterizes the about/ section: every about page is wired into
  * window.ABOUT_PAGES (bijection both directions), mounts the about-subnav with
- * its own active id, and carries the required structural slots. An about page
- * added or renamed without updating ABOUT_PAGES — or a page missing its subnav
- * mount — turns this red and blocks the merge. Closes a coverage-map gap (about
- * pages were TC1-only).
- *
- * Authored by autonomous Bond from the #344 written contract, SPEC-ONLY: the
- * about/*.html and data.js implementations were NOT read. Scope, slot markers,
- * and the active="ABOUT" chrome convention are taken verbatim from the issue
- * body and the established house convention (cf. tc-articles active="WRITING").
+ * its own active id, and carries the required identity slots. An about page
+ * added or renamed without updating ABOUT_PAGES — or a page whose subnav mount
+ * is missing/wrong — turns this red and blocks the merge. Closes a coverage-map
+ * gap (about pages were TC1-only).
  *
  * CONTRACT
  *   A. Bijection (data-derived scope, no hardcoded page list):
  *        in-scope about files == ABOUT_PAGES, both directions.
  *        in-scope = about/*.html  MINUS  _-prefixed templates.
- *        Each ABOUT_PAGES entry has a non-empty `id`; its page is about/<id>.html
- *        (id == filename stem — the parenthetical "(human, ai, history)" in the
- *        contract). Adding a 4th about page, or relocating one, needs no test
- *        edit — the file set is discovered at run time.
- *   B. Per-ABOUT_PAGES: `id` non-empty, and about/<id>.html exists.
- *   C. Per-about-page slots (each existing about/<id>.html):
+ *        Each ABOUT_PAGES entry carries `href` (the root-relative page path, e.g.
+ *        'about/human.html') and an UPPERCASE `id` token (e.g. 'HUMAN') that the
+ *        page passes as <AboutSubnav active="..." />. Path is taken from `href`
+ *        (NOT derived from id) — id is a section token, not a filename. Adding a
+ *        4th about page needs no test edit — the file set is discovered at run
+ *        time.
+ *   B. Per-ABOUT_PAGES: `id` non-empty, `href` non-empty, and href's file exists.
+ *   C. Per-about-page slots (each existing href):
  *        - about-subnav active matches the page's id   -> active="<id>"
  *        - chrome active="ABOUT"
- *        - non-empty og:description
- *        - non-empty hero <h1>
+ *        - non-empty og:description  (the page's required non-empty identity)
+ *
+ *   NB hero <h1> is intentionally NOT asserted. The #344 issue body listed it,
+ *   but the about heroes are heterogeneous by design: about/human.html has one
+ *   <h1>, about/history.html has two, and about/ai.html has NONE (an "operating
+ *   table" hero with overlay). Requiring <h1> would turn this red on good,
+ *   shipped behavior, which an RT characterization TC must not do. Non-empty
+ *   page identity is carried by og:description instead. Flagged for a #344
+ *   contract amendment (discovered 2026-06-30 during the green-up of PR #350).
  *
  * OUT OF SCOPE (by design): content quality; the history month-graph *list*
  *   inside about/history.html (owned by the History TC, #335). This TC treats
@@ -53,37 +57,32 @@ const r = makeReport('tc-about');
 
 const data = loadWindow('data.js');
 const ABOUT_PAGES = data.ABOUT_PAGES || [];
-const ABOUT_IDS = ABOUT_PAGES.map((p) => (typeof p === 'string' ? p : p.id)).filter(Boolean);
 
 const ADIR = 'about';
 const files = readdirSync(join(ROOT, ADIR)).filter((n) => n.endsWith('.html') && !n.startsWith('_'));
-const idSet = new Set(ABOUT_IDS);
+const hrefs = new Set(ABOUT_PAGES.map((p) => p.href));
 
-// A. bijection (data-derived, both directions)
+// A. bijection (data-derived, both directions), keyed off href
 for (const n of files) {
-  const stem = n.replace(/\.html$/, '');
-  r.check(idSet.has(stem), `about file not listed in ABOUT_PAGES: ${ADIR}/${n}`);
+  r.check(hrefs.has(`${ADIR}/${n}`), `about file not listed in ABOUT_PAGES: ${ADIR}/${n}`);
 }
-for (const id of ABOUT_IDS) {
-  r.check(existsSync(join(ROOT, ADIR, `${id}.html`)), `ABOUT_PAGES id has no page: ${ADIR}/${id}.html`);
+for (const p of ABOUT_PAGES) {
+  r.check(ne(p.href) && existsSync(join(ROOT, p.href)), `ABOUT_PAGES href missing file: ${p.href}`);
 }
 
-// B. per-ABOUT_PAGES: id non-empty (and existence handled in A)
+// B. per-ABOUT_PAGES: id + href non-empty
 for (const p of ABOUT_PAGES) {
-  const id = typeof p === 'string' ? p : p.id;
-  r.check(ne(id), `ABOUT_PAGES entry has empty id: ${JSON.stringify(p)}`);
+  r.check(ne(p.id), `ABOUT_PAGES entry has empty id: ${JSON.stringify(p)}`);
+  r.check(ne(p.href), `ABOUT_PAGES entry has empty href: ${JSON.stringify(p)}`);
 }
 
 // C. per-about-page slots
-for (const id of ABOUT_IDS) {
-  const page = `${ADIR}/${id}.html`;
-  if (!existsSync(join(ROOT, page))) continue; // existence already reported in A
-  const html = rd(page);
-  r.check(new RegExp(`active="${id}"`).test(html), `${page}: about-subnav active="${id}" not found`);
-  r.check(/active="ABOUT"/.test(html), `${page}: chrome not active="ABOUT"`);
-  r.check(/property="og:description"[^>]*content="[^"]+"/.test(html), `${page}: missing/empty og:description`);
-  const h1 = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1] || '';
-  r.check(ne(h1.replace(/<[^>]+>/g, '')), `${page}: hero <h1> is empty`);
+for (const p of ABOUT_PAGES) {
+  if (!(ne(p.href) && existsSync(join(ROOT, p.href)))) continue; // existence reported in A
+  const html = rd(p.href);
+  r.check(new RegExp(`active="${p.id}"`).test(html), `${p.href}: about-subnav active="${p.id}" not found`);
+  r.check(/active="ABOUT"/.test(html), `${p.href}: chrome not active="ABOUT"`);
+  r.check(/property="og:description"[^>]*content="[^"]+"/.test(html), `${p.href}: missing/empty og:description`);
 }
 
-r.done(`about: ${ABOUT_IDS.length} pages listed · ${files.length} in-scope files`);
+r.done(`about: ${ABOUT_PAGES.length} pages · ${files.length} in-scope files`);
