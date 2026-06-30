@@ -409,7 +409,7 @@ window.AGENT_ARTIFACTS = {
   evolve:   [
     { title: 'A Month and a Day', sub: 'INTERACTIVE · 32 DAYS · GRAPH',            href: '../../writing/first-month.html' },
     { title: 'Month Two', sub: 'INTERACTIVE · 12 SKILLS · WIKI',            href: '../../writing/second-month.html' },
-    { title: 'Month Three', sub: 'INTERACTIVE · 40+ PAGES · WEBSITE',            href: '../../writing/second-month.html' },
+    { title: 'Month Three', sub: 'INTERACTIVE · 40+ PAGES · WEBSITE',            href: '../../writing/third-month.html' },
     { title: 'Claudemonzter - Memory',             sub: 'LAYER MAP · 5 LAYERS · 3 PLATFORMS',   href: '../../graph/memory.html' },
     { title: 'Claudemonzter - Brain',             sub: 'INBOX · RAW · WIKI',   href: '../../graph/brain.html' },
   ],
