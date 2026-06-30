@@ -19,6 +19,7 @@ appear only on in-flight branches; on `main` a row is `live` (or `retired`). The
 | TC1 | `tc1-page-chrome.test.mjs`  | #298  | 1    | Every in-scope `.html` loads data.js + HomeShell/Wordmark/Primitives and has a chrome anchor (`#root` OR `topnav-mount`+`footer-mount`) | live |
 | TC2 | `tc2-agent-completeness.test.mjs` | #299 | 1 | Every `window.AGENTS` agent is coherent across 6 rosters + project-agreement, and has page + portrait trio + graph node + wired page config + non-empty identity fields | live |
 | articles | `tc-articles.test.mjs` | #332 | 1 | `writing/*.html` ⇄ ARTICLES bijection (data-derived HISTORY exemption) + per-article metadata (date MM.DD.YY, demonstrates→COMPETENCIES) + page slots (article-title/subtitle, og:description, active="WRITING") | live |
+| about | `tc-about.test.mjs` | #344 | 1 | `about/*.html` ⇄ ABOUT_PAGES bijection (data-derived, id==filename stem) + per-page id non-empty + page slots (about-subnav active="<id>", chrome active="ABOUT", og:description, hero h1) | authored |
 
 **Scope & exemptions (TC1).** In-scope = all `*.html` minus `_`-prefixed templates
 and the stable exempt set: `design-system/index.html` (template); `checkin.html` +
@@ -40,6 +41,8 @@ Out of scope: `AGENT_ARTIFACTS` population, live status/persona/sessions
 correctness. CI-blind surfaces (vault §Persona, persona-matrix & checkin Sheets,
 skill routing tables) live in the onboard-an-agent runbook (#327) and #292's
 relocation checklist.
+
+**Scope & exemptions (about, #344).** Denominator = `window.ABOUT_PAGES` (canon); in-scope files = `about/*.html` minus `_`-prefixed templates. Page path derives from the entry `id` (`about/<id>.html`) — no hardcoded page list, so a 4th about page needs no test edit. Per-page slots: about-subnav `active="<id>"`, chrome `active="ABOUT"`, non-empty `og:description` + hero `<h1>`. Out of scope: content quality and the history month-graph *list* inside `about/history.html` (owned by #335) — history is checked only as a section page. Authored spec-only from the #344 contract (about/data.js not read).
 
 **Out of scope / deferred.** Subnav-breadcrumb presence → TC3 (#300). Skill-level
 TCs (Tier 2/3) → #158. Functional / browser eval → #306.
