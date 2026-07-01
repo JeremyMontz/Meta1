@@ -15,7 +15,7 @@
  * CONTRACT (portfolio.html source must carry each) — all must hold:
  *   1. window.PAGE_PORTFOLIO present         (the portfolio PAGE_* data block)
  *   2. hero present
- *   3. spec card present
+ *   3. spec card present         (renders in components/PortfolioMain.jsx from data.js SPEC)
  *   4. the "What It Proves" competency graph mounts
  *   5. the live GitHub feed mounts
  *   6. the Selected Work matrix present
@@ -36,6 +36,9 @@ import { makeReport } from './_assert.mjs';
 
 const ROOT = process.cwd();
 const html = readFileSync(join(ROOT, 'portfolio.html'), 'utf8');
+// The spec card is not named in portfolio.html — it renders in the page's main
+// component (PortfolioMain.jsx), fed by data.js SPEC. Check #3 scans there.
+const portfolioMain = readFileSync(join(ROOT, 'components', 'PortfolioMain.jsx'), 'utf8');
 
 const r = makeReport('tc-portfolio');
 
@@ -47,9 +50,14 @@ r.check(/window\.PAGE_PORTFOLIO\b/.test(html) || /\bPAGE_PORTFOLIO\s*=/.test(htm
 r.check(/hero/i.test(html),
   'portfolio.html: hero section not present');
 
-// 3. spec card.
-r.check(/spec[-_ ]?card/i.test(html) || /spec[-_ ]?panel/i.test(html),
-  'portfolio.html: spec card not present');
+// 3. spec card. Renders in components/PortfolioMain.jsx from data.js SPEC — not
+//    named in portfolio.html. Anchor on the actual render (SPEC.rows loop /
+//    SPEC.badge), tied to the "// SPEC" spec-card block, so dropping the render
+//    turns this red (a code comment alone would not satisfy it).
+r.check(
+  /SPEC\.rows\b/.test(portfolioMain) &&
+  (/SPEC\.badge\b/.test(portfolioMain) || /\/\/\s*SPEC\b/.test(portfolioMain)),
+  'portfolio.html: spec card not present (PortfolioMain.jsx SPEC render missing)');
 
 // 4. "What It Proves" competency graph mounts.
 r.check(/what it proves/i.test(html) || /competency[-_ ]?graph/i.test(html) || /competency/i.test(html),
