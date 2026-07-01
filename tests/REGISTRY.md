@@ -21,6 +21,7 @@ appear only on in-flight branches; on `main` a row is `live` (or `retired`). The
 | TC3 | `tc3-organ-structural.test.mjs` | #300 | 1 | Every `window.ORGANS` entry (body.html excepted) wires its GraphSubnav, sets `active="<id>"` matching its ORGANS id (case-insensitive), and loads `graph/<stem>-data.js` when one exists; existence ceded to #334, checked-count guard prevents vacuity | authored |
 | articles | `tc-articles.test.mjs` | #332 | 1 | `writing/*.html` ⇄ ARTICLES bijection (data-derived HISTORY exemption) + per-article metadata (date MM.DD.YY, demonstrates→COMPETENCIES) + page slots (article-title/subtitle, og:description, active="WRITING") | live |
 | about | `tc-about.test.mjs` | #344 | 1 | `about/*.html` ⇄ ABOUT_PAGES bijection (href-keyed; `id` is an uppercase token = subnav `active`) + per-entry id/href non-empty + page slots (about-subnav active="<id>", chrome active="ABOUT", og:description) | authored |
+| competency | `tc-competency.test.mjs` | #333 | 1 | Every `demonstrates:[id]` in data.js `PORTFOLIO` + `ARTICLES` resolves to a real `COMPETENCIES` id (no orphan tags); reverse coverage surfaced informational-only (not asserted). Vacuity-guarded | authored |
 
 **Scope & exemptions (TC1).** In-scope = all `*.html` minus `_`-prefixed templates
 and the stable exempt set: `design-system/index.html` (template); `checkin.html` +
