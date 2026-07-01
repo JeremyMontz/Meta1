@@ -21,6 +21,7 @@ appear only on in-flight branches; on `main` a row is `live` (or `retired`). The
 | TC3 | `tc3-organ-structural.test.mjs` | #300 | 1 | Every `window.ORGANS` entry (body.html excepted) wires its GraphSubnav, sets `active="<id>"` matching its ORGANS id (case-insensitive), and loads `graph/<stem>-data.js` when one exists; existence ceded to #334, checked-count guard prevents vacuity | authored |
 | articles | `tc-articles.test.mjs` | #332 | 1 | `writing/*.html` ⇄ ARTICLES bijection (data-derived HISTORY exemption) + per-article metadata (date MM.DD.YY, demonstrates→COMPETENCIES) + page slots (article-title/subtitle, og:description, active="WRITING") | live |
 | about | `tc-about.test.mjs` | #344 | 1 | `about/*.html` ⇄ ABOUT_PAGES bijection (href-keyed; `id` is an uppercase token = subnav `active`) + per-entry id/href non-empty + page slots (about-subnav active="<id>", chrome active="ABOUT", og:description) | authored |
+| live-display | `tc-live-display.test.mjs` | #336 | 1 | Every discovered live surface either loads the shared `agent-card.js` (delegates source+status+fallback) OR rolls its own with all four inline (data source csvUrl/gviz/GAS + fetch + `#dataStatus` + NO-DATA/.catch). Denominator self-discovered (declared-list is a stronger future variant); vacuity-guarded | authored |
 
 **Scope & exemptions (TC1).** In-scope = all `*.html` minus `_`-prefixed templates
 and the stable exempt set: `design-system/index.html` (template); `checkin.html` +
