@@ -364,51 +364,5 @@ const WritingList = () => (
   </div>
 );
 
-// ── ABOUT ─────────────────────────────────────────────────────────────────
-const AboutBlock = () => (
-  <section id="about" className="home-about" style={{
-    padding: '64px 40px',
-    display: 'grid', gridTemplateColumns: '1fr 380px', gap: 56, alignItems: 'flex-start',
-  }}>
-    <div>
-      <Eyebrow color="var(--candle)">// ABOUT THE OPERATOR</Eyebrow>
-      <h2 style={{ marginTop: 12, marginBottom: 22 }}>
-        I run product by day. <br/><span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>By night I run experiments.</span>
-      </h2>
-      <p style={{ fontSize: 18, lineHeight: 1.55, maxWidth: 700, marginBottom: 14 }}>{ME.blurb}</p>
-      <p style={{ fontSize: 15, lineHeight: 1.55, maxWidth: 700, color: 'var(--fg-subtle)', marginBottom: 28 }}>
-        I publish my working as a way of learning faster. Half portfolio, half reckoning.
-        If you're hiring, looking for a thinking-partner, or just curious — the door is open.
-      </p>
-      <ContactRow />
-    </div>
-
-    <div style={{
-      background: 'var(--bg-elev-1)', border: '1px solid var(--line)', padding: 24,
-    }}>
-      <Eyebrow color="var(--candle)">// HARD STATS</Eyebrow>
-      <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {[
-          ['EST.',      ME.est.replace('EST. ', '')],
-          ['LAB',       '001 · ' + SITE.status],
-          ['PROJECTS',  PROJECTS.length + ' ACTIVE'],
-          ['AGENTS',    AGENTS.length + ' TRACKED'],
-          ['VERSION',   SITE.version],
-          ['LOCATION',  ME.location.toUpperCase()],
-        ].map(([k, v]) => (
-          <div key={k} style={{
-            display: 'flex', justifyContent: 'space-between',
-            padding: '8px 0', borderBottom: '1px solid var(--line-soft)',
-            fontFamily: 'var(--font-mono)', fontSize: 11,
-            letterSpacing: '0.14em',
-          }}>
-            <span style={{ color: 'var(--fg-subtle)' }}>{k}</span>
-            <span style={{ color: 'var(--fg)' }}>{v}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
 
 window.HomeMain = HomeMain;
