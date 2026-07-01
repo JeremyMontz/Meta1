@@ -2,32 +2,41 @@
 /**
  * Homepage — index.html standalone contract  (Tier 1 · GH #340)
  * ----------------------------------------------------------------------------
- * Characterizes the homepage as an assembly of named sections. index.html is the
- * front door; a refactor that silently drops a whole section (the graph, the
- * activity feed, a teaser) is the tooth this catches. Contract-scan over the page
- * SOURCE only — authored from the #340 written spec, never from the impl.
+ * Characterizes the homepage as an assembly of named sections. The homepage is
+ * TWO files: index.html is the shell (loads data + mounts <HomeMain/>), and
+ * components/HomeMain.jsx COMPOSES the sections. A refactor that silently drops
+ * a whole section is the tooth this catches — and, per #361, "dropped" includes
+ * a section left DEFINED but never MOUNTED. So the section checks are
+ * mount-aware: they assert the JSX element is actually rendered (`<Component`),
+ * not merely that a definition or a bare string exists somewhere in source.
  *
- * This is PASS 1 of the spec's two-pass plan: STRUCTURE now (each named section is
- * present in source), content SNAPSHOT deferred to pass 2 "once frozen." So each
- * check is a presence assertion, matched robustly (disjunctive / case-insensitive)
- * so it is green against current good behavior yet red when a section is removed.
+ * Authored from the #340 written spec (AMENDED 2026-06-30: the about section was
+ * intentionally moved to about/ai.html, so it is NO LONGER a homepage section —
+ * see Bug #361, which this rewrite resolves). Contract-scan over SOURCE only;
+ * the page is never run.
  *
- * CONTRACT (index.html source must carry each) — all must hold:
- *   1. window.PAGE_HOME present            (the homepage PAGE_* data block)
- *   2. the AgentGraph mounts               (AgentGraph reference / graph mount)
- *   3. the live GitHub activity feed mounts
- *   4. the portfolio teaser section present
- *   5. the writing list section present
- *   6. the about section present
+ * PASS 1 of the spec's two-pass plan: STRUCTURE now (each named section mounts),
+ * content SNAPSHOT deferred to pass 2 "once frozen."
+ *
+ * CONTRACT — all must hold:
+ *   index.html (shell):
+ *     1. window.PAGE_HOME present                    (the homepage PAGE_* data block)
+ *     2. renders <HomeMain/> AND loads its source    (shell actually mounts the page)
+ *   components/HomeMain.jsx (composition — mount-aware, the #361 teeth):
+ *     3. the agent graph is mounted                  (<AgentGraph)
+ *     4. the live GitHub activity feed is mounted    (<LiveActivity)
+ *     5. the portfolio teaser is mounted             (<PortfolioTeaser)
+ *     6. the writing list is mounted                 (<WritingList)
  *
  * OUT OF SCOPE (owned elsewhere):
- *   - live-data correctness (feed/graph runtime)   → Tier 4 (#306) / #336
- *   - visual treatment                             → not tested
- *   - portfolio page internals                     → #341
- *   - content snapshot (pass 2)                     → deferred "once frozen"
+ *   - the about page                                 → about/*.html (#344)
+ *   - live-data correctness (feed/graph runtime)     → Tier 4 (#306) / #336
+ *   - visual treatment                               → not tested
+ *   - portfolio page internals                       → #341
+ *   - content snapshot (pass 2)                       → deferred "once frozen"
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
- * .github/scripts/check-links.mjs and tests/tc1/tc-articles. Run via tests/run.mjs.
+ * .github/scripts/check-links.mjs. Run via tests/run.mjs.
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -35,31 +44,41 @@ import { makeReport } from './_assert.mjs';
 
 const ROOT = process.cwd();
 const html = readFileSync(join(ROOT, 'index.html'), 'utf8');
+const home = readFileSync(join(ROOT, 'components/HomeMain.jsx'), 'utf8');
 
 const r = makeReport('tc-index');
 
+// ── index.html shell ────────────────────────────────────────────────────────
 // 1. homepage data block — spec names it exactly (window.PAGE_HOME).
 r.check(/window\.PAGE_HOME\b/.test(html) || /\bPAGE_HOME\s*=/.test(html),
   'index.html: window.PAGE_HOME data block not present');
 
-// 2. AgentGraph mounts — the graph section by its component / mount marker.
-r.check(/AgentGraph/.test(html) || /agent-?graph/i.test(html) || /graph[-_]?mount/i.test(html),
-  'index.html: AgentGraph not mounted (graph section dropped?)');
+// 2. shell mounts the homepage component — renders <HomeMain/> AND loads its source.
+//    Both halves matter: rendering without loading (or vice-versa) is a broken shell.
+r.check(/<HomeMain\b/.test(html) && /components\/HomeMain\.jsx/.test(html),
+  'index.html: shell must render <HomeMain/> and load components/HomeMain.jsx');
 
-// 3. live GitHub activity feed mounts.
-r.check(/live-?github/i.test(html) || /activity[-_ ]?feed/i.test(html) || /github[-_ ]?feed/i.test(html),
-  'index.html: live GitHub activity feed not mounted');
+// ── components/HomeMain.jsx composition (mount-aware — the #361 teeth) ─────────
+// A section counts as present only when it is MOUNTED (`<Component` in the render
+// tree), not merely defined. #361: AboutBlock was fully defined yet never mounted,
+// so the rendered homepage silently lost that section while a source-grep stayed
+// green. A definition (`const X = () =>`) carries no leading `<`, so these
+// patterns match mount usage only — catching define-but-don't-mount regressions.
 
-// 4. portfolio teaser section present.
-r.check(/portfolio/i.test(html),
-  'index.html: portfolio teaser section not present');
+// 3. the agent graph is mounted (the centerpiece).
+r.check(/<AgentGraph\b/.test(home),
+  'HomeMain.jsx: <AgentGraph/> not mounted (graph section dropped?)');
 
-// 5. writing list section present.
-r.check(/writing/i.test(html),
-  'index.html: writing list section not present');
+// 4. the live GitHub activity feed is mounted.
+r.check(/<LiveActivity\b/.test(home),
+  'HomeMain.jsx: <LiveActivity/> not mounted (activity feed dropped?)');
 
-// 6. about section present.
-r.check(/\babout\b/i.test(html),
-  'index.html: about section not present');
+// 5. the portfolio teaser is mounted.
+r.check(/<PortfolioTeaser\b/.test(home),
+  'HomeMain.jsx: <PortfolioTeaser/> not mounted (portfolio teaser dropped?)');
 
-r.done('index: 6 homepage sections checked (pass-1 structural presence)');
+// 6. the writing list is mounted.
+r.check(/<WritingList\b/.test(home),
+  'HomeMain.jsx: <WritingList/> not mounted (writing list dropped?)');
+
+r.done('index: shell + 4 mounted homepage sections checked (pass-1, mount-aware)');
