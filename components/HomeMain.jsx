@@ -366,4 +366,3 @@ const WritingList = () => (
 
 
 window.HomeMain = HomeMain;
-
