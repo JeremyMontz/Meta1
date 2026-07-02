@@ -430,6 +430,7 @@ window.AGENT_ARTIFACTS = {
 };
 window.SITE_INDEX = {
   "/index.html": {
+    "dataRole": "live",
     "note": "The front door to the lab: a senior product manager running a multi-agent AI 'graph' in public — one operator plus a crew of agents, building the very site you're standing in. Start here, then follow any organ deeper.",
     "tags": [
       "multi-agent orchestration",
@@ -483,6 +484,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/assessor/assessor.html": {
+    "dataRole": "live",
     "note": "This is one of my agents or domains, named Assessor — the evaluation domain. Its job is to assess my progress as I learn more about AI, and to assess the agent (<a href=\"../evolve/evolve.html\">Evolve</a>) that is responsible for mentoring me. It scores my proficiency against evidential standards, so a claim of skill is backed by artifacts rather than assertion.",
     "tags": [
       "evals",
@@ -491,6 +493,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/bond/bond.html": {
+    "dataRole": "live",
     "note": "This is one of my agents or domains, named Bond — quality control, product owner, and release gating. Bond is currently on hiatus until his evals and tests cases are an automated part of our deployments, planned in v3.5+",
     "tags": [
       "evals",
@@ -499,6 +502,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/evolve/evolve.html": {
+    "dataRole": "live",
     "note": "This is one of my agents or domains, named Evolve — the career-development domain, steering the pivot into AI product management. Where strategy for the next role gets worked out in the open.",
     "tags": [
       "product strategy",
@@ -507,6 +511,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/freedom/freedom.html": {
+    "dataRole": "live",
     "note": "This is one of my agents or domains, named Freedom — the financial-independence domain. Has a phased plan moving from rental income toward financial independence, modeled and tracked like a product roadmap.",
     "tags": [
       "product strategy",
@@ -515,6 +520,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/house/house.html": {
+    "dataRole": "live",
     "note": "This is one of my agents or domains, named House — the property domain, based on an actual Portland Craftsman renovation run as a rental strategy: budget, timeline, and permits managed like a delivery project.",
     "tags": [
       "roadmapping",
@@ -523,6 +529,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/house/house-budget.html": {
+    "dataRole": "live",
     "note": "The live renovation budget for the Davis St property — every expense tracked against the total. A working data surface wired to a Sheet, not a mockup.",
     "tags": [
       "data visualization",
@@ -532,6 +539,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/house/house-entry.html": {
+    "dataRole": "entry",
     "note": "Quick-add form for the Davis St renovation: tasks and expenses pushed straight to the project Sheet. The intake end of a live data pipeline.",
     "tags": [
       "tool use / MCP",
@@ -541,6 +549,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/house/house-timeline.html": {
+    "dataRole": "live",
     "note": "The Davis St renovation timeline — phases and milestones laid out as a delivery schedule.",
     "tags": [
       "roadmapping",
@@ -550,6 +559,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/jeremy/jeremy.html": {
+    "dataRole": "live",
     "note": "Claudemonzter is a multi-agentic experiment being conducted in the open using Claude AI (primarily) and although the experiment is primarily about the AI, it would not function without me in the middle. I am a part of my own creation and we are building each other up.",
     "tags": [
       "multi-agent orchestration",
@@ -559,6 +569,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/meta1/meta1.html": {
+    "dataRole": "live",
     "note": "This is one of my agents or domains, named Meta1 — the architect and lead developer. The 'human operator' has never written code before this experiment so this is a critical function to build and coordinate across the graph.",
     "tags": [
       "systems design",
@@ -567,6 +578,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/phil/phil.html": {
+    "dataRole": "live",
     "note": "This is one of my agents or domains, named Phil — the philosophical domain. Phil has been an exception to the rules since day 1 and in the future I hope to maximize its potential. While my other agents can focus on getting real business done, Phil is 'the party in the back,' the <a href=\"../../graph/heart.html\">heart</a> of the graph, and we're just getting started. Watch this space.",
     "tags": [
       "persona engineering",
@@ -575,6 +587,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/agents/phil/journal.html": {
+    "dataRole": "live",
     "note": "Every entry of Phil's daily lectio, plus an ink-spatter word-cloud of the language he reaches for. A persona's output accumulating into a body of voice over time.",
     "tags": [
       "persona engineering",
@@ -600,6 +613,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/graph/faces.html": {
+    "dataRole": "live",
     "note": "Not a mock-up. A live agent roster showing three states— idle / active / open — with a fly-in dossier pairing each agent's actual status with its persona settings and latest session history. Visit each agents page to learn more about what they do.",
     "tags": [
       "multi-agent orchestration",
@@ -617,6 +631,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/graph/heart.html": {
+    "dataRole": "live",
     "note": "Not a mock-up. The system's contemplative pulse, refreshed each day with a randomized reading from A Treasury of Traditional Wisdom. Includes a thoughtful response from Phil that gets written into his <a href=\"../agents/phil/journal.html\">journal</a> and forms a word cloud. What is on an AI's mind when you feed it mystics?",
     "tags": [
       "persona engineering",
@@ -634,6 +649,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/graph/spirit.html": {
+    "dataRole": "live",
     "note": "Not a mock-up. The persona matrix — a mixing board of behavioral dials per agent, each with a reliability rating. Changes get written to a backend and then a skill updates the grounding docs on my local disk, that actually changes how the agents behave. Under Testing",
     "tags": [
       "persona engineering",
@@ -740,6 +756,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/dashboard.html": {
+    "dataRole": "live",
     "note": "This not a mockup, but a live agent-status dashboard: every agent's current state, derived from its latest check-in. The operational heartbeat of the lab.",
     "tags": [
       "multi-agent orchestration",
@@ -748,6 +765,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/checkin.html": {
+    "dataRole": "entry",
     "note": "The human check-in form — where the operator transmits status into the graph. The input end of the live status pipeline.",
     "tags": [
       "tool use / MCP",
@@ -757,6 +775,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/canon.html": {
+    "dataRole": "archived",
     "note": "The original Canon Matrix, now archived and kept for posterity and as a reminder to hubris. My first attempt to reconcile agents' declared states to one shared canon. Retired, but still linked from older essays and preserved for continuity.",
     "tags": [
       "grounding / canon",
@@ -767,6 +786,7 @@ window.SITE_INDEX = {
     "updated": "2026-06-13"
   },
   "/inventory.html": {
+    "dataRole": "archived",
     "note": "Google Drive Inventory — an early file-inventory utility. Retired, kept for reference where older pages still point to it.",
     "tags": [
       "tool use / MCP",

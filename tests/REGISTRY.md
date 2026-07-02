@@ -6,11 +6,18 @@ feeds `agents/bond/bond.html` (brag) per bond.md's teeth > brag > wiki priority.
 Full registry tooling is tracked in #317.
 
 **Status = existence, not pass/fail.** GitHub CI owns pass/fail; this column
-tracks a TC's lifecycle in the bench: `pending` (claimed, authoring) →
-`authored` (test written, PR open) → `live` (merged into `main`). The
-`pending`/`authored` states are the bond-author skill's `Tests` issue-field and
-appear only on in-flight branches; on `main` a row is `live` (or `retired`). The
-`authored → live` flip is a human post-merge step in a 1:1.
+tracks a TC's presence in the bench: `live` (in `main`) or `retired`.
+
+**Rows are added post-merge, not on the TC branch (#317).** A `bond/tc-<N>` PR
+carries **only** the test file — `bond-author` no longer edits this file on the
+branch, so parallel TC branches never collide on this one shared index (the
+merge-conflict class that used to stall the RT-backlog drain). When the human
+merges, the row is added here as `live`, in the same post-merge step that used to
+flip `authored → live`. The in-flight authoring states (`pending` / `authored`)
+live on the **issue `Tests` field**, not in this file. The runner discovers
+`*.test.mjs` by filename, so a missing row is a documentation gap, never a broken
+test — full row-sync tooling is #317. (Rows below still marked `authored` predate
+this change and await the #317 sync pass.)
 
 
 | TC  | File                        | Issue | Tier | Asserts                                                                                                                   | Status  |
@@ -21,7 +28,11 @@ appear only on in-flight branches; on `main` a row is `live` (or `retired`). The
 | TC3 | `tc3-organ-structural.test.mjs` | #300 | 1 | Every `window.ORGANS` entry (body.html excepted) wires its GraphSubnav, sets `active="<id>"` matching its ORGANS id (case-insensitive), and loads `graph/<stem>-data.js` when one exists; existence ceded to #334, checked-count guard prevents vacuity | authored |
 | articles | `tc-articles.test.mjs` | #332 | 1 | `writing/*.html` ⇄ ARTICLES bijection (data-derived HISTORY exemption) + per-article metadata (date MM.DD.YY, demonstrates→COMPETENCIES) + page slots (article-title/subtitle, og:description, active="WRITING") | live |
 | about | `tc-about.test.mjs` | #344 | 1 | `about/*.html` ⇄ ABOUT_PAGES bijection (href-keyed; `id` is an uppercase token = subnav `active`) + per-entry id/href non-empty + page slots (about-subnav active="<id>", chrome active="ABOUT", og:description) | authored |
-| live-display | `tc-live-display.test.mjs` | #336 | 1 | Every discovered live surface either loads the shared `agent-card.js` (delegates source+status+fallback) OR rolls its own with all four inline (data source csvUrl/gviz/GAS + fetch + `#dataStatus` + NO-DATA/.catch). Denominator self-discovered (declared-list is a stronger future variant); vacuity-guarded | authored |
+| routes | `tc-routes.test.mjs` | #334 | 1 | Every internal href/route in data.js `SITE_INDEX` (keys), `ABOUT_PAGES`, `ORGANS`, `HISTORY`, `AGENT_ARTIFACTS` resolves to a real file (host-style: literal / `.html` / `/index.html`); external URLs skipped (check-links owns those). Vacuity-guarded | authored |
+| portfolio | `tc-portfolio.test.mjs` | #341 | 1 | `portfolio.html` source carries each named section: `window.PAGE_PORTFOLIO` block + hero + spec card + "What It Proves" competency-graph mount + live GitHub feed mount + Selected Work matrix + reach CTA. Pass-1 structural presence (disjunctive/CI-safe); evidence-compute + content snapshot deferred | authored |
+| competency | `tc-competency.test.mjs` | #333 | 1 | Every `demonstrates:[id]` in data.js `PORTFOLIO` + `ARTICLES` resolves to a real `COMPETENCIES` id (no orphan tags); reverse coverage surfaced informational-only (not asserted). Vacuity-guarded | authored |
+| history | `tc-history.test.mjs` | #335 | 1 | `window.HISTORY` months (set derived from hrefs, relocation-proof): each `href`→real page + sibling `.js` engine + non-empty og:title/og:description; cross-block `first-month` also referenced in `PORTFOLIO` (drift = tooth; second/third negative NOT asserted). Vacuity-guarded | authored |
+| index | `tc-index.test.mjs` | #340 | 1 | Homepage shell (`index.html`: `window.PAGE_HOME` + mounts `<HomeMain/>` + loads its source) + **mount-aware** section composition in `HomeMain.jsx` — `<AgentGraph`/`<LiveActivity`/`<PortfolioTeaser`/`<WritingList` actually mounted (catches #361 define-but-don't-mount). About check dropped — moved to about/ai.html (#361). Pass-1 structural; snapshot deferred to pass 2 | authored |
 
 **Scope & exemptions (TC1).** In-scope = all `*.html` minus `_`-prefixed templates
 and the stable exempt set: `design-system/index.html` (template); `checkin.html` +
