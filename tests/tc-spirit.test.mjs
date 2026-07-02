@@ -15,7 +15,7 @@
  *
  * CONTRACT (spec-only authorship; the page implementation was NOT read):
  *   S1  graph/spirit.html LOADS its data module spirit-data.js (<script src>).
- *   S2  the graph-subnav mount (#graph-subnav) is present.
+ *   S2  the graph-subnav mount (#graph-subnav-mount) is present.
  *   S3  the graph-subnav is wired active="SPIRIT". Capability regex, spelling-tolerant.
  *   S4  the journal/lectio structure is rendered (the spirit-specific content
  *       scaffold). Capability regex — journal or lectio.
@@ -47,8 +47,8 @@ r.check(/<script[^>]*\bsrc=["'][^"']*spirit-data\.js["']/.test(spirit),
   `spirit: does not load its data module spirit-data.js`);
 
 // S2 — graph-subnav mount
-r.check(/#graph-subnav/.test(spirit),
-  `spirit: graph-subnav mount (#graph-subnav) missing`);
+r.check(/graph-subnav-mount/.test(spirit) && /<GraphSubnav\b/.test(spirit),
+  `spirit: graph-subnav mount (#graph-subnav-mount / <GraphSubnav>) missing`);
 
 // S3 — graph-subnav wired active="SPIRIT"
 r.check(/active\s*[:=]\s*["']SPIRIT["']/.test(spirit),
