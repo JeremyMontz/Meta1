@@ -15,7 +15,7 @@
  *     B2  budget column #bm-total present
  *     B3  a GAS webhook URL present (the read wiring)
  *   ENTRY (agents/house/house-entry.html)
- *     E1  a form renders (<form>)
+ *     E1  a form renders (<form> OR the form-panel/submit idiom)
  *     E2  a GAS webhook URL present (the write wiring)
  *   TIMELINE (agents/house/house-timeline.html)
  *     T1  a Gantt renders
@@ -68,7 +68,7 @@ if (budget != null) {
 // ENTRY
 const entry = page('agents/house/house-entry.html');
 if (entry != null) {
-  r.check(/<form\b/i.test(entry), `house-entry: form does not render`);
+  r.check((/<form\b/i.test(entry) || /form-panel|id=["'](taskForm|expenseForm)["']/.test(entry)) && /<input\b/i.test(entry) && /submit(Task|Expense)\s*\(|type=["']submit["']/i.test(entry), `house-entry: form does not render (no <form>, form-panel, inputs, or submit path)`);
   r.check(GAS.test(entry), `house-entry: GAS webhook URL missing`);
 }
 
