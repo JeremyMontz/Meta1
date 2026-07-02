@@ -14,7 +14,7 @@
  *
  * CONTRACT (spec-only authorship; page implementations were NOT read):
  *   HEART (graph/heart.html)
- *     H1  the graph-subnav mount (#graph-subnav) is present.
+ *     H1  the graph-subnav mount (#graph-subnav-mount) is present.
  *     H2  the graph-subnav is wired active="HEART". Capability regex.
  *     H3  the page loads its data file — a *-data.js module (the house data-module
  *         convention, cf. spirit-data.js / graph/*-data.js).
@@ -46,8 +46,8 @@ const heart = rd('graph/heart.html');
 const journal = rd('agents/phil/journal.html');
 
 // HEART
-r.check(/#graph-subnav/.test(heart),
-  `heart: graph-subnav mount (#graph-subnav) missing`);
+r.check(/graph-subnav-mount/.test(heart) && /<GraphSubnav\b/.test(heart),
+  `heart: graph-subnav mount (#graph-subnav-mount / <GraphSubnav>) missing`);
 r.check(/active\s*[:=]\s*["']HEART["']/.test(heart),
   `heart: graph-subnav not wired active="HEART"`);
 r.check(/<script[^>]*\bsrc=["'][^"']*-data\.js["']/.test(heart),
