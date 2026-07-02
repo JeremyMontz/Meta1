@@ -25,7 +25,7 @@
  *         roster driver named in the #339 contract.
  *     F2  LAYOUT is a 3x3 roster grid — exactly 9 cells (8 surrounding agents +
  *         the monzter core), per the contract's "3x3 roster".
- *     F3  the graph-subnav mount (#graph-subnav) is present.
+ *     F3  the graph-subnav mount (#graph-subnav-mount) is present.
  *     F4  the graph-subnav is wired active="FACES" (the ORGANS isParent tab),
  *         per the contract literal. Capability regex — spelling-tolerant.
  *     F5  the dossier fly-in is present (the fly-in detail panel).
@@ -95,8 +95,8 @@ const LAYOUT = literalAfter(faces, /LAYOUT\s*=/) || [];
 r.check(Array.isArray(LAYOUT) && LAYOUT.length === 9,
   `faces: LAYOUT is not a 3x3 (9-cell) roster grid (found ${Array.isArray(LAYOUT) ? LAYOUT.length : 'non-array'})`);
 
-r.check(/#graph-subnav/.test(faces),
-  `faces: graph-subnav mount (#graph-subnav) missing`);
+r.check(/graph-subnav-mount/.test(faces) && /<GraphSubnav\b/.test(faces),
+  `faces: graph-subnav mount (#graph-subnav-mount / <GraphSubnav>) missing`);
 
 r.check(/active\s*[:=]\s*["']FACES["']/.test(faces),
   `faces: graph-subnav not wired active="FACES"`);
