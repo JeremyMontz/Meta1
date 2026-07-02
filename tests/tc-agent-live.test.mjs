@@ -15,7 +15,8 @@
  * as tc-live-display/#336 established) must carry:
  *   1. a persona/spirit card mount     (#personaCard)
  *   2. a sessions list mount           (#sessions-mount) with MAX_SESSIONS = 5
- *   3. an activity-log element
+ *   3. (activity-log == the sessions surface above, per #342 resolution — covered
+ *      by the sessions-mount cap; not a separate assertion)
  *   4. a NO-DATA / empty state         (any idiom — capability, not literal)
  *
  * DENOMINATOR — declared from canon, with the site's ONE documented human
@@ -78,7 +79,6 @@ const CAP = {
   personaCard:  /personaCard/,
   sessionsMount: /sessions-mount/,
   maxSessions:  /MAX_SESSIONS\s*=\s*5\b/,
-  activityLog:  /activity-?log/i,
   noData:       /no-?data|nodata|offline|empty-?state|no-?sessions|could not|\bfailed\b/i,
 };
 
