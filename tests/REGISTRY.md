@@ -6,11 +6,18 @@ feeds `agents/bond/bond.html` (brag) per bond.md's teeth > brag > wiki priority.
 Full registry tooling is tracked in #317.
 
 **Status = existence, not pass/fail.** GitHub CI owns pass/fail; this column
-tracks a TC's lifecycle in the bench: `pending` (claimed, authoring) →
-`authored` (test written, PR open) → `live` (merged into `main`). The
-`pending`/`authored` states are the bond-author skill's `Tests` issue-field and
-appear only on in-flight branches; on `main` a row is `live` (or `retired`). The
-`authored → live` flip is a human post-merge step in a 1:1.
+tracks a TC's presence in the bench: `live` (in `main`) or `retired`.
+
+**Rows are added post-merge, not on the TC branch (#317).** A `bond/tc-<N>` PR
+carries **only** the test file — `bond-author` no longer edits this file on the
+branch, so parallel TC branches never collide on this one shared index (the
+merge-conflict class that used to stall the RT-backlog drain). When the human
+merges, the row is added here as `live`, in the same post-merge step that used to
+flip `authored → live`. The in-flight authoring states (`pending` / `authored`)
+live on the **issue `Tests` field**, not in this file. The runner discovers
+`*.test.mjs` by filename, so a missing row is a documentation gap, never a broken
+test — full row-sync tooling is #317. (Rows below still marked `authored` predate
+this change and await the #317 sync pass.)
 
 
 | TC  | File                        | Issue | Tier | Asserts                                                                                                                   | Status  |
