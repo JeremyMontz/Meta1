@@ -29,7 +29,7 @@ const DATA_FILES = [
 // the end of the file, so requiring them also catches a truncated upload.
 const REQUIRED_SECTIONS = [
   'SITE', 'ME', 'NOW', 'PORTFOLIO', 'ARTICLES',
-  'PROJECTS', 'AGENTS', 'LEVELS', 'AGENT_ARTIFACTS', 'SITE_INDEX', 'STATS',
+  'PROJECTS', 'AGENTS', 'LEVELS', 'AGENT_ARTIFACTS', 'SITE_INDEX', 'STATS', 'TESTS',
 ];
 
 const errors = [];
