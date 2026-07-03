@@ -51,7 +51,7 @@ This is the part that matters most, and the part most systems skip. Three mechan
 
 ## Status & roadmap
 
-Pre-launch. Releases and the roadmap are tracked as [GitHub milestones](https://github.com/JeremyMontz/Meta1/milestones).
+Releases and the roadmap are tracked as [GitHub milestones](https://github.com/JeremyMontz/Meta1/milestones).
 
 ---
 
