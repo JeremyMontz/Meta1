@@ -864,5 +864,5 @@ window.STATS = [
   { value: '16',                            label: 'custom skills' },      // manual — no skills list in data.js yet
   { value: '1,000+',                        label: 'pages ingested' },     // manual — historical
   { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
-  { value: String(window.TESTS.length),     label: 'contract tests' },    // computed
+  { value: String(window.TESTS.filter(t => t.tier >= 1).length), label: 'contract tests' }, // computed — excludes the tier-0 smoke canary
 ];
