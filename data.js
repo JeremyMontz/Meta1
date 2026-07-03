@@ -868,5 +868,5 @@ window.STATS = [
   { value: '16',                            label: 'custom skills' },      // manual — no skills list in data.js yet
   { value: '1,000+',                        label: 'pages ingested' },     // manual — historical
   { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
-  { value: window.CI.checks + ' + ' + window.TESTS.length, label: 'CI checks + tests' }, // computed — CI jobs (ci.yml) + test files
+  { value: window.CI.checks + ' & ' + window.TESTS.length, label: 'CI tests' }, // computed — CI check-jobs (ci.yml) & test files
 ];
