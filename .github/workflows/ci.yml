@@ -35,6 +35,8 @@ jobs:
         with:
           node-version: '20'
       - run: node .github/scripts/validate-data.mjs
+      - name: TC registry in sync (tests <-> data.js/REGISTRY.md)
+        run: node tests/build-registry.mjs --check
 
   spelling:
     name: Spellcheck

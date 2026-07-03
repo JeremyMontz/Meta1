@@ -3,6 +3,7 @@
  * Smoke test — proves the runner discovers, executes, and reports a TC.
  * Always passes; a permanent canary that the harness itself is alive.
  * Not a real contract test (TC1 = #298).
+ * @issue: 294  @tier: 0
  */
 import { makeReport } from './_assert.mjs';
 const r = makeReport('smoke');
