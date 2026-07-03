@@ -856,6 +856,10 @@ window.TESTS = [
 ];
 // TESTS:GENERATED END
 
+// CI:GENERATED START
+window.CI = {"checks":4};
+// CI:GENERATED END
+
 // ── Hard stats (portfolio hero; reusable). Computed from real lists where
 // possible so they can't go stale; manual where not derivable (flagged). ──
 window.STATS = [
@@ -864,5 +868,5 @@ window.STATS = [
   { value: '16',                            label: 'custom skills' },      // manual — no skills list in data.js yet
   { value: '1,000+',                        label: 'pages ingested' },     // manual — historical
   { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
-  { value: String(window.TESTS.filter(t => t.tier >= 1).length), label: 'contract tests' }, // computed — excludes the tier-0 smoke canary
+  { value: window.CI.checks + ' + ' + window.TESTS.length, label: 'CI checks + tests' }, // computed — CI jobs (ci.yml) + test files
 ];
