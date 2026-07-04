@@ -89,7 +89,9 @@
     ' font-weight:800;font-style:italic;font-size:clamp(20px,3.2vw,40px);',
     ' text-shadow:0 0 18px rgba(255,110,199,.75),2px 0 0 rgba(141,217,255,.6);}',
     '.cmz-tr-card.c3{font-family:var(--font-sans,system-ui,sans-serif);color:#32303f;',
-    ' font-weight:600;font-size:clamp(17px,2.4vw,30px);letter-spacing:.02em;text-shadow:none;}',
+    ' font-weight:600;font-size:clamp(17px,2.4vw,30px);letter-spacing:.02em;text-shadow:none;',
+    ' background:rgba(255,255,255,.82);padding:12px 26px;border-radius:12px;',
+    ' box-shadow:0 4px 24px rgba(32,30,41,.12);}',
 
     /* controls */
     '.cmz-tr-btn{cursor:pointer;border:1px solid rgba(216,214,224,.45);color:#d8d6e0;',
@@ -275,30 +277,41 @@
     '<rect x="972" y="676" width="28" height="130" fill="#2a1566"/>' +
     /* creature: risen torso, head right */
     '<g id="cmzMon">' +
-    /* flesh torso */
-    '<path d="M620 640 C 640 560, 720 520, 820 516 L 900 520 C 960 528, 1000 570, 1010 640 Z" fill="#caa8c4"/>' +
-    /* chrome chest plate + arm segments */
-    '<path d="M700 640 C 706 576, 760 548, 828 546 L 828 640 Z" fill="url(#cmzChrome)" stroke="#e6ecff" stroke-width="2"/>' +
-    '<rect x="640" y="588" width="54" height="24" rx="10" fill="url(#cmzChrome)"/>' +
-    '<rect x="632" y="616" width="70" height="22" rx="10" fill="url(#cmzChrome)"/>' +
-    /* head */
-    '<circle cx="922" cy="500" r="52" fill="#caa8c4"/>' +
-    '<path d="M878 470 A52 52 0 0 1 966 472 L 952 452 L 902 448 Z" fill="url(#cmzChrome)"/>' +
-    /* glowing eye + skull seam */
-    '<circle id="cmzEye" cx="940" cy="496" r="9" fill="#8dd9ff" filter="url(#cmzGlow)"/>' +
-    '<circle cx="906" cy="498" r="5" fill="#170a3a"/>' +
-    '<path d="M922 448 L 922 470 M 902 452 L 940 452" stroke="#3c4668" stroke-width="3"/>' +
-    /* circuit traces on skin */
+    /* risen torso — angular shoulders, flesh left / chrome right */
+    '<path d="M664 640 L 672 556 C 676 516, 706 496, 748 490 L 892 478 C 936 482, 958 516, 962 560 L 968 640 Z" fill="#caa8c4"/>' +
+    '<path d="M816 640 L 816 484 L 892 478 C 936 482, 958 516, 962 560 L 968 640 Z" fill="url(#cmzChrome)" stroke="#e6ecff" stroke-width="2"/>' +
+    '<path d="M816 520 L 962 528 M 816 566 L 966 572 M 816 610 L 967 612" stroke="#3c4668" stroke-width="2.5"/>' +
+    /* chrome arm — segmented, resting on the table */
+    '<rect x="640" y="548" width="58" height="26" rx="12" fill="url(#cmzChrome)" transform="rotate(38 669 561)"/>' +
+    '<rect x="618" y="592" width="60" height="24" rx="12" fill="url(#cmzChrome)" transform="rotate(64 648 604)"/>' +
+    '<rect x="606" y="628" width="52" height="20" rx="10" fill="url(#cmzChrome)"/>' +
+    /* neck + THE BOLTS (the homage) */
+    '<rect x="856" y="436" width="52" height="48" fill="#caa8c4"/>' +
+    '<rect x="836" y="452" width="22" height="12" rx="3" fill="url(#cmzChrome)" stroke="#c2ff3d" stroke-width="1.5" filter="url(#cmzGlow)"/>' +
+    '<rect x="906" y="452" width="22" height="12" rx="3" fill="url(#cmzChrome)" stroke="#c2ff3d" stroke-width="1.5" filter="url(#cmzGlow)"/>' +
+    /* flat-top skull, jaw, half chrome faceplate */
+    '<path d="M852 366 L 972 366 C 980 366, 984 372, 984 380 L 980 434 C 978 452, 964 462, 946 466 L 890 468 C 870 466, 856 456, 854 438 Z" fill="#caa8c4"/>' +
+    '<path d="M912 366 L 972 366 C 980 366, 984 372, 984 380 L 980 434 C 978 452, 964 462, 946 466 L 928 467 L 918 420 Z" fill="url(#cmzChrome)" stroke="#e6ecff" stroke-width="1.5"/>' +
+    /* stitch scar across the flat top */
+    '<path d="M856 376 L 906 374 M 866 370 L 866 382 M 882 369 L 882 381 M 898 369 L 898 380" stroke="#c2ff3d" stroke-width="2" opacity=".9"/>' +
+    /* eyes: organic left, glowing lens right */
+    '<circle cx="888" cy="414" r="5.5" fill="#170a3a"/>' +
+    '<path d="M876 404 L 900 402" stroke="#7a5f74" stroke-width="3" stroke-linecap="round"/>' +
+    '<circle id="cmzEye" cx="946" cy="412" r="10" fill="#8dd9ff" filter="url(#cmzGlow)"/>' +
+    '<circle cx="946" cy="412" r="3.5" fill="#e6ecff"/>' +
+    /* mouth — flat, faintly stitched */
+    '<path d="M886 446 L 924 446 M 896 441 L 896 451 M 912 441 L 912 451" stroke="#7a5f74" stroke-width="2.5" stroke-linecap="round"/>' +
+    /* circuit traces on the flesh side */
     '<g id="cmzTrace" stroke="#c2ff3d" stroke-width="2" fill="none" opacity=".9">' +
-    '<path d="M720 600 L 760 600 L 770 585 L 810 585"/>' +
-    '<path d="M745 630 L 782 630 L 792 612 L 840 612 L 848 600"/>' +
-    '<circle cx="810" cy="585" r="3.5" fill="#c2ff3d"/><circle cx="848" cy="600" r="3.5" fill="#c2ff3d"/>' +
+    '<path d="M700 600 L 744 600 L 756 582 L 800 582"/>' +
+    '<path d="M712 628 L 760 628 L 772 610 L 806 610 L 812 596"/>' +
+    '<circle cx="800" cy="582" r="3.5" fill="#c2ff3d"/><circle cx="812" cy="596" r="3.5" fill="#c2ff3d"/>' +
     '</g>' +
     /* fiber-optic cables — dashes animated in update() */
     '<g fill="none" stroke-linecap="round" filter="url(#cmzGlow)">' +
-    '<path id="cmzCab1" d="M600 400 C 660 460, 700 520, 730 560" stroke="#ff6ec7" stroke-width="6" stroke-dasharray="14 20"/>' +
-    '<path id="cmzCab2" d="M1040 380 C 1000 440, 960 470, 930 452" stroke="#8dd9ff" stroke-width="6" stroke-dasharray="10 16"/>' +
-    '<path id="cmzCab3" d="M520 640 C 560 600, 620 596, 668 606" stroke="#c2ff3d" stroke-width="5" stroke-dasharray="8 14"/>' +
+    '<path id="cmzCab1" d="M580 380 C 650 440, 700 500, 740 544" stroke="#ff6ec7" stroke-width="6" stroke-dasharray="14 20"/>' +
+    '<path id="cmzCab2" d="M1080 360 C 1030 410, 990 440, 962 430" stroke="#8dd9ff" stroke-width="6" stroke-dasharray="10 16"/>' +
+    '<path id="cmzCab3" d="M520 640 C 560 600, 610 592, 650 600" stroke="#c2ff3d" stroke-width="5" stroke-dasharray="8 14"/>' +
     '</g>' +
     '</g>' +
     '</g>' +
@@ -692,6 +705,7 @@
         neon: root.querySelector('.s-neon'), lec: root.querySelector('.s-lec')
       },
       fx: root.querySelector('.cmz-tr-fx'),
+      vig: root.querySelector('.cmz-tr-vig'),
       white: root.querySelector('.cmz-tr-white'),
       card: root.querySelector('.cmz-tr-card'),
       wmGlitch: root.querySelector('.cmz-tr-wm .glitch'),
@@ -774,6 +788,12 @@
     st.el.poster.style.display = 'none';
     st.running = true;
     st.startMs = performance.now();
+    /* if we somehow start hidden (automation, background tab), pause
+       the clock immediately — onVis resumes it on first visibility */
+    if (document.hidden) {
+      st.pausedAt = performance.now();
+      if (st.audio && st.audio.ok) st.audio.suspend();
+    }
     st.cues = buildCues(st);
     st.el.skip.focus();
     st.raf = requestAnimationFrame(function loop() {
@@ -905,6 +925,10 @@
     if (t >= TL.exit[0]) {
       el.root.style.opacity = String(1 - easeInOut(seg(t, TL.exit[0], DUR)));
     }
+
+    /* vignette: heavy in the gothic world, half in neon, gone in the
+       clean corporate scene (it was graying the white — QC 2026-07-03) */
+    el.vig.style.opacity = t < 20 ? '1' : (t < 33 ? '0.55' : String(0.55 * (1 - seg(t, 33, 34.5))));
 
     /* wordmark crossfade 34–38 */
     var wm = seg(t, 34, 38);
