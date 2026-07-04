@@ -299,7 +299,7 @@ const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
       }}>
         <Eyebrow color="var(--candle)">// INSPECTOR</Eyebrow>
         <h3 style={{ marginTop: 4 }}>
-          Hover a node.
+          Explore the system.
         </h3>
         <p style={{ color: 'var(--fg-subtle)' }}>
           The graph is named Claudemonzter. Outer nodes, agents, have their own domain, webpage, and persona.
@@ -307,13 +307,13 @@ const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
         </p>
 
         <div style={{ marginTop: 10, borderTop: '1px dashed var(--line-loud)', paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <Eyebrow color="var(--candle)">// CONFIG LAYERS</Eyebrow>
+          <Eyebrow color="var(--candle)">// MEMORY LAYERS</Eyebrow>
           {[
-            { c: 'var(--accent)', label: 'L1 · IDENTITY', blurb: 'Who am I. Personality, rules, tone.' },
-            { c: 'var(--info)',   label: 'L2 · CONTEXT', blurb: 'Calibration data. Not instructions.' },
-            { c: 'var(--ok)',     label: 'L3 · PROJECT', blurb: 'Operating manual for a codebase.' },
-            { c: 'var(--candle)', label: 'L4 · AGENT·ROLE', blurb: 'Conditional config per role.' },
-            { c: 'var(--err)',    label: 'L5 · SESSION', blurb: 'Active goals, blockers, state.' },
+            { c: 'var(--accent)', label: 'L1 · IDENTITY', blurb: 'User instructions.' },
+            { c: 'var(--info)',   label: 'L2 · CONTEXT', blurb: 'About me, my voice.' },
+            { c: 'var(--ok)',     label: 'L3 · PROJECT', blurb: 'Rules and operating instructions.' },
+            { c: 'var(--candle)', label: 'L4 · AGENT·ROLE', blurb: 'Domain knowledge.' },
+            { c: 'var(--err)',    label: 'L5 · SESSION', blurb: 'Active state.' },
           ].map(row => (
             <div key={row.label} style={{
               display: 'flex', alignItems: 'flex-start', gap: 10,
@@ -329,7 +329,7 @@ const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
         <div className="scribble" style={{
           marginTop: 'auto', color: 'var(--candle)', fontSize: 22, display: 'block',
         }}>
-          ← click any node <br/>enter its page.
+          ← hover nodes to see details <br/>click to enter the page
         </div>
       </div>
     );
