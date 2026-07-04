@@ -1,20 +1,20 @@
 /* ════════════════════════════════════════════════════════════════════
    components/trailer.js — Claudemonzter cinematic trailer  (#382)
-   Spec: projects/meta1/meta1/design/trailer.md v0.5
+   Spec: projects/meta1/meta1/design/trailer.md v0.6
 
    Self-contained overlay module. Injects its own styles + DOM, plays a
-   ~50s pure-code timeline (SVG scenes + canvas effects + WebAudio),
+   ~47.5s pure-code timeline (SVG scenes + canvas effects + WebAudio),
    then removes itself entirely — the homepage beneath is untouched.
 
-   v4 (Jeremy review round 2): brand palette adopted (accent violet
-   #b57bff carries the name; BoltZ glyph from Wordmark.jsx/favicon in
-   the opening + closing titles), castle seated on the crag, scene 2
-   re-graded to near-black bg with color on foreground, more confetti,
-   slower laughter, dark lenses vs bright bolts, murmur + softer
-   rustles in scene 3 + palette hints (markers, pens, board accents),
-   card 3 recopied, letterbox bars, and a SCORE: gothic drone (S1),
-   heartbeat (lab), synthwave bass+arp (S2), power-on sweep at the
-   reveal.
+   v5 (Jeremy review round 3, discussed + locked 2026-07-03):
+   - Score-forward mix: music is the loudest sustained layer, SFX punch
+     above it briefly, hum demoted to texture.
+   - Comic-book caption system: ONE standard look (cream panel, black
+     border, violet brand tab, slight tilt), 5 captions on a regular
+     ~7s cadence, never straddling a sub-scene cut.
+   - Pacing: creature 5.5s, close-up owns the riser, white collapse at
+     31.5 with a HARD-SILENCE beat (the release), ear-ring tone bridges
+     into scene 3, wink ~41, out by 47.5.
 
    Vanilla JS, no dependencies. Remove the one <script> tag in
    index.html to remove the feature completely.
@@ -23,7 +23,7 @@
   'use strict';
 
   var SEEN_KEY = 'cmz_trailer_seen';
-  var DUR = 50;
+  var DUR = 47.5;
   var REDUCED = false;
   try {
     REDUCED = window.matchMedia &&
@@ -34,45 +34,41 @@
   try { MOBILE = Math.min(window.innerWidth, window.innerHeight) < 560; }
   catch (e) { /* default desktop budget */ }
 
-  /* ── brand palette (site_palette.html, 2026-07-03) ─────────────── */
+  /* ── brand palette ─────────────────────────────────────────────── */
   var PAL = {
-    accent: '#b57bff',   /* brand / Jekyll */
-    candle: '#f5c56a',   /* warmth */
-    ok:     '#a7ff7d',   /* clean */
-    info:   '#8dd9ff',   /* lab-glass */
-    muted:  '#a9a5b8',
-    party:  '#ff6ec7',   /* Hyde only */
-    bolt:   '#c2ff3d'    /* reanimation */
+    accent: '#b57bff', candle: '#f5c56a', ok: '#a7ff7d', info: '#8dd9ff',
+    muted: '#a9a5b8', party: '#ff6ec7', bolt: '#c2ff3d'
   };
-  /* the BoltZ — same path as Wordmark.jsx / favicon.svg */
   var BOLT_Z = '<svg viewBox="0 0 56 72" style="height:.74em;width:.58em;' +
     'display:inline-block;vertical-align:-.04em" aria-label="z">' +
     '<path d="M 6 2 L 50 2 L 30 32 L 48 32 L 8 70 L 26 40 L 6 40 Z" fill="' + PAL.accent + '"/></svg>';
   var BRAND_TITLE = '<span class="cmz-brand"><span class="w">Claude</span>' +
     '<span class="a">mon</span>' + BOLT_Z + '<span class="a">ter</span></span>';
 
-  /* ── Timeline ──────────────────────────────────────────────────── */
+  /* ── Timeline (v0.6) ───────────────────────────────────────────── */
   var TL = {
     titleIn: [0, 3],
     ext:     [3, 12],
     lab:     [12, 19],
     strike:  [19, 20],
-    neon:    [20, 33],      /* creature 20–27 · wide 27–30.5 · close-up 30.5–33 */
-    white:   [33, 34],
-    lecture: [34, 44.6],    /* zoom lands ~41.5, wink 43.3 */
-    button:  [44.6, 47.8],
-    exit:    [47.8, 50]
+    neon:    [20, 31.5],    /* creature 20–25.5 · wide 25.5–28.5 · close-up 28.5–31.5 */
+    white:   [31.5, 32.3],
+    lecture: [32.3, 42.3],  /* still beat to 33.3, zoom lands ~39.5, wink 41 */
+    button:  [42.3, 45.6],
+    exit:    [45.6, 47.5]
   };
+  /* comic captions — one narrator, regular cadence, locked copy */
   var CARDS = [
-    { t: 6.3,  out: 11.5, cls: 'c1', text: 'Every experiment starts with an idea.' },
-    { t: 27.4, out: 31.5, cls: 'c2', text: 'But this creature had ideas of its own!' },
-    { t: 37,   out: 42.5, cls: 'c3', text: 'Welcome to the lab. Thanks for stopping by.' }
+    { t: 6.3,  out: 11.5, top: false, text: 'Every experiment starts with an idea.' },
+    { t: 14.5, out: 18.5, top: true,  text: 'Some ideas keep you up at night.' },
+    { t: 21.5, out: 25.0, top: true,  text: 'But this creature had ideas of its own!' },
+    { t: 29.3, out: 31.4, top: false, text: 'This is fine.' },
+    { t: 36.5, out: 40.2, top: false, text: 'Welcome to the lab. Thanks for stopping by.' }
   ];
   var STROBE = [[0, 0.06], [0.12, 0.20], [0.28, 0.34], [0.46, 0.52]];
   var LENS = [[724 / 1600, 386 / 900], [886 / 1600, 386 / 900]];
   var LENS_R = 78 / 900;
 
-  /* ── tiny math helpers ─────────────────────────────────────────── */
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
   function lerp(a, b, p) { return a + (b - a) * p; }
   function seg(t, a, b) { return clamp((t - a) / (b - a), 0, 1); }
@@ -96,19 +92,16 @@
     ' background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(0,0,0,.75) 100%);}',
     '.cmz-tr-white{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;}',
 
-    /* letterbox — it is a picture, after all */
     '.cmz-tr-lbx{position:absolute;left:0;right:0;height:5.5vh;background:#000;',
     ' pointer-events:none;z-index:4;}',
     '.cmz-tr-lbx.top{top:0}.cmz-tr-lbx.bot{bottom:0}',
 
-    /* the brand title — mirrors Wordmark.jsx (Claude white · mon⚡ter violet) */
     '.cmz-brand{font-family:var(--font-display,Georgia,serif);font-weight:900;',
     ' letter-spacing:-.02em;line-height:1;',
     ' text-shadow:0 0 22px rgba(181,123,255,.55),2px 0 0 rgba(255,110,199,.3),-2px 0 0 rgba(141,217,255,.3);}',
     '.cmz-brand .w{color:#f4f3f7;}',
     '.cmz-brand .a{color:' + PAL.accent + ';}',
 
-    /* black title button card */
     '.cmz-tr-btncard{position:absolute;inset:0;background:#040309;opacity:0;',
     ' pointer-events:none;display:flex;flex-direction:column;align-items:center;',
     ' justify-content:center;gap:22px;z-index:3;}',
@@ -117,7 +110,6 @@
     ' color:' + PAL.muted + ';font-size:clamp(11px,1.3vw,15px);letter-spacing:.3em;}',
     '.cmz-tr-btncard .tag .zap{color:' + PAL.accent + ';}',
 
-    /* corner wordmark — glitch violet → clean sans crossfade */
     '.cmz-tr-wm{position:absolute;top:22px;left:26px;pointer-events:none;line-height:1;z-index:5;}',
     '.cmz-tr-wm span{position:absolute;top:0;left:0;white-space:nowrap;',
     ' font-size:clamp(13px,1.6vw,19px);letter-spacing:.28em;}',
@@ -126,22 +118,20 @@
     '.cmz-tr-wm .clean{font-family:var(--font-sans,system-ui,sans-serif);',
     ' color:#201e29;font-weight:700;letter-spacing:.22em;opacity:0;text-shadow:none;}',
 
-    /* typography cards */
-    '.cmz-tr-card{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);',
-    ' max-width:min(80vw,760px);text-align:center;opacity:0;pointer-events:none;',
-    ' transition:opacity .9s ease;z-index:4;}',
-    '.cmz-tr-card.show{opacity:1;}',
-    '.cmz-tr-card.c1{font-family:var(--font-mono,ui-monospace,monospace);color:#d8d6e0;',
-    ' font-size:clamp(16px,2.4vw,28px);letter-spacing:.12em;text-shadow:0 2px 14px #000;}',
-    '.cmz-tr-card.c2{font-family:var(--font-sans,system-ui,sans-serif);color:' + PAL.party + ';',
-    ' font-weight:800;font-style:italic;font-size:clamp(20px,3.2vw,40px);',
-    ' text-shadow:0 0 18px rgba(255,110,199,.75),2px 0 0 rgba(141,217,255,.6);}',
-    '.cmz-tr-card.c3{font-family:var(--font-sans,system-ui,sans-serif);color:#32303f;',
-    ' font-weight:600;font-size:clamp(17px,2.4vw,30px);letter-spacing:.02em;text-shadow:none;',
-    ' background:rgba(255,255,255,.85);padding:12px 26px;border-radius:12px;',
-    ' border:1.5px solid rgba(181,123,255,.55);box-shadow:0 4px 24px rgba(95,61,212,.14);}',
+    /* comic-book caption — ONE look for every card */
+    '.cmz-tr-card{position:absolute;left:50%;bottom:15%;',
+    ' transform:translateX(-50%) rotate(-1.2deg) scale(.94);',
+    ' max-width:min(82vw,720px);text-align:center;opacity:0;pointer-events:none;',
+    ' transition:opacity .45s ease,transform .45s ease;z-index:4;',
+    ' background:#f7f1df;color:#141414;',
+    ' border:2.5px solid #141414;border-left:9px solid ' + PAL.accent + ';border-radius:3px;',
+    ' font-family:var(--font-sans,system-ui,sans-serif);font-weight:800;',
+    ' text-transform:uppercase;letter-spacing:.05em;',
+    ' font-size:clamp(14px,2vw,25px);padding:10px 22px;',
+    ' box-shadow:4px 4px 0 rgba(0,0,0,.5);}',
+    '.cmz-tr-card.top{bottom:auto;top:11%;}',
+    '.cmz-tr-card.show{opacity:1;transform:translateX(-50%) rotate(-1.2deg) scale(1);}',
 
-    /* controls */
     '.cmz-tr-btn{cursor:pointer;border:1px solid rgba(216,214,224,.45);color:#d8d6e0;',
     ' background:rgba(4,3,9,.55);font-family:var(--font-mono,ui-monospace,monospace);',
     ' font-size:13px;letter-spacing:.14em;padding:8px 14px;border-radius:6px;z-index:6;}',
@@ -153,7 +143,6 @@
     ' border-color:rgba(79,75,96,.4);}',
     '.cmz-tr.lit .cmz-tr-btn:hover{color:#201e29;border-color:#201e29;}',
 
-    /* poster / play gate */
     '.cmz-tr-poster{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;',
     ' align-items:center;justify-content:center;gap:26px;background:rgba(4,3,9,.35);}',
     '.cmz-tr-poster .big{font-size:clamp(24px,4.8vw,58px);animation:cmzFlick 4.2s infinite;}',
@@ -167,7 +156,6 @@
     '.cmz-tr-skiplink:hover{color:#d8d6e0;}',
     '.cmz-tr-skiplink:focus-visible{outline:2px solid ' + PAL.accent + ';outline-offset:2px;}',
 
-    /* replay chip */
     '.cmz-tr-chip{position:fixed;bottom:18px;right:18px;z-index:9000;cursor:pointer;',
     ' border:1px solid var(--line,#201e29);background:var(--bg-elev-1,#0f0d17);',
     ' color:var(--fg-muted,#a9a5b8);font-family:var(--font-mono,ui-monospace,monospace);',
@@ -180,13 +168,12 @@
   ].join('\n');
 
   /* ══════════════════════════════════════════════════════════════ */
-  /* SVG SCENES  (viewBox 1600×900, preserveAspectRatio slice)       */
+  /* SVG SCENES (unchanged from v4 except where noted)               */
   /* ══════════════════════════════════════════════════════════════ */
   function svgWrap(inner) {
     return '<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" ' +
       'xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + inner + '</svg>';
   }
-
   function cloud(cx, cy, s) {
     return '<g>' +
       '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + (110 * s) + '" ry="' + (40 * s) + '"/>' +
@@ -197,8 +184,6 @@
       '</g>';
   }
 
-  /* Scene 1a — castle exterior, B&W. v4: castle footings extended into
-     the crag (towers were floating over the slope). */
   var SVG_EXT = svgWrap(
     '<defs>' +
     '<linearGradient id="cmzSky" x1="0" y1="0" x2="0" y2="1">' +
@@ -239,7 +224,6 @@
     '</g>'
   );
 
-  /* Scene 1b — laboratory interior, B&W */
   var SVG_LAB = svgWrap(
     '<defs>' +
     '<linearGradient id="cmzWall" x1="0" y1="0" x2="0" y2="1">' +
@@ -298,7 +282,6 @@
     '</g>'
   );
 
-  /* Scene 2 — near-black stage, neon foreground (v4 re-grade) */
   var SVG_NEON = svgWrap(
     '<defs>' +
     '<linearGradient id="cmzNbg" x1="0" y1="0" x2="0" y2="1">' +
@@ -314,7 +297,6 @@
     '</defs>' +
     '<rect width="1600" height="900" fill="url(#cmzNbg)"/>' +
 
-    /* ── phase A: the creature ── */
     '<g id="cmzPhA">' +
     '<rect x="480" y="640" width="620" height="36" fill="#432596" stroke="' + PAL.accent + '" stroke-width="3"/>' +
     '<rect x="530" y="676" width="28" height="130" fill="#1c0f42"/>' +
@@ -361,7 +343,6 @@
     '</g>' +
     '</g>' +
 
-    /* ── phase B: scientist wide ── */
     '<g id="cmzPhB" opacity="0">' +
     '<rect x="0" y="760" width="1600" height="140" fill="#0a0714"/>' +
     '<rect x="880" y="470" width="420" height="300" fill="#160d38" stroke="' + PAL.accent + '" stroke-width="4"/>' +
@@ -397,7 +378,6 @@
     '</g>' +
     '</g>' +
 
-    /* ── phase C: the close-up — DARK lenses, bright bolts ── */
     '<g id="cmzPhC" opacity="0">' +
     '<rect width="1600" height="900" fill="#06040c"/>' +
     '<g id="cmzCuHead">' +
@@ -409,7 +389,6 @@
     '<path d="M652 320 C 700 292, 760 278, 800 278 C 840 278, 900 292, 948 320" stroke="#d4b493" stroke-width="4" fill="none" opacity=".6"/>' +
     '<path d="M666 344 Q 724 318 772 340" stroke="#b9977a" stroke-width="9" fill="none" stroke-linecap="round"/>' +
     '<path d="M828 340 Q 876 318 934 344" stroke="#b9977a" stroke-width="9" fill="none" stroke-linecap="round"/>' +
-    /* dark lenses — the arcs (canvas glints) get all the contrast */
     '<circle cx="724" cy="386" r="78" fill="#100d18" opacity=".97" stroke="#c9c6d6" stroke-width="7"/>' +
     '<circle cx="886" cy="386" r="78" fill="#100d18" opacity=".97" stroke="#c9c6d6" stroke-width="7"/>' +
     '<line x1="800" y1="386" x2="810" y2="386" stroke="#c9c6d6" stroke-width="7"/>' +
@@ -422,7 +401,6 @@
     '</g>'
   );
 
-  /* Scene 3 — sterile white with palette hints for continuity */
   function buildBoardContent() {
     var s = '', i;
     var hub = [640, 330];
@@ -453,7 +431,6 @@
     for (i = 0; i < code.length; i++)
       s += '<text x="960" y="' + (170 + i * 44) +
            '" font-family="monospace" font-size="22" fill="#4f4b60">' + code[i] + '</text>';
-    /* palette-hint annotations: violet arrow, gold circle, lime underline */
     s += '<path d="M960 260 L 1150 260 L 1140 250 M 1150 260 L 1140 270" stroke="#7b61ff" stroke-width="3" fill="none"/>';
     s += '<path d="M958 178 L 1064 178" stroke="#8fce2e" stroke-width="3.5" opacity=".8"/>';
     s += '<circle cx="1120" cy="330" r="22" fill="none" stroke="#d9a13f" stroke-width="3" opacity=".8"/>';
@@ -473,7 +450,6 @@
     '<line x1="0" y1="716" x2="1600" y2="716" stroke="#dcdce2" stroke-width="2"/>' +
     '<rect x="360" y="90" width="880" height="450" rx="8" fill="#ffffff" stroke="#c9c9d1" stroke-width="5"/>' +
     '<rect x="360" y="540" width="880" height="12" fill="#dcdce2"/>' +
-    /* markers on the tray — the palette itself, resting in shot */
     '<rect x="700" y="530" width="52" height="9" rx="4" fill="' + PAL.accent + '"/>' +
     '<rect x="762" y="531" width="52" height="9" rx="4" fill="#d9a13f"/>' +
     '<rect x="824" y="530" width="52" height="9" rx="4" fill="#e0559f"/>' +
@@ -481,14 +457,12 @@
     '<g>' +
     '<polygon points="920,560 1120,560 1150,716 890,716" fill="#b3a08a"/>' +
     '<rect x="905" y="546" width="230" height="18" rx="4" fill="#8f7c66"/>' +
-    /* violet accent strip — brand continuity */
     '<rect x="990" y="590" width="60" height="7" rx="3" fill="' + PAL.accent + '" opacity=".85"/>' +
     '</g>' +
     '<g id="cmzLect">' +
     '<path d="M946 560 L 952 464 C 954 424, 984 402, 1020 400 C 1056 402, 1086 424, 1088 464 L 1094 560 Z" fill="url(#cmzCoat2)" stroke="#c9c9d1" stroke-width="2"/>' +
     '<path d="M1000 404 L 992 470 M 1040 404 L 1048 470" stroke="#c9c9d1" stroke-width="2" fill="none"/>' +
     '<path d="M1006 402 L 1020 424 L 1034 402 L 1027 398 L 1013 398 Z" fill="#cfe0f0"/>' +
-    /* pens in the coat pocket — violet + gold */
     '<rect x="1052" y="486" width="26" height="20" fill="none" stroke="#c9c9d1" stroke-width="2"/>' +
     '<rect x="1058" y="474" width="5" height="16" rx="2" fill="' + PAL.accent + '"/>' +
     '<rect x="1066" y="476" width="5" height="14" rx="2" fill="#d9a13f"/>' +
@@ -518,7 +492,7 @@
   );
 
   /* ══════════════════════════════════════════════════════════════ */
-  /* AUDIO ENGINE — all synthesized; v4 adds the SCORE               */
+  /* AUDIO ENGINE — v5: score-forward mix                            */
   /* ══════════════════════════════════════════════════════════════ */
   function AudioEngine() {
     var AC = window.AudioContext || window.webkitAudioContext;
@@ -549,7 +523,6 @@
       return s;
     }
 
-    /* wind bed */
     var windLP = ctx.createBiquadFilter(); windLP.type = 'lowpass'; windLP.frequency.value = 420;
     var windG = ctx.createGain(); windG.gain.value = 0;
     loopSrc(PINK).connect(windLP); windLP.connect(windG); windG.connect(master);
@@ -558,15 +531,14 @@
     lfo.connect(lfoG); lfoG.connect(windLP.frequency); lfo.start();
     a.windG = windG;
 
-    /* rain */
     var rainHP = ctx.createBiquadFilter(); rainHP.type = 'highpass'; rainHP.frequency.value = 2600;
     var rainG = ctx.createGain(); rainG.gain.value = 0;
     loopSrc(WHITE).connect(rainHP); rainHP.connect(rainG); rainG.connect(master);
     a.rainG = rainG;
 
-    /* gothic drone — scene 1's low organ pedal (A1 + E2, detuned pairs) */
+    /* gothic drone — now a lead voice, not a whisper */
     var droneG = ctx.createGain(); droneG.gain.value = 0;
-    var droneLP = ctx.createBiquadFilter(); droneLP.type = 'lowpass'; droneLP.frequency.value = 220;
+    var droneLP = ctx.createBiquadFilter(); droneLP.type = 'lowpass'; droneLP.frequency.value = 240;
     droneLP.connect(droneG); droneG.connect(master);
     [55, 55.35, 82.41, 82.95].forEach(function (f, i) {
       var o = ctx.createOscillator(); o.type = i < 2 ? 'sawtooth' : 'sine';
@@ -575,18 +547,17 @@
       o.connect(og); og.connect(droneLP); o.start();
     });
     var trem = ctx.createOscillator(), tremG = ctx.createGain();
-    trem.frequency.value = 0.09; tremG.gain.value = 0.02;
+    trem.frequency.value = 0.09; tremG.gain.value = 0.03;
     trem.connect(tremG); tremG.connect(droneG.gain); trem.start();
     a.droneG = droneG;
 
-    /* heartbeat — real double-thump, scheduled from the lab cue */
     a.thump = function (at) {
       var o = ctx.createOscillator(); o.type = 'sine';
       o.frequency.setValueAtTime(62, at);
       o.frequency.exponentialRampToValueAtTime(38, at + 0.12);
       var g = ctx.createGain();
       g.gain.setValueAtTime(0.0001, at);
-      g.gain.exponentialRampToValueAtTime(0.3, at + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.4, at + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, at + 0.24);
       o.connect(g); g.connect(master); o.start(at); o.stop(at + 0.3);
     };
@@ -598,7 +569,6 @@
       }
     };
 
-    /* high-voltage hum */
     var shaper = ctx.createWaveShaper();
     (function () {
       var c = new Float32Array(257), i, x;
@@ -617,7 +587,6 @@
     o1.start(); o2.start(); o3.start();
     a.humG = humG;
 
-    /* machine thrum + riser (scene 2 ambience) */
     var thr = ctx.createOscillator(); thr.type = 'sawtooth'; thr.frequency.value = 55;
     var thrLP = ctx.createBiquadFilter(); thrLP.type = 'lowpass'; thrLP.frequency.value = 130;
     var thrG = ctx.createGain(); thrG.gain.value = 0;
@@ -639,50 +608,46 @@
       riserG.gain.exponentialRampToValueAtTime(peak, t0 + secs);
     };
 
-    /* ── THE SCORE: synthwave bass + arpeggio (scene 2) ──────────── */
+    /* THE SCORE — v5 mix: music is the bed, and it is AUDIBLE */
     var arpBus = ctx.createGain(); arpBus.gain.value = 1;
     arpBus.connect(master);
     a.arpBus = arpBus;
-    /* chords: Am, F, C, G — roots in Hz (A1, F1, C2, G1) */
     var CHORDS = [55, 43.65, 65.41, 49];
     a.score = function (secs, hot) {
       var t0 = ctx.currentTime;
-      var step = 0.1364;                 /* 16ths @ 110bpm */
-      var barLen = step * 8;             /* half-bar chord changes feel driving */
+      var step = 0.1364;
+      var barLen = step * 8;
       var nSteps = Math.floor(secs / step);
       var i;
       for (i = 0; i < nSteps; i++) {
         var at = t0 + i * step;
         var chord = CHORDS[Math.floor(i * step / (barLen * 2)) % 4];
-        /* bass on the beat (every 4 steps) */
         if (i % 4 === 0) {
           var b = ctx.createOscillator(); b.type = 'sawtooth';
           b.frequency.value = chord * 2;
-          var bLP = ctx.createBiquadFilter(); bLP.type = 'lowpass'; bLP.frequency.value = 280;
+          var bLP = ctx.createBiquadFilter(); bLP.type = 'lowpass'; bLP.frequency.value = 340;
           var bg = ctx.createGain();
           bg.gain.setValueAtTime(0.0001, at);
-          bg.gain.exponentialRampToValueAtTime(hot ? 0.17 : 0.13, at + 0.015);
+          bg.gain.exponentialRampToValueAtTime(hot ? 0.28 : 0.24, at + 0.015);
           bg.gain.exponentialRampToValueAtTime(0.0001, at + 0.5);
           b.connect(bLP); bLP.connect(bg); bg.connect(arpBus);
           b.start(at); b.stop(at + 0.55);
         }
-        /* arp: chord tones climbing octaves, up-down */
         var tones = [chord * 4, chord * 4 * 1.1892, chord * 6, chord * 8, chord * 6, chord * 4 * 1.1892];
         var f = tones[i % tones.length];
         var o = ctx.createOscillator(); o.type = 'sawtooth';
         o.frequency.value = f;
         var oLP = ctx.createBiquadFilter(); oLP.type = 'lowpass';
-        oLP.frequency.value = hot ? 2100 : 1500;
+        oLP.frequency.value = hot ? 3200 : 2600;
         var og = ctx.createGain();
         og.gain.setValueAtTime(0.0001, at);
-        og.gain.exponentialRampToValueAtTime(hot ? 0.085 : 0.06, at + 0.012);
+        og.gain.exponentialRampToValueAtTime(hot ? 0.19 : 0.14, at + 0.012);
         og.gain.exponentialRampToValueAtTime(0.0001, at + 0.11);
         o.connect(oLP); oLP.connect(og); og.connect(arpBus);
         o.start(at); o.stop(at + 0.14);
       }
     };
 
-    /* power-on sweep — the creature comes online */
     a.powerOn = function () {
       var t0 = ctx.currentTime;
       var o = ctx.createOscillator(); o.type = 'sine';
@@ -690,7 +655,7 @@
       o.frequency.exponentialRampToValueAtTime(520, t0 + 1.1);
       var g = ctx.createGain();
       g.gain.setValueAtTime(0.0001, t0);
-      g.gain.exponentialRampToValueAtTime(0.1, t0 + 0.15);
+      g.gain.exponentialRampToValueAtTime(0.12, t0 + 0.15);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.25);
       o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + 1.3);
       var s = ctx.createOscillator(); s.type = 'triangle';
@@ -698,12 +663,21 @@
       s.frequency.exponentialRampToValueAtTime(2080, t0 + 1.2);
       var sg = ctx.createGain();
       sg.gain.setValueAtTime(0.0001, t0 + 0.9);
-      sg.gain.exponentialRampToValueAtTime(0.035, t0 + 1.0);
+      sg.gain.exponentialRampToValueAtTime(0.04, t0 + 1.0);
       sg.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.3);
       s.connect(sg); sg.connect(master); s.start(t0 + 0.9); s.stop(t0 + 1.35);
     };
 
-    /* lecture-hall bed: room tone + audience murmur (wandering formants) */
+    /* the ear-ring — carries the mayhem across the cut into scene 3 */
+    a.earRing = function () {
+      var t0 = ctx.currentTime;
+      var o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = 2900;
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.05, t0);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 3.5);
+      o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + 3.6);
+    };
+
     var roomLP = ctx.createBiquadFilter(); roomLP.type = 'lowpass'; roomLP.frequency.value = 300;
     var roomG = ctx.createGain(); roomG.gain.value = 0;
     loopSrc(PINK).connect(roomLP); roomLP.connect(roomG); roomG.connect(master);
@@ -720,11 +694,10 @@
       wl.connect(wlG); wlG.connect(bp.frequency); wl.start();
     });
     var murLfo = ctx.createOscillator(), murLfoG = ctx.createGain();
-    murLfo.frequency.value = 0.13; murLfoG.gain.value = 0.011;
+    murLfo.frequency.value = 0.13; murLfoG.gain.value = 0.02;
     murLfo.connect(murLfoG); murLfoG.connect(murG.gain); murLfo.start();
     a.murG = murG;
 
-    /* one-shots ------------------------------------------------- */
     a.thunder = function (intensity, rumble) {
       var t0 = ctx.currentTime;
       var s = ctx.createBufferSource(); s.buffer = WHITE;
@@ -787,7 +760,6 @@
       o.start(t0); o.stop(t0 + 0.16);
     };
 
-    /* mad laughter — v4: slower cadence (Jeremy: "slow it down a bit") */
     a.laugh = function () {
       var t0all = ctx.currentTime;
       var hv = humG.gain.value;
@@ -815,13 +787,12 @@
           g.gain.setValueAtTime(0.0001, tt);
           g.gain.exponentialRampToValueAtTime(0.42, tt + 0.035);
           g.gain.exponentialRampToValueAtTime(0.0001, tt + dt * 0.85);
-          tt += dt * (1 + i * 0.03);       /* decelerating — a rolling belly laugh */
+          tt += dt * (1 + i * 0.03);
         }
         o.start(t0); o.stop(tt + 0.3); vib.stop(tt + 0.3);
       }
     };
 
-    /* softer, warmer page-turn (less "static") */
     a.rustle = function () {
       var t0 = ctx.currentTime;
       var s = ctx.createBufferSource(); s.buffer = WHITE;
@@ -839,7 +810,6 @@
       s.start(t0); s.stop(tt + 0.5);
     };
 
-    /* anticipation swell into the wink */
     var swellG = ctx.createGain(); swellG.gain.value = 0;
     var swellO = ctx.createOscillator(); swellO.type = 'sine'; swellO.frequency.value = 42;
     swellO.connect(swellG); swellG.connect(master); swellO.start();
@@ -966,7 +936,7 @@
       '<div class="cmz-tr-poster">' +
       '  <div class="big">' + BRAND_TITLE + '</div>' +
       '  <button type="button" class="cmz-tr-btn cmz-tr-play">▶ PLAY · SOUND ON</button>' +
-      '  <div class="cmz-tr-sub">50 SECONDS · A LABORATORY PICTURE</div>' +
+      '  <div class="cmz-tr-sub">48 SECONDS · A LABORATORY PICTURE</div>' +
       '  <button type="button" class="cmz-tr-skiplink">skip to site →</button>' +
       '</div>';
     document.body.appendChild(root);
@@ -1078,46 +1048,47 @@
     });
   }
 
-  /* ── audio cue list ────────────────────────────────────────────── */
+  /* ── audio cue list (v0.6 timeline, score-forward levels) ──────── */
   function buildCues(st) {
     var A = function (fn) { return function () { if (st.audio && st.audio.ok) fn(st.audio); }; };
     return [
-      { t: 0.3,  fn: A(function (a) { rampGain(a, 'windG', 0.28, 2.5); }) },
+      { t: 0.3,  fn: A(function (a) { rampGain(a, 'windG', 0.20, 2.5); }) },
       { t: 1.2,  fn: A(function (a) { a.thunder(0.3, true); }) },
-      { t: 3.0,  fn: A(function (a) { rampGain(a, 'droneG', 0.06, 3.5); }) },
+      { t: 3.0,  fn: A(function (a) { rampGain(a, 'droneG', 0.13, 3.5); }) },
       { t: 3.2,  fn: A(function (a) { rampGain(a, 'rainG', 0.012, 1.5); }) },
       { t: 8.1,  fn: A(function (a) { a.thunder(0.85, true); }), flash: 'ext' },
       { t: 10.6, fn: A(function (a) { a.thunder(0.55, true); }), flash: 'ext' },
       { t: 12.0, fn: A(function (a) {
-          rampGain(a, 'windG', 0.10, 1.2); rampGain(a, 'rainG', 0.02, 1.2);
-          rampGain(a, 'droneG', 0.035, 1.5);
+          rampGain(a, 'windG', 0.07, 1.2); rampGain(a, 'rainG', 0.015, 1.2);
+          rampGain(a, 'droneG', 0.08, 1.5);
           a.heartbeat(6.8); }) },
       { t: 15.5, fn: A(function (a) { a.thunder(0.45, true); }), flash: 'lab' },
       { t: 18.7, fn: A(function (a) { rampGain(a, 'droneG', 0, 0.25); }) },
       { t: 19.0, fn: A(function (a) { a.clap(); }) },
       { t: 20.0, fn: A(function (a) {
           rampGain(a, 'windG', 0, 0.4); rampGain(a, 'rainG', 0, 0.4);
-          rampGain(a, 'humG', 0.16, 1.0);
-          rampGain(a, 'thrG', 0.05, 1.5);
-          a.score(6.95, false); }) },
+          rampGain(a, 'humG', 0.10, 1.0);
+          rampGain(a, 'thrG', 0.04, 1.5);
+          a.score(5.45, false); }) },
       { t: 20.15, fn: A(function (a) { a.powerOn(); }) },
       { t: 20.4, fn: A(function (a) { a.thunder(0.5, false); }), flash: 'neon' },
-      { t: 21.3, fn: A(function (a) { a.thunder(0.4, false); }), flash: 'neon' },
-      { t: 24.6, fn: A(function (a) { a.thunder(0.3, false); }), flash: 'neon' },
-      { t: 27.0, fn: A(function (a) { a.score(5.9, true); }) },
-      { t: 27.5, fn: A(function (a) {
-          rampGain(a, 'humG', 0.24, 2.5); rampGain(a, 'thrG', 0.09, 2.5); }) },
-      { t: 29.5, fn: A(function (a) { a.riser(3.4, 0.3); }) },
-      { t: 30.7, fn: A(function (a) { a.laugh(); }) },
-      { t: 32.1, fn: A(function (a) { a.laugh(); }) },
-      { t: 33.0, fn: A(function (a) { a.cutAll(); }) },
-      { t: 34.5, fn: A(function (a) {
-          rampGain(a, 'roomG', 0.03, 2); rampGain(a, 'murG', 0.024, 2.5); }) },
-      { t: 36.8, fn: A(function (a) { a.rustle(); }) },
-      { t: 41.6, fn: A(function (a) { a.rustle(); }) },
-      { t: 42.5, fn: A(function (a) { a.swell(0.85, 0.05); }) },
-      { t: 43.35, fn: A(function (a) { a.bowl(); }) },
-      { t: 44.6, fn: A(function (a) {
+      { t: 21.6, fn: A(function (a) { a.thunder(0.4, false); }), flash: 'neon' },
+      { t: 24.5, fn: A(function (a) { a.thunder(0.3, false); }), flash: 'neon' },
+      { t: 25.5, fn: A(function (a) {
+          a.score(5.9, true);
+          rampGain(a, 'humG', 0.16, 2.0); rampGain(a, 'thrG', 0.07, 2.0); }) },
+      { t: 28.5, fn: A(function (a) { a.riser(2.9, 0.32); }) },
+      { t: 28.8, fn: A(function (a) { a.laugh(); }) },
+      { t: 30.2, fn: A(function (a) { a.laugh(); }) },
+      /* the release: hard cut to silence + the ear-ring bridge */
+      { t: 31.5, fn: A(function (a) { a.cutAll(); a.earRing(); }) },
+      { t: 33.3, fn: A(function (a) {
+          rampGain(a, 'roomG', 0.03, 2); rampGain(a, 'murG', 0.05, 2.5); }) },
+      { t: 35.5, fn: A(function (a) { a.rustle(); }) },
+      { t: 39.8, fn: A(function (a) { a.rustle(); }) },
+      { t: 40.2, fn: A(function (a) { a.swell(0.8, 0.05); }) },
+      { t: 41.05, fn: A(function (a) { a.bowl(); }) },
+      { t: 42.3, fn: A(function (a) {
           rampGain(a, 'roomG', 0, 0.3); rampGain(a, 'murG', 0, 0.3); }) }
     ];
   }
@@ -1164,16 +1135,15 @@
         c.done = true; c.fn();
         if (c.flash && !REDUCED) {
           st.flashes.push({ t0: t, scene: c.flash });
-          /* aftershocks shake loose more confetti */
           if (c.flash === 'neon') spawnConfetti(st, MOBILE ? 40 : 90, 0.5, 0.45, 0.12);
         }
       }
     }
 
     if (st.audio && st.audio.ok && t >= 3.5 && t < 12) {
-      st.audio.rainG.gain.value = lerp(0.012, 0.07, seg(t, 4, 12));
+      st.audio.rainG.gain.value = lerp(0.012, 0.055, seg(t, 4, 12));
     }
-    if (st.audio && st.audio.ok && t >= 20 && t < 33 && Math.random() < 0.045) {
+    if (st.audio && st.audio.ok && t >= 20 && t < 31.5 && Math.random() < 0.045) {
       st.audio.blip();
     }
 
@@ -1207,7 +1177,8 @@
       cam(st, 'lec', 1, 1020, 352);
     } else if (t < TL.button[0]) {
       setScene(st, 'lec');
-      var p3 = easeInOut(seg(t, TL.lecture[0], 41.5));
+      /* held still beat 32.3–33.3, then the zoom (lands ~39.5) */
+      var p3 = easeInOut(seg(t, 33.3, 39.5));
       cam(st, 'lec', lerp(1, REDUCED ? 1.8 : 2.9, p3), 1020, 352);
       winkTick(st, t);
     } else {
@@ -1225,8 +1196,9 @@
           if (sp >= STROBE[i][0] && sp < STROBE[i][1]) { wOp = 1; break; }
       }
     } else if (t >= 19 && t < 20) wOp = 0.4 * (1 - (t - 19));
-    if (t >= 33 && t < 34) {
-      wOp = REDUCED ? 0.85 * (1 - (t - 33) * 0.4) : (t < 33.15 ? 1 : 1 - easeOut(seg(t, 33.15, 34)));
+    if (t >= TL.white[0] && t < TL.white[1]) {
+      wOp = REDUCED ? 0.85 * (1 - seg(t, TL.white[0], TL.white[1]) * 0.5)
+                    : (t < 31.65 ? 1 : 1 - easeOut(seg(t, 31.65, TL.white[1])));
     }
     el.white.style.opacity = String(wOp);
 
@@ -1234,10 +1206,10 @@
       el.root.style.opacity = String(1 - easeInOut(seg(t, TL.exit[0], DUR)));
     }
 
-    el.vig.style.opacity = t < 20 ? '1' : (t < 33 ? '0.55' : String(0.55 * (1 - seg(t, 33, 34.5))));
+    el.vig.style.opacity = t < 20 ? '1' : (t < 31.5 ? '0.55' : String(0.55 * (1 - seg(t, 31.5, 33))));
 
     el.wm.style.opacity = t >= TL.button[0] ? '0' : '1';
-    var wm = seg(t, 34, 38);
+    var wm = seg(t, 32.3, 36);
     el.wmGlitch.style.opacity = String(1 - wm);
     el.wmClean.style.opacity = String(wm);
 
@@ -1247,7 +1219,7 @@
       st.cardIdx = idx;
       if (idx === -1) el.card.classList.remove('show');
       else {
-        el.card.className = 'cmz-tr-card ' + CARDS[idx].cls;
+        el.card.className = 'cmz-tr-card' + (CARDS[idx].top ? ' top' : '');
         el.card.textContent = CARDS[idx].text;
         void el.card.offsetWidth;
         el.card.classList.add('show');
@@ -1274,7 +1246,7 @@
 
   function neonTick(st, t) {
     var A = q(st, 'neon', '#cmzPhA'), B = q(st, 'neon', '#cmzPhB'), C = q(st, 'neon', '#cmzPhC');
-    var phase = t < 27 ? 0 : (t < 30.5 ? 1 : 2);
+    var phase = t < 25.5 ? 0 : (t < 28.5 ? 1 : 2);
     if (A) A.setAttribute('opacity', phase === 0 ? '1' : '0');
     if (B) B.setAttribute('opacity', phase === 1 ? '1' : '0');
     if (C) C.setAttribute('opacity', phase === 2 ? '1' : '0');
@@ -1288,7 +1260,6 @@
       if (tr) tr.setAttribute('opacity', String(0.5 + 0.5 * Math.abs(Math.sin(t * 5))));
       var eye = q(st, 'neon', '#cmzEye');
       if (eye) eye.setAttribute('r', String(8 + 2.4 * Math.abs(Math.sin(t * 3.4))));
-      /* gentle continuous confetti drift through the reveal */
       if (!REDUCED && Math.random() < 0.3) spawnConfetti(st, 2, 0.5, 0.5, 0.3);
       if (!REDUCED) {
         var amp = 0;
@@ -1299,8 +1270,8 @@
           'translate(' + rnd(-amp, amp).toFixed(1) + 'px,' + rnd(-amp, amp).toFixed(1) + 'px)' : '';
       }
     } else if (phase === 1) {
-      var ph = (t - 27) % 1.2, throwP = ph < 0.3 ? easeOut(ph / 0.3) : 1;
-      var sw = Math.floor((t - 27) / 1.2) % 3;
+      var ph = (t - 25.5) % 1.2, throwP = ph < 0.3 ? easeOut(ph / 0.3) : 1;
+      var sw = Math.floor((t - 25.5) / 1.2) % 3;
       ['#cmzSw1', '#cmzSw2', '#cmzSw3'].forEach(function (id, k) {
         var l = q(st, 'neon', id), px = 960 + k * 130;
         if (!l) return;
@@ -1310,7 +1281,7 @@
       var arm = q(st, 'neon', '#cmzArm');
       if (arm) arm.setAttribute('transform', 'rotate(' + (-18 + 26 * throwP) + ' 780 600)');
       if (!REDUCED) {
-        var s1 = 3.5 * (0.4 + 0.6 * seg(t, 27, 30.5));
+        var s1 = 3.5 * (0.4 + 0.6 * seg(t, 25.5, 28.5));
         st.el.shake.style.transform =
           'translate(' + rnd(-s1, s1).toFixed(1) + 'px,' + rnd(-s1, s1).toFixed(1) + 'px)';
       }
@@ -1322,24 +1293,24 @@
       if (mo) mo.setAttribute('transform',
         'translate(0 ' + (3 * Math.abs(Math.sin(t * 9))).toFixed(1) + ')');
       if (!REDUCED) {
-        var s2 = 4 + 3 * seg(t, 30.5, 33);
+        var s2 = 4 + 3 * seg(t, 28.5, 31.5);
         st.el.shake.style.transform =
           'translate(' + rnd(-s2, s2).toFixed(1) + 'px,' + rnd(-s2, s2).toFixed(1) + 'px)';
       }
     }
-    if (t >= 33 - 0.02) st.el.shake.style.transform = '';
+    if (t >= 31.5 - 0.02) st.el.shake.style.transform = '';
   }
 
   function winkTick(st, t) {
     var lid = q(st, 'lec', '#cmzLid'), br = q(st, 'lec', '#cmzBrR'), m = q(st, 'lec', '#cmzMouth');
     if (!lid) return;
     var w = 0;
-    if (t >= 43.3 && t < 43.45) w = seg(t, 43.3, 43.45);
-    else if (t >= 43.45 && t < 43.75) w = 1;
-    else if (t >= 43.75 && t < 43.95) w = 1 - seg(t, 43.75, 43.95);
+    if (t >= 41.0 && t < 41.15) w = seg(t, 41.0, 41.15);
+    else if (t >= 41.15 && t < 41.45) w = 1;
+    else if (t >= 41.45 && t < 41.65) w = 1 - seg(t, 41.45, 41.65);
     lid.setAttribute('transform', 'translate(1038 350) scale(1 ' + w.toFixed(3) + ')');
     if (br) br.setAttribute('transform', 'translate(0 ' + (2.5 * w).toFixed(2) + ')');
-    if (m && t >= 43.3 && !st.slySet) {
+    if (m && t >= 41.0 && !st.slySet) {
       st.slySet = true;
       m.setAttribute('d', 'M1008 388 Q 1020 394 1034 386');
     }
@@ -1351,7 +1322,7 @@
     g.clearRect(0, 0, w, h);
     if (REDUCED) return;
 
-    var grainA = t < 19 ? 0.10 : (t < 33 ? 0.05 : 0);
+    var grainA = t < 19 ? 0.10 : (t < 31.5 ? 0.05 : 0);
     if (grainA > 0) {
       var n = MOBILE ? 90 : 220;
       for (i = 0; i < n; i++) {
@@ -1420,7 +1391,7 @@
       g.globalAlpha = 1;
     }
 
-    if (t >= 27 && t < 30.5) {
+    if (t >= 25.5 && t < 28.5) {
       var ax = w * (181 / 1600), ay = h * (340 / 900);
       var bx = w * (441 / 1600), by = h * (280 / 900);
       bolt(g, ax, ay, bx, by, PAL.info, 2.6, 0.95);
@@ -1434,7 +1405,7 @@
       }
     }
 
-    if (t >= 30.5 && t < 33) {
+    if (t >= 28.5 && t < 31.5) {
       for (i = 0; i < LENS.length; i++) {
         var lx = w * LENS[i][0], ly = h * LENS[i][1], lr = h * LENS_R * 0.86;
         g.save();
