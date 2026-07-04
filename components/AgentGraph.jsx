@@ -302,8 +302,8 @@ const Inspector = ({ hovered, agentData, agents: agentsProp, fetchStatus }) => {
           Hover a node.
         </h3>
         <p style={{ color: 'var(--fg-subtle)' }}>
-          The center is Claudemonzter and system controls. The eight outer nodes are agents, each with its own domain, webpage, and persona.
-          They are grouped by nature in projects, the four inner nodes.
+          The graph is named Claudemonzter. Outer nodes, agents, have their own domain, webpage, and persona.
+          They are grouped by function in projects, the inner nodes.
         </p>
 
         <div style={{ marginTop: 10, borderTop: '1px dashed var(--line-loud)', paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
