@@ -41,6 +41,11 @@
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs and tests/tc1/tc2/tc-articles. Run directly
  * or via tests/run.mjs.
+  *
+ * @covers: @ABOUT_PAGES (about section)
+ * @ignores: content quality — editorial
+ * @ignores: history month list inside about/history.html — owned: #335
+ * @ignores: hero h1 — heterogeneous by design (see NB above)
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

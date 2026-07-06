@@ -40,6 +40,10 @@
  * scan, not proof the fetch that matters still runs.
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Run via tests/run.mjs.
+  *
+ * @covers: @dataRole:live pages (declared in SITE_INDEX)
+ * @ignores: live values — runtime / Tier 4
+ * @ignores: GitHub activity feed — owned: #364 (different live source)
  */
 import { readFileSync } from 'node:fs';
 import { join, dirname, normalize } from 'node:path';

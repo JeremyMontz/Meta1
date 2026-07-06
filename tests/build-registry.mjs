@@ -22,11 +22,36 @@
  *       @issue: <n>                            (else parsed from the title meta)
  *       @tier:  <n>                            (else parsed from the title meta)
  *
- *   From that we EMIT two artifacts, each into a marked block so authored prose
- *   and hand-tuned data around them are never clobbered:
+ *   COVERAGE DECLARATIONS (#403 — declarations beat derivation).
+ *   Each TC declares what it owns and what it deliberately leaves out of
+ *   contract, so authoring agents LOOK UP instead of REASONING per run:
+ *       @covers: <surface>[, <surface>…]       (repeatable)
+ *           surface = a page path (index.html), a glob (writing/*.html),
+ *           a data-derived token resolved from data.js exactly the way the
+ *           tests themselves derive their denominators —
+ *             @AGENTS · @ORGANS · @HISTORY · @ARTICLES · @ABOUT_PAGES ·
+ *             @dataRole:live · @dataRole:entry
+ *           — a non-page surface ("data.js (route fields)"), * (universal),
+ *           or none (…) (declared-none, e.g. the smoke canary).
+ *       @ignores: <element> — <reason>         (repeatable, one per line)
+ *           Elements of covered surfaces deliberately OUT of contract.
+ *           NOTE the global default (human ruling 2026-07-06): ALL content
+ *           values are editorial — never contract — with or without an
+ *           @ignores line. Ignores document seams/exceptions, not permission.
+ *           Reason vocabulary (convention): editorial (never a contract) ·
+ *           pass-2 (#375) (snapshot once settled) · owned: #N / Tier-0
+ *           (seam — lives in another TC/check) · runtime / Tier 4 (deferred).
+ *           An @ignores whose element is itself a covered page path SUBTRACTS
+ *           that page from this TC's covers (e.g. tc-agent-live × jeremy).
+ *
+ *   From that we EMIT three artifacts; the two marked blocks never clobber the
+ *   authored prose around them, and PAGES.md is generated whole:
  *       1. window.TESTS  in  data.js         (site data section — consumers read it)
  *       2. a table in     tests/REGISTRY.md  (human mirror; the "Scope &
  *          exemptions" prose below the table stays human-owned)
+ *       3. tests/PAGES.md                    (page-primary coverage view — one
+ *          row per published page: owned-by / declared out-of-contract;
+ *          uncovered pages are visible BY CONSTRUCTION)
  *
  * REUSABLE HARNESS.
  *   Everything except parseTestFile() and the two target/marker constants is
@@ -35,20 +60,22 @@
  *   (window.SKILLS), point it at the skills dir + hands.html's data.
  *
  * MODES.
- *   --write   regenerate both marked blocks in place.
- *   --check   re-derive in memory and diff against the on-disk blocks; exit 1 on
- *             any drift (this is the registry's own CI tooth). Default if no arg.
+ *   --write   regenerate both marked blocks + PAGES.md in place.
+ *   --check   re-derive in memory and diff against the on-disk artifacts; exit 1
+ *             on any drift (this is the registry's own CI tooth). Default.
  *
- * Zero-dep (node stdlib only). Run from repo root: `node tests/build-registry.mjs --check`.
+ * Zero-dep (node stdlib only). Run from repo root: node tests/build-registry.mjs --check
  */
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, basename, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 
 const HERE = dirname(fileURLToPath(import.meta.url));      // tests/
 const ROOT = join(HERE, '..');                            // repo root
 const DATA_JS = join(ROOT, 'data.js');
 const REGISTRY_MD = join(HERE, 'REGISTRY.md');
+const PAGES_MD = join(HERE, 'PAGES.md');
 
 const TESTS_START = '// TESTS:GENERATED START';
 const TESTS_END = '// TESTS:GENERATED END';
@@ -58,6 +85,15 @@ const CI_START = '// CI:GENERATED START';
 const CI_END = '// CI:GENERATED END';
 
 const EMDASH = '—';
+
+// Pages with no owning TC AND no chrome, deliberately: the page-view exempt set.
+// (TC1 carries its own EXEMPT list for the chrome contract; this map is the
+// page-VIEW disposition, with the human-readable reason.)
+const PAGE_EXEMPT = {
+  'canon.html': 'inactive backend (TC1-exempt by design)',
+  'inventory.html': 'inactive backend (TC1-exempt by design)',
+  'design-system/index.html': 'design reference / template (TC1-exempt by design)',
+};
 
 function parseTestFile(dir, name) {
   const text = readFileSync(join(dir, name), 'utf8');
@@ -84,7 +120,7 @@ function parseTestFile(dir, name) {
     .replace(/Tier\s+\d+/i, '')
     .replace(/GH\s*#\d+/i, '')
     .replace(/#\d+/, '')
-    .split('\u00b7').map(x => x.trim()).filter(Boolean).join(', ');
+    .split('·').map(x => x.trim()).filter(Boolean).join(', ');
 
   const hi = block.match(/@highlight:\s*(.+)/);
   const isOv = block.match(/@issue:\s*(\d+)/);
@@ -93,17 +129,32 @@ function parseTestFile(dir, name) {
   if (tiOv) tier = tiOv[1];
   const highlight = hi ? hi[1].trim() : title;
 
+  // Coverage declarations (#403).
+  const covers = [];
+  for (const m of block.matchAll(/@covers:\s*(.+)/g)) {
+    covers.push(...m[1].split(',').map(s => s.trim()).filter(Boolean));
+  }
+  const ignores = [];
+  for (const m of block.matchAll(/@ignores:\s*(.+)/g)) {
+    const line = m[1].trim();
+    const i = line.indexOf(EMDASH);
+    ignores.push(i === -1
+      ? { surface: line, reason: '' }
+      : { surface: line.slice(0, i).trim(), reason: line.slice(i + 1).trim() });
+  }
+
   return {
     id, file: `tests/${name}`, title,
     tier: tier ? Number(tier) : null,
     issue: issue ? Number(issue) : null,
     notes, highlight, status: 'live',
+    covers, ignores,
   };
 }
 
 const CI_YML = join(ROOT, '.github', 'workflows', 'ci.yml');
 
-// Count the CI check-jobs declared in ci.yml (top-level keys under `jobs:`),
+// Count the CI check-jobs declared in ci.yml (top-level keys under jobs:),
 // derived so adding/removing a check updates the site stat automatically.
 function countCIChecks() {
   const y = readFileSync(CI_YML, 'utf8').split('\n');
@@ -133,6 +184,8 @@ function renderTestsBlock(entries) {
     id: e.id, file: e.file, title: e.title,
     tier: e.tier, issue: e.issue, notes: e.notes,
     highlight: e.highlight, status: e.status,
+    covers: e.covers,
+    ignores: e.ignores.map(i => i.reason ? `${i.surface} ${EMDASH} ${i.reason}` : i.surface),
   })).join(',\n');
   return `${TESTS_START}\nwindow.TESTS = [\n${rows}\n];\n${TESTS_END}`;
 }
@@ -145,6 +198,184 @@ function renderTable(entries) {
   const rows = entries.map(e => `| \`${cell(e.id)}\` | \`${cell(e.file)}\` | ${e.tier ?? '—'} | ${e.issue ? '#' + e.issue : '—'} | ${cell(e.highlight)} | ${cell(e.status)} |`);
   return `${TABLE_START}\n\n${head}\n${rows.join('\n')}\n\n${TABLE_END}`;
 }
+
+/* ── Page-primary coverage view (#403) ─────────────────────────────────── */
+
+// Walk the repo for published pages — every *.html minus _-templates,
+// dotdirs, and node_modules (mirrors tc1 / check-links discovery).
+function walkPages(dir, out = [], rel = '') {
+  for (const e of readdirSync(dir).sort()) {
+    if (e.startsWith('.') || e === 'node_modules') continue;
+    const abs = join(dir, e);
+    const r = rel ? `${rel}/${e}` : e;
+    if (statSync(abs).isDirectory()) walkPages(abs, out, r);
+    else if (e.endsWith('.html') && !e.startsWith('_')) out.push(r);
+  }
+  return out;
+}
+
+function loadSiteData() {
+  const w = {};
+  vm.runInNewContext(readFileSync(DATA_JS, 'utf8'), { window: w });
+  return w;
+}
+
+const normPath = p => String(p).replace(/^\//, '');
+
+// Resolve a data-derived covers token from data.js — the SAME derivation the
+// tests themselves use for their denominators, so the view cannot drift from
+// the teeth.
+function resolveToken(tok, w) {
+  if (tok === '@AGENTS') return (w.AGENTS || []).map(a => `agents/${a.id}/${a.id}.html`);
+  if (tok === '@ORGANS') return (w.ORGANS || []).map(o => normPath(o.href || o.url || o.page));
+  if (tok === '@HISTORY') return (w.HISTORY || []).map(h => normPath(h.href));
+  if (tok === '@ABOUT_PAGES') return (w.ABOUT_PAGES || []).map(p => normPath(p.href));
+  if (tok === '@ARTICLES') return (w.ARTICLES || []).map(a => normPath(a.href));
+  const dr = tok.match(/^@dataRole:(\w+)$/);
+  if (dr) {
+    return Object.entries(w.SITE_INDEX || {})
+      .filter(([, v]) => v && v.dataRole === dr[1])
+      .map(([k]) => normPath(k));
+  }
+  return null;
+}
+
+const escapeRe = s => s.replace(/[.+?^${}()|[\]\\]/g, '\\$&');
+
+// Classify one TC's covers declarations → resolved page set + non-page surfaces.
+function classifyCovers(entry, w, allPages) {
+  const pages = new Set();
+  const surfaces = [];
+  let universal = false, none = false;
+  for (const c of entry.covers) {
+    if (/^none\b/i.test(c)) { none = true; continue; }
+    if (c === '*' || /^\*\s/.test(c)) { universal = true; continue; }
+    const tokM = c.match(/^(@[\w:]+)/);
+    if (tokM) {
+      const resolved = resolveToken(tokM[1], w);
+      if (resolved) { resolved.forEach(p => pages.add(p)); continue; }
+      throw new Error(`${entry.file}: unknown @covers token "${tokM[1]}"`);
+    }
+    const path = normPath(c.replace(/\s*\([^)]*\)\s*$/, '').trim()); // strip trailing "(note)"
+    if (path.includes('*')) {
+      const re = new RegExp('^' + path.split('*').map(escapeRe).join('[^/]*') + '$');
+      allPages.filter(p => re.test(p)).forEach(p => pages.add(p));
+    } else if (/\.(html|jsx)$/.test(path)) {   // page-like files; .js/.mjs data files are surfaces
+      pages.add(path);
+    } else {
+      surfaces.push(c);
+    }
+  }
+  // An @ignores whose element is a covered page path SUBTRACTS it.
+  for (const ig of entry.ignores) {
+    const s = normPath(ig.surface);
+    if (pages.has(s)) pages.delete(s);
+  }
+  return { pages: [...pages], surfaces, universal, none };
+}
+
+function renderPagesMd(entries, w) {
+  const allPages = walkPages(ROOT);
+  const cls = new Map(entries.map(e => [e.id, classifyCovers(e, w, allPages)]));
+
+  const universals = entries.filter(e => cls.get(e.id).universal);
+  const declaredNone = entries.filter(e => cls.get(e.id).none);
+  const undeclared = entries.filter(e => e.covers.length === 0);
+
+  // page → owning specific TCs
+  const owners = new Map(allPages.map(p => [p, []]));
+  for (const e of entries) {
+    for (const p of cls.get(e.id).pages) {
+      if (owners.has(p)) owners.get(p).push(e);
+    }
+  }
+
+  const lines = [];
+  lines.push('<!-- GENERATED by tests/build-registry.mjs — do not edit by hand.');
+  lines.push('     Regenerate: node tests/build-registry.mjs --write -->');
+  lines.push('');
+  lines.push('# Page Coverage — generated view');
+  lines.push('');
+  lines.push('One row per published page (repo `*.html`, minus `_`-templates), derived from');
+  lines.push('the `@covers` / `@ignores` declarations in the `tests/*.test.mjs` headers — the');
+  lines.push('same files CI runs, so this view cannot drift from the teeth. Uncovered pages');
+  lines.push('are visible by construction. Reason vocabulary: `editorial` (never a contract)');
+  lines.push('· `pass-2 (#375)` (content snapshot once the page settles) · `owned: #N /');
+  lines.push('Tier-0` (seam — the element lives in another TC/check) · `runtime / Tier 4`');
+  lines.push('(deferred). **Global default (human ruling, 2026-07-06): content is');
+  lines.push('editorial.** Tests assert structure / presence / wiring only; content VALUES');
+  lines.push('are never contract unless the human explicitly declares an element');
+  lines.push('contract-worthy (none declared to date). Absence of an `@ignores` line never');
+  lines.push('licenses a content assertion — declarations document seams and exceptions,');
+  lines.push('not permission. Authoring rule (#403): scan this view / the registry for the');
+  lines.push('owning TC before authoring. Agents make no editorial choices and never');
+  lines.push("constrain the human's.");
+  lines.push('');
+  lines.push('## Universal contracts (apply to every in-scope page below)');
+  lines.push('');
+  for (const e of universals) {
+    lines.push(`- \`${e.id}\` (#${e.issue}) — ${e.highlight}`);
+    for (const ig of e.ignores) {
+      lines.push(`  - out of contract: ${ig.surface}${ig.reason ? ` ${EMDASH} ${ig.reason}` : ''}`);
+    }
+  }
+  lines.push('');
+  lines.push('## Pages');
+  lines.push('');
+  lines.push('| Page | Covered by | Declared out-of-contract |');
+  lines.push('| ---- | ---------- | ------------------------ |');
+  const chromeOnly = [];
+  const uncovered = [];
+  for (const p of allPages) {
+    if (PAGE_EXEMPT[p]) continue;
+    const own = owners.get(p);
+    if (own.length === 0) {
+      (universals.length ? chromeOnly : uncovered).push(p);
+      continue;
+    }
+    const covered = own.map(e => `#${e.issue} \`${e.id}\``).join(', ');
+    const igs = [...new Set(own.flatMap(e => e.ignores
+      .filter(ig => !/\.html$/.test(normPath(ig.surface)))  // page exclusions are covers-subtractions, not element rows
+      .map(ig => `${ig.surface}${ig.reason ? ` (${ig.reason})` : ''}`)))];
+    lines.push(`| \`${cell(p)}\` | ${cell(covered)} | ${cell(igs.join('; ') || EMDASH)} |`);
+  }
+  lines.push('');
+  if (chromeOnly.length) {
+    lines.push(`**Chrome-only (universal contract only, no page-specific TC):** ${chromeOnly.map(p => `\`${p}\``).join(', ')}`);
+    lines.push('');
+  }
+  lines.push(`**Uncovered pages (no owning TC${universals.length ? ', not even chrome' : ''}):** ${uncovered.length ? uncovered.map(p => `\`${p}\``).join(', ') : 'none'}`);
+  lines.push('');
+  lines.push('## Exempt (deliberately untested pages)');
+  lines.push('');
+  lines.push('| Page | Reason |');
+  lines.push('| ---- | ------ |');
+  for (const [p, reason] of Object.entries(PAGE_EXEMPT)) {
+    lines.push(`| \`${cell(p)}\` | ${cell(reason)} |`);
+  }
+  lines.push('');
+  lines.push('## Non-page surfaces');
+  lines.push('');
+  lines.push('| Surface | TC |');
+  lines.push('| ------- | -- |');
+  for (const e of entries) {
+    for (const s of cls.get(e.id).surfaces) {
+      lines.push(`| ${cell(s)} | #${e.issue} \`${e.id}\` |`);
+    }
+  }
+  if (declaredNone.length) {
+    lines.push('');
+    lines.push(`**Declared-none:** ${declaredNone.map(e => `\`${e.id}\` (${e.covers.join(', ')})`).join('; ')}`);
+  }
+  if (undeclared.length) {
+    lines.push('');
+    lines.push(`**WARNING — TCs with NO @covers declaration (declare or justify):** ${undeclared.map(e => `\`${e.id}\``).join(', ')}`);
+  }
+  lines.push('');
+  return lines.join('\n');
+}
+
+/* ──────────────────────────────────────────────────────────────────────── */
 
 function spliceMarked(src, startMark, endMark, replacement, insertBeforeRe) {
   const s = src.indexOf(startMark);
@@ -182,8 +413,10 @@ function replaceLegacyTable(md, marked) {
 
 const mode = process.argv.includes('--write') ? 'write' : 'check';
 const entries = collect();
+const siteData = loadSiteData();
 const testsBlock = renderTestsBlock(entries);
 const table = renderTable(entries);
+const pagesMd = renderPagesMd(entries, siteData);
 
 if (mode === 'write') {
   let data = readFileSync(DATA_JS, 'utf8');
@@ -204,7 +437,9 @@ if (mode === 'write') {
   md = md.includes(TABLE_START) ? spliceMarked(md, TABLE_START, TABLE_END, table) : replaceLegacyTable(md, table);
   writeFileSync(REGISTRY_MD, md);
 
-  console.log(`registry: wrote ${entries.length} entries → data.js window.TESTS + tests/REGISTRY.md table`);
+  writeFileSync(PAGES_MD, pagesMd);
+
+  console.log(`registry: wrote ${entries.length} entries -> data.js window.TESTS + tests/REGISTRY.md table + tests/PAGES.md`);
 } else {
   const problems = [];
   try {
@@ -219,10 +454,14 @@ if (mode === 'write') {
     const cur = extractMarked(readFileSync(REGISTRY_MD, 'utf8'), TABLE_START, TABLE_END, 'REGISTRY.md table');
     if (cur.trim() !== table.trim()) problems.push('tests/REGISTRY.md table is stale — run --write');
   } catch (e) { problems.push(e.message); }
+  try {
+    if (!existsSync(PAGES_MD)) problems.push('tests/PAGES.md missing — run --write');
+    else if (readFileSync(PAGES_MD, 'utf8').trim() !== pagesMd.trim()) problems.push('tests/PAGES.md is stale — run --write');
+  } catch (e) { problems.push(e.message); }
 
   if (problems.length) {
-    console.error('✗ registry drift:\n  - ' + problems.join('\n  - '));
+    console.error('X registry drift:\n  - ' + problems.join('\n  - '));
     process.exit(1);
   }
-  console.log(`✓ registry in sync — ${entries.length} test files indexed, data.js + REGISTRY.md match.`);
+  console.log(`OK registry in sync — ${entries.length} test files indexed, data.js + REGISTRY.md + PAGES.md match.`);
 }

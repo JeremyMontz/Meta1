@@ -4,6 +4,8 @@
  * Always passes; a permanent canary that the harness itself is alive.
  * Not a real contract test (TC1 = #298).
  * @issue: 294  @tier: 0
+  *
+ * @covers: none (harness canary — proves the runner; owns no surface)
  */
 import { makeReport } from './_assert.mjs';
 const r = makeReport('smoke');

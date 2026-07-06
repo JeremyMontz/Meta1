@@ -26,6 +26,9 @@
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. data.js under a window
  * shim, as tc2/tc-articles do. Run via tests/run.mjs.
+  *
+ * @covers: @HISTORY pages (month-graph set)
+ * @ignores: interactive graph runtime — runtime / Tier 4 (#306)
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

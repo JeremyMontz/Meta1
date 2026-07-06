@@ -37,6 +37,11 @@
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs. Run via tests/run.mjs.
+  *
+ * @covers: index.html, components/HomeMain.jsx
+ * @ignores: window.NOW — editorial (weekly-cadence focus list; the #401/#403 case)
+ * @ignores: content snapshot — pass-2 (#375)
+ * @ignores: live feed / graph correctness — owned: #336 / #364; runtime / Tier 4
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

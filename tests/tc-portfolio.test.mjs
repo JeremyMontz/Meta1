@@ -29,6 +29,11 @@
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs and tests/tc1/tc-index. Run via tests/run.mjs.
+  *
+ * @covers: portfolio.html
+ * @ignores: content snapshot — pass-2 (#375)
+ * @ignores: evidence-graph compute — runtime / Tier 4 (#306)
+ * @ignores: live feed values — owned: #364
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

@@ -33,6 +33,11 @@
  * Confidence/source per assertion recorded in the authoring [Bond] comment.
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors tc2 / tc-live-display.
  * Run directly or via tests/run.mjs.
+  *
+ * @covers: graph/heart.html, agents/phil/journal.html
+ * @ignores: content quality — editorial
+ * @ignores: live values — runtime / Tier 4
+ * @ignores: shared fetch read-path — owned: #336
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
