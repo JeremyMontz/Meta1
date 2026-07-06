@@ -54,6 +54,9 @@
  * [Confidence: High · Retrieved from #364 body + Jeremy 2026-07-02].
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Run via tests/run.mjs.
+  *
+ * @covers: index.html (GitHub feed), portfolio.html (GitHub feed)
+ * @ignores: feed values — runtime / Tier 4
  */
 import { readFileSync } from 'node:fs';
 import { join, dirname, normalize } from 'node:path';

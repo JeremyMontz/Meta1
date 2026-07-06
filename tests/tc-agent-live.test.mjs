@@ -39,6 +39,10 @@
  * Confidence/source per assertion recorded in the authoring [Bond] comment.
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors tc2 / tc-live-display.
  * Run directly or via tests/run.mjs.
+  *
+ * @covers: @AGENTS pages (live layer; extends TC2)
+ * @ignores: agents/jeremy/jeremy.html — human exception; live layer not asserted (disclosed under-coverage)
+ * @ignores: live values — runtime / Tier 4
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname, normalize } from 'node:path';

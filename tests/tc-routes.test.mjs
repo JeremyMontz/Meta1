@@ -35,6 +35,10 @@
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. data.js loaded under a
  * window shim, as tc2/tc-articles do. Run via tests/run.mjs.
+  *
+ * @covers: data.js (route / href fields resolve to real files)
+ * @ignores: external URLs — skipped by contract
+ * @ignores: in-HTML links — owned: Tier-0 check-links
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join, normalize } from 'node:path';

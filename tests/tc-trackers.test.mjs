@@ -38,6 +38,9 @@
  * Confidence/source per assertion recorded in the authoring [Bond] comment.
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors tc2 / tc-live-display.
  * Run directly or via tests/run.mjs.
+  *
+ * @covers: agents/house/house-budget.html, agents/house/house-entry.html, agents/house/house-timeline.html
+ * @ignores: computed values / runtime behavior — runtime / Tier 4
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

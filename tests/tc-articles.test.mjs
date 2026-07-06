@@ -27,6 +27,11 @@
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs and tests/tc1/tc2. Run via tests/run.mjs.
+  *
+ * @covers: @ARTICLES pages (writing corpus), writing.html (renders ARTICLES)
+ * @ignores: content quality — editorial
+ * @ignores: HISTORY month files — owned: #335 (data-derived exemption)
+ * @ignores: interactive-graph runtime — runtime / Tier 4 (#306)
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

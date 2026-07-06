@@ -36,6 +36,9 @@
  * Confidence/source per assertion recorded in the authoring [Bond] comment.
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors tc-live-display.
  * Run directly or via tests/run.mjs.
+  *
+ * @covers: @dataRole:entry pages (declared in SITE_INDEX)
+ * @ignores: submission lands in the Sheet — runtime / Tier 4
  */
 import { readFileSync } from 'node:fs';
 import { join, dirname, normalize } from 'node:path';

@@ -47,6 +47,11 @@
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs and tests/tc1-page-chrome.test.mjs.
  * Run directly or via tests/run.mjs.
+  *
+ * @covers: @AGENTS pages (identity / roster / portrait), data.js (six agent rosters coherent)
+ * @ignores: AGENT_ARTIFACTS population — optional by design (no-artifacts is valid)
+ * @ignores: live status / persona / sessions — owned: #336 / #342 (Sheet-driven)
+ * @ignores: content quality / graph node positions — human Accept gate
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

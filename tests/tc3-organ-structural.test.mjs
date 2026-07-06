@@ -37,6 +37,11 @@
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs and tests/tc1 / tc2 / tc-articles.
  * Run directly or via tests/run.mjs.
+  *
+ * @covers: @ORGANS pages (graph organ family)
+ * @ignores: graph/body.html — subnav parent, not an organ (chrome-only by design)
+ * @ignores: live read-path — owned: #336
+ * @ignores: organ-specific content — owned: #337 / #338 / #339
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join, basename } from 'node:path';

@@ -23,6 +23,9 @@
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. data.js loaded under a
  * window shim, as tc2/tc-articles do. Run via tests/run.mjs.
+  *
+ * @covers: data.js (demonstrates -> COMPETENCIES referential integrity)
+ * @ignores: full competency reference coverage — informational only, not asserted
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

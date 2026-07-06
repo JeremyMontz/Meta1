@@ -30,6 +30,11 @@
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs. Run directly or via tests/run.mjs.
+  *
+ * @covers: * (every in-scope page — universal chrome contract)
+ * @ignores: subnav / breadcrumb presence — owned: #300
+ * @ignores: script-src resolution — owned: Tier-0 check-links
+ * @ignores: rendered-DOM / runtime mount — runtime / Tier 4 (#306)
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
