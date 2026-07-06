@@ -35,6 +35,9 @@
  *           or none (…) (declared-none, e.g. the smoke canary).
  *       @ignores: <element> — <reason>         (repeatable, one per line)
  *           Elements of covered surfaces deliberately OUT of contract.
+ *           NOTE the global default (human ruling 2026-07-06): ALL content
+ *           values are editorial — never contract — with or without an
+ *           @ignores line. Ignores document seams/exceptions, not permission.
  *           Reason vocabulary (convention): editorial (never a contract) ·
  *           pass-2 (#375) (snapshot once settled) · owned: #N / Tier-0
  *           (seam — lives in another TC/check) · runtime / Tier 4 (deferred).
@@ -299,9 +302,14 @@ function renderPagesMd(entries, w) {
   lines.push('are visible by construction. Reason vocabulary: `editorial` (never a contract)');
   lines.push('· `pass-2 (#375)` (content snapshot once the page settles) · `owned: #N /');
   lines.push('Tier-0` (seam — the element lives in another TC/check) · `runtime / Tier 4`');
-  lines.push('(deferred). Authoring rule (#403): declarations beat derivation — scan this');
-  lines.push('view / the registry for the owning TC before authoring; the contract-vs-content');
-  lines.push('question applies only to undeclared surfaces.');
+  lines.push('(deferred). **Global default (human ruling, 2026-07-06): content is');
+  lines.push('editorial.** Tests assert structure / presence / wiring only; content VALUES');
+  lines.push('are never contract unless the human explicitly declares an element');
+  lines.push('contract-worthy (none declared to date). Absence of an `@ignores` line never');
+  lines.push('licenses a content assertion — declarations document seams and exceptions,');
+  lines.push('not permission. Authoring rule (#403): scan this view / the registry for the');
+  lines.push('owning TC before authoring. Agents make no editorial choices and never');
+  lines.push("constrain the human's.");
   lines.push('');
   lines.push('## Universal contracts (apply to every in-scope page below)');
   lines.push('');

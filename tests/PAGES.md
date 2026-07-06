@@ -9,9 +9,14 @@ same files CI runs, so this view cannot drift from the teeth. Uncovered pages
 are visible by construction. Reason vocabulary: `editorial` (never a contract)
 · `pass-2 (#375)` (content snapshot once the page settles) · `owned: #N /
 Tier-0` (seam — the element lives in another TC/check) · `runtime / Tier 4`
-(deferred). Authoring rule (#403): declarations beat derivation — scan this
-view / the registry for the owning TC before authoring; the contract-vs-content
-question applies only to undeclared surfaces.
+(deferred). **Global default (human ruling, 2026-07-06): content is
+editorial.** Tests assert structure / presence / wiring only; content VALUES
+are never contract unless the human explicitly declares an element
+contract-worthy (none declared to date). Absence of an `@ignores` line never
+licenses a content assertion — declarations document seams and exceptions,
+not permission. Authoring rule (#403): scan this view / the registry for the
+owning TC before authoring. Agents make no editorial choices and never
+constrain the human's.
 
 ## Universal contracts (apply to every in-scope page below)
 
