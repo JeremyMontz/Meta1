@@ -845,7 +845,6 @@ window.TESTS = [
   {"id":"tc-history","file":"tests/tc-history.test.mjs","title":"Our-History month-graph set — per-type group","tier":1,"issue":335,"notes":"","highlight":"Our-History month-graph set — per-type group","status":"live"},
   {"id":"tc-index","file":"tests/tc-index.test.mjs","title":"Homepage — index.html standalone contract","tier":1,"issue":340,"notes":"","highlight":"Homepage — index.html standalone contract","status":"live"},
   {"id":"tc-live-display","file":"tests/tc-live-display.test.mjs","title":"Live-display read-path wiring","tier":1,"issue":336,"notes":"cross-cutting","highlight":"Live-display read-path wiring","status":"live"},
-  {"id":"tc-now","file":"tests/tc-now.test.mjs","title":"window.NOW — current-focus data contract","tier":1,"issue":401,"notes":"","highlight":"window.NOW — current-focus data contract","status":"live"},
   {"id":"tc-portfolio","file":"tests/tc-portfolio.test.mjs","title":"Portfolio — portfolio.html standalone contract","tier":1,"issue":341,"notes":"","highlight":"Portfolio — portfolio.html standalone contract","status":"live"},
   {"id":"tc-routes","file":"tests/tc-routes.test.mjs","title":"Route validity — data.js reference fields resolve","tier":1,"issue":334,"notes":"","highlight":"Route validity — data.js reference fields resolve","status":"live"},
   {"id":"tc-spirit","file":"tests/tc-spirit.test.mjs","title":"TC — spirit organ page structure + wiring","tier":1,"issue":337,"notes":"standalone","highlight":"TC — spirit organ page structure + wiring","status":"live"},
