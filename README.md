@@ -6,7 +6,7 @@
 
 ![The Claudemonzter graph — 8 agents (1 human) across 4 projects, coordinated from one core](graph/assets/agent-graph.png)
 
-## What this is
+## What this is 
 
 Claudemonzter is a working AI lab run as a system: a crew of specialized agents — an architect, a quality gate, a philosopher, and a set of domain operators — sharing one memory and one canon, coordinated by a single human in the loop. It builds and maintains the site you're looking at, files its own issues, writes its own post-mortems, and checks its own work. This repository *is* the lab — the site, the agents that build it, and the field notes on what worked and what broke.
 
