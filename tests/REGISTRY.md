@@ -38,7 +38,6 @@ human-owned.
 | `tc-history` | `tests/tc-history.test.mjs` | 1 | #335 | Our-History month-graph set — per-type group | live |
 | `tc-index` | `tests/tc-index.test.mjs` | 1 | #340 | Homepage — index.html standalone contract | live |
 | `tc-live-display` | `tests/tc-live-display.test.mjs` | 1 | #336 | Live-display read-path wiring | live |
-| `tc-now` | `tests/tc-now.test.mjs` | 1 | #401 | window.NOW — current-focus data contract | live |
 | `tc-portfolio` | `tests/tc-portfolio.test.mjs` | 1 | #341 | Portfolio — portfolio.html standalone contract | live |
 | `tc-routes` | `tests/tc-routes.test.mjs` | 1 | #334 | Route validity — data.js reference fields resolve | live |
 | `tc-spirit` | `tests/tc-spirit.test.mjs` | 1 | #337 | TC — spirit organ page structure + wiring | live |
