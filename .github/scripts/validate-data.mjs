@@ -23,6 +23,7 @@ const DATA_FILES = [
   'graph/heart-data.js',
   'graph/memory-data.js',
   'graph/spirit-data.js',
+  'graph/immune-data.js',
 ];
 
 // Core sections that must exist in root data.js. STATS / SITE_INDEX sit near
