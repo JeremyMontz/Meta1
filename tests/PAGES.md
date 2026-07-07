@@ -92,4 +92,4 @@ constrain the human's.
 | data.js (route / href fields resolve to real files) | #334 `tc-routes` |
 | data.js (six agent rosters coherent) | #299 `tc2-agent-completeness` |
 
-**Declared-none:** `smoke` (none (harness canary — proves the runner; owns no surface))
+**Declared-none:** `smoke` (none (harness canary — proves the runner; owns no surface)); `tc-drill` (none (drill fixture — throwaway; owns no published surface))
