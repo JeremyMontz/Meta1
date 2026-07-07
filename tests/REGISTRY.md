@@ -50,6 +50,7 @@ Agents make no editorial choices and never constrain the human's.
 | `tc-about` | `tests/tc-about.test.mjs` | 1 | #344 | About-section — per-type group contract | live |
 | `tc-agent-live` | `tests/tc-agent-live.test.mjs` | 1 | #342 | TC — agent-page live layer | live |
 | `tc-articles` | `tests/tc-articles.test.mjs` | 1 | #332 | Articles — per-type group contract | live |
+| `tc-colophon` | `tests/tc-colophon.test.mjs` | 1 | #410 | Colophon data — window.COLOPHON structure & presence | live |
 | `tc-competency` | `tests/tc-competency.test.mjs` | 1 | #333 | Competency evidence integrity — data.js | live |
 | `tc-faces-dashboard` | `tests/tc-faces-dashboard.test.mjs` | 1 | #339 | TC — faces + dashboard live agent-grid structure | live |
 | `tc-github-activity` | `tests/tc-github-activity.test.mjs` | 1 | #364 | GitHub activity-feed read-path wiring | live |
