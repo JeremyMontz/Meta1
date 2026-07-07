@@ -41,6 +41,16 @@ window.SITE = {
   status:  'LIVE',
 };
 
+// ─── COLOPHON · build/site metadata a footer or /about can read ──────────
+// schemaVersion — bump when this shape changes. Data half only (#410); nothing
+// renders yet. Structure is the contract; the values here are editorial.
+window.COLOPHON = {
+  schemaVersion: 1,
+  stack: ['GitHub Pages', 'vanilla JS', 'GitHub Actions CI'],
+  repo: 'JeremyMontz/Meta1',
+  updated: '2026-07-07',
+};
+
 // ─── COMMIT_WEEKS · baked snapshot for the portfolio commit chart ──────
 // Always-present fallback so every visitor (even first-time) sees the chart
 // instantly while /stats/commit_activity (which 202s during GitHub recompute)
