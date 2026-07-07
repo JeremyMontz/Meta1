@@ -51,6 +51,7 @@ Agents make no editorial choices and never constrain the human's.
 | `tc-agent-live` | `tests/tc-agent-live.test.mjs` | 1 | #342 | TC — agent-page live layer | live |
 | `tc-articles` | `tests/tc-articles.test.mjs` | 1 | #332 | Articles — per-type group contract | live |
 | `tc-competency` | `tests/tc-competency.test.mjs` | 1 | #333 | Competency evidence integrity — data.js | live |
+| `tc-drill` | `tests/tc-drill.test.mjs` | 0 | #408 | [DRILL #408] parity contract — throwaway TC for the #303 red-join validation. | live |
 | `tc-faces-dashboard` | `tests/tc-faces-dashboard.test.mjs` | 1 | #339 | TC — faces + dashboard live agent-grid structure | live |
 | `tc-github-activity` | `tests/tc-github-activity.test.mjs` | 1 | #364 | GitHub activity-feed read-path wiring | live |
 | `tc-heart` | `tests/tc-heart.test.mjs` | 1 | #338 | TC — heart organ + journal page pair | live |
