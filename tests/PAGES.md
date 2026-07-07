@@ -88,6 +88,7 @@ constrain the human's.
 
 | Surface | TC |
 | ------- | -- |
+| data.js (window.COLOPHON structure & presence) | #410 `tc-colophon` |
 | data.js (demonstrates -> COMPETENCIES referential integrity) | #333 `tc-competency` |
 | data.js (route / href fields resolve to real files) | #334 `tc-routes` |
 | data.js (six agent rosters coherent) | #299 `tc2-agent-completeness` |
