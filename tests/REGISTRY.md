@@ -50,12 +50,12 @@ Agents make no editorial choices and never constrain the human's.
 | `tc-about` | `tests/tc-about.test.mjs` | 1 | #344 | About-section — per-type group contract | live |
 | `tc-agent-live` | `tests/tc-agent-live.test.mjs` | 1 | #342 | TC — agent-page live layer | live |
 | `tc-articles` | `tests/tc-articles.test.mjs` | 1 | #332 | Articles — per-type group contract | live |
+| `tc-colophon` | `tests/tc-colophon.test.mjs` | 1 | #410 | Colophon data — window.COLOPHON structure & presence | live |
 | `tc-competency` | `tests/tc-competency.test.mjs` | 1 | #333 | Competency evidence integrity — data.js | live |
 | `tc-faces-dashboard` | `tests/tc-faces-dashboard.test.mjs` | 1 | #339 | TC — faces + dashboard live agent-grid structure | live |
 | `tc-github-activity` | `tests/tc-github-activity.test.mjs` | 1 | #364 | GitHub activity-feed read-path wiring | live |
 | `tc-heart` | `tests/tc-heart.test.mjs` | 1 | #338 | TC — heart organ + journal page pair | live |
 | `tc-history` | `tests/tc-history.test.mjs` | 1 | #335 | Our-History month-graph set — per-type group | live |
-| `tc-immune-system` | `tests/tc-immune-system.test.mjs` | 1 | #380 | TC — immune system: window.IMMUNE feed + organ-page wiring | live |
 | `tc-index` | `tests/tc-index.test.mjs` | 1 | #340 | Homepage — index.html standalone contract | live |
 | `tc-live-display` | `tests/tc-live-display.test.mjs` | 1 | #336 | Live-display read-path wiring | live |
 | `tc-portfolio` | `tests/tc-portfolio.test.mjs` | 1 | #341 | Portfolio — portfolio.html standalone contract | live |
