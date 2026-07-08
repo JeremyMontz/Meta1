@@ -641,6 +641,15 @@ window.SITE_INDEX = {
     ],
     "updated": "2026-06-13"
   },
+  "/graph/immune.html": {
+    "note": "A live rendering of the Claudemonzter pipeline's defenses as an immune system: every test case is an antibody — the actual, current set, growing over time — the four required CI checks are the membrane screening changes into main, and an inflammatory response that wakes only to adjudicate and resolve. These stats update on their own, showing code coverage in real-time.",
+    "tags": [
+      "multi-agent orchestration",
+      "evals",
+      "systems design"
+    ],
+    "updated": "2026-07-08"
+  },
   "/graph/memory.html": {
     "note": "The configuration layers: how context is tiered from user settings, to claude.md and project domains, and managing ephermeral memory as it moves from the inbox to the wiki. How a thought becomes canon.",
     "tags": [
@@ -871,3 +880,4 @@ window.STATS = [
   { value: window.CI.checks + ' & ' + window.TESTS.length, label: 'CI tests' }, // computed — CI check-jobs (ci.yml) & test files
   { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
 ];
+
