@@ -89,6 +89,15 @@
   --err:    var(--blood);
   --party:  var(--rouge);    /* Hyde */
 
+  /* Config-layer / level pips — consolidated from per-page :root (#223).
+     Literal values preserved as-was; theme-invariant (no per-theme override today). */
+  --L1: #7b61ff;
+  --L2: #5b8def;
+  --L3: #4ade80;
+  --L4: #f5c56a;
+  --L5: #ff6b6b;
+  --open: var(--info);
+
   /* Focus ring */
   --focus:  var(--violet-300);
 
