@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="meta-description" content="The Immune System — the pipeline's defense layer as living anatomy. Every regression test is a memory cell, the four CI checks are membrane channels, and the Verifier is an inflammatory response that runs a fever only when something gets through.">
+<title>Immune · Defense &amp; Memory · Claudemonzter</title>
+
+<!-- ── Social / SEO (meta1 injector) ── -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Claudemonzter" />
+<meta property="og:title" content="Immune · Defense &amp;amp; Memory" />
+<meta property="og:description" content="The autonomous pipeline's defense layer drawn as living tissue: regression tests as antibodies, CI checks as membrane channels, the Verifier as an inflammatory response." />
+<meta property="og:url" content="https://jeremymontz.github.io/Meta1/graph/immune.html" />
+<meta property="og:image" content="https://jeremymontz.github.io/Meta1/design-system/assets/og-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Operation: Claudemonzter — a multi-agent AI lab depicted as a creature on an operating table." />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="/Meta1/design-system/assets/favicon.svg" />
+
+<!-- Shared design system (tokens + fonts). Single source of truth. -->
+<link rel="stylesheet" href="../design-system/colors_and_type.css">
+
+<!-- React + Babel, same versions as the other graph pages -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+
+<style>
+body{
+  background-image:
+    linear-gradient(var(--grid-color) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
+  background-size:var(--grid-size) var(--grid-size);
+}
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+
+/* ---- header (lab register, same voice as the sibling organ pages) ---- */
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;padding:30px 0 8px}
+.eyebrow{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.eyebrow .sep{color:var(--fg-faint)}
+.head h1{font-family:var(--font-display);font-weight:700;font-size:clamp(40px,5vw,72px);line-height:.9;letter-spacing:-.03em;margin:10px 0 0;font-variation-settings:"opsz" 144}
+.head h1 .dot{color:var(--accent)}
+.lead{margin:13px 0 0;max-width:32em;font-family:var(--font-display);font-weight:400;font-style:italic;font-size:clamp(16px,1.7vw,19px);line-height:1.42;color:var(--fg-muted);font-variation-settings:"opsz" 36}
+.lead em{font-style:normal;color:var(--candle)}.lead b{font-style:normal;font-weight:400;color:var(--accent)}
+.head .note{font-family:var(--font-hand);font-size:18px;color:var(--fg-subtle);transform:rotate(-1.5deg);max-width:220px;text-align:right}
+
+/* graph sub-nav (structure from GraphSubnav.jsx; look owned here — lab register) */
+.graph-subnav{display:flex;align-items:center;gap:24px;padding:12px 40px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-bottom:1px solid var(--line);position:relative;z-index:5;flex-wrap:wrap;row-gap:6px}
+.graph-subnav-label{color:var(--fg-faint)}
+.graph-subnav a{color:var(--fg-muted);text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent}
+.graph-subnav a:hover{color:var(--accent)}
+.graph-subnav a.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ================= SPECIMEN — top ~40%: membrane + tissue ================= */
+.specimen-box{position:relative;margin:22px 0 8px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--bg-elev-1)}
+.specimen-stage{position:relative;width:100%;aspect-ratio:1672/941;background:url('assets/immune/specimen.png') center/cover no-repeat}
+.specimen-stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* antibodies — the adaptive layer. One memory cell per bench TC. */
+.ab{cursor:pointer}
+.ab .glyph{stroke:var(--accent);stroke-width:4;stroke-linecap:round;fill:none;opacity:.78;transition:opacity var(--dur)}
+.ab .tip-dot{fill:var(--accent);opacity:.78}
+.ab:hover .glyph,.ab:hover .tip-dot{opacity:1}
+.ab .halo{fill:var(--accent);opacity:0;transform-box:fill-box;transform-origin:center}
+.ab:hover .halo{opacity:.14}
+
+/* membrane channels — the innate layer. One hotspot per required CI check. */
+.channel{cursor:pointer}
+.channel .mouth{fill:none;stroke:transparent;stroke-width:2}
+.channel .status{transition:opacity var(--dur)}
+.channel .status.ok{fill:var(--ok)}
+.channel .status.err{fill:var(--err)}
+.channel .cname{font-family:var(--font-mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;fill:var(--fg-subtle);opacity:0;transition:opacity var(--dur)}
+.channel:hover .cname{opacity:1}
+@media(prefers-reduced-motion:no-preference){
+  .channel .status{animation:ch-breathe 3.2s ease-in-out infinite}
+  @keyframes ch-breathe{0%,100%{opacity:.65}50%{opacity:1}}
+}
+
+/* macrophage — the inflammatory layer. Dormant until the Verifier engages. */
+.macro path{transition:fill var(--dur),opacity var(--dur)}
+.macro.dormant path{fill:var(--fg-faint);opacity:.16}
+.macro.dormant .nucleus{fill:var(--fg-faint);opacity:.22}
+.macro.engaged path{fill:var(--candle);opacity:.5}
+.macro.engaged .nucleus{fill:var(--err);opacity:.75}
+@media(prefers-reduced-motion:no-preference){
+  .macro.engaged{animation:mac-pulse 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes mac-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+}
+
+/* shared tooltip inside the specimen box */
+.tip{position:absolute;z-index:9;max-width:290px;pointer-events:none;opacity:0;transition:opacity .12s;
+  background:var(--bg-elev-2);border:1px solid var(--line-loud);border-left:3px solid var(--accent);border-radius:3px;
+  padding:9px 11px;font-size:12px;line-height:1.45;color:var(--fg-subtle);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.tip.on{opacity:1}
+.tip .t-id{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--accent)}
+.tip .t-meta{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-faint);margin-top:2px}
+.tip .t-body{margin-top:5px}
+
+/* specimen footer strip: legend + collected date */
+.spec-foot{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--line);background:var(--bg-elev-1)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-subtle)}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.collected{font-family:var(--font-hand);font-size:16px;color:var(--fg-faint);transform:rotate(-1deg)}
+
+/* ================= INSTRUMENT BENCH — bottom ~60% ================= */
+.bench-head{font-family:var(--font-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin:38px 0 14px}
+.bench{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-bottom:60px}
+.tile{border:1px solid var(--line);border-radius:4px;background:var(--bg-elev-1);overflow:hidden;display:flex;flex-direction:column}
+.tile .t-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 13px;border-bottom:1px solid var(--line)}
+.tile .t-title{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted)}
+.tile .t-sub{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-faint)}
+.tile .t-foot{padding:9px 13px;border-top:1px solid var(--line);font-size:11.5px;line-height:1.5;color:var(--fg-subtle)}
+.tile .t-foot b{font-weight:400;color:var(--accent)}
+.t-thermo{grid-column:span 3}
+.t-ekg{grid-column:span 4}
+.t-counters{grid-column:span 5}
+.t-record{grid-column:span 3}
+.t-incubation{grid-column:span 5}
+.t-autonomy{grid-column:span 4}
+@media(max-width:960px){.t-thermo{grid-column:span 4}.t-ekg{grid-column:span 8}.t-counters{grid-column:span 12}.t-record{grid-column:span 4}.t-incubation{grid-column:span 8}.t-autonomy{grid-column:span 12}}
+@media(max-width:640px){.t-thermo,.t-ekg,.t-counters,.t-record,.t-incubation,.t-autonomy{grid-column:span 12}}
+
+/* -- thermometer -- */
+.thermo-stage{position:relative;margin:14px auto;width:min(116px,42%);aspect-ratio:116/380;background:url('assets/immune/thermometer.png') center/100% 100% no-repeat}
+.mercury{position:absolute;left:46.5%;width:7%;bottom:30%;border-radius:4px 4px 0 0;transition:height .6s var(--ease-out)}
+.bulb{position:absolute;left:41%;top:71.5%;width:18%;aspect-ratio:1;border-radius:50%}
+.temp-state{text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin:0 0 12px}
+.temp-state.normal{color:var(--ok)}.temp-state.elevated{color:var(--candle)}.temp-state.fever{color:var(--err)}
+.blocked-list{list-style:none;margin:6px 0 12px;padding:0 14px;font-family:var(--font-mono);font-size:11px;text-align:center}
+.blocked-list a{color:var(--err);text-decoration:none;border-bottom:1px dotted var(--err)}
+
+/* -- EKG -- */
+.ekg-stage{position:relative;margin:14px auto;width:min(360px,92%);aspect-ratio:406/312;background:url('assets/immune/monitor.png') center/100% 100% no-repeat}
+.ekg-screen{position:absolute;left:9%;top:9.5%;width:82%;height:76%}
+.ekg-screen svg{width:100%;height:100%;display:block}
+.ekg-base{stroke:var(--fg-faint);stroke-width:1;opacity:.45;fill:none}
+.ekg-beat{fill:none;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.ekg-beat.ok{stroke:var(--ok);opacity:.9}
+.ekg-beat.err{stroke:var(--err)}
+@media(prefers-reduced-motion:no-preference){
+  .ekg-sweep{animation:sweep 3.4s linear infinite}
+  @keyframes sweep{from{transform:translateX(-4%)}to{transform:translateX(104%)}}
+}
+.ekg-sweep{position:absolute;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--ok),transparent);opacity:.35}
+
+/* -- counters (immunoassay gauge bank; right 78% of the plate = dials 2–5) -- */
+.gauge-stage{position:relative;margin:14px auto;width:min(520px,94%);aspect-ratio:452/225;background:url('assets/immune/gauges.png') right top/128.2% 100% no-repeat}
+.dial{position:absolute;transform:translate(-50%,-50%);text-align:center}
+.dial .dv{font-family:var(--font-display);font-weight:700;line-height:1;font-variation-settings:"opsz" 96}
+.dial .dl{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-muted);margin-top:3px}
+.dial.big .dv{font-size:clamp(30px,4.6vw,44px);color:var(--accent)}
+.dial.small .dv{font-size:clamp(18px,2.6vw,26px)}
+.dial .dv.err{color:var(--err)}.dial .dv.candle{color:var(--candle)}.dial .dv.ok{color:var(--ok)}
+
+/* -- immunization record (clipboard) -- */
+.record-stage{position:relative;margin:14px auto;width:min(204px,78%);aspect-ratio:204/314;background:url('assets/immune/clipboard.png') center/100% 100% no-repeat}
+.record-paper{position:absolute;left:15%;top:25%;width:70%;height:63%;overflow-y:auto;scrollbar-width:thin}
+.rec-row{padding:6px 4px;border-bottom:1px solid color-mix(in oklab,var(--fg) 14%,transparent)}
+.rec-row .r-line{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;color:#4a3a26}
+.rec-row .r-type{color:var(--err);text-transform:uppercase}
+.rec-row a{color:#4a3a26;text-decoration:none;border-bottom:1px dotted #4a3a26}
+.rec-row .r-title{font-size:10px;line-height:1.35;color:#5d4b33;margin-top:2px}
+
+/* -- incubation log (vessels) -- */
+.t-incubation .incu-body{position:relative;flex:1;min-height:230px;background:url('assets/immune/vessels.png') left center/auto 100% no-repeat}
+.incu-panel{position:absolute;inset:12px 12px 12px min(38%,150px);background:color-mix(in oklab,var(--bg-elev-2) 88%,transparent);border:1px solid var(--line-loud);border-radius:3px;padding:10px 12px;overflow-y:auto;scrollbar-width:thin}
+.incu-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:10.5px}
+.incu-table th{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-faint);text-align:left;padding:0 8px 6px 0;font-weight:500}
+.incu-table td{padding:5px 8px 5px 0;border-top:1px solid var(--line);color:var(--fg-subtle)}
+.incu-table a{color:var(--accent);text-decoration:none}
+.incu-table .moon{color:var(--candle)}
+
+/* -- autonomy (readouts) -- */
+.auto-stage{position:relative;margin:14px auto;width:min(460px,94%);aspect-ratio:491/168;background:url('assets/immune/readouts.png') center/100% 100% no-repeat}
+.rwin{position:absolute;top:20%;height:36%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rwin .rv{font-family:var(--font-mono);font-weight:600;font-size:clamp(15px,2.2vw,21px);color:var(--candle);text-shadow:0 0 12px color-mix(in oklab,var(--candle) 55%,transparent)}
+.rwin .rl{font-family:var(--font-mono);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);margin-top:2px}
+.footnote{font-size:10.5px;line-height:1.5;color:var(--fg-faint);font-style:italic}
+
+.data-missing{padding:60px 40px;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--err)}
+</style>
+</head>
+<body>
+
+<!-- ─── SITE CHROME ───────────────────────────────────────────── -->
+<div id="topnav-mount"></div>
+<div id="graph-subnav-mount"></div>
+
+<div class="wrap">
+  <header class="head">
+    <div>
+      <div class="eyebrow">Body <span class="sep">›</span> Immune System <span class="sep">·</span> The Defense Layer</div>
+      <h1>Immune<span class="dot">.</span></h1>
+      <p class="lead">The pipeline's defenses drawn as living tissue: every regression test a <b>memory cell</b> that never forgets, the four CI checks a <em>membrane</em> screening everything that enters, and a white cell that only wakes when something gets through.</p>
+    </div>
+    <div class="note">the antibodies remember every infection ↓</div>
+  </header>
+
+  <!-- ─── SPECIMEN · adaptive + innate + inflammatory ─── -->
+  <section class="specimen-box" aria-label="Immune specimen — membrane cross-section with live overlay">
+    <div class="specimen-stage" id="specimen">
+      <svg id="specimen-svg" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <div class="tip" id="tip"></div>
+    </div>
+    <div class="spec-foot">
+      <div class="legend">
+        <span><i style="background:var(--accent)"></i>Adaptive · antibodies (bench TCs)</span>
+        <span><i style="background:var(--ok)"></i>Innate · membrane channels (CI checks)</span>
+        <span><i style="background:var(--err)"></i>Inflammatory · macrophage (Verifier)</span>
+      </div>
+      <div class="collected" id="collected"></div>
+    </div>
+  </section>
+
+  <!-- ─── INSTRUMENT BENCH ─── -->
+  <div class="bench-head">Instrument Bench · readings from the last screening</div>
+  <section class="bench" id="bench">
+
+    <figure class="tile t-thermo">
+      <div class="t-head"><span class="t-title">Thermometer</span><span class="t-sub">Inflammation</span></div>
+      <div class="thermo-stage">
+        <div class="mercury" id="mercury"></div>
+        <div class="bulb" id="bulb"></div>
+      </div>
+      <div class="temp-state" id="temp-state"></div>
+      <ul class="blocked-list" id="blocked-list"></ul>
+      <div class="t-foot">Fever = an escalation on the board. The human is the antipyretic.</div>
+    </figure>
+
+    <figure class="tile t-ekg">
+      <div class="t-head"><span class="t-title">EKG Monitor</span><span class="t-sub">Check runs</span></div>
+      <div class="ekg-stage">
+        <div class="ekg-screen">
+          <svg id="ekg-svg" viewBox="0 0 400 120" preserveAspectRatio="none"></svg>
+          <div class="ekg-sweep"></div>
+        </div>
+      </div>
+      <div class="t-foot">One beat per check run, event-indexed. A <b style="color:var(--err)">red spike</b> is an arrhythmia — a run that came back red. No dates on this trace.</div>
+    </figure>
+
+    <figure class="tile t-counters">
+      <div class="t-head"><span class="t-title">Immunoassay Counters</span><span class="t-sub">Cumulative</span></div>
+      <div class="gauge-stage" id="gauge-stage"></div>
+      <div class="t-foot">All counts cumulative over the pipeline's life — the immune system does not forget, so nothing here is a rate.</div>
+    </figure>
+
+    <figure class="tile t-record">
+      <div class="t-head"><span class="t-title">Immunization Record</span><span class="t-sub">Vaccinations</span></div>
+      <div class="record-stage">
+        <div class="record-paper" id="record-paper"></div>
+      </div>
+      <div class="t-foot">Each entry is an acquired immunity — a bug the bench now remembers.</div>
+    </figure>
+
+    <figure class="tile t-incubation">
+      <div class="t-head"><span class="t-title">Incubation Log</span><span class="t-sub">Stories through the factory</span></div>
+      <div class="incu-body">
+        <div class="incu-panel">
+          <table class="incu-table">
+            <thead><tr><th>Issue</th><th>Lane</th><th>Rounds</th><th>Wall clock</th><th title="overnight">☾</th></tr></thead>
+            <tbody id="incu-rows"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="t-foot"><b>☾</b> marks a story incubated overnight — built while the human slept.</div>
+    </figure>
+
+    <figure class="tile t-autonomy">
+      <div class="t-head"><span class="t-title">Autonomy Panel</span><span class="t-sub">Reflex vs. conscious</span></div>
+      <div class="auto-stage" id="auto-stage"></div>
+      <div class="t-foot footnote" id="auto-footnote"></div>
+    </figure>
+
+  </section>
+</div>
+
+<div id="footer-mount"></div>
+
+<!-- shared site data + components -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+<script type="text/babel" src="../components/GraphSubnav.jsx"></script>
+
+<!-- page data feed (generated by scripts/pipeline-metrics.mjs — #380) -->
+<script src="immune-data.js"></script>
+
+<!-- ===========================================================================
+ * IMMUNE PAGE — renders entirely from window.IMMUNE. No fetches at page load;
+ * no calendar-time rates anywhere. generatedAt appears only as the specimen's
+ * "collected" label. Antibody placement is a pure function of the TC id.
+ * ======================================================================== -->
+<script>
+(function(){
+  const IM = window.IMMUNE;
+  const $ = (id)=>document.getElementById(id);
+  const esc = (s)=>String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const ISSUES = 'https://github.com/JeremyMontz/Meta1/issues/';
+
+  if(!IM){
+    $('specimen').innerHTML = '<div class="data-missing">window.IMMUNE not loaded — immune-data.js missing or invalid.</div>';
+    return;
+  }
+
+  /* ---- collected label (data, not freshness) ---- */
+  $('collected').textContent = 'specimen collected ' + String(IM.generatedAt||'').slice(0,10);
+
+  /* ================= SPECIMEN OVERLAY ================= */
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const svg = $('specimen-svg');
+  const el = (name, attrs)=>{ const n=document.createElementNS(SVG_NS,name); for(const k in attrs) n.setAttribute(k,attrs[k]); return n; };
+
+  /* tooltip */
+  const tip = $('tip'), stage = $('specimen');
+  function showTip(evt, html){
+    tip.innerHTML = html; tip.classList.add('on');
+    const r = stage.getBoundingClientRect();
+    let x = evt.clientX - r.left + 14, y = evt.clientY - r.top + 12;
+    if(x > r.width - 300) x = Math.max(8, x - 320);
+    if(y > r.height - 110) y = y - 100;
+    tip.style.left = x+'px'; tip.style.top = y+'px';
+  }
+  function hideTip(){ tip.classList.remove('on'); }
+
+  /* ---- innate layer: 4 membrane channel hotspots (x-positions read off the
+     raster's channel proteins; membrane band sits at y≈190–330) ---- */
+  const CHANNEL_X = [240, 628, 1025, 1410];
+  const CHECKS = ['Internal links', 'data.js integrity', 'Spellcheck', 'Contract tests'];
+  const lastRun = {};
+  (IM.pulse||[]).forEach(p=>{ lastRun[p.check] = p.conclusion; });
+
+  CHECKS.forEach((name, i)=>{
+    const x = CHANNEL_X[i];
+    const g = el('g', {class:'channel'});
+    g.appendChild(el('circle', {class:'mouth', cx:x, cy:250, r:80, fill:'transparent'}));
+    const ok = lastRun[name] !== 'failure';
+    g.appendChild(el('circle', {class:'status '+(ok?'ok':'err'), cx:x, cy:342, r:7}));
+    const label = el('text', {class:'cname', x:x, y:392, 'text-anchor':'middle'});
+    label.textContent = name;
+    g.appendChild(label);
+    g.addEventListener('mousemove', (e)=>showTip(e,
+      '<div class="t-id">'+esc(name)+'</div>'+
+      '<div class="t-meta">Innate immunity · required CI check</div>'+
+      '<div class="t-body">Screens every PR at the membrane. Last observed run: <b style="color:var(--'+(ok?'ok':'err')+')">'+(ok?'clean':'red')+'</b>.</div>'));
+    g.addEventListener('mouseleave', hideTip);
+    svg.appendChild(g);
+  });
+
+  /* ---- inflammatory layer: the macrophage ---- */
+  const macroState = (IM.current && IM.current.whiteCell) === 'engaged' ? 'engaged' : 'dormant';
+  const macro = el('g', {class:'macro '+macroState, transform:'translate(1210,672)'});
+  macro.appendChild(el('path', {d:'M0,-86 C52,-84 88,-52 90,-6 C92,38 66,80 18,88 C-30,96 -78,70 -90,26 C-102,-18 -76,-62 -40,-78 C-27,-84 -13,-86 0,-86 Z'}));
+  macro.appendChild(el('circle', {class:'nucleus', cx:-10, cy:2, r:26}));
+  macro.addEventListener('mousemove', (e)=>showTip(e,
+    '<div class="t-id">Macrophage — the Verifier</div>'+
+    '<div class="t-meta">Inflammatory response · '+esc(macroState)+'</div>'+
+    '<div class="t-body">'+(macroState==='engaged'
+      ? 'Engaged: a red is being adjudicated against the spec right now.'
+      : 'Dormant: nothing red on the board. It wakes only on detection.')+'</div>'));
+  macro.addEventListener('mouseleave', hideTip);
+  svg.appendChild(macro);
+
+  /* ---- adaptive layer: one antibody per bench TC.
+     Deterministic: position is a pure hash of the TC id (no stored layout).
+     A deterministic probe walk resolves collisions; the macrophage's spot is
+     pre-reserved so nothing lands on it. ---- */
+  function fnv(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; }
+  const TX0=70, TX1=1600, TY0=420, TY1=868;           // tissue region
+  const placed = [{x:1210,y:672,r:150}];               // macrophage reservation
+  function place(id){
+    const h = fnv(id);
+    const bx = (h % 9973)/9973, by = ((h>>>13) % 7919)/7919;
+    let k = 0, x, y;
+    do{
+      x = TX0 + (((bx*(TX1-TX0)) + k*233.51) % (TX1-TX0));
+      y = TY0 + (((by*(TY1-TY0)) + k*89.73)  % (TY1-TY0));
+      k++;
+    } while(k < 400 && placed.some(p=>{ const dx=p.x-x, dy=p.y-y; return dx*dx+dy*dy < (p.r||74)*(p.r||74); }));
+    placed.push({x,y,r:74});
+    return {x, y, rot:(h>>>7)%360};
+  }
+
+  (IM.bench||[]).forEach(tc=>{
+    const {x,y,rot} = place(tc.id);
+    const g = el('g', {class:'ab', transform:'translate('+x.toFixed(1)+','+y.toFixed(1)+') rotate('+rot+')'});
+    g.appendChild(el('circle', {class:'halo', cx:0, cy:0, r:34}));
+    g.appendChild(el('path', {class:'glyph', d:'M0,30 L0,0 M0,0 L-15,-17 M0,0 L15,-17'}));
+    g.appendChild(el('circle', {class:'tip-dot', cx:-15, cy:-17, r:3.4}));
+    g.appendChild(el('circle', {class:'tip-dot', cx:15, cy:-17, r:3.4}));
+    g.addEventListener('mousemove', (e)=>showTip(e,
+      '<div class="t-id">'+esc(tc.id)+'</div>'+
+      '<div class="t-meta">Memory cell · spec <a style="pointer-events:none;color:var(--fg-subtle)">#'+esc(tc.issue)+'</a></div>'+
+      '<div class="t-body">Protects: '+esc(tc.protects||tc.title||'')+'</div>'));
+    g.addEventListener('mouseleave', hideTip);
+    svg.appendChild(g);
+  });
+
+  /* ================= INSTRUMENT BENCH ================= */
+  const cur = IM.current || {};
+  const counters = IM.counters || {};
+
+  /* -- thermometer -- */
+  const TEMPS = {
+    normal:   { pct: 22, color:'var(--ok)',     label:'Normal · no inflammation' },
+    elevated: { pct: 56, color:'var(--candle)', label:'Elevated · response underway' },
+    fever:    { pct: 90, color:'var(--err)',    label:'Fever · human recruited' },
+  };
+  const t = TEMPS[cur.temperature] || TEMPS.normal;
+  const mercury = $('mercury');
+  mercury.style.height = (t.pct * 0.57) + '%';        /* tube spans y 13%–70% of the plate */
+  mercury.style.background = t.color;
+  const bulb = $('bulb'); bulb.style.background = t.color; bulb.style.opacity = .85;
+  const ts = $('temp-state'); ts.textContent = t.label; ts.className = 'temp-state ' + (cur.temperature||'normal');
+  const bl = $('blocked-list');
+  if(cur.temperature === 'fever' && (cur.blockedIssues||[]).length){
+    bl.innerHTML = cur.blockedIssues.map(n=>'<li><a href="'+ISSUES+n+'" target="_blank" rel="noopener">#'+esc(n)+' blocked</a></li>').join('');
+  }
+
+  /* -- EKG: one beat per check run, event-indexed -- */
+  (function(){
+    const ekg = $('ekg-svg'), W=400, H=120, base=66;
+    ekg.appendChild(el('path', {class:'ekg-base', d:'M0,'+base+' L'+W+','+base}));
+    const runs = IM.pulse||[];
+    const dx = W/(runs.length+1);
+    runs.forEach((p,i)=>{
+      const x = dx*(i+1);
+      const red = p.conclusion === 'failure';
+      const amp = red ? 52 : 26;
+      const d = 'M'+(x-9)+','+base+
+        ' L'+(x-6)+','+(base-3)+' L'+(x-4)+','+base+
+        ' L'+(x-2)+','+(base+7)+' L'+x+','+(base-amp)+' L'+(x+2)+','+(base+11)+
+        ' L'+(x+4)+','+base+' L'+(x+7)+','+(base-5)+' L'+(x+9)+','+base;
+      ekg.appendChild(el('path', {class:'ekg-beat '+(red?'err':'ok'), d}));
+    });
+  })();
+
+  /* -- immunoassay counters over the gauge dials (dials 2–5 of the plate) -- */
+  $('gauge-stage').innerHTML =
+    '<div class="dial small" style="left:11.6%;top:36%"><div class="dv err">'+esc(counters.redsCaught??'—')+'</div><div class="dl">Infections repelled</div></div>'+
+    '<div class="dial big"   style="left:36%;top:38%"><div class="dv">'+esc(counters.benchSize??'—')+'</div><div class="dl">Antibody titer</div></div>'+
+    '<div class="dial small" style="left:59.2%;top:36%"><div class="dv candle">'+esc(counters.verifierEngagements??'—')+'</div><div class="dl">White-cell count</div></div>'+
+    '<div class="dial small" style="left:80.1%;top:36%"><div class="dv ok">'+esc(counters.storiesShipped??'—')+'</div><div class="dl">Stories screened</div></div>';
+
+  /* -- immunization record -- */
+  const rec = IM.record||[];
+  $('record-paper').innerHTML = rec.length
+    ? rec.map(r=>(
+        '<div class="rec-row">'+
+          '<div class="r-line"><span class="r-type">'+esc(r.type)+'</span> · <a href="'+ISSUES+r.issue+'" target="_blank" rel="noopener">#'+esc(r.issue)+'</a> · '+esc(r.date)+'</div>'+
+          '<div class="r-title">'+esc(r.title)+'</div>'+
+        '</div>')).join('')
+    : '<div class="rec-row"><div class="r-title">No acquired immunities on record yet.</div></div>';
+
+  /* -- incubation log -- */
+  $('incu-rows').innerHTML = (IM.stories||[]).map(s=>(
+    '<tr>'+
+      '<td><a href="'+ISSUES+s.issue+'" target="_blank" rel="noopener">#'+esc(s.issue)+'</a></td>'+
+      '<td>'+esc(s.lane)+'</td>'+
+      '<td>'+esc(s.rounds)+'</td>'+
+      '<td>'+(s.wallClockHours==null?'—':esc(s.wallClockHours)+' h')+'</td>'+
+      '<td>'+(s.overnight?'<span class="moon">☾</span>':'')+'</td>'+
+    '</tr>')).join('');
+
+  /* -- autonomy panel -- */
+  const au = IM.autonomy||{};
+  const ratio = (au.humanEvents ? (au.agentEvents/au.humanEvents) : 0).toFixed(2);
+  $('auto-stage').innerHTML =
+    '<div class="rwin" style="left:19%"><div class="rv">'+esc(au.agentEvents??'—')+'</div><div class="rl">Reflex · agent</div></div>'+
+    '<div class="rwin" style="left:39.5%"><div class="rv">'+esc(au.humanEvents??'—')+'</div><div class="rl">Conscious · human</div></div>'+
+    '<div class="rwin" style="left:60.5%"><div class="rv">'+ratio+':1</div><div class="rl">Ratio</div></div>'+
+    '<div class="rwin" style="left:81%"><div class="rv" style="font-size:11px;letter-spacing:.12em">BY ACCOUNT</div><div class="rl">Method</div></div>';
+  $('auto-footnote').innerHTML =
+    'Lab note — attribution is by account: <b>reflex</b> events are actions taken by the meta1-monzter bot (PR opens, commits, comments on pipeline items); <b>conscious</b> events are the human’s merges, comments, and closes. The bot cannot merge and never closes.';
+})();
+</script>
+
+<!-- mount shared chrome -->
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="GRAPH" />);
+  ReactDOM.createRoot(document.getElementById('graph-subnav-mount')).render(<GraphSubnav active="IMMUNE" />);
+  ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+</body>
+</html>
