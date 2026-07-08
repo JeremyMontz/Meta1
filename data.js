@@ -641,6 +641,15 @@ window.SITE_INDEX = {
     ],
     "updated": "2026-06-13"
   },
+  "/graph/immune.html": {
+    "note": "A live rendering of the Claudemonzter pipeline's defenses as an immune system: every test case is an antibody — the actual, current set, growing over time — the four required CI checks are the membrane screening changes into main, and an inflammatory response that wakes only to adjudicate and resolve. These stats update on their own, showing code coverage in real-time.",
+    "tags": [
+      "multi-agent orchestration",
+      "evals",
+      "systems design"
+    ],
+    "updated": "2026-07-08"
+  },
   "/graph/memory.html": {
     "note": "The configuration layers: how context is tiered from user settings, to claude.md and project domains, and managing ephermeral memory as it moves from the inbox to the wiki. How a thought becomes canon.",
     "tags": [
@@ -852,7 +861,7 @@ window.TESTS = [
   {"id":"tc-spirit","file":"tests/tc-spirit.test.mjs","title":"TC — spirit organ page structure + wiring","tier":1,"issue":337,"notes":"standalone","highlight":"TC — spirit organ page structure + wiring","status":"live","covers":["graph/spirit.html"],"ignores":["content snapshot — pass-2 (#375)","live values — runtime / Tier 4","shared fetch read-path — owned: #336"]},
   {"id":"tc-trackers","file":"tests/tc-trackers.test.mjs","title":"TC — house tracker pages structure + wiring","tier":1,"issue":343,"notes":"standalone","highlight":"TC — house tracker pages structure + wiring","status":"live","covers":["agents/house/house-budget.html","agents/house/house-entry.html","agents/house/house-timeline.html"],"ignores":["computed values / runtime behavior — runtime / Tier 4"]},
   {"id":"tc-webform","file":"tests/tc-webform.test.mjs","title":"TC — data-entry webform WRITE-path wiring","tier":1,"issue":345,"notes":"cross-cutting","highlight":"TC — data-entry webform WRITE-path wiring","status":"live","covers":["@dataRole:entry pages (declared in SITE_INDEX)"],"ignores":["submission lands in the Sheet — runtime / Tier 4"]},
-  {"id":"tc1-page-chrome","file":"tests/tc1-page-chrome.test.mjs","title":"TC1 — Universal page-chrome contract","tier":1,"issue":298,"notes":"","highlight":"TC1 — Universal page-chrome contract","status":"live","covers":["* (every in-scope page — universal chrome contract)"],"ignores":["subnav / breadcrumb presence — owned: #300","script-src resolution — owned: Tier-0 check-links","rendered-DOM / runtime mount — runtime / Tier 4 (#306)"]},
+  {"id":"tc1-page-chrome","file":"tests/tc1-page-chrome.test.mjs","title":"TC1 — Universal page-chrome contract","tier":1,"issue":298,"notes":"","highlight":"TC1 — Universal page-chrome contract","status":"live","covers":["* (every in-scope page — universal chrome + SITE_INDEX entry/non-empty note + static description presence)"],"ignores":["subnav / breadcrumb presence — owned: #300","script-src resolution — owned: Tier-0 check-links","SITE_INDEX key → file exists (inverse join) — owned: #334","SITE_INDEX note TEXT / page description WORDING — editorial (#403)","rendered-DOM / runtime mount — runtime / Tier 4 (#306)"]},
   {"id":"tc2-agent-completeness","file":"tests/tc2-agent-completeness.test.mjs","title":"TC2 — Agent completeness + roster coherence","tier":1,"issue":299,"notes":"","highlight":"TC2 — Agent completeness + roster coherence","status":"live","covers":["@AGENTS pages (identity / roster / portrait)","data.js (six agent rosters coherent)"],"ignores":["AGENT_ARTIFACTS population — optional by design (no-artifacts is valid)","live status / persona / sessions — owned: #336 / #342 (Sheet-driven)","content quality / graph node positions — human Accept gate"]},
   {"id":"tc3-organ-structural","file":"tests/tc3-organ-structural.test.mjs","title":"TC3 — Organ-structural contract (per-type)","tier":1,"issue":300,"notes":"","highlight":"TC3 — Organ-structural contract (per-type)","status":"live","covers":["@ORGANS pages (graph organ family)"],"ignores":["graph/body.html — subnav parent, not an organ (chrome-only by design)","live read-path — owned: #336","organ-specific content — owned: #337 / #338 / #339"]}
 ];
@@ -871,3 +880,4 @@ window.STATS = [
   { value: window.CI.checks + ' & ' + window.TESTS.length, label: 'CI tests' }, // computed — CI check-jobs (ci.yml) & test files
   { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
 ];
+

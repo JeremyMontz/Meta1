@@ -23,6 +23,8 @@ constrain the human's.
 - `tc1-page-chrome` (#298) — TC1 — Universal page-chrome contract
   - out of contract: subnav / breadcrumb presence — owned: #300
   - out of contract: script-src resolution — owned: Tier-0 check-links
+  - out of contract: SITE_INDEX key → file exists (inverse join) — owned: #334
+  - out of contract: SITE_INDEX note TEXT / page description WORDING — editorial (#403)
   - out of contract: rendered-DOM / runtime mount — runtime / Tier 4 (#306)
 
 ## Pages

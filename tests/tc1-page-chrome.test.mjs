@@ -3,8 +3,10 @@
  * TC1 — Universal page-chrome contract  (Tier 1 · GH #298)
  * ----------------------------------------------------------------------------
  * Asserts every published, chrome-bearing .html wires in the shared site chrome
- * via one of two sanctioned patterns. A page that forgets the chrome (drops
- * data.js, a chrome component, or both mount points) turns this check red and
+ * via one of two sanctioned patterns, AND (per #418) that every in-scope page
+ * carries a SITE_INDEX entry with a non-empty note plus a static, JS-independent
+ * description signal (AI-scannability). A page that forgets the chrome, is
+ * absent from SITE_INDEX, or ships with no static description turns this red and
  * blocks the merge.
  *
  * CONTRACT (per in-scope page) — all must hold:
@@ -15,6 +17,25 @@
  *   5. has a chrome anchor — at least one of:
  *        app-shell    : <div id="root">
  *        content-page : <div id="topnav-mount"> AND <div id="footer-mount">
+ *   6. SITE_INDEX completeness (#418) — window.SITE_INDEX has an entry for this
+ *        page (join key "/" + rel; homepage also accepted under "/") AND its
+ *        `note` is a NON-EMPTY string. Denominator = this same in-scope set —
+ *        Jeremy's ruling (2026-07-08, closed): NO exempt list; a missing entry
+ *        is always an error. Omission is never the exemption idiom — genuine
+ *        exemptions live in the data (e.g. status:retired, rendered with a
+ *        "retired · archived" stamp) or as an explicit future @ignores amendment
+ *        when a truly note-less page is introduced. Presence + non-emptiness
+ *        only — the note TEXT stays editorial (#403).
+ *   7. Static description present & non-empty (#418 addendum, Jeremy 2026-07-08)
+ *        — AI-scannability: the page carries static copy readable without JS.
+ *        At least ONE non-empty static description signal must exist:
+ *          - <meta name="description">      content, OR
+ *          - <meta property="og:description"> content, OR
+ *          - a non-empty element carrying a "lead" class token.
+ *        PRESENCE CHECK, NOT verbatim-match: the SITE_INDEX note and the page
+ *        description are authored independently and intentionally differ in
+ *        wording (#403) — drift is allowed; ABSENCE is the error. The exact
+ *        signal set is [Confidence: Medium · Inferred] from the written addendum.
  *
  * SCOPE: every *.html under the repo, MINUS
  *   - templates/partials whose basename starts with "_"  (as check-links does)
@@ -25,15 +46,20 @@
  * OUT OF SCOPE (owned elsewhere):
  *   - subnav / breadcrumb presence        → TC3 (#300)
  *   - that script srcs RESOLVE            → check-links CI
+ *   - SITE_INDEX key → file exists (inverse join) → tc-routes (#334)
  *   - _SITE_BASE correctness              → component-internal
  *   - rendered-DOM / runtime mount        → Tier 4 (#306)
  *
- * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
+ * Zero-dep (node stdlib only), exit 1 on any failure. data.js loaded under a
+ * window shim (as tc-routes/tc2 do) to READ SITE_INDEX at run time — the
+ * implementation is never inspected to author the assertions. Mirrors
  * .github/scripts/check-links.mjs. Run directly or via tests/run.mjs.
   *
- * @covers: * (every in-scope page — universal chrome contract)
+ * @covers: * (every in-scope page — universal chrome + SITE_INDEX entry/non-empty note + static description presence)
  * @ignores: subnav / breadcrumb presence — owned: #300
  * @ignores: script-src resolution — owned: Tier-0 check-links
+ * @ignores: SITE_INDEX key → file exists (inverse join) — owned: #334
+ * @ignores: SITE_INDEX note TEXT / page description WORDING — editorial (#403)
  * @ignores: rendered-DOM / runtime mount — runtime / Tier 4 (#306)
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -61,6 +87,47 @@ const loadsFile = (html, fname) =>
 const hasDiv = (html, id) =>
   new RegExp(`id\\s*=\\s*["']${id}["']`, 'i').test(html);
 
+// data.js under a window shim (same pattern as tc-routes / tc2). READ only.
+function loadWindow(path) {
+  const win = {};
+  new Function('window', readFileSync(join(ROOT, path), 'utf8'))(win);
+  return win;
+}
+
+// SITE_INDEX join (#418): "/" + rel; the homepage may be keyed "/" and a
+// directory index under its dir. Robust to both without asserting a convention.
+function siEntry(SI, rel) {
+  const cands = ['/' + rel];
+  if (rel === 'index.html') cands.push('/');
+  if (rel.endsWith('/index.html')) cands.push('/' + rel.slice(0, -'index.html'.length));
+  for (const c of cands) if (SI && Object.prototype.hasOwnProperty.call(SI, c)) return SI[c];
+  return undefined;
+}
+
+// Static description signals (#418 addendum) — presence, not wording.
+// Attribute order is not assumed: scan each <meta> tag independently.
+function metaContent(html, key, attr) {
+  for (const tag of html.match(/<meta\b[^>]*>/gi) || []) {
+    if (!new RegExp(`${attr}\\s*=\\s*["']${key}["']`, 'i').test(tag)) continue;
+    const c = tag.match(/content\s*=\s*["']([^"']*)["']/i);
+    if (c && c[1].trim()) return true;
+  }
+  return false;
+}
+// A non-empty element carrying a "lead" class token (term-of-art lead paragraph).
+function hasLead(html) {
+  const re = /<(\w+)\b[^>]*class\s*=\s*["'][^"']*\blead\b[^"']*["'][^>]*>([\s\S]*?)<\/\1>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    if (m[2].replace(/<[^>]*>/g, '').trim()) return true;
+  }
+  return false;
+}
+const hasStaticDescription = (html) =>
+  metaContent(html, 'description', 'name') ||
+  metaContent(html, 'og:description', 'property') ||
+  hasLead(html);
+
 function walk(dir, out = []) {
   for (const e of readdirSync(dir)) {
     if (e === '.git') continue;
@@ -73,6 +140,11 @@ function walk(dir, out = []) {
 const exists = (p) => { try { statSync(p); return true; } catch { return false; } };
 
 const r = makeReport('tc1-page-chrome');
+const SITE_INDEX = loadWindow('data.js').SITE_INDEX;
+
+// Data-shape vacuity guard: a silent SITE_INDEX regression must not pass green.
+r.check(SITE_INDEX && typeof SITE_INDEX === 'object' && Object.keys(SITE_INDEX).length > 0,
+  'window.SITE_INDEX missing or empty in data.js (extraction or data shape regressed)');
 
 // Stale-exempt guard: a renamed/removed exempt file must not silently shrink
 // coverage — fail loud so EXEMPT gets updated.
@@ -94,6 +166,16 @@ for (const file of walk(ROOT)) {
   const contentPage = hasDiv(html, 'topnav-mount') && hasDiv(html, 'footer-mount');
   r.check(appShell || contentPage,
     `${rel}: no chrome anchor (need #root or topnav-mount+footer-mount)`);
+
+  // #418 — SITE_INDEX entry present with a non-empty note (text stays editorial).
+  const entry = siEntry(SITE_INDEX, rel);
+  r.check(entry !== undefined, `${rel}: no SITE_INDEX entry (key "/" + rel)`);
+  r.check(entry !== undefined && typeof entry.note === 'string' && entry.note.trim().length > 0,
+    `${rel}: SITE_INDEX entry has empty/missing note`);
+
+  // #418 addendum — a static, JS-independent description signal (presence only).
+  r.check(hasStaticDescription(html),
+    `${rel}: no static description (need non-empty meta description / og:description / .lead)`);
 }
 
-r.done(`pages scanned: ${inScope} in-scope, ${EXEMPT.size} exempt (templates auto-skipped)`);
+r.done(`pages scanned: ${inScope} in-scope, ${EXEMPT.size} exempt (templates auto-skipped); SITE_INDEX keys: ${SITE_INDEX ? Object.keys(SITE_INDEX).length : 0}`);
