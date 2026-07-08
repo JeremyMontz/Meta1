@@ -41,6 +41,16 @@ window.SITE = {
   status:  'LIVE',
 };
 
+// ─── COLOPHON · build/site metadata a footer or /about can read ──────────
+// schemaVersion — bump when this shape changes. Data half only (#410); nothing
+// renders yet. Structure is the contract; the values here are editorial.
+window.COLOPHON = {
+  schemaVersion: 1,
+  stack: ['GitHub Pages', 'vanilla JS', 'GitHub Actions CI'],
+  repo: 'JeremyMontz/Meta1',
+  updated: '2026-07-07',
+};
+
 // ─── COMMIT_WEEKS · baked snapshot for the portfolio commit chart ──────
 // Always-present fallback so every visitor (even first-time) sees the chart
 // instantly while /stats/commit_activity (which 202s during GitHub recompute)
@@ -88,7 +98,6 @@ window.ORGANS = [
   { id: 'HEART',     label: 'Heart',     href: 'graph/heart.html' },
   { id: 'STOMACH',     label: 'Stomach',     href: 'graph/stomach.html' },
   { id: 'HANDS',    label: 'Hands',    href: 'graph/hands.html' },
-  { id: 'IMMUNE',   label: 'Immune',   href: 'graph/immune.html' },
 ];
 
 
@@ -641,15 +650,6 @@ window.SITE_INDEX = {
     ],
     "updated": "2026-06-13"
   },
-  "/graph/immune.html": {
-    "note": "A live rendering of the Claudemonzter pipeline's defenses as an immune system: every test case is an antibody — the actual, current set, growing over time — the four required CI checks are the membrane screening changes into main, and an inflammatory response that wakes only to adjudicate and resolve. These stats update on their own, showing code coverage in real-time.",
-    "tags": [
-      "multi-agent orchestration",
-      "evals",
-      "systems design"
-    ],
-    "updated": "2026-07-08"
-  },
   "/graph/memory.html": {
     "note": "The configuration layers: how context is tiered from user settings, to claude.md and project domains, and managing ephermeral memory as it moves from the inbox to the wiki. How a thought becomes canon.",
     "tags": [
@@ -848,12 +848,12 @@ window.TESTS = [
   {"id":"tc-about","file":"tests/tc-about.test.mjs","title":"About-section — per-type group contract","tier":1,"issue":344,"notes":"","highlight":"About-section — per-type group contract","status":"live","covers":["@ABOUT_PAGES (about section)"],"ignores":["content quality — editorial","history month list inside about/history.html — owned: #335","hero h1 — heterogeneous by design (see NB above)"]},
   {"id":"tc-agent-live","file":"tests/tc-agent-live.test.mjs","title":"TC — agent-page live layer","tier":1,"issue":342,"notes":"per-type, extends TC2","highlight":"TC — agent-page live layer","status":"live","covers":["@AGENTS pages (live layer; extends TC2)"],"ignores":["agents/jeremy/jeremy.html — human exception; live layer not asserted (disclosed under-coverage)","live values — runtime / Tier 4"]},
   {"id":"tc-articles","file":"tests/tc-articles.test.mjs","title":"Articles — per-type group contract","tier":1,"issue":332,"notes":"","highlight":"Articles — per-type group contract","status":"live","covers":["@ARTICLES pages (writing corpus)","writing.html (renders ARTICLES)"],"ignores":["content quality — editorial","HISTORY month files — owned: #335 (data-derived exemption)","interactive-graph runtime — runtime / Tier 4 (#306)"]},
+  {"id":"tc-colophon","file":"tests/tc-colophon.test.mjs","title":"Colophon data — window.COLOPHON structure & presence","tier":1,"issue":410,"notes":"","highlight":"Colophon data — window.COLOPHON structure & presence","status":"live","covers":["data.js (window.COLOPHON structure & presence)"],"ignores":["COLOPHON field values (stack entries, repo, updated) — editorial"]},
   {"id":"tc-competency","file":"tests/tc-competency.test.mjs","title":"Competency evidence integrity — data.js","tier":1,"issue":333,"notes":"","highlight":"Competency evidence integrity — data.js","status":"live","covers":["data.js (demonstrates -> COMPETENCIES referential integrity)"],"ignores":["full competency reference coverage — informational only, not asserted"]},
   {"id":"tc-faces-dashboard","file":"tests/tc-faces-dashboard.test.mjs","title":"TC — faces + dashboard live agent-grid structure","tier":1,"issue":339,"notes":"standalone","highlight":"TC — faces + dashboard live agent-grid structure","status":"live","covers":["graph/faces.html","dashboard.html"],"ignores":["live values — runtime / Tier 4","roster set-membership — owned: #299","shared fetch read-path — owned: #336"]},
   {"id":"tc-github-activity","file":"tests/tc-github-activity.test.mjs","title":"GitHub activity-feed read-path wiring","tier":1,"issue":364,"notes":"cross-cutting","highlight":"GitHub activity-feed read-path wiring","status":"live","covers":["index.html (GitHub feed)","portfolio.html (GitHub feed)"],"ignores":["feed values — runtime / Tier 4"]},
   {"id":"tc-heart","file":"tests/tc-heart.test.mjs","title":"TC — heart organ + journal page pair","tier":1,"issue":338,"notes":"standalone","highlight":"TC — heart organ + journal page pair","status":"live","covers":["graph/heart.html","agents/phil/journal.html"],"ignores":["content quality — editorial","live values — runtime / Tier 4","shared fetch read-path — owned: #336"]},
   {"id":"tc-history","file":"tests/tc-history.test.mjs","title":"Our-History month-graph set — per-type group","tier":1,"issue":335,"notes":"","highlight":"Our-History month-graph set — per-type group","status":"live","covers":["@HISTORY pages (month-graph set)"],"ignores":["interactive graph runtime — runtime / Tier 4 (#306)"]},
-  {"id":"tc-immune-system","file":"tests/tc-immune-system.test.mjs","title":"TC — immune system: window.IMMUNE feed + organ-page wiring","tier":1,"issue":380,"notes":"standalone","highlight":"TC — immune system: window.IMMUNE feed + organ-page wiring","status":"live","covers":["graph/immune-data.js (window.IMMUNE schema v1)","graph/immune.html"],"ignores":["metric values + array lengths — runtime / recomputed data","acceptance spot-checks (history-coupled) — editorial","page chrome / subnav / active-key / immune-data.js load wiring — owned: #298 / #300","one-antibody-per-bench-entry rendering + all rendered DOM — runtime / Tier 4","calendar-time rate absence at runtime — runtime / Tier 4","generatedAt \"collected\" presentation — editorial","raster crop choice + instrument layout — editorial"]},
   {"id":"tc-index","file":"tests/tc-index.test.mjs","title":"Homepage — index.html standalone contract","tier":1,"issue":340,"notes":"","highlight":"Homepage — index.html standalone contract","status":"live","covers":["index.html","components/HomeMain.jsx"],"ignores":["window.NOW — editorial (weekly-cadence focus list; the #401/#403 case)","content snapshot — pass-2 (#375)","live feed / graph correctness — owned: #336 / #364; runtime / Tier 4"]},
   {"id":"tc-live-display","file":"tests/tc-live-display.test.mjs","title":"Live-display read-path wiring","tier":1,"issue":336,"notes":"cross-cutting","highlight":"Live-display read-path wiring","status":"live","covers":["@dataRole:live pages (declared in SITE_INDEX)"],"ignores":["live values — runtime / Tier 4","GitHub activity feed — owned: #364 (different live source)"]},
   {"id":"tc-portfolio","file":"tests/tc-portfolio.test.mjs","title":"Portfolio — portfolio.html standalone contract","tier":1,"issue":341,"notes":"","highlight":"Portfolio — portfolio.html standalone contract","status":"live","covers":["portfolio.html"],"ignores":["content snapshot — pass-2 (#375)","evidence-graph compute — runtime / Tier 4 (#306)","live feed values — owned: #364"]},
@@ -861,7 +861,7 @@ window.TESTS = [
   {"id":"tc-spirit","file":"tests/tc-spirit.test.mjs","title":"TC — spirit organ page structure + wiring","tier":1,"issue":337,"notes":"standalone","highlight":"TC — spirit organ page structure + wiring","status":"live","covers":["graph/spirit.html"],"ignores":["content snapshot — pass-2 (#375)","live values — runtime / Tier 4","shared fetch read-path — owned: #336"]},
   {"id":"tc-trackers","file":"tests/tc-trackers.test.mjs","title":"TC — house tracker pages structure + wiring","tier":1,"issue":343,"notes":"standalone","highlight":"TC — house tracker pages structure + wiring","status":"live","covers":["agents/house/house-budget.html","agents/house/house-entry.html","agents/house/house-timeline.html"],"ignores":["computed values / runtime behavior — runtime / Tier 4"]},
   {"id":"tc-webform","file":"tests/tc-webform.test.mjs","title":"TC — data-entry webform WRITE-path wiring","tier":1,"issue":345,"notes":"cross-cutting","highlight":"TC — data-entry webform WRITE-path wiring","status":"live","covers":["@dataRole:entry pages (declared in SITE_INDEX)"],"ignores":["submission lands in the Sheet — runtime / Tier 4"]},
-  {"id":"tc1-page-chrome","file":"tests/tc1-page-chrome.test.mjs","title":"TC1 — Universal page-chrome contract","tier":1,"issue":298,"notes":"","highlight":"TC1 — Universal page-chrome contract","status":"live","covers":["* (every in-scope page — universal chrome contract)"],"ignores":["subnav / breadcrumb presence — owned: #300","script-src resolution — owned: Tier-0 check-links","rendered-DOM / runtime mount — runtime / Tier 4 (#306)"]},
+  {"id":"tc1-page-chrome","file":"tests/tc1-page-chrome.test.mjs","title":"TC1 — Universal page-chrome contract","tier":1,"issue":298,"notes":"","highlight":"TC1 — Universal page-chrome contract","status":"live","covers":["* (every in-scope page — universal chrome + SITE_INDEX entry/non-empty note + static description presence)"],"ignores":["subnav / breadcrumb presence — owned: #300","script-src resolution — owned: Tier-0 check-links","SITE_INDEX key → file exists (inverse join) — owned: #334","SITE_INDEX note TEXT / page description WORDING — editorial (#403)","rendered-DOM / runtime mount — runtime / Tier 4 (#306)"]},
   {"id":"tc2-agent-completeness","file":"tests/tc2-agent-completeness.test.mjs","title":"TC2 — Agent completeness + roster coherence","tier":1,"issue":299,"notes":"","highlight":"TC2 — Agent completeness + roster coherence","status":"live","covers":["@AGENTS pages (identity / roster / portrait)","data.js (six agent rosters coherent)"],"ignores":["AGENT_ARTIFACTS population — optional by design (no-artifacts is valid)","live status / persona / sessions — owned: #336 / #342 (Sheet-driven)","content quality / graph node positions — human Accept gate"]},
   {"id":"tc3-organ-structural","file":"tests/tc3-organ-structural.test.mjs","title":"TC3 — Organ-structural contract (per-type)","tier":1,"issue":300,"notes":"","highlight":"TC3 — Organ-structural contract (per-type)","status":"live","covers":["@ORGANS pages (graph organ family)"],"ignores":["graph/body.html — subnav parent, not an organ (chrome-only by design)","live read-path — owned: #336","organ-specific content — owned: #337 / #338 / #339"]}
 ];
@@ -880,4 +880,3 @@ window.STATS = [
   { value: window.CI.checks + ' & ' + window.TESTS.length, label: 'CI tests' }, // computed — CI check-jobs (ci.yml) & test files
   { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
 ];
-
