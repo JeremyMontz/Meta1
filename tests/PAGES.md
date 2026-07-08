@@ -23,6 +23,8 @@ constrain the human's.
 - `tc1-page-chrome` (#298) — TC1 — Universal page-chrome contract
   - out of contract: subnav / breadcrumb presence — owned: #300
   - out of contract: script-src resolution — owned: Tier-0 check-links
+  - out of contract: SITE_INDEX key → file exists (inverse join) — owned: #334
+  - out of contract: SITE_INDEX note TEXT / page description WORDING — editorial (#403)
   - out of contract: rendered-DOM / runtime mount — runtime / Tier 4 (#306)
 
 ## Pages
@@ -50,7 +52,6 @@ constrain the human's.
 | `graph/faces.html` | #339 `tc-faces-dashboard`, #336 `tc-live-display`, #300 `tc3-organ-structural` | live values (runtime / Tier 4); roster set-membership (owned: #299); shared fetch read-path (owned: #336); GitHub activity feed (owned: #364 (different live source)); live read-path (owned: #336); organ-specific content (owned: #337 / #338 / #339) |
 | `graph/hands.html` | #300 `tc3-organ-structural` | live read-path (owned: #336); organ-specific content (owned: #337 / #338 / #339) |
 | `graph/heart.html` | #338 `tc-heart`, #336 `tc-live-display`, #300 `tc3-organ-structural` | content quality (editorial); live values (runtime / Tier 4); shared fetch read-path (owned: #336); GitHub activity feed (owned: #364 (different live source)); live read-path (owned: #336); organ-specific content (owned: #337 / #338 / #339) |
-| `graph/immune.html` | #380 `tc-immune-system`, #300 `tc3-organ-structural` | metric values + array lengths (runtime / recomputed data); acceptance spot-checks (history-coupled) (editorial); page chrome / subnav / active-key / immune-data.js load wiring (owned: #298 / #300); one-antibody-per-bench-entry rendering + all rendered DOM (runtime / Tier 4); calendar-time rate absence at runtime (runtime / Tier 4); generatedAt "collected" presentation (editorial); raster crop choice + instrument layout (editorial); live read-path (owned: #336); organ-specific content (owned: #337 / #338 / #339) |
 | `graph/memory.html` | #300 `tc3-organ-structural` | live read-path (owned: #336); organ-specific content (owned: #337 / #338 / #339) |
 | `graph/spirit.html` | #336 `tc-live-display`, #337 `tc-spirit`, #300 `tc3-organ-structural` | live values (runtime / Tier 4); GitHub activity feed (owned: #364 (different live source)); content snapshot (pass-2 (#375)); shared fetch read-path (owned: #336); live read-path (owned: #336); organ-specific content (owned: #337 / #338 / #339) |
 | `graph/stomach.html` | #300 `tc3-organ-structural` | live read-path (owned: #336); organ-specific content (owned: #337 / #338 / #339) |
@@ -89,8 +90,8 @@ constrain the human's.
 
 | Surface | TC |
 | ------- | -- |
+| data.js (window.COLOPHON structure & presence) | #410 `tc-colophon` |
 | data.js (demonstrates -> COMPETENCIES referential integrity) | #333 `tc-competency` |
-| graph/immune-data.js (window.IMMUNE schema v1) | #380 `tc-immune-system` |
 | data.js (route / href fields resolve to real files) | #334 `tc-routes` |
 | data.js (six agent rosters coherent) | #299 `tc2-agent-completeness` |
 
