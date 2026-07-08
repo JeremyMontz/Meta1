@@ -88,6 +88,7 @@ window.ORGANS = [
   { id: 'HEART',     label: 'Heart',     href: 'graph/heart.html' },
   { id: 'STOMACH',     label: 'Stomach',     href: 'graph/stomach.html' },
   { id: 'HANDS',    label: 'Hands',    href: 'graph/hands.html' },
+  { id: 'IMMUNE',   label: 'Immune',   href: 'graph/immune.html' },
 ];
 
 
