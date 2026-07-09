@@ -55,7 +55,7 @@ body{
 
 /* ================= SPECIMEN — top ~40%: membrane + tissue ================= */
 .specimen-box{position:relative;margin:22px 0 8px;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--bg-elev-1)}
-.specimen-stage{position:relative;width:100%;aspect-ratio:1672/941;background:url('assets/immune/specimen.png') center/cover no-repeat}
+.specimen-stage{position:relative;height:min(80vh,880px);aspect-ratio:941/1672;background:url('assets/immune/specimen-tall.png') center/cover no-repeat}
 .specimen-stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 /* antibodies — the adaptive layer. One memory cell per bench TC. */
@@ -104,6 +104,14 @@ body{
 .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-subtle)}
 .legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
 .collected{font-family:var(--font-hand);font-size:16px;color:var(--fg-faint);transform:rotate(-1deg)}
+
+/* two-column: specimen left, instrument bench as the right rail */
+.imm-wrap{display:flex;gap:26px;align-items:flex-start}
+.imm-left{flex:0 0 auto}
+.imm-right{flex:1;min-width:0}
+.imm-right .bench-head{margin-top:4px}
+@media(min-width:981px){.bench{grid-template-columns:repeat(6,1fr)}.t-thermo{grid-column:span 2}.t-counters{grid-column:span 4}.t-ekg{grid-column:span 3}.t-autonomy{grid-column:span 3}.t-record{grid-column:span 2}.t-incubation{grid-column:span 4}}
+@media(max-width:980px){.imm-wrap{flex-direction:column}.imm-left{align-self:center;max-width:100%}}
 
 /* ================= INSTRUMENT BENCH — bottom ~60% ================= */
 .bench-head{font-family:var(--font-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin:38px 0 14px}
@@ -199,10 +207,12 @@ body{
     <div class="note">the antibodies remember every infection ↓</div>
   </header>
 
+  <div class="imm-wrap">
+   <div class="imm-left">
   <!-- ─── SPECIMEN · adaptive + innate + inflammatory ─── -->
   <section class="specimen-box" aria-label="Immune specimen — membrane cross-section with live overlay">
     <div class="specimen-stage" id="specimen">
-      <svg id="specimen-svg" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <svg id="specimen-svg" viewBox="0 0 941 1672" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
       <div class="tip" id="tip"></div>
     </div>
     <div class="spec-foot">
@@ -214,7 +224,9 @@ body{
       <div class="collected" id="collected"></div>
     </div>
   </section>
+   </div>
 
+   <div class="imm-right">
   <!-- ─── INSTRUMENT BENCH ─── -->
   <div class="bench-head">Instrument Bench · readings from the last screening</div>
   <section class="bench" id="bench">
@@ -275,6 +287,8 @@ body{
     </figure>
 
   </section>
+   </div>
+  </div>
 </div>
 
 <div id="footer-mount"></div>
@@ -328,31 +342,49 @@ body{
 
   /* ---- innate layer: 4 membrane channel hotspots (x-positions read off the
      raster's channel proteins; membrane band sits at y≈190–330) ---- */
-  const CHANNEL_X = [240, 628, 1025, 1410];
-  const CHECKS = ['Internal links', 'data.js integrity', 'Spellcheck', 'Contract tests'];
+  const CHANNEL_Y = [240, 628, 1025, 1410];
+  const CHECKS = ['Contract tests', 'Internal links', 'data.js integrity', 'Spellcheck'];
+  const GX = 292, GH = 46;                              // gate x on the membrane mouth; vertical half-extent
   const lastRun = {};
   (IM.pulse||[]).forEach(p=>{ lastRun[p.check] = p.conclusion; });
 
   CHECKS.forEach((name, i)=>{
-    const x = CHANNEL_X[i];
-    const g = el('g', {class:'channel'});
-    g.appendChild(el('circle', {class:'mouth', cx:x, cy:250, r:80, fill:'transparent'}));
+    const y = CHANNEL_Y[i];
     const ok = lastRun[name] !== 'failure';
-    g.appendChild(el('circle', {class:'status '+(ok?'ok':'err'), cx:x, cy:342, r:7}));
-    const label = el('text', {class:'cname', x:x, y:392, 'text-anchor':'middle'});
+    const col = 'var(--'+(ok?'ok':'err')+')';
+    const g = el('g', {class:'channel'});
+    g.appendChild(el('rect', {x:GX-72, y:y-GH-22, width:158, height:2*GH+44, fill:'transparent', 'pointer-events':'all'}));
+    // sieve gate, perpendicular to the rightward flow; dark halo under the colored bars for contrast
+    const bar=(x1,y1,x2,y2,w)=>{ g.appendChild(el('line',{x1,y1,x2,y2,stroke:'#1c1408','stroke-width':w+3,'stroke-linecap':'round',opacity:0.8})); g.appendChild(el('line',{x1,y1,x2,y2,stroke:col,'stroke-width':w,'stroke-linecap':'round'})); };
+    bar(GX, y-GH, GX, y+GH, 2);
+    for(let k=0;k<=8;k++){ const ty=y-GH+k*(2*GH/8); bar(GX-18, ty, GX+18, ty, 4); }
+    const label = el('text', {class:'cname', x:GX-26, y:y-GH-12, 'text-anchor':'start', style:'fill:'+col+';opacity:1'});
     label.textContent = name;
     g.appendChild(label);
     g.addEventListener('mousemove', (e)=>showTip(e,
       '<div class="t-id">'+esc(name)+'</div>'+
       '<div class="t-meta">Innate immunity · required CI check</div>'+
-      '<div class="t-body">Screens every PR at the membrane. Last observed run: <b style="color:var(--'+(ok?'ok':'err')+')">'+(ok?'clean':'red')+'</b>.</div>'));
+      '<div class="t-body">Screens every change at the membrane. Last observed run: <b style="color:var(--'+(ok?'ok':'err')+')">'+(ok?'clean':'red')+'</b>.</div>'));
     g.addEventListener('mouseleave', hideTip);
     svg.appendChild(g);
   });
 
+  /* ---- decorative: an unadmitted PR outside the membrane (left margin), awaiting screening ---- */
+  (function(){
+    const ax=92, ay=560, ar=22, acol='#3a2c15';
+    const ag = el('g', {class:'antigen', opacity:0.72});
+    for(let i=0;i<12;i++){ const a=i/12*Math.PI*2; ag.appendChild(el('line',{x1:ax+Math.cos(a)*ar,y1:ay+Math.sin(a)*ar,x2:ax+Math.cos(a)*(ar+9),y2:ay+Math.sin(a)*(ar+9),stroke:acol,'stroke-width':3,'stroke-linecap':'round'})); }
+    ag.appendChild(el('circle',{cx:ax,cy:ay,r:ar,fill:'none',stroke:acol,'stroke-width':3.5}));
+    ag.appendChild(el('circle',{cx:ax,cy:ay,r:7,fill:acol}));
+    const at=el('text',{x:ax,y:ay+ar+24,'text-anchor':'middle',fill:'#2c2110','font-family':'var(--font-mono)','font-size':14,'font-weight':'bold'});
+    at.textContent='PR \u00b7 pending';
+    ag.appendChild(at);
+    svg.appendChild(ag);
+  })();
+
   /* ---- inflammatory layer: the macrophage ---- */
   const macroState = (IM.current && IM.current.whiteCell) === 'engaged' ? 'engaged' : 'dormant';
-  const macro = el('g', {class:'macro '+macroState, transform:'translate(1210,672)'});
+  const macro = el('g', {class:'macro '+macroState, transform:'translate(640,1170)'});
   macro.appendChild(el('path', {d:'M0,-86 C52,-84 88,-52 90,-6 C92,38 66,80 18,88 C-30,96 -78,70 -90,26 C-102,-18 -76,-62 -40,-78 C-27,-84 -13,-86 0,-86 Z'}));
   macro.appendChild(el('circle', {class:'nucleus', cx:-10, cy:2, r:26}));
   macro.addEventListener('mousemove', (e)=>showTip(e,
@@ -369,8 +401,8 @@ body{
      A deterministic probe walk resolves collisions; the macrophage's spot is
      pre-reserved so nothing lands on it. ---- */
   function fnv(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; }
-  const TX0=70, TX1=1600, TY0=420, TY1=868;           // tissue region
-  const placed = [{x:1210,y:672,r:150}];               // macrophage reservation
+  const TX0=360, TX1=880, TY0=70, TY1=1600;            // tissue region (right of the vertical membrane)
+  const placed = [{x:640,y:1170,r:150}];               // macrophage reservation
   function place(id){
     const h = fnv(id);
     const bx = (h % 9973)/9973, by = ((h>>>13) % 7919)/7919;
@@ -486,4 +518,5 @@ body{
 </script>
 </body>
 </html>
+
 
