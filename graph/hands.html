@@ -200,14 +200,17 @@ body{
 <!-- ============================================================================
  * DIAGRAM DATA — the whole diagram renders from this config.
  *
- * To ADD A SKILL: append one object to SKILLS:
- *   { id:'my-skill', group:'Capture', status:'built', targets:['gmail','files'] }
+ * SKILLS come from window.SKILLS in ../data.js — the canonical skills registry
+ * (#255). To ADD/EDIT a custom skill, edit that list, NOT this file. Each entry:
+ *   { id, group, status, targets }
  *   - group   : must match a GROUPS id below
  *   - status  : 'built' (counts + lights in color)
  *               'planned' (grayed/dashed, not counted — a stub for later)
  *               'external' (grayed — used but not written by me, not counted)
  *   - targets : ids from PRIMITIVES or INTEGRATIONS the skill touches.
  *               A cluster's connections are the union of its skills' targets.
+ * EXTRAS (below) holds diagram-only chips that are NOT custom skills (shown on
+ * the map, not counted) — e.g. the Obsidian extension.
  * To ADD A SERVICE: append an id+label(+icon) to INTEGRATIONS (or PRIMITIVES).
  * ============================================================================ -->
 <script>
@@ -233,30 +236,16 @@ const GROUPS=[
   {id:'Session Lifecycle',blurb:'Open and close working sessions — canon checks in, clean handoffs out, status posted to the dashboard.'},
   {id:'Capture',blurb:'Pull tasks and mail from outside surfaces into the vault as structured notes.'},
   {id:'Knowledge Vault',blurb:'Triage raw inbox items and compile them into a wikilinked knowledge base.'},
-  {id:'Book Pipeline',blurb:'Digitize borrowed books — OCR capture from the browser, then per-page formatting dispatched to subagents.'},
-  {id:'Authorship',blurb:'Generate agent-voiced content on a schedule and propagate persona settings across docs.'},
+  {id:'Code Pipeline',blurb:'The human-gated dev/QA factory (#288) — build, test, and adjudicate a GitHub story end to end, each actor a memoryless controller coordinating through the issue board.'},
+  {id:'Authorship',blurb:'Produce and source long-form content — generate agent-voiced entries on a schedule, digitize borrowed books, and propagate persona settings across docs.'},
   {id:'Tracking & Decisions',blurb:'Run the GitHub backlog from natural language, and convene multi-advisor decision councils.'},
 ];
-const SKILLS=[
-  {id:'quick-start',group:'Session Lifecycle',status:'built',targets:['files','memory','sheets']},
-  {id:'full-start',group:'Session Lifecycle',status:'built',targets:['files','memory','github','gmail','todo','sheets']},
-  {id:'quick-stop',group:'Session Lifecycle',status:'built',targets:['files','memory']},
-  {id:'close-session',group:'Session Lifecycle',status:'built',targets:['files','memory','github','sheets','schedule']},
-  {id:'check-email',group:'Capture',status:'built',targets:['gmail','files']},
-  {id:'email-ingest',group:'Capture',status:'built',targets:['gmail','files']},
-  {id:'todo-ingest',group:'Capture',status:'built',targets:['todo','code','files']},
-  {id:'todo-query',group:'Capture',status:'built',targets:['todo','code']},
-  {id:'ingest-inbox',group:'Knowledge Vault',status:'built',targets:['files']},
-  {id:'wiki-write',group:'Knowledge Vault',status:'built',targets:['files']},
+// Custom skills come from the canonical registry in ../data.js (window.SKILLS, #255).
+// EXTRAS = diagram-only chips that are NOT custom skills (shown, not counted).
+const EXTRAS=[
   {id:'obsidian-extension',group:'Knowledge Vault',status:'external',targets:['obsidian']},
-  {id:'book-capture',group:'Book Pipeline',status:'built',targets:['vision','chrome','internet','files']},
-  {id:'book-process',group:'Book Pipeline',status:'built',targets:['vision','code','subagents','files']},
-  {id:'lectio',group:'Authorship',status:'built',targets:['web','schedule','sheets','files']},
-  {id:'persona-cascade',group:'Authorship',status:'built',targets:['sheets','files']},
-  {id:'gh-issue-create',group:'Tracking & Decisions',status:'built',targets:['github']},
-  {id:'gh-issue-query',group:'Tracking & Decisions',status:'built',targets:['github']},
-  {id:'llm-council',group:'Tracking & Decisions',status:'built',targets:['subagents']},
 ];
+const SKILLS=[...(window.SKILLS||[]),...EXTRAS];
 
 (function(){
   const diagram=document.getElementById('diagram');
