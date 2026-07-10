@@ -395,10 +395,10 @@ const SKILLS=[...(window.SKILLS||[]),...EXTRAS];
     const nEl=document.getElementById('skill-count'); if(!nEl)return;
     const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(reduce||!total){nEl.textContent=total;return;}
-    let t0=null;const D=850;
+    let t0=null;const D=1200;
     requestAnimationFrame(function tick(now){
       if(t0===null)t0=now;
-      const p=Math.min(1,(now-t0)/D),e=1-Math.pow(1-p,3);
+      const p=Math.min(1,(now-t0)/D),e=p;
       nEl.textContent=Math.round(e*total);
       if(p<1)requestAnimationFrame(tick);else nEl.textContent=total;
     });
