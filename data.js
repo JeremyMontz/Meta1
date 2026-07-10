@@ -871,12 +871,48 @@ window.TESTS = [
 window.CI = {"checks":4};
 // CI:GENERATED END
 
+// ── SKILLS registry (#255). Canonical list of the custom skills built for
+// Claudemonzter — one entry per skill in .claude/skills/. Feeds the portfolio
+// "custom skills" STATS count (below) and graph/hands.html's capability diagram
+// (id → chip · group → cluster · targets → wiring). So the count can't go stale
+// the way the old hand-set '16' did. Hand-authored interim: a generator will
+// derive id/name/description from each SKILL.md frontmatter and take over these
+// rows (#373) once skill sources live in the repo (#312); group/status/targets
+// stay a curated overlay. Fields: id · group (a hands.html GROUPS id) · status
+// ('built'|'planned'|'external') · targets (hands.html PRIMITIVES/INTEGRATIONS ids).
+// SKILLS:GENERATED START
+window.SKILLS = [
+  { id: 'quick-start',     group: 'Session Lifecycle',   status: 'built', targets: ['files','memory','sheets'] },
+  { id: 'full-start',      group: 'Session Lifecycle',   status: 'built', targets: ['files','memory','github','gmail','todo','sheets'] },
+  { id: 'quick-stop',      group: 'Session Lifecycle',   status: 'built', targets: ['files','memory'] },
+  { id: 'close-session',   group: 'Session Lifecycle',   status: 'built', targets: ['files','memory','github','sheets','schedule'] },
+  { id: 'check-email',     group: 'Capture',             status: 'built', targets: ['gmail','files'] },
+  { id: 'email-ingest',    group: 'Capture',             status: 'built', targets: ['gmail','files'] },
+  { id: 'todo-ingest',     group: 'Capture',             status: 'built', targets: ['todo','code','files'] },
+  { id: 'todo-query',      group: 'Capture',             status: 'built', targets: ['todo','code'] },
+  { id: 'ingest-inbox',    group: 'Knowledge Vault',     status: 'built', targets: ['files'] },
+  { id: 'wiki-write',      group: 'Knowledge Vault',     status: 'built', targets: ['files'] },
+  { id: 'meta1-build',     group: 'Code Pipeline',       status: 'built', targets: ['github','code'] },
+  { id: 'bond-author',     group: 'Code Pipeline',       status: 'built', targets: ['github','code'] },
+  { id: 'verifier',        group: 'Code Pipeline',       status: 'built', targets: ['github','code','subagents'] },
+  { id: 'pipeline',        group: 'Code Pipeline',       status: 'built', targets: ['github','code','subagents'] },
+  { id: 'lectio',          group: 'Authorship',          status: 'built', targets: ['web','schedule','sheets','files'] },
+  { id: 'persona-cascade', group: 'Authorship',          status: 'built', targets: ['sheets','files'] },
+  { id: 'book-capture',    group: 'Authorship',          status: 'built', targets: ['vision','chrome','internet','files'] },
+  { id: 'book-process',    group: 'Authorship',          status: 'built', targets: ['vision','code','subagents','files'] },
+  { id: 'gh-issue-create', group: 'Tracking & Decisions', status: 'built', targets: ['github'] },
+  { id: 'gh-issue-query',  group: 'Tracking & Decisions', status: 'built', targets: ['github'] },
+  { id: 'gh-issue-update', group: 'Tracking & Decisions', status: 'built', targets: ['github'] },
+  { id: 'llm-council',     group: 'Tracking & Decisions', status: 'built', targets: ['subagents'] },
+];
+// SKILLS:GENERATED END
+
 // ── Hard stats (portfolio hero; reusable). Computed from real lists where
 // possible so they can't go stale; manual where not derivable (flagged). ──
 window.STATS = [
   { value: '3 mo',                          label: 'zero to launch' },     // manual — fixed achievement, do not auto-age
   { value: String(window.AGENTS.length),    label: 'agents (1 human)' },   // computed
-  { value: '16',                            label: 'custom skills' },      // manual — no skills list in data.js yet
+  { value: String(window.SKILLS.length),    label: 'custom skills' },      // computed — window.SKILLS (hand-authored interim; #373 will generate from SKILL.md)
   { value: window.CI.checks + ' & ' + window.TESTS.length, label: 'CI tests' }, // computed — CI check-jobs (ci.yml) & test files
   { value: String(window.ARTICLES.length),  label: 'field notes' },        // computed
 ];
