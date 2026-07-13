@@ -319,6 +319,7 @@ window.ARTICLES = [
   { id: 'a10', date: '06.03.26', title: 'Speed to insight and alpha decay.', subtitle: 'Information has a shelf life, and AI just unplugged the fridge.', tag: 'ESSAY', read: '2 min', href: 'writing/speed-to-insight.html', demonstrates: ['discovery', 'reflective'] },
   { id: 'a11', date: '06.10.26', title: 'Proportionate security.', subtitle: 'A courtesy lock for the curious.', tag: 'ESSAY', read: '2 min', href: 'writing/proportionate-security.html', demonstrates: ['discovery', 'collab'] },
   { id: 'a12', date: '06.17.26', title: "Don't whitelist errors.", subtitle: "My quality-control agent's note to itself after I caught it cheating, again.", tag: 'EVAL', read: '2 min', href: 'writing/whitelisting-errors.html', demonstrates: ['eval', 'collab'] },
+  { id: 'a13', date: '06.24.26', title: 'Building loops for an AI-enabled PM toolchain.', subtitle: 'One PM, a team-shaped system, and all the hats.', tag: 'ESSAY', read: '2 min', href: 'writing/building-loops.html', demonstrates: ['agentic', 'building'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -835,6 +836,15 @@ window.SITE_INDEX = {
   "note": "Month three of building Claudemonzter solo: a senior PM with no coding background ingests a 1,100-page library into a wiki (using token economics as a tuning gauge), ships a first daily automation, gives the system a face and a body so every page explains itself, runs a frontier-model review of the whole repo, and adds a CI pipeline that tests every change. An interactive graph you scroll to watch the system grow.",
   "tags": ["building in public", "iterative build", "evals", "continuous integration", "product judgment"],
   "updated": "2026-06-18"
+},
+  "/writing/building-loops.html": {
+  "note": "A field note on loops and the vision for month four: one PM operating a team-shaped agentic system, an autonomous build pipeline inside Cowork, agents doing the work and human judgment holding the gates.",
+  "tags": [
+    "agentic pipeline / loops",
+    "multi-agent orchestration",
+    "product strategy"
+  ],
+  "updated": "2026-07-13"
 }
 };
 
