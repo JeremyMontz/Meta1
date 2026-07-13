@@ -1,6 +1,6 @@
 <!--
   ╔════════════════════════════════════════════════════════════════════════╗
-  ║  WRITING ENTRY · building-loops.html                                    ║
+  ║  WRITING ENTRY · building-loops.html                                   ║
   ║                                                                        ║
   ║  Essay / field note (ESSAY). Chrome (TopNav + Footer) rendered by      ║
   ║  React from components/HomeShell.jsx — same pattern as other entries.  ║
@@ -150,24 +150,30 @@ color: var(--fg-subtle);
 margin-top: 12px; text-align: center;
 }
 /* SVG styling lives here because var() is unreliable in
-   SVG presentation attributes */
+   SVG presentation attributes.
+   Color language mirrors the case-study GIF (#377):
+   green = human (the gates), purple = agent corps. */
+.article-figure {
+  --dg-human: #3fd068;
+  --dg-agent: #a371f7;
+  --dg-line: color-mix(in oklch, var(--fg) 55%, transparent);
+}
 .article-figure text { font-family: var(--font-mono); letter-spacing: 1px; }
-.article-figure .dg-line { fill: none; stroke: var(--line-loud); }
+.article-figure .dg-line { fill: none; stroke: var(--dg-line); }
 .article-figure .dg-dash { stroke-dasharray: 4 4; }
-.article-figure .dg-node { fill: none; stroke: var(--fg-subtle); }
-.article-figure .dg-node-gate { fill: none; stroke: var(--candle); stroke-width: 1.5; }
-.article-figure .dg-node-ship { fill: none; stroke: var(--accent); }
-.article-figure .dg-flow { fill: none; stroke: var(--fg-subtle); }
-.article-figure .dg-flow-gate { fill: none; stroke: var(--candle); }
-.article-figure .dg-arrowhead { fill: var(--fg-subtle); }
-.article-figure .dg-arrowhead-accent { fill: var(--candle); }
+.article-figure .dg-node { fill: none; stroke: var(--dg-line); }
+.article-figure .dg-node-human { fill: none; stroke: var(--dg-human); stroke-width: 1.5; }
+.article-figure .dg-node-agent { fill: none; stroke: var(--dg-agent); stroke-width: 1.5; }
+.article-figure .dg-flow { fill: none; stroke: var(--dg-line); }
+.article-figure .dg-arrowhead { fill: var(--dg-line); }
+.article-figure .dg-key-human { fill: var(--dg-human); }
+.article-figure .dg-key-agent { fill: var(--dg-agent); }
 .article-figure .dg-t { fill: var(--fg); font-size: 10px; }
 .article-figure .dg-t-muted { fill: var(--fg-muted); font-size: 10px; }
-.article-figure .dg-t-subtle { fill: var(--fg-subtle); font-size: 10px; }
-.article-figure .dg-t-candle { fill: var(--candle); font-size: 10px; }
-.article-figure .dg-t-accent { fill: var(--accent); font-size: 10px; }
+.article-figure .dg-t-human { fill: var(--dg-human); font-size: 10px; }
+.article-figure .dg-t-agent { fill: var(--dg-agent); font-size: 10px; }
 .article-figure .dg-t-tiny { font-size: 8px; }
-.article-figure .dg-t-note { fill: var(--fg-subtle); font-size: 9px; letter-spacing: 2px; }
+.article-figure .dg-t-note { fill: var(--fg-muted); font-size: 9px; letter-spacing: 2px; }
 
 @media (max-width: 720px) {
 .article-head { padding: 48px 24px 24px; }
@@ -230,14 +236,11 @@ My actual workflow reaches wider than any one platform. Claude.ai&rsquo;s design
 </p>
 
 <figure class="article-figure">
-<svg viewBox="0 0 680 320" role="img" aria-label="Toolchain diagram: spec, builder, verification, and human gates flow to shipped inside the Cowork loop; claude.ai design and ChatGPT imagery feed in from outside the loop boundary.">
+<svg viewBox="0 0 680 340" role="img" aria-label="Pipeline diagram: backlog flows to ready, build, test, verify, merge, and shipped inside the Cowork loop. Ready and merge are green human gates; build, test, and verify are purple agent steps. Claude.ai design and ChatGPT imagery feed in from outside the loop boundary.">
 
   <defs>
     <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path class="dg-arrowhead" d="M0,0 L8,4 L0,8 z" />
-    </marker>
-    <marker id="arrow-accent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path class="dg-arrowhead-accent" d="M0,0 L8,4 L0,8 z" />
     </marker>
   </defs>
 
@@ -250,38 +253,53 @@ My actual workflow reaches wider than any one platform. Claude.ai&rsquo;s design
   <path class="dg-line dg-dash" d="M485,50 L485,96" marker-end="url(#arrow)" />
 
   <!-- the loop boundary -->
-  <rect class="dg-line" x="16" y="98" width="648" height="150" rx="10" />
-  <text class="dg-t-subtle" x="34" y="120" letter-spacing="2">COWORK &middot; THE LOOP</text>
+  <rect class="dg-line" x="16" y="98" width="648" height="176" rx="10" />
+  <text class="dg-t-muted" x="34" y="122" letter-spacing="2">COWORK &middot; THE LOOP</text>
 
-  <!-- pipeline nodes -->
-  <rect class="dg-node" x="34" y="150" width="72" height="40" rx="6" />
-  <text class="dg-t" x="70" y="174" text-anchor="middle">SPEC</text>
+  <!-- legend -->
+  <rect class="dg-key-human" x="452" y="112" width="9" height="9" rx="2" />
+  <text class="dg-t-muted dg-t-tiny" x="467" y="120">HUMAN GATE</text>
+  <rect class="dg-key-agent" x="556" y="112" width="9" height="9" rx="2" />
+  <text class="dg-t-muted dg-t-tiny" x="571" y="120">AGENT</text>
 
-  <rect class="dg-node" x="140" y="150" width="90" height="40" rx="6" />
-  <text class="dg-t" x="185" y="174" text-anchor="middle">BUILDER</text>
+  <!-- pipeline nodes: board columns from the case-study run -->
+  <rect class="dg-node" x="32" y="150" width="76" height="40" rx="6" />
+  <text class="dg-t" x="70" y="174" text-anchor="middle">BACKLOG</text>
 
-  <rect class="dg-node" x="264" y="150" width="122" height="40" rx="6" />
-  <text class="dg-t" x="325" y="174" text-anchor="middle">VERIFICATION</text>
+  <rect class="dg-node-human" x="124" y="150" width="64" height="40" rx="6" />
+  <text class="dg-t-human" x="156" y="169" text-anchor="middle">READY</text>
+  <text class="dg-t-human dg-t-tiny" x="156" y="182" text-anchor="middle">HUMAN</text>
 
-  <rect class="dg-node-gate" x="420" y="150" width="110" height="40" rx="6" />
-  <text class="dg-t-candle" x="475" y="169" text-anchor="middle">GATES</text>
-  <text class="dg-t-subtle dg-t-tiny" x="475" y="182" text-anchor="middle">HUMAN</text>
+  <rect class="dg-node-agent" x="204" y="150" width="64" height="40" rx="6" />
+  <text class="dg-t-agent" x="236" y="174" text-anchor="middle">BUILD</text>
 
-  <rect class="dg-node-ship" x="564" y="150" width="82" height="40" rx="6" />
-  <text class="dg-t-accent" x="605" y="174" text-anchor="middle">SHIPPED</text>
+  <rect class="dg-node-agent" x="284" y="150" width="60" height="40" rx="6" />
+  <text class="dg-t-agent" x="314" y="174" text-anchor="middle">TEST</text>
+
+  <rect class="dg-node-agent" x="360" y="150" width="72" height="40" rx="6" />
+  <text class="dg-t-agent" x="396" y="174" text-anchor="middle">VERIFY</text>
+
+  <rect class="dg-node-human" x="448" y="150" width="66" height="40" rx="6" />
+  <text class="dg-t-human" x="481" y="169" text-anchor="middle">MERGE</text>
+  <text class="dg-t-human dg-t-tiny" x="481" y="182" text-anchor="middle">HUMAN</text>
+
+  <rect class="dg-node-human" x="530" y="150" width="78" height="40" rx="6" />
+  <text class="dg-t-human" x="569" y="174" text-anchor="middle">SHIPPED</text>
 
   <!-- flow arrows -->
-  <path class="dg-flow" d="M106,170 L134,170" marker-end="url(#arrow)" />
-  <path class="dg-flow" d="M230,170 L258,170" marker-end="url(#arrow)" />
-  <path class="dg-flow" d="M386,170 L414,170" marker-end="url(#arrow)" />
-  <path class="dg-flow-gate" d="M530,170 L558,170" marker-end="url(#arrow-accent)" />
+  <path class="dg-flow" d="M108,170 L122,170" marker-end="url(#arrow)" />
+  <path class="dg-flow" d="M188,170 L202,170" marker-end="url(#arrow)" />
+  <path class="dg-flow" d="M268,170 L282,170" marker-end="url(#arrow)" />
+  <path class="dg-flow" d="M344,170 L358,170" marker-end="url(#arrow)" />
+  <path class="dg-flow" d="M432,170 L446,170" marker-end="url(#arrow)" />
+  <path class="dg-flow" d="M514,170 L528,170" marker-end="url(#arrow)" />
 
-  <!-- loop-back: shipped feeds the next spec -->
-  <path class="dg-flow" d="M605,190 L605,222 L70,222 L70,196" marker-end="url(#arrow)" />
-  <text class="dg-t-note" x="340" y="215" text-anchor="middle">EVERY TASK SUGGESTS TWO MORE</text>
+  <!-- loop-back: done feeds the next story -->
+  <path class="dg-flow" d="M569,190 L569,228 L70,228 L70,196" marker-end="url(#arrow)" />
+  <text class="dg-t-note" x="320" y="221" text-anchor="middle">THE NEXT STORY</text>
 
-  <!-- footer note inside canvas -->
-  <text class="dg-t-note" x="340" y="290" text-anchor="middle">AGENTS INSIDE &middot; JUDGMENT AT THE GATES &middot; INSTRUMENTS OUTSIDE</text>
+  <!-- footer note: the case-study GIF's closing line -->
+  <text class="dg-t-note" x="340" y="310" text-anchor="middle">HUMAN JUDGMENT AT THE GATES &middot; AI LABOR IN BETWEEN</text>
 </svg>
 </figure>
 
