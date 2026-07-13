@@ -321,6 +321,7 @@ window.ARTICLES = [
   { id: 'a12', date: '06.17.26', title: "Don't whitelist errors.", subtitle: "My quality-control agent's note to itself after I caught it cheating, again.", tag: 'EVAL', read: '2 min', href: 'writing/whitelisting-errors.html', demonstrates: ['eval', 'collab'] },
   { id: 'a13', date: '06.24.26', title: 'Building loops for an AI-enabled PM toolchain.', subtitle: 'One PM, a team-shaped system, and all the hats.', tag: 'ESSAY', read: '2 min', href: 'writing/building-loops.html', demonstrates: ['agentic', 'building'] },
   { id: 'a14', date: '07.01.26', title: 'Designing for restraint.', subtitle: 'The most dangerous agent is a helpful one, automated.', tag: 'EVAL', read: '2 min', href: 'writing/designing-for-restraint.html', demonstrates: ['eval', 'agentic'] },
+  { id: 'a15', date: '07.09.26', title: 'Evals, test cases, and theater.', subtitle: 'What makes a test suite good enough? I found a rubric and a rabbit hole.', tag: 'EVAL', read: '2 min', href: 'writing/evals-test-cases-theater.html', demonstrates: ['eval', 'reflective'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -853,6 +854,15 @@ window.SITE_INDEX = {
     "guardrails / blast radius",
     "evals",
     "multi-agent orchestration"
+  ],
+  "updated": "2026-07-13"
+},
+"/writing/evals-test-cases-theater.html": {
+  "note": "A field note distinguishing agent evals from code test cases: a rubric with two grades (outcome and trajectory), what Claudemonzter's regression bench honestly measures today, and the layered path toward improving code coverage to be 'good enough.'",
+  "tags": [
+    "evals",
+    "outcome / trajectory grading",
+    "continuous integration"
   ],
   "updated": "2026-07-13"
 }
