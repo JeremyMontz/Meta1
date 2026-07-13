@@ -64,6 +64,7 @@ constrain the human's.
 | `writing/canon-load-evaluation.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/coaching-system.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/coordination-tax.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
+| `writing/designing-for-restraint.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/first-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)) |
 | `writing/github-issues-integration.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/inference-economics.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |

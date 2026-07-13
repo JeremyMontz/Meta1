@@ -320,6 +320,7 @@ window.ARTICLES = [
   { id: 'a11', date: '06.10.26', title: 'Proportionate security.', subtitle: 'A courtesy lock for the curious.', tag: 'ESSAY', read: '2 min', href: 'writing/proportionate-security.html', demonstrates: ['discovery', 'collab'] },
   { id: 'a12', date: '06.17.26', title: "Don't whitelist errors.", subtitle: "My quality-control agent's note to itself after I caught it cheating, again.", tag: 'EVAL', read: '2 min', href: 'writing/whitelisting-errors.html', demonstrates: ['eval', 'collab'] },
   { id: 'a13', date: '06.24.26', title: 'Building loops for an AI-enabled PM toolchain.', subtitle: 'One PM, a team-shaped system, and all the hats.', tag: 'ESSAY', read: '2 min', href: 'writing/building-loops.html', demonstrates: ['agentic', 'building'] },
+  { id: 'a14', date: '07.01.26', title: 'Designing for restraint.', subtitle: 'The most dangerous agent is a helpful one, automated.', tag: 'EVAL', read: '2 min', href: 'writing/designing-for-restraint.html', demonstrates: ['eval', 'agentic'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -843,6 +844,15 @@ window.SITE_INDEX = {
     "agentic pipeline / loops",
     "multi-agent orchestration",
     "product strategy"
+  ],
+  "updated": "2026-07-13"
+},
+"/writing/designing-for-restraint.html": {
+  "note": "A field note on automating quality control with restraint as the core requirement: on a red check the agents classify, file, and stop; a verifier halts thrashing and spec gaps; every decision road ends at the human's desk.",
+  "tags": [
+    "guardrails / blast radius",
+    "evals",
+    "multi-agent orchestration"
   ],
   "updated": "2026-07-13"
 }
