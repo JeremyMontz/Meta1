@@ -60,6 +60,7 @@ constrain the human's.
 | `portfolio.html` | #364 `tc-github-activity`, #341 `tc-portfolio` | feed values (runtime / Tier 4); content snapshot (pass-2 (#375)); evidence-graph compute (runtime / Tier 4 (#306)); live feed values (owned: #364) |
 | `writing/adversarial-validation.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/agentic-behavioral-tuning.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
+| `writing/building-loops.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/canon-load-evaluation.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/coaching-system.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/coordination-tax.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
@@ -73,7 +74,6 @@ constrain the human's.
 | `writing/speed-to-insight.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/third-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)) |
 | `writing/whitelisting-errors.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
-| `writing/building-loops.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 
 **Chrome-only (universal contract only, no page-specific TC):** `graph/body.html`
