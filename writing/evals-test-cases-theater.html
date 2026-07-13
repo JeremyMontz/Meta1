@@ -1,0 +1,225 @@
+<!--
+  ╔════════════════════════════════════════════════════════════════════════╗
+  ║  WRITING ENTRY · evals-test-cases-theater.html                         ║
+  ║                                                                        ║
+  ║  Essay / field note (EVAL). Chrome (TopNav + Footer) rendered by       ║
+  ║  React from components/HomeShell.jsx — same pattern as other entries.  ║
+  ║                                                                        ║
+  ║  Source: #424 (Article 3 of the month-4 arc). Spine: untangle agent    ║
+  ║  evals (two grades: outcome + trajectory, reported separately) from    ║
+  ║  code test cases (the regression bench + CI). What the pipeline can    ║
+  ║  measure now vs. the sophisticated evals further down the rabbit       ║
+  ║  hole. Source model: Eyad Khrais, applied-AI engineering guide.        ║
+  ║  NOTE: head includes rel="icon" — do not drop it when copying this     ║
+  ║  page as an exemplar (see bug #434, exemplar-drift regression).        ║
+  ║  Recruiter-keyword: evals, evaluation frameworks, outcome grading,     ║
+  ║  trajectory grading, test coverage, regression testing, CI, QA         ║
+  ║  automation, agent evaluation, continuous improvement.                 ║
+  ╚════════════════════════════════════════════════════════════════════════╝
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Evals, test cases, and theater &middot; Claudemonzter</title>
+<meta name="description" content="A field note untangling agent evals from code test cases: the two-grade rubric (outcome and trajectory), what a regression bench can honestly measure today, and the layered path toward coverage that is good enough." />
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Claudemonzter" />
+<meta property="og:title" content="Evals, test cases, and theater &middot; Claudemonzter" />
+<meta property="og:description" content="What makes a test suite good enough? A rubric borrowed from agent evals, an honest accounting of one grade out of two, and a rabbit hole descended one measurable step at a time." />
+<meta property="og:url" content="https://jeremymontz.github.io/Meta1/writing/evals-test-cases-theater.html" />
+<meta property="og:image" content="https://jeremymontz.github.io/Meta1/design-system/assets/og-card.png" />
+<meta property="og:image:alt" content="Operation: Claudemonzter — a multi-agent AI lab depicted as a creature on an operating table." />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="/Meta1/design-system/assets/favicon.svg" />
+
+<link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+<!-- React + Babel — chrome is mounted from HomeShell.jsx -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+/* ── Page shell ─────────────────────────────────────────────── */
+html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
+body { font-family: var(--font-sans); }
+a { color: inherit; text-decoration: none; }
+.page { width: 100%; max-width: 1280px; margin: 0 auto; }
+
+/* ── Article header ────────────────────────────────────────── */
+.article-head { padding: 64px 40px 32px; }
+.article-head-inner { max-width: 680px; margin: 0 auto; }
+
+.meta-row {
+display: flex; gap: 16px; align-items: center;
+font-family: var(--font-mono); font-size: var(--fs-sm);
+letter-spacing: var(--ls-wider); text-transform: uppercase;
+color: var(--fg-subtle);
+}
+.meta-row .sep { color: var(--line-loud); }
+.meta-row .accent { color: var(--candle); }
+
+.article-title {
+font-family: var(--font-display); font-weight: 700;
+font-size: var(--fs-4xl); line-height: var(--lh-tight);
+letter-spacing: var(--ls-tight);
+margin: 22px 0 0;
+font-variation-settings: "opsz" 144;
+text-wrap: balance;
+}
+.article-title em {
+font-style: italic; color: var(--accent);
+font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+
+.article-subtitle {
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-xl); line-height: var(--lh-snug);
+margin-top: 18px;
+color: var(--fg-muted);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+}
+.article-subtitle em {
+color: var(--accent);
+}
+
+/* ── Article body ───────────────────────────────────────────── */
+.article-body { max-width: 680px; margin: 0 auto; padding: 0 40px 48px; }
+
+.article-body p {
+font-family: var(--font-sans);
+font-size: var(--fs-md); line-height: var(--lh-loose);
+margin: 0 0 22px; color: var(--fg);
+text-wrap: pretty;
+}
+
+.article-body p.lede {
+font-family: var(--font-display); font-weight: 400; font-style: italic;
+font-size: 24px; line-height: 1.45; color: var(--fg);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+margin-bottom: 36px;
+text-wrap: balance;
+}
+
+.article-body blockquote {
+margin: 28px 0; padding: 4px 0 4px 20px;
+border-left: 2px solid var(--candle);
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-lg); line-height: var(--lh-snug);
+color: var(--fg-muted);
+font-variation-settings: "opsz" 48, "SOFT" 100;
+}
+.article-body blockquote em {
+color: var(--accent); font-style: italic;
+}
+
+.article-body hr {
+border: none; border-top: 1px dashed var(--line-loud);
+margin: 48px auto; width: 80px;
+}
+
+.article-body a {
+color: var(--accent);
+border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);
+}
+.article-body a:hover { border-bottom-color: var(--accent); }
+
+.article-footnote {
+color: var(--fg-subtle);
+font-size: var(--fs-sm);
+margin-top: 0;
+}
+
+@media (max-width: 720px) {
+.article-head { padding: 48px 24px 24px; }
+.article-body { padding: 0 24px 40px; }
+.article-title { font-size: var(--fs-3xl); }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ─── SITE CHROME (mounted by HomeShell.jsx) ─────────────── -->
+<div id="topnav-mount"></div>
+
+<!-- ─── ARTICLE HEADER ─────────────────────────────────────── -->
+<section class="article-head">
+<div class="article-head-inner">
+
+<div class="meta-row">
+<span class="accent">07&middot;09&middot;2026</span>
+<span class="sep">&middot;</span>
+<span>EVAL</span>
+<span class="sep">&middot;</span>
+<span>2 min read</span>
+</div>
+
+<h1 class="article-title">
+Evals, test cases, and <em>theater</em>.
+</h1>
+
+<p class="article-subtitle">
+What makes a test suite good enough? I found a rubric and a <em>rabbit hole</em>.
+</p>
+
+</div>
+</section>
+
+<!-- ─── ARTICLE BODY ───────────────────────────────────────── -->
+<article class="article-body">
+
+<p class="lede">
+In my last note I said I do not trust the new tests yet, and I owe the reason. I have seen a test turn green because the agent nullified its purpose (<a href="../writing/whitelisting-errors.html">Don&rsquo;t whitelist errors</a>). So the question I care about is what separates a real test from a staged one, and an insightful answer found me in a working applied-AI engineer&rsquo;s field guide: evaluate an agent&rsquo;s output and its behavior separately.
+</p>
+
+<p>
+An ideal eval gives an agent a task, lets it run, and grades two things. The outcome: did it produce the correct result. The trajectory: how it behaved getting there, the tools it called, the fields it touched, the actions it attempted. Each gets its own metric, scored and tracked separately. Blend them into one number and the number hides more than it reveals: an agent can ace every answer while occasionally doing something forbidden on the way, and the blended score buries exactly the runs that matter. Report the grades separately or the eval is a performance.
+</p>
+
+<p>
+That model grades agents. What I have been building grades code. The regression bench and the CI pipeline live in cleaner territory: deterministic outputs, easily scored. But the agent-grading instincts apply, and the pipeline already writes down what I would need. How many rounds of development before the code passed the test? How often does the verifier have the builder rewrite the code versus having the test author rewrite the test? I can measure that over time, but I have to trust the system before I turn the agents loose to build those trendlines. I need the suite good enough to protect what we have built, and not so heavy that I cannot keep building. So the plan is layers. Basic completeness first, every published page under contract, which is where the bench stands now. Then new categories of test cases for use-cases that cut across pages.
+</p>
+
+<blockquote>
+A passing test is only as sound as its <em>author</em>. (Uh oh.)
+</blockquote>
+
+<p>
+What the guide really gave me is a rubric I can point at my own architecture. It was written for grading agents, their output and their conduct in a session, and those are questions I already ask by hand every time I review a run. The near-term version is practical: counts the pipeline already records, rounds to green, rewrites ordered, escalations by type, ready to become trendlines once the suite has earned my trust. The sophisticated version, true behavior grading, sits further down the rabbit hole. I plan to descend one measurable step at a time.
+</p>
+
+<hr/>
+
+<p class="article-footnote">
+Filed under <a href="../writing.html">field notes</a>. The two-grades model is Eyad Khrais&rsquo;s, from his guide to applied AI engineering.
+</p>
+
+</article>
+
+<!-- ─── SITE FOOTER (mounted by HomeShell.jsx) ─────────────── -->
+<div id="footer-mount"></div>
+
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+
+<script type="text/babel">
+ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="WRITING" />);
+ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>
