@@ -73,6 +73,7 @@ constrain the human's.
 | `writing/speed-to-insight.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/third-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)) |
 | `writing/whitelisting-errors.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
+| `writing/building-loops.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 
 **Chrome-only (universal contract only, no page-specific TC):** `graph/body.html`
