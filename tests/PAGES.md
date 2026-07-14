@@ -25,6 +25,7 @@ constrain the human's.
   - out of contract: script-src resolution — owned: Tier-0 check-links
   - out of contract: SITE_INDEX key → file exists (inverse join) — owned: #334
   - out of contract: SITE_INDEX note TEXT / page description WORDING — editorial (#403)
+  - out of contract: favicon href TARGET / icon format / resolution — presence only; asset choice is the human's (#403)
   - out of contract: rendered-DOM / runtime mount — runtime / Tier 4 (#306)
 
 ## Pages
