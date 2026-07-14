@@ -1,0 +1,64 @@
+name: Immune metrics feed
+
+# Regenerates the immune feed from the live GitHub API and publishes it to the
+# `metrics-data` branch. The immune page reads that branch via jsdelivr, so the
+# page shows current pipeline state with no hand-run. Runs on GitHub's runners.
+
+on:
+  workflow_run:
+    workflows: ["CI"]          # after every CI completion -> catches reds/greens
+    types: [completed]
+  schedule:
+    - cron: "17 8 * * *"       # daily ~01:17 PT: catches board-state Actions can't hook
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: immune-metrics
+  cancel-in-progress: true
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main (for the script)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Recompute feed
+        env:
+          GH_TOKEN:      ${{ secrets.META1_PAT }}
+          GH_OWNER:      JeremyMontz
+          GH_REPO:       Meta1
+          GH_PROJECT_ID: PVT_kwDOEGv3_s4BUbLU
+        run: node scripts/pipeline-metrics.mjs --out "$RUNNER_TEMP/immune-data.js"
+
+      - name: Publish feed to metrics-data (self-seeding)
+        env:
+          GH_TOKEN: ${{ secrets.META1_PAT }}
+        run: |
+          set -euo pipefail
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/JeremyMontz/Meta1.git" data
+          cd data
+          if git ls-remote --exit-code --heads origin metrics-data >/dev/null 2>&1; then
+            git fetch --depth 1 origin metrics-data && git checkout metrics-data
+          else
+            git checkout --orphan metrics-data && git rm -rf . >/dev/null 2>&1 || true
+          fi
+          cp "$RUNNER_TEMP/immune-data.js" immune-data.js
+          git config user.name  "meta1-monzter"
+          git config user.email "meta1-monzter@users.noreply.github.com"
+          git add immune-data.js
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "chore(immune): recompute feed"
+          git push origin metrics-data
+
+      - name: Purge jsdelivr cache
+        run: curl -sf "https://purge.jsdelivr.net/gh/JeremyMontz/Meta1@metrics-data/immune-data.js" || true
