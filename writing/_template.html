@@ -9,6 +9,10 @@
   ║                                                                        ║
   ║  Chrome (TopNav + Footer) is handled by React — don't touch the        ║
   ║  script block at the bottom. Just edit the article content.            ║
+  ║                                                                        ║
+  ║  CONVENTION: author new entries from THIS template, never by copying   ║
+  ║  an existing article — exemplar drift is how the favicon regression    ║
+  ║  (#434) happened. The head includes rel="icon"; do not drop it.        ║
   ╚════════════════════════════════════════════════════════════════════════╝
 -->
 <!doctype html>
@@ -18,6 +22,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>[REPLACE: Article Title] · Claudemonzter</title>
+<link rel="icon" type="image/svg+xml" href="/Meta1/design-system/assets/favicon.svg" />
 <meta name="description" content="[REPLACE: One-sentence description for social previews and search.]" />
 
 <link rel="stylesheet" href="../design-system/colors_and_type.css" />
