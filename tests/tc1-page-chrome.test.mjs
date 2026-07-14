@@ -37,6 +37,15 @@
  *        wording (#403) — drift is allowed; ABSENCE is the error. The exact
  *        signal set is [Confidence: Medium · Inferred] from the written addendum.
  *
+ *   8. Favicon present (#434) — the <head> carries a <link> whose rel token
+ *        list includes "icon" (rel="icon"; "shortcut icon" also qualifies, since
+ *        rel is a space-separated token list — [Confidence: Medium · Inferred]
+ *        from the written spec's rel="icon"). PRESENCE ONLY: href value, icon
+ *        format, and resolution are not asserted. Root cause per #434 was
+ *        exemplar-drift (pages authored from recent-article exemplars, not
+ *        _template.html); this assertion makes the CONTRACT, not the exemplar,
+ *        the canon.
+ *
  * SCOPE: every *.html under the repo, MINUS
  *   - templates/partials whose basename starts with "_"  (as check-links does)
  *   - the EXEMPT set below (stable; rarely changes)
@@ -55,11 +64,12 @@
  * implementation is never inspected to author the assertions. Mirrors
  * .github/scripts/check-links.mjs. Run directly or via tests/run.mjs.
   *
- * @covers: * (every in-scope page — universal chrome + SITE_INDEX entry/non-empty note + static description presence)
+ * @covers: * (every in-scope page — universal chrome + SITE_INDEX entry/non-empty note + static description presence + favicon link presence)
  * @ignores: subnav / breadcrumb presence — owned: #300
  * @ignores: script-src resolution — owned: Tier-0 check-links
  * @ignores: SITE_INDEX key → file exists (inverse join) — owned: #334
  * @ignores: SITE_INDEX note TEXT / page description WORDING — editorial (#403)
+ * @ignores: favicon href TARGET / icon format / resolution — presence only; asset choice is the human's (#403)
  * @ignores: rendered-DOM / runtime mount — runtime / Tier 4 (#306)
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -128,6 +138,19 @@ const hasStaticDescription = (html) =>
   metaContent(html, 'og:description', 'property') ||
   hasLead(html);
 
+// Favicon (#434): a <link> whose rel token list includes "icon" ("shortcut
+// icon" qualifies; apple-touch-icon alone does not). Scanned within <head>
+// per the spec ("every published page head includes rel=icon"); href/format
+// not asserted — presence only.
+function hasFavicon(html) {
+  const head = html.split(/<\/head\s*>/i)[0] ?? html;
+  for (const tag of head.match(/<link\b[^>]*>/gi) || []) {
+    const m = tag.match(/rel\s*=\s*["']([^"']*)["']/i);
+    if (m && m[1].toLowerCase().trim().split(/\s+/).includes('icon')) return true;
+  }
+  return false;
+}
+
 function walk(dir, out = []) {
   for (const e of readdirSync(dir)) {
     if (e === '.git') continue;
@@ -176,6 +199,10 @@ for (const file of walk(ROOT)) {
   // #418 addendum — a static, JS-independent description signal (presence only).
   r.check(hasStaticDescription(html),
     `${rel}: no static description (need non-empty meta description / og:description / .lead)`);
+
+  // #434 — favicon link present in <head> (presence only; href/format editorial).
+  r.check(hasFavicon(html),
+    `${rel}: missing favicon <link rel="icon"> in <head>`);
 }
 
 r.done(`pages scanned: ${inScope} in-scope, ${EXEMPT.size} exempt (templates auto-skipped); SITE_INDEX keys: ${SITE_INDEX ? Object.keys(SITE_INDEX).length : 0}`);
