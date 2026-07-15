@@ -48,7 +48,7 @@ jobs:
           git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/JeremyMontz/Meta1.git" data
           cd data
           if git ls-remote --exit-code --heads origin metrics-data >/dev/null 2>&1; then
-            git fetch --depth 1 origin metrics-data && git checkout metrics-data
+            git fetch --depth 1 origin metrics-data:metrics-data && git checkout metrics-data
           else
             git checkout --orphan metrics-data && git rm -rf . >/dev/null 2>&1 || true
           fi
