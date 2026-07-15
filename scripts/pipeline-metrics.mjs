@@ -381,7 +381,7 @@ async function main() {
   const blockedIssues = pipeline.filter(i => (i.status || '').toLowerCase() === 'blocked').map(i => i.number).sort((a, b) => a - b);
   const reconciling = pipeline.some(i => i.adjudication === 'reconciling');
   const temperature = blockedIssues.length ? 'fever' : (reconciling || openRedPR ? 'elevated' : 'normal');
-  const whiteCell = (reconciling || openRedPR) ? 'engaged' : 'dormant';
+  const whiteCell = (reconciling || openRedPR) ? 'engaged' : (blockedIssues.length ? 'standby' : 'dormant');
 
   /* counters */
   const counters = {
@@ -392,11 +392,23 @@ async function main() {
     verifierEngagements,
   };
 
+  /* incubation: board items each controller has stamped a field on.
+   * built / reviewed span story+bug (FACTORY_TYPES); tested also spans tasks
+   * because Bond stamps Tests on TC-authoring task items. */
+  const hasVal = (v) => !!(v && String(v).trim());
+  const TESTED_TYPES = new Set(['story', 'bug', 'task']);
+  const incubation = {
+    built: pipeline.filter(i => hasVal(i.build)).length,
+    tested: items.filter(i => TESTED_TYPES.has(i.type) && hasVal(i.tests)).length,
+    reviewed: pipeline.filter(i => hasVal(i.adjudication)).length,
+  };
+
   const IMMUNE = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     bench,
     counters,
+    incubation,
     autonomy,
     stories,
     pulse,
@@ -420,7 +432,7 @@ async function main() {
 window.IMMUNE = ${JSON.stringify(IMMUNE, null, 2)};
 `;
   writeFileSync(outPath, header);
-  console.error(`wrote ${outPath}: bench=${bench.length} stories=${stories.length} shipped=${counters.storiesShipped} reds=${counters.redsCaught} record=${record.length} temp=${temperature}`);
+  console.error(`wrote ${outPath}: bench=${bench.length} stories=${stories.length} shipped=${counters.storiesShipped} reds=${counters.redsCaught} record=${record.length} incu=${incubation.built}/${incubation.tested}/${incubation.reviewed} temp=${temperature}`);
 }
 
 main().catch(e => { console.error(e.stack || String(e)); process.exit(1); });
