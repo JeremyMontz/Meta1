@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T18:53:37.525Z",
+  "generatedAt": "2026-07-15T22:47:59.907Z",
   "bench": [
     {
       "id": "smoke",
@@ -137,7 +137,7 @@ window.IMMUNE = {
   ],
   "counters": {
     "benchSize": 20,
-    "storiesShipped": 80,
+    "storiesShipped": 82,
     "redsCaught": 22,
     "escalations": {
       "specGap": 1,
@@ -146,9 +146,14 @@ window.IMMUNE = {
     },
     "verifierEngagements": 8
   },
+  "incubation": {
+    "built": 10,
+    "tested": 26,
+    "reviewed": 7
+  },
   "autonomy": {
-    "agentEvents": 347,
-    "humanEvents": 224
+    "agentEvents": 356,
+    "humanEvents": 226
   },
   "stories": [
     {
@@ -224,103 +229,103 @@ window.IMMUNE = {
   ],
   "pulse": [
     {
-      "pr": 435,
-      "check": "Contract tests",
-      "conclusion": "success"
-    },
-    {
-      "pr": 435,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 435,
+      "pr": 440,
       "check": "data.js integrity",
       "conclusion": "success"
     },
     {
-      "pr": 435,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
-      "pr": 436,
-      "check": "Contract tests",
-      "conclusion": "success"
-    },
-    {
-      "pr": 436,
-      "check": "data.js integrity",
-      "conclusion": "success"
-    },
-    {
-      "pr": 436,
+      "pr": 440,
       "check": "Spellcheck",
       "conclusion": "success"
     },
     {
-      "pr": 436,
+      "pr": 440,
       "check": "Internal links",
       "conclusion": "success"
     },
     {
-      "pr": 436,
+      "pr": 440,
       "check": "Contract tests",
       "conclusion": "success"
     },
     {
-      "pr": 436,
-      "check": "data.js integrity",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 436,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
-      "pr": 436,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 436,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 436,
+      "pr": 440,
       "check": "data.js integrity",
       "conclusion": "success"
     },
     {
-      "pr": 436,
-      "check": "Internal links",
+      "pr": 440,
+      "check": "Spellcheck",
       "conclusion": "success"
     },
     {
-      "pr": 436,
+      "pr": 440,
       "check": "Contract tests",
       "conclusion": "success"
     },
     {
-      "pr": 438,
-      "check": "data.js integrity",
-      "conclusion": "success"
-    },
-    {
-      "pr": 438,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 438,
+      "pr": 440,
       "check": "Internal links",
       "conclusion": "success"
     },
     {
-      "pr": 438,
+      "pr": 440,
       "check": "Contract tests",
+      "conclusion": "success"
+    },
+    {
+      "pr": 440,
+      "check": "data.js integrity",
+      "conclusion": "success"
+    },
+    {
+      "pr": 440,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 440,
+      "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "Contract tests",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "data.js integrity",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "data.js integrity",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "Contract tests",
+      "conclusion": "success"
+    },
+    {
+      "pr": 441,
+      "check": "Internal links",
       "conclusion": "success"
     }
   ],
