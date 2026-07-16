@@ -62,6 +62,7 @@ constrain the human's.
 | `writing/adversarial-validation.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/agentic-behavioral-tuning.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/building-loops.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
+| `writing/built-to-measure.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/canon-load-evaluation.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/coaching-system.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/coordination-tax.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
