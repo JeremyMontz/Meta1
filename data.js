@@ -322,6 +322,7 @@ window.ARTICLES = [
   { id: 'a13', date: '06.24.26', title: 'Building loops for an AI-enabled PM toolchain.', subtitle: 'One PM, a team-shaped system, and all the hats.', tag: 'ESSAY', read: '2 min', href: 'writing/building-loops.html', demonstrates: ['agentic', 'building'] },
   { id: 'a14', date: '07.01.26', title: 'Designing for restraint.', subtitle: 'The most dangerous agent is a helpful one, automated.', tag: 'EVAL', read: '2 min', href: 'writing/designing-for-restraint.html', demonstrates: ['eval', 'agentic'] },
   { id: 'a15', date: '07.09.26', title: 'Evals, test cases, and theater.', subtitle: 'What makes a test suite good enough? I found a rubric and a rabbit hole.', tag: 'EVAL', read: '2 min', href: 'writing/evals-test-cases-theater.html', demonstrates: ['eval', 'reflective'] },
+  { id: 'a16', date: '07.16.26', title: 'Spec quality is now measurable.', subtitle: 'My hobby made me a report card.', tag: 'ESSAY', read: '2 min', href: 'writing/built-to-measure.html', demonstrates: ['eval', 'agentic'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -865,6 +866,15 @@ window.SITE_INDEX = {
     "continuous integration"
   ],
   "updated": "2026-07-13"
+},
+  "/writing/built-to-measure.html": {
+  "note": "A field note on monitoring a newly built build pipeline. The first fully autonomous overnight story was immune.html, the instrument that now reports the pipeline's operational metrics from GitHub; the spec is the agents' only ground truth, so every escalation grades the acceptance criteria I wrote.",
+  "tags": [
+    "pipeline observability",
+    "autonomy ratio",
+    "spec quality / acceptance criteria"
+  ],
+  "updated": "2026-07-16"
 }
 };
 
