@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-16T03:56:36.931Z",
+  "generatedAt": "2026-07-16T05:21:53.007Z",
   "bench": [
     {
       "id": "smoke",
@@ -152,7 +152,7 @@ window.IMMUNE = {
     "reviewed": 7
   },
   "autonomy": {
-    "agentEvents": 363,
+    "agentEvents": 365,
     "humanEvents": 227
   },
   "stories": [
@@ -231,26 +231,6 @@ window.IMMUNE = {
     {
       "pr": 442,
       "check": "data.js integrity",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 442,
-      "check": "Contract tests",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 442,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
-      "pr": 442,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 442,
-      "check": "data.js integrity",
       "conclusion": "success"
     },
     {
@@ -326,6 +306,26 @@ window.IMMUNE = {
     {
       "pr": 442,
       "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 443,
+      "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 443,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 443,
+      "check": "Contract tests",
+      "conclusion": "success"
+    },
+    {
+      "pr": 443,
+      "check": "data.js integrity",
       "conclusion": "success"
     }
   ],
