@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-16T10:22:14.709Z",
+  "generatedAt": "2026-07-16T22:19:24.435Z",
   "bench": [
     {
       "id": "smoke",
@@ -138,9 +138,9 @@ window.IMMUNE = {
   "counters": {
     "benchSize": 20,
     "storiesShipped": 85,
-    "redsCaught": 23,
+    "redsCaught": 24,
     "escalations": {
-      "specGap": 1,
+      "specGap": 2,
       "thrashCap": 0,
       "bugFiled": 1
     },
@@ -148,12 +148,12 @@ window.IMMUNE = {
   },
   "incubation": {
     "built": 10,
-    "tested": 26,
+    "tested": 29,
     "reviewed": 7
   },
   "autonomy": {
-    "agentEvents": 369,
-    "humanEvents": 229
+    "agentEvents": 372,
+    "humanEvents": 231
   },
   "stories": [
     {
@@ -235,26 +235,6 @@ window.IMMUNE = {
     },
     {
       "pr": 442,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
-      "pr": 442,
-      "check": "data.js integrity",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 442,
-      "check": "Contract tests",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 442,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 442,
       "check": "Contract tests",
       "conclusion": "success"
     },
@@ -326,12 +306,32 @@ window.IMMUNE = {
     {
       "pr": 445,
       "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 447,
+      "check": "Contract tests",
+      "conclusion": "failure"
+    },
+    {
+      "pr": 447,
+      "check": "data.js integrity",
+      "conclusion": "failure"
+    },
+    {
+      "pr": 447,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 447,
+      "check": "Spellcheck",
       "conclusion": "success"
     }
   ],
   "current": {
-    "temperature": "normal",
-    "whiteCell": "dormant",
+    "temperature": "elevated",
+    "whiteCell": "engaged",
     "blockedIssues": []
   },
   "record": [
@@ -346,6 +346,12 @@ window.IMMUNE = {
       "issue": 380,
       "date": "2026-07-07",
       "title": "Immune data feed: pipeline-metrics script + immune-data.js"
+    },
+    {
+      "type": "spec-gap",
+      "issue": 446,
+      "date": "2026-07-16",
+      "title": "Guard the metrics-data immune feed with a window.IMMUNE v1 schema check before publish"
     }
   ]
 };
