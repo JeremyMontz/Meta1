@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T00:15:02.420Z",
+  "generatedAt": "2026-07-17T08:08:28.814Z",
   "bench": [
     {
       "id": "smoke",
@@ -147,12 +147,12 @@ window.IMMUNE = {
     "verifierEngagements": 8
   },
   "incubation": {
-    "built": 10,
+    "built": 11,
     "tested": 29,
     "reviewed": 7
   },
   "autonomy": {
-    "agentEvents": 376,
+    "agentEvents": 381,
     "humanEvents": 233
   },
   "stories": [
@@ -225,30 +225,17 @@ window.IMMUNE = {
       "rounds": 0,
       "wallClockHours": 0.01,
       "overnight": false
+    },
+    {
+      "issue": 446,
+      "lane": "story",
+      "rounds": 0,
+      "wallClockHours": 0.01,
+      "overnight": true
     }
   ],
   "pulse": [
     {
-      "pr": 445,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 445,
-      "check": "Contract tests",
-      "conclusion": "success"
-    },
-    {
-      "pr": 445,
-      "check": "data.js integrity",
-      "conclusion": "success"
-    },
-    {
-      "pr": 445,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
       "pr": 447,
       "check": "Contract tests",
       "conclusion": "failure"
@@ -326,6 +313,26 @@ window.IMMUNE = {
     {
       "pr": 448,
       "check": "Contract tests",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Contract tests",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "data.js integrity",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Spellcheck",
       "conclusion": "success"
     }
   ],
@@ -350,7 +357,7 @@ window.IMMUNE = {
     {
       "type": "spec-gap",
       "issue": 446,
-      "date": "2026-07-16",
+      "date": "2026-07-17",
       "title": "Guard the metrics-data immune feed with a window.IMMUNE v1 schema check before publish"
     }
   ]
