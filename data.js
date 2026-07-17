@@ -155,8 +155,9 @@ window.SPEC = {
 // ─── NOW · what I'm working on right now ──────────────────────────────────
 // Update weekly. 1-4 bullets max — this is a status message, not a story.
 window.NOW = [
-  'Building an autonomous human-gated DEV/QA pipeline',
-  'Publishing the Homepage trailer',
+  'Running a few stories through the new autonomous human-gated DEV/QA pipeline',
+  'Immune.html testing and fine-tuning',
+  'Writing the case study',
   "Fine-tuning Daily Lectio skill and Phil's responses",
   'Designing the Host roadmap'
 ];
@@ -231,7 +232,24 @@ window.PORTFOLIO = [
     ],
     excerpt: null,
   },
-  {
+    {
+    id: 'immune',
+    no: '03',
+    title: 'CI Gates and Test Cases',
+    blurb: "Claudemonzter's immune system. The defensive layer.",
+    status: 'PROTOTYPE',
+    tone: 'warn',
+    tag: 'EVAL',
+    href: 'graph/immune.html',
+    date: null,
+    demonstrates: ['agentic', 'discovery', 'building'],
+    details: [
+      ['ROLE',    'Pipeline'],
+      ['STARTED', 'June 2026'],
+    ],
+    excerpt: null,
+  },
+{
     id: 'first-month',
     no: '02',
     title: 'A Month and a Day',
@@ -247,23 +265,6 @@ window.PORTFOLIO = [
       ['STARTED', 'March 2026'],
     ],
     excerpt: '"I was writing a constitution for a country with no government."',
-  },
-  {
-    id: 'spirit',
-    no: '03',
-    title: 'The Persona Matrix Inspires the Graph',
-    blurb: 'The Spirit of Claudemonzter. The animating jolt.',
-    status: 'PROTOTYPE',
-    tone: 'warn',
-    tag: 'SKILL',
-    href: 'graph/spirit.html',
-    date: null,
-    demonstrates: ['agentic', 'discovery', 'collab'],
-    details: [
-      ['ROLE',    'Mad Scientist · Prototype'],
-      ['STARTED', 'May 2026'],
-    ],
-    excerpt: null,
   },
   {
     id: 'phils-journal',
