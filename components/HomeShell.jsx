@@ -180,11 +180,14 @@ Object.assign(window, {
   `;
 
   function fnRouteKey() {
-    var tag = document.querySelector('script[src*="data.js"]');
+    var tags = document.querySelectorAll('script[src]');
     var root = '/';
-    if (tag) {
-      try { root = new URL(tag.getAttribute('src'), location.href).pathname.replace(/data\.js.*$/, ''); }
-      catch (e) {}
+    for (var i = 0; i < tags.length; i++) {
+      var src = tags[i].getAttribute('src') || '';
+      try {
+        var path = new URL(src, location.href).pathname;
+        if (path.split('/').pop() === 'data.js') { root = path.replace(/data\.js.*$/, ''); break; }
+      } catch (e) {}
     }
     var p = location.pathname;
     if (root && p.indexOf(root) === 0) { p = '/' + p.slice(root.length); }
