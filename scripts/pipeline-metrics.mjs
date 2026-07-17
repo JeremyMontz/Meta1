@@ -322,7 +322,12 @@ async function main() {
   const stories = [];
   for (const [issue, prs] of [...prByIssue].sort((a, b) => a[0] - b[0])) {
     if (!pipelineByNum.has(issue)) continue; // only real factory items
-    const primary = prs.find(x => x.pr.lane === 'story') || prs[0];
+    // Primary = the ORIGINATING build (earliest-created story-lane PR), not the
+    // latest. A same-day follow-up PR (e.g. story/318-layout) must not shadow the
+    // first build — that masked #318's 04:11 ET overnight build behind an evening PR.
+    const byCreated = (a, b) => a.pr.createdAt.localeCompare(b.pr.createdAt);
+    const primary = prs.filter(x => x.pr.lane === 'story').sort(byCreated)[0]
+                 || [...prs].sort(byCreated)[0];
     const cs = commentsByNum.get(issue) || [];
     const rounds = cs.filter(c => signed(c.body, 'Assessor')).length;
     const green = firstGreen(primary.pr, primary.idx);
