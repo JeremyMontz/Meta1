@@ -97,6 +97,7 @@ constrain the human's.
 | Surface | TC |
 | ------- | -- |
 | data.js (demonstrates -> COMPETENCIES referential integrity) | #333 `tc-competency` |
+| scripts/immune-schema.mjs (window.IMMUNE v1 validator — single source) | #446 `tc-immune-schema` |
 | tests/fixtures/immune-data.sample.js (window.IMMUNE v1 schema) | #380 `tc-immune-system` |
 | data.js (route / href fields resolve to real files) | #334 `tc-routes` |
 | data.js (six agent rosters coherent) | #299 `tc2-agent-completeness` |
