@@ -40,6 +40,13 @@ jobs:
           GH_PROJECT_ID: PVT_kwDOEGv3_s4BUbLU
         run: node scripts/pipeline-metrics.mjs --out "$RUNNER_TEMP/immune-data.js"
 
+      - name: Validate feed schema (v1) before publish
+        # Gate the freshly generated feed against the window.IMMUNE v1 schema
+        # (scripts/immune-schema.mjs, the single source of truth) BEFORE it is
+        # published. On any drift this step exits non-zero, the job fails, and the
+        # publish step below never runs — a malformed feed never reaches metrics-data.
+        run: node scripts/validate-immune-feed.mjs "$RUNNER_TEMP/immune-data.js"
+
       - name: Publish feed to metrics-data (self-seeding)
         env:
           GH_TOKEN: ${{ secrets.META1_PAT }}
