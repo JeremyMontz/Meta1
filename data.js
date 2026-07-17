@@ -952,7 +952,7 @@ window.SKILLS = [
 // ── Hard stats (portfolio hero; reusable). Computed from real lists where
 // possible so they can't go stale; manual where not derivable (flagged). ──
 window.STATS = [
-  { value: '3 mo',                          label: 'zero to launch' },     // manual — fixed achievement, do not auto-age
+  { value: (() => { const F = Date.UTC(2026, 2, 18); return Math.max(1, Math.round((Date.now() - F) / 2629800000)) + ' mo'; })(), label: 'lab age' }, // computed — whole months since founding (2026-03-18, the lab's zero); ticks monthly
   { value: String(window.AGENTS.length),    label: 'agents (1 human)' },   // computed
   { value: String(window.SKILLS.length),    label: 'custom skills' },      // computed — window.SKILLS (hand-authored interim; #373 will generate from SKILL.md)
   { value: window.CI.checks + ' & ' + window.TESTS.length, label: 'CI tests' }, // computed — CI check-jobs (ci.yml) & test files
