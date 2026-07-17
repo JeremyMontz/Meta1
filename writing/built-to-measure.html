@@ -25,7 +25,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>Spec quality is now measurable &middot; Claudemonzter</title>
-<meta name="description" content="A field note on measurement: the autonomous pipeline&rsquo;s first overnight story was the page that now measures it, and why a build you can watch is the thing you can trust." />
+<meta name="description" content="A field note on measurement: the autonomous pipeline&rsquo;s first overnight story was the page that now measures pipeline operations and specification precision, a feedback loop for PMs." />
 
 <!-- Open Graph / social -->
 <meta property="og:type" content="website" />
@@ -179,15 +179,15 @@ My hobby made me a <em>report card</em>.
 <article class="article-body">
 
 <p class="lede">
-For the past month I&rsquo;ve been working on a plan: my specifications would be the only ground truth, the adversarial agents would push their work through a strict pipeline, and its first deliverable would be a machine that grades spec precision and pipeline operations. Some simple stories were shipped during human-monitored test runs, but the first story I sent through the fully autonomous overnight pipeline was intentionally complex: a whole new page. I woke to a tested pull request, merged green. I deployed it and was pleased with the results. It actually worked.
+For the past month I&rsquo;ve been working on a plan: my specifications would be the ground truth, adversarial agents would push work through a pipeline, and the first deliverable would be a machine that measures pipeline operations and spec precision. 
 </p>
 
 <p>
-The page, immune.html, reads the build pipeline from GitHub and draws it as Claudemonzter&rsquo;s immune system. Code cannot be merged by bots without passage through cell membranes (CI checks), where antibodies await (contract tests, currently twenty), and a macrophage shows the system&rsquo;s inflammatory response (verification). Every reading is current to the latest build. It&rsquo;s also a wall of instruments with signals and measurements to earn confidence in any of this. Eighty-five changes screened, twenty-three caught red before they could merge, two blocked and escalated for human review, one shipped overnight (so far). Those escalations are also a signal on my acceptance criteria, a feedback loop on the specs I write. But the real number to keep an eye on is the autonomy ratio, as agent actions outpace my own, liberating me from constant involvement. I&rsquo;ll write more about that in my next article.
+Some simple stories were shipped during human-monitored test runs, but the first story I sent through the fully autonomous overnight pipeline was intentionally complex. A whole new page, <a href="../graph/immune.html">immune.html</a>, reads the build pipeline history from GitHub and draws it as Claudemonzter&rsquo;s immune system. Code cannot be merged by bots without passage through cell membranes (CI checks), where antibodies await (contract tests, currently twenty), and a macrophage shows the system&rsquo;s inflammatory response (verification). It&rsquo;s also a wall of instruments with signals and measurements to monitor. Eighty-five changes screened, twenty-three caught red before they could merge, two blocked and escalated for human review, one shipped overnight (so far). Those escalations are also a signal on my acceptance criteria, a feedback loop on the specs I write. But the real number to keep an eye on is the autonomy ratio, as agent actions outpace my own, liberating me from constant involvement. I&rsquo;ll write more about that in my next article.
 </p>
 
 <p>
-In this pipeline the spec is the only ground truth the agents get. Bond writes the test cases from my acceptance criteria and never opens the implementation; Meta1 writes the code from the same words. A story that goes from spec to merged pull request without me is a spec that held, precise enough for three agents to act on alone. They are restricted from pursuing novel solutions, so if there is a gap in the requirements, they&rsquo;ll tag me in the comments to unblock them. Just like my job.
+In this pipeline the spec is the only ground truth the agents get. Bond writes the test cases from my acceptance criteria and never opens the implementation; Meta1 writes the code from the same words. They have independence, different agendas, and separate domain-level requirements. A neutral Assessor adjudicates disputes. Even my work gets graded; a story that goes from spec to passing green pull request without me is a good one, precise enough for 2-3 agents to act on alone. They are restricted from pursuing novel solutions, so if there is a gap in the requirements, they&rsquo;ll tag me in the comments to unblock them. Just like my job.
 </p>
 
 <blockquote>
@@ -195,11 +195,7 @@ The first thing the pipeline built without me was the instrument that now <em>me
 </blockquote>
 
 <p>
-Which is when I saw what was on the scale. My acceptance criteria are the input, working software is the output, and my work gets graded like the rest of it. It is a feedback loop I have never had on the part of the job that usually goes unmeasured.
-</p>
-
-<p>
-First the page proved the pipeline worked by being built through it, and proves itself again with every measurable build. No doubt I&rsquo;ll need to fine-tune the signals over time, but for now it&rsquo;s sufficient that it&rsquo;s not a black box machine. I can&rsquo;t believe I built a working, multi-agent system, with adversarial validation, that is capable of building itself semi-autonomously, after only a few months of learning AI. Whether the whole loop holds together, end to end, is the next note. This one proves the concept.
+First the page proved the pipeline worked by being built through it, and proves itself again, taking measurements with every build. No doubt I&rsquo;ll need to fine-tune the signals over time. For now, I can&rsquo;t believe I built a working, multi-agent system, with adversarial validation, that is capable of building itself semi-autonomously, after only a few months of learning AI. Whether the pipeline holds together, end to end, after a few stories go through it will be the next field note. For now, I'm proud this one proves the concept.
 </p>
 
 <hr/>
