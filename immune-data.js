@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T10:12:50.498Z",
+  "generatedAt": "2026-07-17T14:20:18.013Z",
   "bench": [
     {
       "id": "smoke",
@@ -67,6 +67,12 @@ window.IMMUNE = {
       "issue": 335,
       "title": "Our-History month-graph set — per-type group",
       "protects": "Our-History month-graph set — per-type group"
+    },
+    {
+      "id": "tc-immune-schema",
+      "issue": 446,
+      "title": "tc-immune-schema — window.IMMUNE v1 validator: single-source extraction + I1–I10 drift rejection",
+      "protects": "tc-immune-schema — window.IMMUNE v1 validator: single-source extraction + I1–I10 drift rejection"
     },
     {
       "id": "tc-immune-system",
@@ -136,8 +142,8 @@ window.IMMUNE = {
     }
   ],
   "counters": {
-    "benchSize": 20,
-    "storiesShipped": 87,
+    "benchSize": 21,
+    "storiesShipped": 88,
     "redsCaught": 25,
     "escalations": {
       "specGap": 2,
@@ -153,7 +159,7 @@ window.IMMUNE = {
   },
   "autonomy": {
     "agentEvents": 387,
-    "humanEvents": 233
+    "humanEvents": 234
   },
   "stories": [
     {
