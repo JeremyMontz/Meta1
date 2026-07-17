@@ -94,6 +94,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { makeReport } from './_assert.mjs';
+import { validateImmuneV1 } from '../scripts/immune-schema.mjs';
 
 const ROOT = process.cwd();
 const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -103,88 +104,20 @@ const rd = (p) => readFileSync(join(ROOT, p), 'utf8');
 function loadWindow(path) { const win = {}; new Function('window', rd(path))(win); return win; }
 
 const r = makeReport('tc-immune-system');
-const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
-const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
-const hasKeys = (o, keys) => isObj(o) && keys.every((k) => k in o);
 
 // Schema validated against the committed fixture — the live feed moved off-repo
 // to the metrics-data branch (#437) and is no longer committed to main.
 const win = loadWindow('tests/fixtures/immune-data.sample.js');
 const IM = win.IMMUNE;
 
-// I1 — single window.IMMUNE object
-r.check(isObj(IM), 'window.IMMUNE is not defined as an object');
+// I1–I10 — window.IMMUNE v1 shape, checked through the shared extracted validator
+// (scripts/immune-schema.mjs) so the committed-fixture test and the immune-metrics
+// workflow single-source ONE definition of "valid v1" (#446). validateImmuneV1
+// returns [] on a conforming feed; the committed fixture is valid v1, so this stays green.
+const schemaFails = validateImmuneV1(IM);
+r.check(schemaFails.length === 0,
+  `window.IMMUNE fixture fails v1 schema: ${schemaFails.join('; ')}`);
 
-if (isObj(IM)) {
-  // I2 — schema identity
-  r.check(IM.schemaVersion === 1, 'schemaVersion is not === 1 (schema-v1 discriminator)');
-
-  // I3 — generatedAt ISO-8601 string (shape, not value)
-  r.check(typeof IM.generatedAt === 'string' &&
-    !Number.isNaN(Date.parse(IM.generatedAt)) &&
-    /^\d{4}-\d{2}-\d{2}T/.test(IM.generatedAt),
-    'generatedAt is not an ISO-8601 string');
-
-  // I4 — bench: array of { id, issue, title, protects }, present + non-empty
-  r.check(Array.isArray(IM.bench) && IM.bench.length > 0,
-    'bench is not a non-empty array');
-  if (Array.isArray(IM.bench)) {
-    r.check(IM.bench.every((e) => hasKeys(e, ['id', 'issue', 'title', 'protects'])),
-      'a bench entry is missing one of { id, issue, title, protects }');
-  }
-
-  // I5 — counters object + numeric fields + escalations sub-object
-  r.check(hasKeys(IM.counters, ['benchSize', 'storiesShipped', 'redsCaught',
-    'escalations', 'verifierEngagements']),
-    'counters is missing a required key');
-  if (isObj(IM.counters)) {
-    r.check(isNum(IM.counters.benchSize) && isNum(IM.counters.storiesShipped) &&
-      isNum(IM.counters.redsCaught) && isNum(IM.counters.verifierEngagements),
-      'a counters scalar (benchSize/storiesShipped/redsCaught/verifierEngagements) is not numeric');
-    r.check(hasKeys(IM.counters.escalations, ['specGap', 'thrashCap', 'bugFiled']) &&
-      isNum(IM.counters.escalations.specGap) &&
-      isNum(IM.counters.escalations.thrashCap) &&
-      isNum(IM.counters.escalations.bugFiled),
-      'counters.escalations is missing a numeric { specGap, thrashCap, bugFiled }');
-  }
-
-  // I6 — autonomy { agentEvents, humanEvents } numeric
-  r.check(hasKeys(IM.autonomy, ['agentEvents', 'humanEvents']) &&
-    isNum(IM.autonomy.agentEvents) && isNum(IM.autonomy.humanEvents),
-    'autonomy is missing numeric { agentEvents, humanEvents }');
-
-  // I7 — stories: array of { issue, lane, rounds, wallClockHours, overnight }
-  r.check(Array.isArray(IM.stories), 'stories is not an array');
-  if (Array.isArray(IM.stories)) {
-    r.check(IM.stories.every((s) =>
-      hasKeys(s, ['issue', 'lane', 'rounds', 'wallClockHours', 'overnight']) &&
-      (s.lane === 'story' || s.lane === 'rt') &&
-      typeof s.overnight === 'boolean'),
-      'a stories entry violates its shape (keys / lane in {story,rt} / overnight boolean)');
-  }
-
-  // I8 — pulse: array (spec cap: last <=20) of { pr, check, conclusion }
-  r.check(Array.isArray(IM.pulse) && IM.pulse.length <= 20,
-    'pulse is not an array of at most 20 entries');
-  if (Array.isArray(IM.pulse)) {
-    r.check(IM.pulse.every((p) => hasKeys(p, ['pr', 'check', 'conclusion'])),
-      'a pulse entry is missing one of { pr, check, conclusion }');
-  }
-
-  // I9 — current: temperature / whiteCell enums + blockedIssues array
-  r.check(isObj(IM.current) &&
-    ['normal', 'elevated', 'fever'].includes(IM.current.temperature) &&
-    ['dormant', 'engaged'].includes(IM.current.whiteCell) &&
-    Array.isArray(IM.current.blockedIssues),
-    'current is missing temperature/whiteCell enum or blockedIssues array');
-
-  // I10 — record: array of { type, issue, date, title }
-  r.check(Array.isArray(IM.record), 'record is not an array');
-  if (Array.isArray(IM.record)) {
-    r.check(IM.record.every((e) => hasKeys(e, ['type', 'issue', 'date', 'title'])),
-      'a record entry is missing one of { type, issue, date, title }');
-  }
-}
 
 // ---------------------------------------------------------------------------
 // P — organ-page wiring (#318 amendment)
