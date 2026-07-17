@@ -55,6 +55,7 @@ Agents make no editorial choices and never constrain the human's.
 | `tc-github-activity` | `tests/tc-github-activity.test.mjs` | 1 | #364 | GitHub activity-feed read-path wiring | live |
 | `tc-heart` | `tests/tc-heart.test.mjs` | 1 | #338 | TC — heart organ + journal page pair | live |
 | `tc-history` | `tests/tc-history.test.mjs` | 1 | #335 | Our-History month-graph set — per-type group | live |
+| `tc-immune-schema` | `tests/tc-immune-schema.test.mjs` | 1 | #446 | tc-immune-schema — window.IMMUNE v1 validator: single-source extraction + I1–I10 drift rejection | live |
 | `tc-immune-system` | `tests/tc-immune-system.test.mjs` | 1 | #380 | TC — immune system: window.IMMUNE feed + organ-page wiring | live |
 | `tc-index` | `tests/tc-index.test.mjs` | 1 | #340 | Homepage — index.html standalone contract | live |
 | `tc-live-display` | `tests/tc-live-display.test.mjs` | 1 | #336 | Live-display read-path wiring | live |
