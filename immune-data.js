@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-17T08:08:28.814Z",
+  "generatedAt": "2026-07-17T09:14:45.422Z",
   "bench": [
     {
       "id": "smoke",
@@ -138,7 +138,7 @@ window.IMMUNE = {
   "counters": {
     "benchSize": 20,
     "storiesShipped": 87,
-    "redsCaught": 24,
+    "redsCaught": 25,
     "escalations": {
       "specGap": 2,
       "thrashCap": 0,
@@ -152,7 +152,7 @@ window.IMMUNE = {
     "reviewed": 7
   },
   "autonomy": {
-    "agentEvents": 381,
+    "agentEvents": 386,
     "humanEvents": 233
   },
   "stories": [
@@ -238,46 +238,6 @@ window.IMMUNE = {
     {
       "pr": 447,
       "check": "Contract tests",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 447,
-      "check": "data.js integrity",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 447,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
-      "pr": 447,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 447,
-      "check": "data.js integrity",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 447,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
-      "pr": 447,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 447,
-      "check": "Contract tests",
-      "conclusion": "success"
-    },
-    {
-      "pr": 447,
-      "check": "Contract tests",
       "conclusion": "success"
     },
     {
@@ -328,6 +288,46 @@ window.IMMUNE = {
     {
       "pr": 449,
       "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Contract tests",
+      "conclusion": "failure"
+    },
+    {
+      "pr": 449,
+      "check": "data.js integrity",
+      "conclusion": "failure"
+    },
+    {
+      "pr": 449,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 449,
+      "check": "Contract tests",
+      "conclusion": "failure"
+    },
+    {
+      "pr": 449,
+      "check": "data.js integrity",
       "conclusion": "success"
     },
     {
@@ -337,8 +337,8 @@ window.IMMUNE = {
     }
   ],
   "current": {
-    "temperature": "normal",
-    "whiteCell": "dormant",
+    "temperature": "elevated",
+    "whiteCell": "engaged",
     "blockedIssues": []
   },
   "record": [
