@@ -324,6 +324,7 @@ window.ARTICLES = [
   { id: 'a14', date: '07.01.26', title: 'Designing for restraint.', subtitle: 'The most dangerous agent is a helpful one, automated.', tag: 'EVAL', read: '2 min', href: 'writing/designing-for-restraint.html', demonstrates: ['eval', 'agentic'] },
   { id: 'a15', date: '07.09.26', title: 'Evals, test cases, and theater.', subtitle: 'What makes a test suite good enough? I found a rubric and a rabbit hole.', tag: 'EVAL', read: '2 min', href: 'writing/evals-test-cases-theater.html', demonstrates: ['eval', 'reflective'] },
   { id: 'a16', date: '07.16.26', title: 'Spec quality is now measurable.', subtitle: 'My hobby made me a report card.', tag: 'ESSAY', read: '2 min', href: 'writing/built-to-measure.html', demonstrates: ['eval', 'agentic'] },
+  { id: 'a17', date: '07.24.26', title: 'Building while I sleep.', subtitle: 'I work alone. Now the agents work without me.', tag: 'CASE STUDY', read: '6 min', href: 'writing/building-while-i-sleep.html', demonstrates: ['agentic', 'building'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -876,6 +877,15 @@ window.SITE_INDEX = {
     "spec quality / acceptance criteria"
   ],
   "updated": "2026-07-16"
+},
+  "/writing/building-while-i-sleep.html": {
+  "note": "The flagship case study: twenty years of product management, zero coding background, and four months with Claude produce a pipeline where three AI agents build and test software overnight behind three human gates. This page was itself built overnight by the pipeline it describes (story #456).",
+  "tags": [
+    "autonomous dev pipeline",
+    "human-gated governance",
+    "multi-agent orchestration"
+  ],
+  "updated": "2026-07-25"
 }
 };
 
