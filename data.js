@@ -324,6 +324,7 @@ window.ARTICLES = [
   { id: 'a14', date: '07.01.26', title: 'Designing for restraint.', subtitle: 'The most dangerous agent is a helpful one, automated.', tag: 'EVAL', read: '2 min', href: 'writing/designing-for-restraint.html', demonstrates: ['eval', 'agentic'] },
   { id: 'a15', date: '07.09.26', title: 'Evals, test cases, and theater.', subtitle: 'What makes a test suite good enough? I found a rubric and a rabbit hole.', tag: 'EVAL', read: '2 min', href: 'writing/evals-test-cases-theater.html', demonstrates: ['eval', 'reflective'] },
   { id: 'a16', date: '07.16.26', title: 'Spec quality is now measurable.', subtitle: 'My hobby made me a report card.', tag: 'ESSAY', read: '2 min', href: 'writing/built-to-measure.html', demonstrates: ['eval', 'agentic'] },
+  { id: 'a17', date: '07.24.26', title: 'Building while I sleep.', subtitle: 'I work alone. Now the agents work without me.', tag: 'CASE STUDY', read: '6 min', href: 'writing/building-while-i-sleep.html', demonstrates: ['agentic', 'building'] },
 ];
 
 // ─── PROJECTS · the four lab projects ─────────────────────────────────────
@@ -876,6 +877,15 @@ window.SITE_INDEX = {
     "spec quality / acceptance criteria"
   ],
   "updated": "2026-07-16"
+},
+  "/writing/building-while-i-sleep.html": {
+  "note": "The flagship case study: twenty years of product management, zero coding background, and four months with Claude produce a pipeline where three AI agents build and test software overnight behind three human gates. This page was itself built overnight by the pipeline it describes (story #456).",
+  "tags": [
+    "autonomous dev pipeline",
+    "human-gated governance",
+    "multi-agent orchestration"
+  ],
+  "updated": "2026-07-25"
 }
 };
 
@@ -889,6 +899,7 @@ window.TESTS = [
   {"id":"tc-about","file":"tests/tc-about.test.mjs","title":"About-section — per-type group contract","tier":1,"issue":344,"notes":"","highlight":"About-section — per-type group contract","status":"live","covers":["@ABOUT_PAGES (about section)"],"ignores":["content quality — editorial","history month list inside about/history.html — owned: #335","hero h1 — heterogeneous by design (see NB above)"]},
   {"id":"tc-agent-live","file":"tests/tc-agent-live.test.mjs","title":"TC — agent-page live layer","tier":1,"issue":342,"notes":"per-type, extends TC2","highlight":"TC — agent-page live layer","status":"live","covers":["@AGENTS pages (live layer; extends TC2)"],"ignores":["agents/jeremy/jeremy.html — human exception; live layer not asserted (disclosed under-coverage)","live values — runtime / Tier 4"]},
   {"id":"tc-articles","file":"tests/tc-articles.test.mjs","title":"Articles — per-type group contract","tier":1,"issue":332,"notes":"","highlight":"Articles — per-type group contract","status":"live","covers":["@ARTICLES pages (writing corpus)","writing.html (renders ARTICLES)"],"ignores":["content quality — editorial","HISTORY month files — owned: #335 (data-derived exemption)","interactive-graph runtime — runtime / Tier 4 (#306)"]},
+  {"id":"tc-building-while-i-sleep","file":"tests/tc-building-while-i-sleep.test.mjs","title":"tc-building-while-i-sleep — flagship case-study page contract","tier":1,"issue":456,"notes":"","highlight":"Case-study flagship page: CASE STUDY tag, hero GIF, 8-link map, no-em-dash invariant","status":"live","covers":["writing/building-while-i-sleep.html"],"ignores":["locked copy verbatim / all copy values — editorial","alt-text exact wording — editorial","recruiter-widget row — no bench-enforced data source; build-scope per #456","CASE STUDY tag rendering & filters on writing.html — runtime / Tier 4","chrome, SITE_INDEX, favicon, static description — owned: #298 (tc1)","ARTICLES metadata shape & bijection — owned: #332 (tc-articles)"]},
   {"id":"tc-competency","file":"tests/tc-competency.test.mjs","title":"Competency evidence integrity — data.js","tier":1,"issue":333,"notes":"","highlight":"Competency evidence integrity — data.js","status":"live","covers":["data.js (demonstrates -> COMPETENCIES referential integrity)"],"ignores":["full competency reference coverage — informational only, not asserted"]},
   {"id":"tc-faces-dashboard","file":"tests/tc-faces-dashboard.test.mjs","title":"TC — faces + dashboard live agent-grid structure","tier":1,"issue":339,"notes":"standalone","highlight":"TC — faces + dashboard live agent-grid structure","status":"live","covers":["graph/faces.html","dashboard.html"],"ignores":["live values — runtime / Tier 4","roster set-membership — owned: #299","shared fetch read-path — owned: #336"]},
   {"id":"tc-github-activity","file":"tests/tc-github-activity.test.mjs","title":"GitHub activity-feed read-path wiring","tier":1,"issue":364,"notes":"cross-cutting","highlight":"GitHub activity-feed read-path wiring","status":"live","covers":["index.html (GitHub feed)","portfolio.html (GitHub feed)"],"ignores":["feed values — runtime / Tier 4"]},

@@ -1,0 +1,294 @@
+<!--
+  ╔════════════════════════════════════════════════════════════════════════╗
+  ║  WRITING ENTRY · building-while-i-sleep.html                           ║
+  ║                                                                        ║
+  ║  Flagship case study (CASE STUDY tag, arc W5, refs #426). Built by    ║
+  ║  the #288 pipeline it describes (story #456); the self-reference is   ║
+  ║  intentional and appears in the footnote. Copy is LOCKED per the      ║
+  ║  spec: typographic adaptation only. Authored from _template.html      ║
+  ║  (never an article exemplar; see #434). Chrome (TopNav + Footer)      ║
+  ║  rendered by React from components/HomeShell.jsx.                     ║
+  ║  NOTE: head includes rel="icon"; do not drop it (bug #434).           ║
+  ║  Recruiter-keyword: autonomous pipeline, multi-agent system, human    ║
+  ║  gates, CI, contract tests, independent test authorship, escalation,  ║
+  ║  branch protection, product management, governance, agentic AI.       ║
+  ╚════════════════════════════════════════════════════════════════════════╝
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Building while I sleep &middot; Claudemonzter</title>
+<meta name="description" content="A 20-year product manager with no coding background built a multi-agent AI lab that develops and tests software overnight under human governance. Case study: three AI agents, three human gates, one autonomous build pipeline." />
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Claudemonzter" />
+<meta property="og:title" content="Building while I sleep &middot; Claudemonzter" />
+<meta property="og:description" content="A 20-year product manager with no coding background built a multi-agent AI lab that develops and tests software overnight under human governance. Case study: three AI agents, three human gates, one autonomous build pipeline." />
+<meta property="og:url" content="https://jeremymontz.github.io/Meta1/writing/building-while-i-sleep.html" />
+<meta property="og:image" content="https://jeremymontz.github.io/Meta1/design-system/assets/og-card.png" />
+<meta property="og:image:alt" content="Operation: Claudemonzter, a multi-agent AI lab depicted as a creature on an operating table." />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="/Meta1/design-system/assets/favicon.svg" />
+
+<link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+<!-- React + Babel · chrome is mounted from HomeShell.jsx -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+/* ── Page shell ─────────────────────────────────────────────── */
+html, body { background: var(--bg); color: var(--fg); margin: 0; min-height: 100vh; }
+body { font-family: var(--font-sans); }
+a { color: inherit; text-decoration: none; }
+.page { width: 100%; max-width: 1280px; margin: 0 auto; }
+
+/* Crawlable summary (visually hidden; second-month.html precedent) */
+.seo-summary { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ── Article header ────────────────────────────────────────── */
+.article-head { padding: 64px 40px 32px; }
+.article-head-inner { max-width: 680px; margin: 0 auto; }
+
+.meta-row {
+display: flex; gap: 16px; align-items: center;
+font-family: var(--font-mono); font-size: var(--fs-sm);
+letter-spacing: var(--ls-wider); text-transform: uppercase;
+color: var(--fg-subtle);
+}
+.meta-row .sep { color: var(--line-loud); }
+.meta-row .accent { color: var(--candle); }
+
+.article-title {
+font-family: var(--font-display); font-weight: 700;
+font-size: var(--fs-4xl); line-height: var(--lh-tight);
+letter-spacing: var(--ls-tight);
+margin: 22px 0 0;
+font-variation-settings: "opsz" 144;
+text-wrap: balance;
+}
+.article-title em {
+font-style: italic; color: var(--accent);
+font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+
+.article-subtitle {
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-xl); line-height: var(--lh-snug);
+margin-top: 18px;
+color: var(--fg-muted);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+}
+.article-subtitle em {
+color: var(--accent);
+}
+
+/* ── Article body ───────────────────────────────────────────── */
+.article-body { max-width: 680px; margin: 0 auto; padding: 0 40px 48px; }
+
+.article-body p {
+font-family: var(--font-sans);
+font-size: var(--fs-md); line-height: var(--lh-loose);
+margin: 0 0 22px; color: var(--fg);
+text-wrap: pretty;
+}
+
+.article-body p.lede {
+font-family: var(--font-display); font-weight: 400; font-style: italic;
+font-size: 24px; line-height: 1.45; color: var(--fg);
+font-variation-settings: "opsz" 72, "SOFT" 100;
+margin-bottom: 36px;
+text-wrap: balance;
+}
+
+.article-body h2 {
+font-family: var(--font-display); font-weight: 600;
+font-size: var(--fs-2xl); line-height: 1.15; letter-spacing: -0.015em;
+margin: 48px 0 16px;
+font-variation-settings: "opsz" 72;
+}
+
+.article-body blockquote {
+margin: 28px 0; padding: 4px 0 4px 20px;
+border-left: 2px solid var(--candle);
+font-family: var(--font-display); font-style: italic;
+font-size: var(--fs-lg); line-height: var(--lh-snug);
+color: var(--fg-muted);
+font-variation-settings: "opsz" 48, "SOFT" 100;
+}
+.article-body blockquote em {
+color: var(--accent); font-style: italic;
+}
+
+.article-body hr {
+border: none; border-top: 1px dashed var(--line-loud);
+margin: 48px auto; width: 80px;
+}
+
+.article-body a {
+color: var(--accent);
+border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);
+}
+.article-body a:hover { border-bottom-color: var(--accent); }
+
+.article-media { margin: 28px 0 32px; }
+.article-media img {
+display: block; width: 100%; height: auto;
+border: 1px solid var(--line); border-radius: 6px;
+}
+
+.article-footnote {
+color: var(--fg-subtle);
+font-size: var(--fs-sm);
+margin-top: 0;
+}
+
+@media (max-width: 720px) {
+.article-head { padding: 48px 24px 24px; }
+.article-body { padding: 0 24px 40px; }
+.article-title { font-size: var(--fs-3xl); }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<p class="seo-summary">A 20-year product manager with no coding background built a multi-agent AI lab that develops and tests software overnight under human governance. Case study: three AI agents, three human gates, one autonomous build pipeline.</p>
+
+<!-- ─── SITE CHROME (mounted by HomeShell.jsx) ─────────────── -->
+<div id="topnav-mount"></div>
+
+<!-- ─── ARTICLE HEADER ─────────────────────────────────────── -->
+<section class="article-head">
+<div class="article-head-inner">
+
+<div class="meta-row">
+<span class="accent">07&middot;24&middot;2026</span>
+<span class="sep">&middot;</span>
+<span>CASE STUDY</span>
+<span class="sep">&middot;</span>
+<span>6 min read</span>
+</div>
+
+<h1 class="article-title">
+Building while I <em>sleep</em>.
+</h1>
+
+<p class="article-subtitle">
+I work alone. Now the agents work <em>without me</em>.
+</p>
+
+</div>
+</section>
+
+<!-- ─── ARTICLE BODY ───────────────────────────────────────── -->
+<article class="article-body">
+
+<p class="lede">
+Twenty years of managing software products, and I never wrote any code. Four months ago I had never built anything with AI either. That was my starting point on this journey, a matter now of public record. <a href="../writing.html">The field notes</a> on this site date back to late March, written by a product manager journaling his discoveries, one who could not yet tell you what an agent was. I still can&rsquo;t, frankly. I am the same person four months later. Same instincts, same profession, no computer science degree acquired along the way. The variables are the latest AI models and what they can now do. So the last four months amount to an experiment: when AI supplies the build capacity, what can a product manager&rsquo;s skill set produce, working alone?
+</p>
+
+<p>
+This case study is my answer. Claudemonzter, the lab I build nights and weekends, now runs a development pipeline that builds and tests software overnight, unattended, while I sleep. I want to be precise about that claim, so let&rsquo;s dig in.
+</p>
+
+<h2>The lab and the pipeline</h2>
+
+<p>
+Claudemonzter is the whole lab: the agents, the memory system (a second brain on disk), and the GitHub repo behind the public site where you&rsquo;re reading this now. The build pipeline is my latest enhancement: three AI actors and one human driving. Meta1 builds code from a spec. Bond writes tests from the same spec, never from the code, which would be cheating. The Assessor adjudicates: when build and tests disagree, it rules from the spec, not from whichever party sounds more confident, or it escalates to me.
+</p>
+
+<p>
+I hold three gates to protect my work. I decide what is ready for the pipeline, after I am satisfied with the specifications and acceptance criteria. I review everything the agents produce after scrutinizing their comments. I only approve the changes when I have no doubts about their impact, and I take comfort knowing I can roll back the changes if needed. I created a GitHub account years ago and never once had a reason to push a commit; now the agents are barred from main by branch protection I configured. Nothing ships until I pull the trigger; maybe later, after the factory has proven itself, I will lift a gate or two. Today, the factory retains my judgment but removes my attendance: I can design features and write user stories by day, and no longer have to sit between the developer and the tester to coordinate their work. Unlike my day job.
+</p>
+
+<p>
+One honest caveat before the tour. Four months in, I still cannot tell you exactly where one agent ends and the next begins. I often discuss this with Phil, my philosophy agent. Here, the adjudicator does its part by spinning up the builder and the tester as subagents of itself, all three separate, independent domains under a shared project, which makes &ldquo;three actors&rdquo; sound like a crisper definition than it actually is. I don&rsquo;t have a clear mental model for what an agent is yet, and I notice the people who sound most certain are mostly selling subscriptions to their content.
+</p>
+
+<h2>One night, start to finish</h2>
+
+<figure class="article-media">
+<img src="overnight-318.gif" alt="Animated board walkthrough of story #318: from Ready at 4:42 PM through overnight build, test, and verification to human merge at 11:28 AM." loading="lazy" />
+</figure>
+
+<p>
+On July 7 at 4:42 in the afternoon I marked story #318 Ready: build <a href="../graph/immune.html">immune.html</a>, the page that reports the pipeline&rsquo;s own health metrics. Then I logged off. At 1:02 the next morning the builder picked the story up on schedule. By 1:11 there was a pull request on a story branch, because the bots cannot touch main. At 2:08 the tester posted contract tests, authored from the spec it never discussed with the builder. At 3:05 the existing checks were green and the adjudicator promoted the story for human review. I read the thread, merged at 11:28, and the page was live before lunch was over. The pipeline&rsquo;s first autonomous story was a dashboard that measures the pipeline. How&rsquo;s that for symmetry?
+</p>
+
+<p>
+Transparency by design: the comment thread is intended for me, but it&rsquo;s public and signed, agent by agent. It&rsquo;s <a href="https://github.com/JeremyMontz/Meta1/pull/416">just a click away</a> if you&rsquo;re curious how the builder, tester, and adjudicator hand work to each other at two o&rsquo;clock in the morning.
+</p>
+
+<h2>What the gates are for</h2>
+
+<p>
+The gates and the bench came first; it was a lot of unglamorous work but the order was important. You cannot let a pipeline build autonomously and then go shopping for quality controls after-the-fact; the checkpoints and the test bench (an evaluation suite of contract and regression tests) had to exist before unattended runs, or it is a Wild West and not a reliable factory. And the leash is meant to loosen: human scrutiny dials down as the system earns trust, gate by gate, test by test.
+</p>
+
+<p>
+Restraint was the first thing I tested, because it is the first thing that goes wrong with capable agents. An over-helpful agent is a blast-radius problem: the same initiative that fixes your bug in passing will also fix things nobody asked it to touch, and you learn later what it decided was broken. So restraint is specified here, not hoped for: the Verifier files and escalates what it finds in shipped territory, and repairs nothing. To prove that rule had teeth, I planted a bug. One wrong token on a throwaway test branch, exactly the kind of trivial defect an eager assistant loves to fix on the way through. The bench went red on the branch, exactly as designed. The Verifier ruled the test correct and the behavior wrong, filed the bug, and stopped. The fix would have been easy, but the change was out of scope, unapproved, and backlogged instead.
+</p>
+
+<p>
+That test mattered because a pipeline like this shakes things loose. Standing up a bench of contract tests over an existing site surfaces both kinds of failure at once: latent bugs the pages were quietly carrying, and new tests that assert the wrong thing. You want a system that can tell those apart, and a rulebook for who fixes what. Subsequent overnight stories show the same machinery maturing. When four article pages turned up missing favicons, the root cause was exemplar drift: new pages had been copied from recent pages instead of the template, and an omission propagated. The overnight fix went three layers deep: patch the pages, correct the template, and add a permanent bench assertion so the contract, not the exemplar, is the enforcer. And when I realized the metrics feed itself was published through a workflow that skipped the PR gate, the pipeline got a schema guard: the feed is validated before publish, and a malformed feed fails the job rather than silently degrading the live page. A favicon and a schema check are not important in themselves. They compound: each one raises the floor, and every point of earned reliability buys the agents a little more autonomy.
+</p>
+
+<p>
+This is also where I would distinguish what we are doing from pure vibe coding. This pipeline is built on development principles and my own experience working with human teams: spec-as-ground-truth, <a href="evals-test-cases-theater.html">independent test authorship</a>, <a href="designing-for-restraint.html">escalation instead of guessing</a>, and product judgment and technical judgment each routed to whoever owns it. The principles I&rsquo;ve learned over my career are codified in the skills and calcified in workflows.
+</p>
+
+<h2>The numbers so far</h2>
+
+<p>
+As of this writing, the bench holds 21 contract and regression tests. Eleven stories have gone through the pipeline lane, three of them fully overnight. The CI membrane has caught 25 red check runs before merge. Three escalations have reached the human: two specifications with open questions and the planted bug. And the public event log runs roughly five agent actions for every three of mine, the ratio I will be watching: how much the machine does versus me, since the agents got their own bot account.
+</p>
+
+<blockquote>
+Human judgment at the gates. AI labor <em>in between</em>.
+</blockquote>
+
+<h2>What this is the foundation of</h2>
+
+<p>
+Everything about this pipeline is early, and deliberate. A few overnight stories so far is just the start. The bench is 20+ tests and will undoubtedly be wrong in places. Claudemonzter runs on one model family for now, a choice I made on purpose: a young system with a simple set of failure modes can be understood, and complexity earned over time. And the governance came before the autonomy for the same reason.
+</p>
+
+<p>
+My experiment is on-going but has an interim result. One product manager, no prior coding experience, four months with Claude: the output is a working multi-agent system, built and evaluated in public, that now builds and tests software overnight under governance its operator can trust. The skills that made it work are ones I picked up over a long career working with engineers to ship product, now pointed at my own vision. Here I decide what gets built, write requirements precise enough to be executed without me in the room, choose what to delegate and what to hold, and define what done looks like. That is what version 3 of Claudemonzter was all about, making the ground solid enough to build on in the future. I have a vision for version 4.0; I know the north star. The route gets discovered the way everything above got built: one gated story at a time, some of them while I sleep.
+</p>
+
+<hr/>
+
+<p class="article-footnote">
+Filed under <a href="../writing.html">field notes</a>. Receipts: the pipeline epic (<a href="https://github.com/JeremyMontz/Meta1/issues/288">#288</a>), its first overnight story (<a href="https://github.com/JeremyMontz/Meta1/issues/318">#318</a>, the page it built is the dashboard above), and this page itself, built overnight by the same pipeline (story <a href="https://github.com/JeremyMontz/Meta1/issues/456">#456</a>). The threads are signed.
+</p>
+
+</article>
+
+<!-- ─── SITE FOOTER (mounted by HomeShell.jsx) ─────────────── -->
+<div id="footer-mount"></div>
+
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+<script src="../data.js"></script>
+<script type="text/babel" src="../components/Wordmark.jsx"></script>
+<script type="text/babel" src="../components/Primitives.jsx"></script>
+<script type="text/babel" src="../components/HomeShell.jsx"></script>
+
+<script type="text/babel">
+ReactDOM.createRoot(document.getElementById('topnav-mount')).render(<TopNav active="WRITING" />);
+ReactDOM.createRoot(document.getElementById('footer-mount')).render(<Footer />);
+</script>
+
+</body>
+</html>
