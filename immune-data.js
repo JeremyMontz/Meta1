@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-24T10:29:17.888Z",
+  "generatedAt": "2026-07-25T00:27:29.008Z",
   "bench": [
     {
       "id": "smoke",
@@ -158,7 +158,7 @@ window.IMMUNE = {
     "reviewed": 8
   },
   "autonomy": {
-    "agentEvents": 395,
+    "agentEvents": 397,
     "humanEvents": 237
   },
   "stories": [
@@ -249,26 +249,6 @@ window.IMMUNE = {
     {
       "pr": 449,
       "check": "Contract tests",
-      "conclusion": "failure"
-    },
-    {
-      "pr": 449,
-      "check": "data.js integrity",
-      "conclusion": "success"
-    },
-    {
-      "pr": 449,
-      "check": "Spellcheck",
-      "conclusion": "success"
-    },
-    {
-      "pr": 449,
-      "check": "Internal links",
-      "conclusion": "success"
-    },
-    {
-      "pr": 449,
-      "check": "Contract tests",
       "conclusion": "success"
     },
     {
@@ -338,6 +318,26 @@ window.IMMUNE = {
     },
     {
       "pr": 453,
+      "check": "Contract tests",
+      "conclusion": "success"
+    },
+    {
+      "pr": 455,
+      "check": "data.js integrity",
+      "conclusion": "success"
+    },
+    {
+      "pr": 455,
+      "check": "Spellcheck",
+      "conclusion": "success"
+    },
+    {
+      "pr": 455,
+      "check": "Internal links",
+      "conclusion": "success"
+    },
+    {
+      "pr": 455,
       "check": "Contract tests",
       "conclusion": "success"
     }
