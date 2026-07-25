@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-25T10:02:12.209Z",
+  "generatedAt": "2026-07-25T14:41:04.768Z",
   "bench": [
     {
       "id": "smoke",
@@ -37,6 +37,12 @@ window.IMMUNE = {
       "issue": 332,
       "title": "Articles — per-type group contract",
       "protects": "Articles — per-type group contract"
+    },
+    {
+      "id": "tc-building-while-i-sleep",
+      "issue": 456,
+      "title": "tc-building-while-i-sleep — flagship case-study page contract",
+      "protects": "Case-study flagship page: CASE STUDY tag, hero GIF, 8-link map, no-em-dash invariant"
     },
     {
       "id": "tc-competency",
@@ -142,24 +148,24 @@ window.IMMUNE = {
     }
   ],
   "counters": {
-    "benchSize": 21,
-    "storiesShipped": 91,
+    "benchSize": 22,
+    "storiesShipped": 92,
     "redsCaught": 25,
     "escalations": {
       "specGap": 2,
       "thrashCap": 0,
       "bugFiled": 1
     },
-    "verifierEngagements": 8
+    "verifierEngagements": 9
   },
   "incubation": {
     "built": 12,
     "tested": 30,
-    "reviewed": 8
+    "reviewed": 9
   },
   "autonomy": {
-    "agentEvents": 408,
-    "humanEvents": 238
+    "agentEvents": 409,
+    "humanEvents": 239
   },
   "stories": [
     {
@@ -242,7 +248,7 @@ window.IMMUNE = {
     {
       "issue": 456,
       "lane": "story",
-      "rounds": 0,
+      "rounds": 1,
       "wallClockHours": 0.01,
       "overnight": true
     }
