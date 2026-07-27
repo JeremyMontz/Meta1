@@ -2,11 +2,11 @@
 /**
  * Our-History month-graph set — per-type group  (Tier 1 · GH #335)
  * ----------------------------------------------------------------------------
- * Owns the month-graph file set (m1–m3) that the Articles TC (#332) deliberately
- * exempts. Each HISTORY month must be a complete unit: a real page, a matching JS
- * engine file, and non-empty OG metadata. Plus one cross-block invariant:
- * `first-month` is enumerated in PORTFOLIO too (a drift there is the named tooth).
- * Authored from the #335 written spec, spec-only.
+ * Owns the month-graph file set that the Articles TC (#332) deliberately exempts.
+ * Each HISTORY month must be a complete unit: a real page, a matching JS engine
+ * file, and non-empty OG metadata. Membership itself is NOT asserted — which
+ * months exist, and which of them are featured elsewhere, is Jeremy's editorial
+ * call. Authored from the #335 written spec, spec-only.
  *
  * Membership is DERIVED from window.HISTORY hrefs — NOT a hardcoded path — so if
  * the month files relocate (e.g. writing/ → about/), the TC follows them (per the
@@ -15,20 +15,25 @@
  * CONTRACT
  *   A. Per HISTORY entry: `href` → a real file; a sibling JS file (`.html`→`.js`)
  *      exists; the page carries a non-empty og:title AND og:description.
- *   B. Cross-block: the `first-month` entry is also referenced in `PORTFOLIO`
- *      (PORTFOLIO/HISTORY drift on first-month is the tooth). second/third-month
- *      being HISTORY+SITE_INDEX only is intentional and is NOT asserted (a future
- *      promotion of a month into PORTFOLIO must not red).
+ *   (There is no B. The original cross-block check — "`first-month` must also be
+ *   referenced in PORTFOLIO" — was retired 2026-07-27. It was authored before the
+ *   global editorial default (2026-07-06) and encoded a June snapshot of the
+ *   featured list as if it were an invariant. PORTFOLIO is a curated list that
+ *   changes over time; membership is content, not contract. It went red the first
+ *   time Jeremy re-cut the list — the correct signal that it was never a tooth.
+ *   Same reasoning retired the "HISTORY must carry first-month" anchor.)
  *
- * SCOPE: the HISTORY month-graph file set.
+ * SCOPE: the HISTORY month-graph file set, derived from window.HISTORY.
  * OUT OF SCOPE: interactive graph runtime (Tier 4, #306); the articles corpus
- *   (#332); route validity of non-HISTORY blocks (#334).
+ *   (#332); route validity of non-HISTORY blocks (#334); which months are
+ *   published and which are featured in PORTFOLIO (editorial).
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. data.js under a window
  * shim, as tc2/tc-articles do. Run via tests/run.mjs.
   *
  * @covers: @HISTORY pages (month-graph set)
  * @ignores: interactive graph runtime — runtime / Tier 4 (#306)
+ * @ignores: HISTORY / PORTFOLIO membership — editorial
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -65,15 +70,4 @@ for (const h of HISTORY) {
   r.check(/property="og:description"[^>]*content="[^"]+"/.test(html), `HISTORY '${label}': missing/empty og:description`);
 }
 
-// B. cross-block: first-month is in HISTORY and also referenced by PORTFOLIO
-const firstMonth = HISTORY.map(ref).filter((v) => typeof v === 'string' && /first-month/i.test(v));
-r.check(firstMonth.length > 0, 'HISTORY carries no first-month entry (expected the m1 anchor)');
-
-const PORTFOLIO = Array.isArray(data.PORTFOLIO) ? data.PORTFOLIO : [];
-const portfolioText = PORTFOLIO.map((p) => ref(p) || '').join(' | ');
-if (firstMonth.length > 0) {
-  r.check(/first-month/i.test(portfolioText),
-    'PORTFOLIO/HISTORY drift: first-month is in HISTORY but not referenced in PORTFOLIO');
-}
-
-r.done(`history: ${HISTORY.length} month(s) checked · first-month in PORTFOLIO=${/first-month/i.test(portfolioText)}`);
+r.done(`history: ${HISTORY.length} month(s) checked (structural completeness only)`);
