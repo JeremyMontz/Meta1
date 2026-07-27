@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-27T22:57:29.802Z",
+  "generatedAt": "2026-07-27T23:03:39.209Z",
   "bench": [
     {
       "id": "smoke",
@@ -149,7 +149,7 @@ window.IMMUNE = {
   ],
   "counters": {
     "benchSize": 22,
-    "storiesShipped": 93,
+    "storiesShipped": 94,
     "redsCaught": 25,
     "escalations": {
       "specGap": 2,
@@ -165,7 +165,7 @@ window.IMMUNE = {
   },
   "autonomy": {
     "agentEvents": 411,
-    "humanEvents": 241
+    "humanEvents": 242
   },
   "stories": [
     {
