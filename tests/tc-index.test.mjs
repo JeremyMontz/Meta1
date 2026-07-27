@@ -15,8 +15,10 @@
  * see Bug #361, which this rewrite resolves). Contract-scan over SOURCE only;
  * the page is never run.
  *
- * PASS 1 of the spec's two-pass plan: STRUCTURE now (each named section mounts),
- * content SNAPSHOT deferred to pass 2 "once frozen."
+ * STRUCTURE only (each named section mounts). The spec's original two-pass plan
+ * called for a content SNAPSHOT in pass 2 "once frozen"; that pass-2 was retired
+ * with epic #375 under the global editorial default (2026-07-06) — content values
+ * are the human's and are never contract. Structure is the whole contract here.
  *
  * CONTRACT — all must hold:
  *   index.html (shell):
@@ -33,14 +35,14 @@
  *   - live-data correctness (feed/graph runtime)     → Tier 4 (#306) / #336
  *   - visual treatment                               → not tested
  *   - portfolio page internals                       → #341
- *   - content snapshot (pass 2)                       → deferred "once frozen"
+ *   - content snapshot                               → editorial (pass-2 retired)
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs. Run via tests/run.mjs.
   *
  * @covers: index.html, components/HomeMain.jsx
  * @ignores: window.NOW — editorial (weekly-cadence focus list; the #401/#403 case)
- * @ignores: content snapshot — pass-2 (#375)
+ * @ignores: content snapshot — editorial
  * @ignores: live feed / graph correctness — owned: #336 / #364; runtime / Tier 4
  */
 import { readFileSync } from 'node:fs';
