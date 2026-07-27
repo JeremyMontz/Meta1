@@ -155,10 +155,10 @@ window.SPEC = {
 // ─── NOW · what I'm working on right now ──────────────────────────────────
 // Update weekly. 1-4 bullets max — this is a status message, not a story.
 window.NOW = [
-  'Running a few stories through the new autonomous human-gated DEV/QA pipeline',
-  'Immune.html testing and fine-tuning',
-  'Writing the case study',
-  "Fine-tuning Daily Lectio skill and Phil's responses",
+  'Tolerating agents running my LinkedIn account strategy',
+  'Running more stories through the build pipeline',
+  'Immune.html testing',
+  "Daily Lectio - fine-tuning Phil's response",
   'Designing the Host roadmap'
 ];
 
@@ -216,8 +216,25 @@ window.COMPETENCIES = [
 //                  under those nodes in the What It Proves graph.
 window.PORTFOLIO = [
   {
-    id: 'about-ai',
+    id: 'building-overnight',
     no: '01',
+    title: 'Building while I sleep',
+    blurb: 'I work alone. Now the agents work without me.',
+    status: 'Live',
+    tone: 'ok',
+    tag: 'CASE STUDY',
+    href: 'writing/building-while-i-sleep.html',
+    date: '7/24/2026',
+    demonstrates: ['building', 'agentic', 'discovery'],
+    details: [
+      ['ROLE',    'NO PRIOR AI EXPERIENCE'],
+      ['STARTED', 'July 2026'],
+    ],
+    excerpt: '"Human judgment at the gates. AI labor in between."',
+  },
+  {
+    id: 'about-ai',
+    no: '02',
     title: 'Operation Claudemonzter',
     blurb: 'START HERE to learn about my AI experiment',
     status: 'Live',
@@ -248,23 +265,6 @@ window.PORTFOLIO = [
       ['STARTED', 'June 2026'],
     ],
     excerpt: null,
-  },
-{
-    id: 'first-month',
-    no: '02',
-    title: 'A Month and a Day',
-    blurb: 'The first month, and a day, of building Claudemonzter — what worked and what did not.',
-    status: 'Live',
-    tone: 'ok',
-    tag: 'INTERACTIVE',
-    href: 'writing/first-month.html',
-    date: '4/19/2026',
-    demonstrates: ['building', 'agentic', 'discovery'],
-    details: [
-      ['ROLE',    'NO PRIOR AI EXPERIENCE'],
-      ['STARTED', 'March 2026'],
-    ],
-    excerpt: '"I was writing a constitution for a country with no government."',
   },
   {
     id: 'phils-journal',
