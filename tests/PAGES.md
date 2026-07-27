@@ -69,15 +69,15 @@ constrain the human's.
 | `writing/coordination-tax.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/designing-for-restraint.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/evals-test-cases-theater.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
-| `writing/first-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)) |
+| `writing/first-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)); HISTORY / PORTFOLIO membership (editorial) |
 | `writing/github-issues-integration.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/inference-economics.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/memory-tiering.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/multiagent-constraint.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing/proportionate-security.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
-| `writing/second-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)) |
+| `writing/second-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)); HISTORY / PORTFOLIO membership (editorial) |
 | `writing/speed-to-insight.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
-| `writing/third-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)) |
+| `writing/third-month.html` | #335 `tc-history` | interactive graph runtime (runtime / Tier 4 (#306)); HISTORY / PORTFOLIO membership (editorial) |
 | `writing/whitelisting-errors.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 | `writing.html` | #332 `tc-articles` | content quality (editorial); HISTORY month files (owned: #335 (data-derived exemption)); interactive-graph runtime (runtime / Tier 4 (#306)) |
 
