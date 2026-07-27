@@ -4,8 +4,10 @@
  * ----------------------------------------------------------------------------
  * The singular live organ page graph/spirit.html. Owns the spirit-SPECIFIC render
  * scaffold — the wiring a generalized organ-structural rule (#300) would miss.
- * Pass 1 here is structure + wiring; a content snapshot follows once the page is
- * frozen (deferred, per the #337 two-pass note).
+ * Structure + wiring only. The #337 two-pass note anticipated a content snapshot
+ * "once the page is frozen"; that pass-2 was retired with epic #375 under the
+ * global editorial default (2026-07-06) — content values are the human's and are
+ * never contract.
  *
  * SEPARATION OF CONCERNS:
  *   - #300 (organ-structural) owns the GENERALIZED organ-page rule.
@@ -33,7 +35,7 @@
  * Run directly or via tests/run.mjs.
   *
  * @covers: graph/spirit.html
- * @ignores: content snapshot — pass-2 (#375)
+ * @ignores: content snapshot — editorial
  * @ignores: live values — runtime / Tier 4
  * @ignores: shared fetch read-path — owned: #336
  */
