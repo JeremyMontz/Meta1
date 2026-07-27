@@ -7,8 +7,12 @@
  * catches. Contract-scan over the page SOURCE only — authored from the #341
  * written spec, never from the impl.
  *
- * PASS 1 of the spec's two-pass plan: STRUCTURE now (each named section present
- * in source), content SNAPSHOT deferred to pass 2. Each check is a presence
+ * STRUCTURE only (each named section present in source). The spec's original
+ * two-pass plan called for a content SNAPSHOT in pass 2; that pass-2 was retired
+ * with epic #375 under the global editorial default (2026-07-06) — content values
+ * are the human's and are never contract. Structure is the whole contract here.
+ * (This page is the live case: the featured list is re-cut over time — see #458,
+ * which retired the same class of assertion from tc-history.) Each check is a presence
  * assertion matched robustly (disjunctive / case-insensitive) so it is green
  * against current good behavior yet red when a named section is removed.
  *
@@ -25,13 +29,13 @@
  *   - content quality                                  → not tested
  *   - the graph's evidence COMPUTE from `demonstrates`  → runtime, Tier 4 (#306)
  *   - live-feed data correctness                        → #336
- *   - content snapshot (pass 2)                          → deferred
+ *   - content snapshot                                   → editorial (pass-2 retired)
  *
  * Zero-dep (node stdlib only), exit 1 on any failure. Mirrors
  * .github/scripts/check-links.mjs and tests/tc1/tc-index. Run via tests/run.mjs.
   *
  * @covers: portfolio.html
- * @ignores: content snapshot — pass-2 (#375)
+ * @ignores: content snapshot — editorial
  * @ignores: evidence-graph compute — runtime / Tier 4 (#306)
  * @ignores: live feed values — owned: #364
  */
