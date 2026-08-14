@@ -12,7 +12,7 @@
  * closes (the bot never closes; it refs). ==========================================================================*/
 window.IMMUNE = {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-13T09:35:07.573Z",
+  "generatedAt": "2026-08-14T09:29:26.154Z",
   "bench": [
     {
       "id": "smoke",
