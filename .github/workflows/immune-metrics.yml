@@ -1,4 +1,4 @@
-name: Immune metrics feed
+#name: Immune metrics feed
 
 # Regenerates the immune feed from the live GitHub API and publishes it to the
 # `metrics-data` branch. The immune page reads that branch via jsdelivr, so the
